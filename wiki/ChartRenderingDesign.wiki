@@ -1,0 +1,18 @@
+#summary Notes on Developing a Chart Renderer
+
+= Introduction =
+We need an effective yet easy-to-manage and extensible way to render charts from KnitML. There may be specification changes involved to support chart roundtripping. The concept will start with a simple increase/decrease pattern with dynamic repeating sections.
+
+= Details =
+
+For every Instruction, walk through to determine if instruction is chartable.
+  * While walking through, gather a total "width" in preparation for charting.
+  * Expand context-sensitive instructions and repeats (i.e. make all repeats have the 'times' option and expand inline-instruction-refs)
+  * For now, make any instruction with turns unchartable.
+  * If unchartable, revert to basic text renderer.
+
+Build an in-memory chart whose width is twice the gathered "width" minus one (in case the knitting needs to expand in either direction)
+  * Chart should start "centered" for the first row and then shrink according to the way each decrease leans
+  * Using information from the engine, determine
+  * Once charted with standard internal symbols, trim the "edges" of the chart
+  * Then produce a translation from internal syntax to a character syntax which is the target. By default provide one of the Unicode symbols from the Knitting Universe font set.
