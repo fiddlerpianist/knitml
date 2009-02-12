@@ -1,18 +1,21 @@
 #summary Notes on Developing a Chart Renderer
 
 = Introduction =
-We need an effective yet easy-to-manage and extensible way to render charts from KnitML. There may be specification changes involved to support chart roundtripping. The concept will start with a simple increase/decrease pattern with dynamic repeating sections.
+We need an effective yet easy-to-manage and extensible way to render charts from KnitML. There may be specification changes involved to support chart round-tripping. The preliminary design will work from a simple increase/decrease pattern with dynamic repeating sections.
 
 = Details =
 
-For every Instruction, walk through to determine if instruction is chartable.
-  * While walking through, gather a total "width" in preparation for charting.
+Pass 1: Walk through instruction's elements to determine if it is chartable.
+  * Save the original state of the engine so that we can revert if the instruction is unchartable. (Requires an engine enhancement)
   * Expand context-sensitive instructions and repeats (i.e. make all repeats have the 'times' option and expand inline-instruction-refs)
+  * Gather a maximum chart width.
   * For now, make any instruction with turns unchartable.
-  * If unchartable, revert to basic text renderer.
+  * For now, any instruction which ends with a different number of stitches than it started with cannot be repeated with a chart. The only reason this would occur is if context-sensitive repeats were used in the instruction. If the starting number of stitches is not equal to the starting number of stitches when the chart was rendered, the result must be rendered textually.
+  * If unchartable, revert to basic text renderer and revert engine back to original state.
 
+Pass 2: 
 Build an in-memory chart whose width is twice the gathered "width" minus one (in case the knitting needs to expand in either direction)
   * Chart should start "centered" for the first row and then shrink according to the way each decrease leans
-  * Using information from the engine, determine
   * Once charted with standard internal symbols, trim the "edges" of the chart
   * Then produce a translation from internal syntax to a character syntax which is the target. By default provide one of the Unicode symbols from the Knitting Universe font set.
+  * The engine is used to determine whether the chart represents knitting flat or in-the-round
