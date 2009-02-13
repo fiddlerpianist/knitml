@@ -28,7 +28,7 @@ public class DecreaseVisitor extends AbstractValidationVisitor {
 	protected void performIterativeOperation(Decrease decrease,
 			KnittingContext context, int numberPerformed, int numberLeftToPerform) throws KnittingEngineException {
 		KnittingEngine engine = context.getEngine();
-		String type = decrease.getType();
+		DecreaseType type = decrease.getType();
 		if (type != null && type.equals(DecreaseType.SSK)) {
 			engine.slip(new Slip(2, Wise.KNITWISE, null));
 			engine.reverseSlip();

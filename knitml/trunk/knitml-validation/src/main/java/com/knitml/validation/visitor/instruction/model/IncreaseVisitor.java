@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.knitml.core.common.IncreaseType;
 import com.knitml.core.common.LoopToWork;
+import com.knitml.core.model.directions.DiscreteInlineOperation;
 import com.knitml.core.model.directions.InlineOperation;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
@@ -29,7 +30,7 @@ public class IncreaseVisitor extends AbstractValidationVisitor {
 		if (increase.getType() == IncreaseType.KFB) {
 			// any increases which also involve working an existing stitch
 			// should be done like this
-			List<InlineOperation> operations = new ArrayList<InlineOperation>(2);
+			List<DiscreteInlineOperation> operations = new ArrayList<DiscreteInlineOperation>(2);
 			operations.add(new Knit(1, null, LoopToWork.LEADING));
 			operations.add(new Knit(1, null, LoopToWork.TRAILING));
 			IncreaseIntoNextStitch calculatedIncrease = new IncreaseIntoNextStitch(
@@ -38,14 +39,14 @@ public class IncreaseVisitor extends AbstractValidationVisitor {
 		} else if (increase.getType() == IncreaseType.PFB) {
 			// any increases which also involve working an existing stitch
 			// should be done like this
-			List<InlineOperation> operations = new ArrayList<InlineOperation>(2);
+			List<DiscreteInlineOperation> operations = new ArrayList<DiscreteInlineOperation>(2);
 			operations.add(new Purl(1, null, LoopToWork.LEADING));
 			operations.add(new Purl(1, null, LoopToWork.TRAILING));
 			IncreaseIntoNextStitch calculatedIncrease = new IncreaseIntoNextStitch(
 					increase.getYarnIdRef(), operations);
 			context.getEngine().increase(calculatedIncrease);
 		} else if (increase.getType() == IncreaseType.MOSS) {
-			List<InlineOperation> operations = new ArrayList<InlineOperation>(2);
+			List<DiscreteInlineOperation> operations = new ArrayList<DiscreteInlineOperation>(2);
 			operations.add(new Knit(1, null, LoopToWork.LEADING));
 			operations.add(new Purl(1, null, LoopToWork.LEADING));
 			IncreaseIntoNextStitch calculatedIncrease = new IncreaseIntoNextStitch(

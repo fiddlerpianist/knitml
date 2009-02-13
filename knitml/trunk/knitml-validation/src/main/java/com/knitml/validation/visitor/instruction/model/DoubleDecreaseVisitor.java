@@ -3,6 +3,7 @@ package com.knitml.validation.visitor.instruction.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.knitml.core.common.DecreaseType;
 import com.knitml.core.model.directions.inline.DoubleDecrease;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.common.KnittingEngineException;
@@ -26,9 +27,8 @@ public class DoubleDecreaseVisitor extends AbstractValidationVisitor {
 			KnittingContext context, int numberPerformed, int numberLeftToPerform) throws KnittingEngineException {
 		// TODO for now, a decrease is just a k2tog on the engine
 		KnittingEngine engine = context.getEngine();
-		String type = decrease.getType();
-		// FIXME remove hard-coded literal
-		if (type != null && type.equals("cdd")) {
+		DecreaseType type = decrease.getType();
+		if (type != null && type.equals(DecreaseType.CDD)) {
 			engine.slip();
 			engine.knitTwoTogether(true);
 			engine.passPreviousStitchOver();
