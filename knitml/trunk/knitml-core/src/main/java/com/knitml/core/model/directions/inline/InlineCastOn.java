@@ -1,8 +1,8 @@
 package com.knitml.core.model.directions.inline;
 
-import com.knitml.core.model.directions.InlineOperation;
+import com.knitml.core.model.directions.DiscreteInlineOperation;
 
-public class InlineCastOn implements InlineOperation {
+public class InlineCastOn implements DiscreteInlineOperation {
 
 	protected Integer numberOfStitches;
 	protected String yarnIdRef;
@@ -30,6 +30,14 @@ public class InlineCastOn implements InlineOperation {
 
 	public void setStyle(String style) {
 		this.style = style;
+	}
+
+	public int getAdvanceCount() {
+		return 0;
+	}
+
+	public int getIncreaseCount() {
+		return numberOfStitches == null ? 1 : numberOfStitches;
 	}
 
 }

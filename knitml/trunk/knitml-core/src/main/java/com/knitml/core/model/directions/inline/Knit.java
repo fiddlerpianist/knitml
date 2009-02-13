@@ -3,9 +3,9 @@ package com.knitml.core.model.directions.inline;
 import org.apache.commons.lang.ObjectUtils;
 
 import com.knitml.core.common.LoopToWork;
-import com.knitml.core.model.directions.InlineOperation;
+import com.knitml.core.model.directions.DiscreteInlineOperation;
 
-public class Knit implements InlineOperation {
+public class Knit implements DiscreteInlineOperation {
 
 	protected Integer numberOfTimes;
 	protected String yarnIdRef;
@@ -34,6 +34,14 @@ public class Knit implements InlineOperation {
 		this.loopToWork = loopToWork;
 	}
 
+	public int getAdvanceCount() {
+		return numberOfTimes == null ? 1 : numberOfTimes;
+	}
+	
+	public int getIncreaseCount() {
+		return 0;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Knit && !(obj instanceof Purl)) {

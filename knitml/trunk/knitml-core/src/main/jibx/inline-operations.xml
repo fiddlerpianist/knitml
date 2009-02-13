@@ -59,7 +59,7 @@
         <value style="text" field="numberOfTimes" usage="optional"
             serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
             deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
-        <value name="type" field="type" usage="optional"/>
+        <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
     </mapping>
     <mapping name="double-decrease" value-style="attribute"
         class="com.knitml.core.model.directions.inline.DoubleDecrease">
@@ -67,7 +67,7 @@
         <value style="text" field="numberOfTimes" usage="optional"
             serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
             deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
-        <value name="type" field="type" usage="optional"/>
+        <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
     </mapping>
     <mapping name="bind-off" value-style="attribute"
         class="com.knitml.core.model.directions.inline.BindOff">

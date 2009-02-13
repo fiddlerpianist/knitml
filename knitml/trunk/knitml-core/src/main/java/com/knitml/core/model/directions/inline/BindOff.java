@@ -1,10 +1,10 @@
 package com.knitml.core.model.directions.inline;
 
 import com.knitml.core.common.Wise;
-import com.knitml.core.model.directions.InlineOperation;
+import com.knitml.core.model.directions.DiscreteInlineOperation;
 
 
-public class BindOff implements InlineOperation {
+public class BindOff implements DiscreteInlineOperation {
 	
 	protected Integer numberOfStitches;
 	protected Wise type;
@@ -18,6 +18,12 @@ public class BindOff implements InlineOperation {
 	}
 	public String getYarnIdRef() {
 		return yarnIdRef;
+	}
+	public int getAdvanceCount() {
+		return numberOfStitches;
+	}
+	public int getIncreaseCount() {
+		return 0 - numberOfStitches;
 	}
 	
 }

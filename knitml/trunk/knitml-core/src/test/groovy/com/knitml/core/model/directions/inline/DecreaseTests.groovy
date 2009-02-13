@@ -7,6 +7,8 @@ import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
 import static test.support.JiBXTestUtils.unmarshalXml
 import static test.support.JiBXTestUtils.marshalXmlAndCompare
+import static com.knitml.core.common.DecreaseType.SSK
+import static com.knitml.core.common.DecreaseType.CDD
 
 import org.custommonkey.xmlunit.XMLUnit
 
@@ -46,7 +48,7 @@ class DecreaseTests {
 		element.with {
 			assertThat(it instanceof Decrease, is (true))
 			assertThat yarnIdRef, is ('yarn0')
-			assertThat type, is ('ssk')
+			assertThat type, is (SSK)
 			assertThat numberOfTimes, is (null)
 		}
 		element = pattern.directions.operations[0].operations[1]
@@ -75,7 +77,7 @@ class DecreaseTests {
 		element.with {
 			assertThat(it instanceof DoubleDecrease, is (true))
 			assertThat yarnIdRef, is ('yarn0')
-			assertThat type, is ('cdd')
+			assertThat type, is (CDD)
 			assertThat numberOfTimes, is (null)
 		}
 		element = pattern.directions.operations[0].operations[1]

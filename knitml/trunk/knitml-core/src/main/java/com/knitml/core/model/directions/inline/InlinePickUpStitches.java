@@ -29,4 +29,12 @@ public class InlinePickUpStitches implements InlineOperation {
 		return type;
 	}
 
+	public int getAdvanceCount() {
+		return 0;
+	}
+
+	public int getIncreaseCount() {
+		return numberOfTimes == null ? 1 : numberOfTimes;
+	}
+	
 }

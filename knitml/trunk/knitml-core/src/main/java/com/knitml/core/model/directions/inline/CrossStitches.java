@@ -1,10 +1,10 @@
 package com.knitml.core.model.directions.inline;
 
 import com.knitml.core.common.CrossType;
-import com.knitml.core.model.directions.InlineOperation;
+import com.knitml.core.model.directions.DiscreteInlineOperation;
 
 
-public class CrossStitches implements InlineOperation {
+public class CrossStitches implements DiscreteInlineOperation {
 	
 	protected Integer first;
 	protected Integer next;
@@ -18,6 +18,12 @@ public class CrossStitches implements InlineOperation {
 	}
 	public CrossType getType() {
 		return type;
+	}
+	public int getAdvanceCount() {
+		return 0;
+	}
+	public int getIncreaseCount() {
+		return 0;
 	}
 	
 }
