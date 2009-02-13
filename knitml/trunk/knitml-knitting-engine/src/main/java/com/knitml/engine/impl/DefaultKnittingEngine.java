@@ -1,7 +1,9 @@
 package com.knitml.engine.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.slf4j.Logger;
@@ -45,44 +47,9 @@ import com.knitml.engine.settings.Direction;
  */
 public class DefaultKnittingEngine implements KnittingEngine {
 
-	/**
-	 * Represents where a certain stitch resides on the knitted work. Includes
-	 * both needle and stitch coordinates. It will be used to designate where
-	 * the start of the row is, but for now
-	 * 
-	 */
-	private class StitchCoordinate {
-
-		private int needleIndex = 0;
-		private int stitchIndex = 0;
-
-		public StitchCoordinate() {
-		}
-
-		public StitchCoordinate(int needleIndex, int stitchIndex) {
-			this.needleIndex = needleIndex;
-			this.stitchIndex = stitchIndex;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			return (obj instanceof StitchCoordinate)
-					&& ((StitchCoordinate) obj).getNeedleIndex() == this.needleIndex
-					&& ((StitchCoordinate) obj).getStitchIndex() == this.stitchIndex;
-		}
-
-		public int getNeedleIndex() {
-			return needleIndex;
-		}
-
-		public int getStitchIndex() {
-			return stitchIndex;
-		}
-	}
-
 	private Direction direction = Direction.FORWARDS;
 	private KnittingShape knittingShape = KnittingShape.FLAT;
-	private int totalRowsCompleted = -1;
+	private int totalRowsCompleted = 0;
 	private int currentRowNumber = 0;
 	private List<Needle> needles = new ArrayList<Needle>();
 	// start "between" rows
@@ -111,6 +78,51 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		needles.add(needle);
 	}
 
+	public Object save() {
+		Map<String, Object> needleMementos = new LinkedHashMap<String, Object>();
+		for (Needle needle : this.needles) {
+			Object needleMemento = needle.save();
+			needleMementos.put(needle.getId(), needleMemento);
+		}
+		List<Needle> needlesCopy = new ArrayList<Needle>(this.needles);
+		DefaultEngineMemento engineMemento = new DefaultEngineMemento(
+				this.direction, this.knittingShape, this.totalRowsCompleted,
+				this.currentRowNumber, needlesCopy, needleMementos,
+				this.currentNeedleIndex,
+				this.suppressDirectionSwitchingForNextRow, this.startOfRow);
+		return engineMemento;
+	}
+
+	/**
+	 * Be advised that this will only restore the needles which are currently on
+	 * the needle. If the engine's memento was saved at a point where more
+	 * needles were currently active, the needles which are no longer active
+	 * will not be reset. The caller must realize this behavior.
+	 * 
+	 * @see com.knitml.engine.Restorable#restore(java.lang.Object)
+	 */
+	public void restore(Object mementoObj) {
+		if (!(mementoObj instanceof DefaultEngineMemento)) {
+			throw new IllegalArgumentException(
+					"Type to restore must be of type DefaultEngineMemento");
+		}
+		DefaultEngineMemento memento = (DefaultEngineMemento) mementoObj;
+		this.direction = memento.getDirection();
+		this.knittingShape = memento.getKnittingShape();
+		this.totalRowsCompleted = memento.getTotalRowsCompleted();
+		this.currentRowNumber = memento.getCurrentRowNumber();
+		this.needles = memento.getNeedles();
+		this.currentNeedleIndex = memento.getCurrentNeedleIndex();
+		this.suppressDirectionSwitchingForNextRow = memento
+				.isSuppressDirectionSwitchingForNextRow();
+		this.startOfRow = memento.getStartOfRow();
+		for (Needle needle : this.needles) {
+			Object needleMemento = memento.getNeedleMementos().get(
+					needle.getId());
+			needle.restore(needleMemento);
+		}
+	}
+
 	public void useNeedles(List<Needle> newNeedles)
 			throws WrongNeedleTypeException, NotBetweenRowsException {
 		useNeedles(newNeedles, this.knittingShape);
@@ -137,6 +149,11 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	}
 
 	private void doUseNeedles(List<Needle> newNeedles) {
+		// FIXME the needles should probably be by-value instead of
+		// by-reference.
+		// The reason is because of the memento concept. If I were to revert
+		// back to
+		// a previous state, it would only revert
 		// copy the list, but retain references to the needles
 		List<Needle> newNeedleList = new ArrayList<Needle>(newNeedles.size());
 		newNeedleList.addAll(newNeedles);
@@ -245,10 +262,10 @@ public class DefaultKnittingEngine implements KnittingEngine {
 					"Cannot start a new row until you reach the end of the current row");
 		}
 		if (getTotalNumberOfStitchesInRow() == 0) {
-			throw new NotEnoughStitchesException("You cannot start a row with 0 stitches in it; use cast-on or pick-up-stitches to add stitches to the work");
+			throw new NotEnoughStitchesException(
+					"You cannot start a row with 0 stitches in it; use cast-on or pick-up-stitches to add stitches to the work");
 		}
 		currentRowNumber++;
-		totalRowsCompleted++;
 		switchDirectionIfNecessary();
 		if (isBetweenRows()) {
 			resetCurrentNeedleIndex();
@@ -263,7 +280,9 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		if (!isEndOfRow()) {
 			throw new NotEndOfRowException();
 		}
-		
+
+		totalRowsCompleted++;
+
 		// this is how we indicate we are between rows
 		currentNeedleIndex = -1;
 	}
@@ -330,7 +349,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			suppressDirectionSwitchingForNextRow = false;
 			return;
 		}
-		
+
 		if (getDirection() == Direction.BACKWARDS) {
 			toggleDirection();
 		} else if (getDirection() == Direction.FORWARDS
@@ -398,9 +417,9 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		}
 	}
 
-	protected Needle getCurrentNeedle() {
+	protected Needle getCurrentNeedle() throws NoActiveNeedlesException {
 		if (currentNeedleIndex == -1) {
-			return null;
+			throw new NoActiveNeedlesException();
 		}
 		return needles.get(currentNeedleIndex);
 	}
@@ -980,7 +999,6 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			// customized "startNewRow" without resetting anything (because it's
 			// already been done)
 			currentRowNumber++;
-			totalRowsCompleted++;
 		}
 
 		getCurrentNeedle().increase(numberOfStitches);
@@ -998,27 +1016,30 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			// point to the first stitch cast on (in the forwards direction) as
 			// the next stitch to work.
 			currentNeedleIndex = -1;
-			// And we don't want to switch directions next time startNextRow() is called.
+			// And we don't want to switch directions next time startNextRow()
+			// is called.
 			suppressDirectionSwitchingForNextRow = true;
 		}
 
-//		// if 'nextRowSide' is specified and we are knitting flat
-//		if (nextRowSide != null && knittingShape == KnittingShape.FLAT) {
-//			// ... and if we EITHER are knitting forwards and the next row is a
-//			// right-side row OR we are knitting backwards and the
-//			if ((nextRowSide == Side.RIGHT && getDirection() == Direction.FORWARDS)
-//					|| (nextRowSide == Side.WRONG && getDirection() == Direction.BACKWARDS)) {
-//				// make the direction the reverse of what it is so that a
-//				// subsequent call to "startNewRow" will "un-reverse" it.
-//				// This has the side effect of reversing the direction
-//				// between rows, though, and that may not always be
-//				// desirable.
-//				toggleDirection();
-//				for (Needle needle : needles) {
-//					needle.startAtEnd();
-//				}
-//			}
-//		}
+		// // if 'nextRowSide' is specified and we are knitting flat
+		// if (nextRowSide != null && knittingShape == KnittingShape.FLAT) {
+		// // ... and if we EITHER are knitting forwards and the next row is a
+		// // right-side row OR we are knitting backwards and the
+		// if ((nextRowSide == Side.RIGHT && getDirection() ==
+		// Direction.FORWARDS)
+		// || (nextRowSide == Side.WRONG && getDirection() ==
+		// Direction.BACKWARDS)) {
+		// // make the direction the reverse of what it is so that a
+		// // subsequent call to "startNewRow" will "un-reverse" it.
+		// // This has the side effect of reversing the direction
+		// // between rows, though, and that may not always be
+		// // desirable.
+		// toggleDirection();
+		// for (Needle needle : needles) {
+		// needle.startAtEnd();
+		// }
+		// }
+		// }
 	}
 
 	public void castOn(int numberOfStitches) throws NoActiveNeedlesException,
@@ -1180,13 +1201,13 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throws NotEnoughStitchesException {
 		getCurrentNeedle().workIntoNextStitch(increase.getOperations().size());
 	}
-	
+
 	public void pickUpStitches(InlinePickUpStitches pickUpStitches) {
 		int numberToIncrease = pickUpStitches.getNumberOfTimes() == null ? 1
 				: pickUpStitches.getNumberOfTimes();
 		getCurrentNeedle().increase(numberToIncrease);
 	}
-	
+
 	public void castOn(InlineCastOn castOn) {
 		int numberToIncrease = castOn.getNumberOfStitches() == null ? 1
 				: castOn.getNumberOfStitches();

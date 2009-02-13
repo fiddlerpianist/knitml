@@ -6,6 +6,4 @@ public interface Marker {
 
 	MarkerBehavior getWhenWorkedThrough();
 
-	boolean isGapMarker();
-
 }

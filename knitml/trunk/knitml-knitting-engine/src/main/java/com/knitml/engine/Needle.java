@@ -22,7 +22,7 @@ import com.knitml.engine.settings.Direction;
  * 
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)
  */
-public interface Needle {
+public interface Needle extends Restorable {
 
 	void setDirection(Direction direction);
 
@@ -150,8 +150,6 @@ public interface Needle {
 	Direction getDirection();
 
 	NeedleStyle getNeedleType();
-
-	void setNeedleType(NeedleStyle needleType);
 
 	String getId();
 

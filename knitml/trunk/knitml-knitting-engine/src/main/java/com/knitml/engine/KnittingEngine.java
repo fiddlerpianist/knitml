@@ -66,7 +66,7 @@ import com.knitml.engine.settings.Direction;
  * @author I264193
  * 
  */
-public interface KnittingEngine {
+public interface KnittingEngine extends Restorable {
 
 	/**
 	 * <p>
