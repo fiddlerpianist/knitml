@@ -18,16 +18,6 @@ public class InstructionVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(InstructionVisitor.class);
 
-	// private final static Set<String> UNCHARTABLE_ELEMENTS = new
-	// HashSet<String>();
-	//
-	// static {
-	// UNCHARTABLE_ELEMENTS.add(Elements.TURN);
-	// UNCHARTABLE_ELEMENTS.add(Elements.ARRANGE_STITCHES_ON_NEEDLES);
-	// UNCHARTABLE_ELEMENTS.add(Elements.USE_NEEDLES);
-	// UNCHARTABLE_ELEMENTS.add(Elements.USING_NEEDLE);
-	// }
-
 	public void visit(Object element, RenderingContext context)
 			throws RenderingException {
 		PatternRepository repository = context.getPatternRepository();
@@ -59,19 +49,5 @@ public class InstructionVisitor extends AbstractRenderingVisitor {
 		context.getPatternState().clearCurrentInstructionInfo();
 		context.getRenderer().endInstruction();
 	}
-	// protected boolean isInstructionChartable(Element element) {
-	// boolean chartable = true;
-	// for (Object child : element.elements()) {
-	// Element childElement = (Element) child;
-	// String childTagName = childElement.getName();
-	// if (UNCHARTABLE_ELEMENTS.contains(childTagName)) {
-	// return false;
-	// }
-	// if (childElement.hasContent()) {
-	// chartable = chartable && isInstructionChartable(childElement);
-	// }
-	// }
-	// return true;
-	// }
 
 }

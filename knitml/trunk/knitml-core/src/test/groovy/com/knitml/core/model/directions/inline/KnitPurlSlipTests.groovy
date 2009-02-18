@@ -125,6 +125,29 @@ class KnitPurlSlipTests {
 		marshalXmlAndCompare(pattern,xml)
 	}
 	
+	@Test
+	void noStitch() {
+		def xml = '''
+			<pattern xmlns="http://www.knitml.com/schema/pattern">
+			  <directions>
+					<row>
+						<no-stitch/>
+						<no-stitch>5</no-stitch>
+					</row>
+				  </directions>
+			</pattern>'''
+		Pattern pattern = unmarshalXml(xml)
+		def element = pattern.directions.operations[0].operations[0]
+		element.with {
+			assertThat numberOfStitches, is (null)
+		}
+		element = pattern.directions.operations[0].operations[1]
+		element.with {
+			assertThat numberOfStitches, is (5)
+		}
+		marshalXmlAndCompare(pattern,xml)
+	}
+	
 	static void main(args) {
 		JUnitCore.main(KnitPurlSlipTests.name)
 	}

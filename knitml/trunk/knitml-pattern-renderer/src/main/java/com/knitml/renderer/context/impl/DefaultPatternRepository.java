@@ -17,6 +17,7 @@ import org.springframework.core.io.ResourceLoader;
 
 import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.core.model.directions.block.Row;
+import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.NeedleType;
 import com.knitml.core.model.header.Yarn;
@@ -30,6 +31,7 @@ public class DefaultPatternRepository implements PatternRepository {
 	private Map<String, NeedleType> needleTypes = new LinkedHashMap<String, NeedleType>();
 	private Map<String, InstructionInfo> localInstructions = new HashMap<String, InstructionInfo>();
 	private Map<String, InstructionInfo> globalInstructions = new HashMap<String, InstructionInfo>();
+	private Map<String, InlineInstruction> inlineInstructions = new HashMap<String, InlineInstruction>();
 
 	private ReloadableResourceBundleMessageSource patternMessageSource;
 	private Locale locale;
@@ -120,6 +122,16 @@ public class DefaultPatternRepository implements PatternRepository {
 				instructionInfo);
 	}
 
+	public void addInlineInstruction(InlineInstruction instruction) {
+		if (instruction != null) {
+			inlineInstructions.put(instruction.getId(), instruction);
+		}
+	}
+	
+	public InlineInstruction getInlineInstruction(String id) {
+		return inlineInstructions.get(id);
+	}
+	
 	private Range deriveRowNumbers(Instruction instruction) {
 		if (!instruction.hasRows()) {
 			return null;

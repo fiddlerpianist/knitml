@@ -17,6 +17,7 @@ public class InlineInstructionVisitor extends AbstractRenderingVisitor {
 	public void visit(Object element, RenderingContext context)
 			throws RenderingException {
 		InlineInstruction instruction = (InlineInstruction) element;
+		context.getPatternRepository().addInlineInstruction(instruction);
 		visitChildren(instruction, context);
 	}
 	

@@ -12,6 +12,7 @@ import com.knitml.engine.KnittingEngine;
 
 class ChartingHelper {
 	
+	private boolean roundChart = false;
 	private int maxStitchesToChart;
 
 	public void beginRepeat(Repeat repeat) {

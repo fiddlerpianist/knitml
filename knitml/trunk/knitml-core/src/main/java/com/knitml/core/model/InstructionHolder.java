@@ -1,8 +1,7 @@
-package com.knitml.validation.context;
+package com.knitml.core.model;
 
 import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.core.model.directions.block.Row;
-import com.knitml.validation.common.InvalidStructureException;
 
 public class InstructionHolder {
 	
@@ -24,9 +23,9 @@ public class InstructionHolder {
 	}
 
 	
-	public InstructionHolder(Instruction instruction) throws InvalidStructureException {
+	public InstructionHolder(Instruction instruction) throws IllegalArgumentException {
 		if (instruction == null || instruction.getRows() == null || instruction.getRows().isEmpty()) {
-			throw new InvalidStructureException("An instruction stored in an InstructionHolder must have one or more rows defined in it");
+			throw new IllegalArgumentException("An instruction stored in an InstructionHolder must have one or more rows defined in it");
 		}
 		this.instruction = instruction;
 	}

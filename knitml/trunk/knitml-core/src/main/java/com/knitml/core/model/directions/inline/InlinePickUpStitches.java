@@ -1,9 +1,9 @@
 package com.knitml.core.model.directions.inline;
 
 import com.knitml.core.common.Wise;
-import com.knitml.core.model.directions.InlineOperation;
+import com.knitml.core.model.directions.DiscreteInlineOperation;
 
-public class InlinePickUpStitches implements InlineOperation {
+public class InlinePickUpStitches implements DiscreteInlineOperation {
 	
 	protected String yarnIdRef;
 	protected Integer numberOfTimes;

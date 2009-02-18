@@ -3,6 +3,7 @@ package com.knitml.validation.context;
 import java.util.Map;
 
 import com.knitml.core.model.Identifiable;
+import com.knitml.core.model.InstructionHolder;
 import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.validation.common.InvalidStructureException;
 

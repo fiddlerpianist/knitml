@@ -24,7 +24,13 @@
         <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
         <value name="yarn-position" field="yarnPosition" enum-value-method="getCanonicalName" usage="optional"/>
     </mapping>
-
+    <mapping name="no-stitch" value-style="attribute"
+        class="com.knitml.core.model.directions.inline.NoStitch">
+        <value style="text" field="numberOfStitches" usage="optional"
+            serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
+            deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
+    </mapping>
+    
     <!-- Increases / pick ups -->
     <mapping name="increase" value-style="attribute"
         class="com.knitml.core.model.directions.inline.Increase">

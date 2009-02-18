@@ -6,6 +6,7 @@ import com.knitml.validation.context.KnittingContext;
 
 public class FollowupInformationVisitor extends InformationVisitor {
 	
+	@Override
 	public void visit(Object element, KnittingContext context) throws KnittingEngineException {
 		super.visit(element, context);
 	}

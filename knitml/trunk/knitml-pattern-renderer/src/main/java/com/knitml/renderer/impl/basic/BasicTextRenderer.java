@@ -327,6 +327,10 @@ public class BasicTextRenderer implements Renderer {
 						new int[] { crossStitches.getFirst(),
 								crossStitches.getNext() }));
 	}
+	
+	public Instruction evaluateInstruction(Instruction instruction) {
+		return instruction;
+	}
 
 	public void beginInstruction(Instruction instruction, String message) {
 		beginInstructionGroup(message);
@@ -491,7 +495,7 @@ public class BasicTextRenderer implements Renderer {
 
 	public void renderDecrease(Decrease decrease) {
 		Integer times = decrease.getNumberOfTimes();
-		String style = decrease.getType();
+		String style = EnumUtils.fromEnum(decrease.getType());
 		renderSequentialOperation("operation.decrease." + style, times);
 	}
 

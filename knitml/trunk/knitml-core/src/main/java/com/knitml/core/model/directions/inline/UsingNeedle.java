@@ -19,6 +19,14 @@ public class UsingNeedle implements InlineOperation, CompositeOperation {
 	public Needle getNeedle() {
 		return needle;
 	}
+	
+	public UsingNeedle() {
+	}
 
+	public UsingNeedle(Needle needle, List<InlineOperation> operations) {
+		this.needle = needle;
+		this.operations = operations;
+	}
+	
 	
 }

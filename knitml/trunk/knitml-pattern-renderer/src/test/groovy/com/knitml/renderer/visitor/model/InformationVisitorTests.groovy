@@ -18,12 +18,17 @@ class InformationVisitorTests extends AbstractRenderingContextTests {
 	@Test
 	void numberOfStitchesAtRowEnd() {
 		processXml '''
-		<row xmlns="http://www.knitml.com/schema/pattern" number="1">
-			<knit>5</knit>
-			<followup-information>
-				<number-of-stitches number="5" inform="true"/>
-			</followup-information>
-		</row>''', Row
+			<pattern xmlns="http://www.knitml.com/schema/pattern">
+				<directions>
+					<cast-on>5</cast-on>
+					<row xmlns="http://www.knitml.com/schema/pattern" number="1">
+						<knit>5</knit>
+						<followup-information>
+							<number-of-stitches number="5" inform="true"/>
+						</followup-information>
+					</row>
+				</directions>
+			</pattern>'''
 		assertThat output.trim(), endsWith ('5 stitches in row.')
 	}
 

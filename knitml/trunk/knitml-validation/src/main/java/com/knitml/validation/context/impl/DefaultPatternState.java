@@ -5,9 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.knitml.core.model.Identifiable;
+import com.knitml.core.model.InstructionHolder;
 import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.validation.common.InvalidStructureException;
-import com.knitml.validation.context.InstructionHolder;
 import com.knitml.validation.context.PatternState;
 
 public class DefaultPatternState implements PatternState {
@@ -17,9 +17,7 @@ public class DefaultPatternState implements PatternState {
 	private boolean withinInstruction = false;
 	private Map<String, InstructionHolder> instructionsInUse = new LinkedHashMap<String, InstructionHolder>();
 	private Map<String, Integer> repeatCounts = new LinkedHashMap<String, Integer>();
-	
-	
-	
+
 	public int getHeaderRowNumber() {
 		return headerRowNumber;
 	}
@@ -28,15 +26,21 @@ public class DefaultPatternState implements PatternState {
 		this.headerRowNumber = headerRowNumber;
 	}
 
-	public void useInstruction(Instruction instruction) throws InvalidStructureException {
-		InstructionHolder instructionHolder = new InstructionHolder(instruction);
-		instructionsInUse.put(instruction.getId(), instructionHolder);
+	public void useInstruction(Instruction instruction)
+			throws InvalidStructureException {
+		try {
+			InstructionHolder instructionHolder = new InstructionHolder(
+					instruction);
+			instructionsInUse.put(instruction.getId(), instructionHolder);
+		} catch (IllegalArgumentException ex) {
+			throw new InvalidStructureException(ex.getMessage());
+		}
 	}
-	
+
 	public InstructionHolder getInstructionInUse(String id) {
 		return instructionsInUse.get(id);
 	}
-	
+
 	public boolean isReplayMode() {
 		return instructionReplays > 0;
 	}

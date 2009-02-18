@@ -33,13 +33,15 @@ import com.knitml.core.model.header.Yarn;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.Renderer;
 import com.knitml.renderer.context.RenderingContext;
+import com.knitml.renderer.impl.charting.analyzer.ChartingAnalyzer;
 
 public class ChartingRenderer implements Renderer {
 
+	private RenderingContext renderingContext;
 	private Renderer delegate;
-
-	public void setFallbackRenderer(Renderer delegate) {
-		this.delegate = delegate;
+	
+	public ChartingRenderer(Renderer fallbackRenderer) {
+		this.delegate = fallbackRenderer;
 	}
 
 	private ChartingHelper helper = new ChartingHelper();
@@ -48,18 +50,38 @@ public class ChartingRenderer implements Renderer {
 		return helper;
 	}
 
-//	private KnittingEngine engine = new DefaultKnittingEngine(
-//			new DefaultKnittingFactory());
-
 	private boolean charting = false;
 
 	protected boolean isCurrentlyCharting() {
 		return charting;
 	}
 
-	public void beginInstruction(Instruction insruction, String label) {
-		// TODO Analyze the instruction to see if we can chart it
-		// if (we-can-chart) charting = true;
+	public Instruction evaluateInstructionDefinition(Instruction instruction) {
+		return doEvaluateInstruction(instruction, true);
+	}
+	
+	public Instruction evaluateInstruction(Instruction instruction) {
+		return doEvaluateInstruction(instruction, false);
+	}
+	
+	protected Instruction doEvaluateInstruction(Instruction instruction, boolean definitionOnly) {
+		Object engineState = renderingContext.getEngine().save();
+		ChartingAnalyzer analyzer = new ChartingAnalyzer(renderingContext, definitionOnly);
+
+		// Analyze the instruction to see if we can chart it
+		Instruction newInstruction = analyzer.analyzeInstruction(instruction);
+		// set the engine back to original state
+		renderingContext.getEngine().restore(engineState);
+
+		if (newInstruction == null) { // this means we could not chart
+			return instruction;
+		} else {
+			this.charting = true;
+			return newInstruction;
+		}
+	}
+
+	public void beginInstruction(Instruction instruction, String label) {
 	}
 
 	public void renderBindOff(BindOff bindOff) {
@@ -322,6 +344,7 @@ public class ChartingRenderer implements Renderer {
 	}
 
 	public void setRenderingContext(RenderingContext renderingContext) {
+		this.renderingContext = renderingContext;
 		delegate.setRenderingContext(renderingContext);
 	}
 

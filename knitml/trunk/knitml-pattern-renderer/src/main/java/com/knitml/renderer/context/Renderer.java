@@ -58,13 +58,14 @@ public interface Renderer {
 	void beginInstructionGroup();
 	void endInstructionGroup();
 
+	Instruction evaluateInstruction(Instruction instruction);
 	void beginInstruction(Instruction instruction, String label);
 	void endInstruction();
 	
 	boolean renderInlineInstructionRef(InlineInstructionRef instructionRef, String label);
 
 	void renderRepeatInstruction(RepeatInstruction repeatInstruction, InstructionInfo instructionInfo);
-	void renderUseNeedles(List<Needle> needless);
+	void renderUseNeedles(List<Needle> needles);
 	void renderCastOn(CastOn castOn);
 	void renderUsingNeedlesCastOn(List<Needle> needles,
 			CastOn castOn);

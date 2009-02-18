@@ -23,6 +23,7 @@ class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests 
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 				<directions>
 					<instruction-group id="ig1">
+						<cast-on>1</cast-on>
 						<instruction id="instruction1">
 							<row number="1"><knit/></row>
 							<row number="2"><purl/></row>
@@ -49,6 +50,7 @@ class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests 
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 				<directions>
 					<instruction-group id="ig1">
+						<cast-on>1</cast-on>
 						<instruction id="instruction1" label="Sunny Day Stitch">
 							<row number="1"><knit/></row>
 							<row number="2"><purl/></row>
@@ -76,6 +78,7 @@ class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests 
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 				<directions>
 					<instruction-group id="ig1">
+						<cast-on>1</cast-on>
 						<instruction id="instruction1">
 							<row number="1"><knit/></row>
 							<row number="2"><purl/></row>

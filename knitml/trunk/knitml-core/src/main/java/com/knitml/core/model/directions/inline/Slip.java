@@ -13,6 +13,10 @@ public class Slip implements DiscreteInlineOperation {
 	public Slip() {
 	}
 
+	public Slip(int numberOfTimes) {
+		this.numberOfTimes = numberOfTimes;
+	}
+	
 	public Slip(Integer numberOfTimes, Wise type, YarnPosition yarnPosition) {
 		this.numberOfTimes = numberOfTimes;
 		this.type = type;

@@ -793,23 +793,30 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	 * @see com.knitml.validation.validation.engine.KnittingEngine#slip(boolean)
 	 */
 	public void slip(Slip slip) throws NotEnoughStitchesException {
+		int numberOfTimes = slip.getNumberOfTimes() == null ? 1 : slip.getNumberOfTimes();
 		try {
-			advanceNeedleIfNecessary();
+			for (int i = 0; i < numberOfTimes; i++) {
+				advanceNeedleIfNecessary();
+				getCurrentNeedle().slip();
+			}
 		} catch (CannotAdvanceNeedleException ex) {
 			throw new NotEnoughStitchesException();
-		}
-		for (int i = 0; i < slip.getNumberOfTimes(); i++) {
-			getCurrentNeedle().slip();
 		}
 	}
 
 	public void reverseSlip() throws NotEnoughStitchesException {
+		reverseSlip(1);
+	}
+
+	public void reverseSlip(int numberToSlip) throws NotEnoughStitchesException {
 		try {
-			retreatNeedleIfNecessary();
+			for (int i = 0; i < numberToSlip; i++) {
+				retreatNeedleIfNecessary();
+				getCurrentNeedle().reverseSlip();
+			}
 		} catch (CannotRetreatNeedleException ex) {
 			throw new NotEnoughStitchesException();
 		}
-		getCurrentNeedle().reverseSlip();
 	}
 
 	/*
@@ -1102,6 +1109,15 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	 */
 	public void slip() throws NotEnoughStitchesException {
 		slip(new Slip(1, Wise.PURLWISE, YarnPosition.BACK));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.knitml.validation.validation.engine.KnittingEngine#knit()
+	 */
+	public void slip(int numberToWork) throws NotEnoughStitchesException {
+		slip(new Slip(numberToWork, Wise.PURLWISE, YarnPosition.BACK));
 	}
 
 	/*

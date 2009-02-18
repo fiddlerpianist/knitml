@@ -6,7 +6,6 @@ import java.util.List;
 import com.knitml.core.model.Identifiable;
 import com.knitml.core.model.directions.CompositeOperation;
 import com.knitml.core.model.directions.InlineOperation;
-import com.knitml.core.model.directions.Operation;
 
 public class InlineInstruction implements InlineOperation, CompositeOperation, Identifiable {
 	
@@ -27,8 +26,18 @@ public class InlineInstruction implements InlineOperation, CompositeOperation, I
 		return id;
 	}
 
-	public List<? extends Operation> getOperations() {
+	public List<InlineOperation> getOperations() {
 		return operations;
+	}
+	
+	public InlineInstruction() {
+	}
+	
+	public InlineInstruction(InlineInstruction inlineInstructionToCopy, List<InlineOperation> operations) {
+		this.id = inlineInstructionToCopy.getId();
+		this.label = inlineInstructionToCopy.getLabel();
+		this.messageKey = inlineInstructionToCopy.getMessageKey();
+		this.operations = operations;
 	}
 
 }

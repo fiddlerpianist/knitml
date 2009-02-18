@@ -17,7 +17,8 @@ public class PurlVisitor extends AbstractRenderingVisitor {
 	public void visit(Object element, RenderingContext context)
 			throws RenderingException {
 		Purl purl = (Purl) element;
-		context.getEngine().purl(purl.getNumberOfTimes());
+		int count = purl.getNumberOfTimes() == null ? 1 : purl.getNumberOfTimes();
+		context.getEngine().purl(count);
 		context.getRenderer().renderPurl(purl);
 	}
 }

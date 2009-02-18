@@ -377,6 +377,19 @@
     </xsd:simpleContent>
   </xsd:complexType>
 
+  <xsd:complexType name="NoStitchType">
+    <xsd:annotation>
+      <xsd:documentation>Represents a series of "blank" spaces in a pattern. Usually used for
+        grouping stitches together in a chart. A no-stitch element does not change the state of the
+        pattern at all, nor is it officially part of the algorithm. Renderers are free to ignore
+      it.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:short"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+
   <xsd:complexType name="TurnType">
     <xsd:annotation>
       <xsd:documentation>Turn the work without working stitches.</xsd:documentation>
@@ -424,7 +437,8 @@
 
   <xsd:complexType name="InlinePickUpStitchesType">
     <xsd:annotation>
-      <xsd:documentation>The number of stitches to pick up from the work within the current row.</xsd:documentation>
+      <xsd:documentation>The number of stitches to pick up from the work within the current
+      row.</xsd:documentation>
     </xsd:annotation>
     <xsd:simpleContent>
       <xsd:extension base="xsd:short">
@@ -444,7 +458,7 @@
       </xsd:extension>
     </xsd:simpleContent>
   </xsd:complexType>
-  
+
   <xsd:attributeGroup name="labelAttrs">
     <xsd:annotation>
       <xsd:documentation>A label attribute provides a means by which to assign text to different
@@ -474,6 +488,7 @@
       <xsd:element name="increase-into-next-stitch" type="IncreaseIntoNextStitchType"/>
       <xsd:element name="cross-stitches" type="CrossStitchesType"/>
       <xsd:element name="slip" type="SlipType" default="1"/>
+      <xsd:element name="no-stitch" type="NoStitchType" default="1"/>
       <xsd:element name="turn" type="TurnType"/>
       <xsd:element name="place-marker" type="EmptyType"/>
       <xsd:element name="inline-cast-on" type="InlineCastOnType"/>
@@ -864,7 +879,7 @@
   <xsd:complexType name="CastOnType">
     <xsd:annotation>
       <xsd:documentation>Cast on the specified number of stitches onto the active
-        needle(s).</xsd:documentation>
+      needle(s).</xsd:documentation>
     </xsd:annotation>
     <xsd:simpleContent>
       <xsd:extension base="xsd:short">
@@ -887,8 +902,8 @@
 
   <xsd:complexType name="InlineCastOnType">
     <xsd:annotation>
-      <xsd:documentation>Cast on the specified number of stitches onto the active
-        needle(s) within the current row.</xsd:documentation>
+      <xsd:documentation>Cast on the specified number of stitches onto the active needle(s) within
+        the current row.</xsd:documentation>
     </xsd:annotation>
     <xsd:simpleContent>
       <xsd:extension base="xsd:short">
@@ -902,7 +917,7 @@
       </xsd:extension>
     </xsd:simpleContent>
   </xsd:complexType>
-  
+
   <xsd:complexType name="BindOffType">
     <xsd:simpleContent>
       <xsd:annotation>
@@ -949,7 +964,8 @@
     </xsd:attribute>
     <xsd:attribute name="fasten-off-last-stitch" type="xsd:boolean" default="true">
       <xsd:annotation>
-        <xsd:documentation>Whether or not the operation should bind off the one stitch remaining.</xsd:documentation>
+        <xsd:documentation>Whether or not the operation should bind off the one stitch
+        remaining.</xsd:documentation>
       </xsd:annotation>
     </xsd:attribute>
   </xsd:complexType>

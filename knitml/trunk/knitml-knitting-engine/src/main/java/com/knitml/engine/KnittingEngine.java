@@ -369,6 +369,14 @@ public interface KnittingEngine extends Restorable {
 	void reverseSlip() throws NotEnoughStitchesException;
 
 	/**
+	 * Slip the previous n number of stitches back purlwise.
+	 * 
+	 * @throws NotEnoughStitchesException
+	 *             if the engine is at the beginning of a row
+	 */
+	void reverseSlip(int numberToSlip) throws NotEnoughStitchesException;
+	
+	/**
 	 * Places a marker between the stitch just worked and the next one.
 	 * 
 	 * @throws CannotPutMarkerOnEndOfNeedleException
@@ -551,6 +559,14 @@ public interface KnittingEngine extends Restorable {
 	 */
 	void slip() throws NotEnoughStitchesException;
 
+	/**
+	 * Slips the next n stitches (purlwise).
+	 * 
+	 * @throws NotEnoughStitchesException
+	 *             if the engine is at the end of a row
+	 */
+	void slip(int numberToWork) throws NotEnoughStitchesException;
+	
 	/**
 	 * Knits the next two stitches together. Both stitches must be on the same
 	 * needle or a {@link NotEnoughStitchesException} will be thrown.

@@ -17,7 +17,8 @@ public class KnitVisitor extends AbstractRenderingVisitor {
 	public void visit(Object element, RenderingContext context)
 			throws RenderingException {
 		Knit knit = (Knit)element;
-		context.getEngine().knit(knit.getNumberOfTimes());
+		int count = knit.getNumberOfTimes() == null ? 1 : knit.getNumberOfTimes();
+		context.getEngine().knit(count);
 		context.getRenderer().renderKnit(knit);
 	}
 }

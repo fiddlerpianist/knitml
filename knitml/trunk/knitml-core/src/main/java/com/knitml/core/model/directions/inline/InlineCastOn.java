@@ -39,5 +39,12 @@ public class InlineCastOn implements DiscreteInlineOperation {
 	public int getIncreaseCount() {
 		return numberOfStitches == null ? 1 : numberOfStitches;
 	}
+	
+	public InlineCastOn() {
+	}
+	
+	public InlineCastOn(int numberOfStitches) {
+		this.numberOfStitches = numberOfStitches;
+	}
 
 }

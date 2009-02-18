@@ -31,6 +31,17 @@ public class Repeat implements InlineOperation, CompositeOperation {
 	public Integer getValue() {
 		return value;
 	}
-	
 
+	public void setUntil(Until until) {
+		this.until = until;
+	}
+
+	public void setValue(Integer value) {
+		this.value = value;
+	}
+
+	public void setOperations(List<InlineOperation> operations) {
+		this.operations = operations;
+	}
+	
 }

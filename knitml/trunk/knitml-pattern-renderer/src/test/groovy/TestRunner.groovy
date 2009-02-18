@@ -1,1 +1,0 @@
-com.knitml.renderer.visitor.model.InformationVisitorTests.main(null)

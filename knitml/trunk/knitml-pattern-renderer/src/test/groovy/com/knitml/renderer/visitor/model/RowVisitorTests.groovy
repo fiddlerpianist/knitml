@@ -19,6 +19,7 @@ class RowVisitorTests extends AbstractRenderingContextTests {
 	void addYarns() {
 		Yarn yarnOne = new Yarn('yarn1', 'A')
 		renderingContext.patternRepository.addYarn yarnOne
+		renderingContext.engine.castOn 1
 	}
 	
 	@Test

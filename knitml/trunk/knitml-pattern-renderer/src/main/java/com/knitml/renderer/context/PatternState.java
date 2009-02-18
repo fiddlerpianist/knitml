@@ -1,8 +1,13 @@
 package com.knitml.renderer.context;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Stack;
+import com.knitml.core.model.InstructionHolder;
 import com.knitml.core.model.directions.CompositeOperation;
+import com.knitml.core.model.directions.block.Instruction;
 
 public class PatternState {
 	
@@ -14,6 +19,8 @@ public class PatternState {
 	private KnittingShape currentKnittingShape = KnittingShape.FLAT;
 	// The last row that was hit whose row number was defined
 	private int lastExpressedRowNumber = 0;
+	private Map<String, InstructionHolder> instructionsInUse = new LinkedHashMap<String, InstructionHolder>();
+
 
 	public int getLastExpressedRowNumber() {
 		return lastExpressedRowNumber;
@@ -58,5 +65,15 @@ public class PatternState {
 	public void resetLastExpressedRowNumber() {
 		this.lastExpressedRowNumber = 0;
 	}
+
+	public void useInstruction(Instruction instruction) {
+		InstructionHolder instructionHolder = new InstructionHolder(instruction);
+		instructionsInUse.put(instruction.getId(), instructionHolder);
+	}
+	
+	public InstructionHolder getInstructionInUse(String id) {
+		return instructionsInUse.get(id);
+	}
+	
 
 }
