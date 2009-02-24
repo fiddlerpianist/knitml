@@ -11,7 +11,7 @@ public class KnittingContext {
 	private KnittingFactory knittingFactory;
 	private PatternRepository patternRepository;
 	private PatternState patternState;
-	
+	private ListenerManager listenerManager;
 	private KnittingEngine engine;
 	private List<Needle> needlesInUse;
 	
@@ -52,6 +52,12 @@ public class KnittingContext {
 	}
 	public void setPatternState(PatternState patternState) {
 		this.patternState = patternState;
+	}
+	public ListenerManager getListenerManager() {
+		return listenerManager;
+	}
+	public void setListenerManager(ListenerManager listenerManager) {
+		this.listenerManager = listenerManager;
 	}
 
 }

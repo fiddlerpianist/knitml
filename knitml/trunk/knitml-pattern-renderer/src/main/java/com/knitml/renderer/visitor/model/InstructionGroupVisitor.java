@@ -18,7 +18,7 @@ public class InstructionGroupVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(InstructionGroupVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		InstructionGroup instructionGroup = (InstructionGroup) element;
 		PatternRepository repository = context.getPatternRepository();
@@ -32,7 +32,10 @@ public class InstructionGroupVisitor extends AbstractRenderingVisitor {
 		if (instructionGroup.getResetRowCount()) {
 			resetLastExpressedRowNumber(context);
 		}
-		visitChildren(instructionGroup, context);
+		return true;
+	}
+	
+	public void end(Object element, RenderingContext context) {
 		context.getRenderer().endInstructionGroup();
 	}
 

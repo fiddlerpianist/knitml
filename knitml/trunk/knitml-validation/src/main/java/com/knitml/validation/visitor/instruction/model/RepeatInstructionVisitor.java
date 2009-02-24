@@ -25,12 +25,11 @@ import com.knitml.engine.Needle;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.visitor.NeedleNotFoundException;
-import com.knitml.validation.visitor.instruction.Visitor;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 import com.knitml.validation.visitor.util.NeedleUtils;
 
 @SuppressWarnings("unchecked")
-public class RepeatInstructionVisitor extends AbstractValidationVisitor {
+public class RepeatInstructionVisitor extends AbstractPatternVisitor {
 
 	private final static Logger log = LoggerFactory
 			.getLogger(RepeatInstructionVisitor.class);
@@ -106,13 +105,11 @@ public class RepeatInstructionVisitor extends AbstractValidationVisitor {
 					"A RepeatInstruction element must specify a list of expressions when Until is set to UNTIL_EQUALS");
 		}
 		List<Expression> expressions = (List<Expression>) value;
-		Visitor visitor = getVisitorFactory().findVisitorFromClassName(
-				instructionToRepeat);
 
 		EqualsEvaluator evaluator = new EqualsEvaluator(context);
 		while (!evaluator.areEqual(expressions)) {
 			context.getPatternState().incrementRepeatCount(instructionToRepeat);
-			visitor.visit(instructionToRepeat, context);
+			visitChild(instructionToRepeat, context);
 		}
 	}
 
@@ -143,10 +140,6 @@ public class RepeatInstructionVisitor extends AbstractValidationVisitor {
 			needlesToStitches.put(engineNeedle, targetNumberOfStitches);
 		}
 
-		// now get the instruction to repeat
-		Visitor visitor = getVisitorFactory().findVisitorFromClassName(
-				instructionToRepeat);
-
 		// start off by assuming we need to repeat the instruction
 		boolean shouldRepeat = true;
 		// repeat until we determine that we should no longer repeat (i.e. all
@@ -167,7 +160,7 @@ public class RepeatInstructionVisitor extends AbstractValidationVisitor {
 				// if we get here, at least one needle indicated that the stitch
 				// count did not equal, so we should continue repeating
 				context.getPatternState().incrementRepeatCount(instructionToRepeat);
-				visitor.visit(instructionToRepeat, context);
+				visitChild(instructionToRepeat, context);
 			}
 		}
 
@@ -176,8 +169,6 @@ public class RepeatInstructionVisitor extends AbstractValidationVisitor {
 	private void handleUntilMeasures(Measurable<Length> targetMeasurement,
 			Instruction instructionToRepeat, KnittingContext context)
 			throws KnittingEngineException {
-		Visitor visitor = getVisitorFactory().findVisitorFromClassName(
-				instructionToRepeat);
 		Measurable<RowGauge> rowGauge = context.getPatternRepository()
 				.getRowGauge();
 		if (rowGauge == null) {
@@ -192,7 +183,7 @@ public class RepeatInstructionVisitor extends AbstractValidationVisitor {
 					/ instructionToRepeat.getRows().size());
 			for (int i = 0; i < repeats - 1; i++) {
 				context.getPatternState().incrementRepeatCount(instructionToRepeat);
-				visitor.visit(instructionToRepeat, context);
+				visitChild(instructionToRepeat, context);
 			}
 		}
 	}
@@ -200,11 +191,9 @@ public class RepeatInstructionVisitor extends AbstractValidationVisitor {
 	private void handleUntilStitchesRemain(int targetNumberOfStitches,
 			Instruction instructionToRepeat, KnittingContext context)
 			throws KnittingEngineException {
-		Visitor visitor = getVisitorFactory().findVisitorFromClassName(
-				instructionToRepeat);
 		while (context.getEngine().getTotalNumberOfStitchesInRow() != targetNumberOfStitches) {
 			context.getPatternState().incrementRepeatCount(instructionToRepeat);
-			visitor.visit(instructionToRepeat, context);
+			visitChild(instructionToRepeat, context);
 		}
 	}
 
@@ -217,11 +206,9 @@ public class RepeatInstructionVisitor extends AbstractValidationVisitor {
 	private void handleAdditionalTimes(int numberOfRepeats,
 			Instruction instructionToRepeat, KnittingContext context)
 			throws KnittingEngineException {
-		Visitor visitor = getVisitorFactory().findVisitorFromClassName(
-				instructionToRepeat);
 		for (int i = 0; i < numberOfRepeats; i++) {
 			context.getPatternState().incrementRepeatCount(instructionToRepeat);
-			visitor.visit(instructionToRepeat, context);
+			visitChild(instructionToRepeat, context);
 		}
 	}
 

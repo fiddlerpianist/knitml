@@ -22,6 +22,10 @@ class PickUpStitchesVisitorTests extends AbstractRenderingContextTests {
 		Yarn yarnTwo = new Yarn('yarn2', 'B')
 		renderingContext.patternRepository.addYarn(yarnOne)
 		renderingContext.patternRepository.addYarn(yarnTwo)
+		renderingContext.with {
+			engine.castOn 5
+			engine.startNewRow()
+		}
 	}
 	
 	@Test

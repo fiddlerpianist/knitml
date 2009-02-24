@@ -7,12 +7,13 @@ import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
 
 public class TurnVisitor extends AbstractRenderingVisitor {
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		Turn turn = (Turn) element;
 		context.getRenderer().renderTurn();
 		if (turn.getStitchesLeft() != null) {
 			context.getRenderer().renderUnworkedStitches(turn.getStitchesLeft());
 		}
+		return true;
 	}
 }

@@ -8,9 +8,9 @@ import com.knitml.core.model.directions.inline.DoubleDecrease;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class DoubleDecreaseVisitor extends AbstractValidationVisitor {
+public class DoubleDecreaseVisitor extends AbstractPatternVisitor {
 	
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(DoubleDecreaseVisitor.class);

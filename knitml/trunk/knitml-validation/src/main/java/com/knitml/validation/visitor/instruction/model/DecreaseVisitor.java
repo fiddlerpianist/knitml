@@ -10,9 +10,9 @@ import com.knitml.core.model.directions.inline.Slip;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class DecreaseVisitor extends AbstractValidationVisitor {
+public class DecreaseVisitor extends AbstractPatternVisitor {
 	
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(DecreaseVisitor.class);

@@ -131,11 +131,11 @@ public class ChartingRenderer implements Renderer {
 		}
 	}
 
-	public void beginRow(Row row, KnittingShape shape) {
+	public void beginRow() {
 		if (isCurrentlyCharting()) {
-			getChartingHelper().beginRow(row);
+			getChartingHelper().beginRow();
 		} else {
-			delegate.beginRow(row, shape);
+			delegate.beginRow();
 		}
 	}
 
@@ -148,11 +148,11 @@ public class ChartingRenderer implements Renderer {
 		}
 	}
 
-	public void endRow() {
+	public void endRow(Row row, KnittingShape shape) {
 		if (isCurrentlyCharting()) {
 			getChartingHelper().endRow();
 		} else {
-			delegate.endRow();
+			delegate.endRow(row, shape);
 		}
 	}
 
@@ -258,8 +258,8 @@ public class ChartingRenderer implements Renderer {
 		delegate.endInformation();
 	}
 
-	public void endInlineInstructionDefinition() {
-		delegate.endInlineInstructionDefinition();
+	public void endInlineInstructionDefinition(InlineInstruction instruction) {
+		delegate.endInlineInstructionDefinition(instruction);
 	}
 
 	public void endInstructionDefinition() {
@@ -361,12 +361,12 @@ public class ChartingRenderer implements Renderer {
 		}
 	}
 
-	public boolean requiresExplicitRepeats() {
-		if (isCurrentlyCharting()) {
-			return true;
-		} else {
-			return delegate.requiresExplicitRepeats();
-		}
+	public void beginInlineInstruction(InlineInstruction instruction) {
+		delegate.beginInlineInstruction(instruction);
+	}
+
+	public void endInlineInstruction(InlineInstruction instruction) {
+		delegate.endInlineInstruction(instruction);
 	}
 
 }

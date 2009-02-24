@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class GraftTogetherVisitor extends AbstractValidationVisitor {
+public class GraftTogetherVisitor extends AbstractPatternVisitor {
 	
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory.getLogger(GraftTogetherVisitor.class);

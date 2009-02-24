@@ -14,6 +14,7 @@ import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.context.RenderingContextFactory;
 import com.knitml.renderer.impl.basic.BasicTextRenderer;
 import com.knitml.renderer.impl.charting.ChartingRenderer;
+import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
 
 public class DefaultRenderingContextFactory implements RenderingContextFactory {
 
@@ -33,7 +34,7 @@ public class DefaultRenderingContextFactory implements RenderingContextFactory {
 		context.setOptions(new Options());
 		context.setPatternState(new PatternState());
 		context.setPatternRepository(new DefaultPatternRepository());
-		context.setEngine(new DefaultKnittingEngine(new DefaultKnittingFactory()));
+		context.setKnittingContext(new DefaultKnittingContextFactory().createKnittingContext());
 		return context;
 	}
 

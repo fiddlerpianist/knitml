@@ -1,6 +1,6 @@
 package com.knitml.renderer.common;
 
-public class RenderingException extends Exception {
+public class RenderingException extends RuntimeException {
 
 	public RenderingException() {
 		super();

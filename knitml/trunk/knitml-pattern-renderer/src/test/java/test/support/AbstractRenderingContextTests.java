@@ -18,21 +18,33 @@ import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 import com.knitml.core.model.Pattern;
 import com.knitml.renderer.common.RenderingException;
-import com.knitml.renderer.context.Renderer;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.RenderingVisitor;
-import com.knitml.renderer.visitor.VisitorFactory;
-import com.knitml.renderer.visitor.impl.DefaultVisitorFactory;
+import com.knitml.renderer.listener.RenderingListenerAdapter;
+import com.knitml.validation.context.KnittingContext;
+import com.knitml.validation.context.KnittingContextFactory;
+import com.knitml.validation.context.Listener;
+import com.knitml.validation.context.ListenerManager;
+import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
+import com.knitml.validation.context.impl.DefaultListenerManager;
+import com.knitml.validation.visitor.instruction.Visitor;
+import com.knitml.validation.visitor.instruction.VisitorFactory;
+import com.knitml.validation.visitor.instruction.impl.DefaultVisitorFactory;
 
 @RunWith(JUnit4ClassRunner.class)
 public abstract class AbstractRenderingContextTests extends AbstractDependencyInjectionSpringContextTests {
 
-	protected VisitorFactory visitorFactory;
-	protected Renderer renderer;
+	// initialized from Spring context
 	protected RenderingContext renderingContext;
+	
+	// place to capture results from renderer
 	private StringWriter outputCapturer;
 	protected static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
+	// knitting context variables
+	protected Listener listener;
+	protected KnittingContext knittingContext;
+	protected VisitorFactory visitorFactory = new DefaultVisitorFactory(); // stateless, so init here
+	
 	protected StringWriter getOutputCapturer() {
 		return outputCapturer;
 	}
@@ -43,15 +55,30 @@ public abstract class AbstractRenderingContextTests extends AbstractDependencyIn
 
 	@Before
 	public final void setItUp() throws Exception {
+		// populates renderingContext
 		setPopulateProtectedVariables(true);
 		setDependencyCheck(false);
 		this.outputCapturer = new StringWriter(128);
 		setUp();
-		this.visitorFactory = new DefaultVisitorFactory();
-		this.renderer = renderingContext.getRenderer();
-		renderer.setWriter(this.outputCapturer);
-		renderer.setRenderingContext(renderingContext);
+		// use renderingContext provided by Spring
+		renderingContext.getRenderer().setWriter(this.outputCapturer);
+		renderingContext.getRenderer().setRenderingContext(renderingContext);
+		this.listener = new RenderingListenerAdapter(this.renderingContext);
+		this.knittingContext = setUpKnittingContext(listener);
+		renderingContext.setKnittingContext(knittingContext);
 		onSetItUp();
+	}
+	
+	protected KnittingContext setUpKnittingContext(Listener listener) throws Exception {
+		// create the listener manager and add a listener to it
+		// create the knitting context 
+		KnittingContextFactory contextFactory = new DefaultKnittingContextFactory();
+		KnittingContext context = contextFactory.createKnittingContext();
+		// set the listener manager on the context
+		ListenerManager listenerManager = new DefaultListenerManager();
+		listenerManager.addListener(listener);
+		context.setListenerManager(listenerManager);
+		return context;
 	}
 
 	@After
@@ -75,8 +102,10 @@ public abstract class AbstractRenderingContextTests extends AbstractDependencyIn
 	}
 
 	protected void visitDocument(Object object) throws RenderingException {
-		RenderingVisitor visitor = this.visitorFactory.findVisitorFromClassName(object);
-		visitor.visit(object, this.renderingContext);
+		Visitor visitor = visitorFactory.findVisitorFromClassName(object);
+		listener.begin(object, knittingContext);
+		visitor.visit(object, knittingContext);
+		listener.end(object, knittingContext);
 	}
 
 	protected Pattern processXml(String xml) throws JiBXException, RenderingException {

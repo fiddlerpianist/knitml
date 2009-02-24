@@ -9,16 +9,15 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.common.IncreaseType;
 import com.knitml.core.common.LoopToWork;
 import com.knitml.core.model.directions.DiscreteInlineOperation;
-import com.knitml.core.model.directions.InlineOperation;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
 import com.knitml.core.model.directions.inline.Knit;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class IncreaseVisitor extends AbstractValidationVisitor {
+public class IncreaseVisitor extends AbstractPatternVisitor {
 
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory

@@ -12,10 +12,10 @@ import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.WrongNumberOfNeedlesException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.visitor.NeedleNotFoundException;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 import com.knitml.validation.visitor.util.NeedleUtils;
 
-public class ArrangeStitchesOnNeedlesVisitor extends AbstractValidationVisitor {
+public class ArrangeStitchesOnNeedlesVisitor extends AbstractPatternVisitor {
 	
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory.getLogger(ArrangeStitchesOnNeedlesVisitor.class);

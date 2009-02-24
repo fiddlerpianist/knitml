@@ -4,8 +4,10 @@ import static com.knitml.core.common.EnumUtils.fromEnum;
 
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.measure.Measure;
 
@@ -64,6 +66,7 @@ public class BasicTextRenderer implements Renderer {
 	private HeaderHelper headerHelper = new HeaderHelper(writerHelper);
 	private OperationSetHelper operationSetHelper = new OperationSetHelper(
 			writerHelper, null);
+	private Map<String, OperationSet> inlineInstructionStore = new LinkedHashMap<String, OperationSet>();
 	private MessageHelper messageHelper;
 	private PluralRuleFactory pluralRuleFactory = new DefaultPluralRuleFactory();
 
@@ -103,24 +106,23 @@ public class BasicTextRenderer implements Renderer {
 	public void beginInlineInstructionDefinition(InlineInstruction instruction,
 			String label) {
 		// only add this instruction if it has a label
-		OperationSet operationSet;
+		OperationSet operationSet = new OperationSet(
+				OperationSet.Type.INLINE_INSTRUCTION);
 		if (label != null) {
-			operationSet = new OperationSet(
-					OperationSet.Type.INLINE_INSTRUCTION);
 			operationSet.setHead(label
 					+ getMessage("operation.group-end-punctuation") + " ");
-		} else {
-			operationSet = new EmptyOperationSet();
 		}
 		getOperationSetHelper().addNewOperationSet(operationSet);
 	}
 
-	public void endInlineInstructionDefinition() {
-		if (!(getOperationSetHelper().isCurrentOperationSetEmpty())) {
+	public void endInlineInstructionDefinition(InlineInstruction instruction) {
+		OperationSet currentOperationSet = getOperationSetHelper().getCurrentOperationSet(); 
+		if (currentOperationSet.getHead() != null) {
 			getOperationSetHelper().renderCurrentOperationSet();
 			writeNewLine();
 			writeNewLine();
 		}
+		inlineInstructionStore.put(instruction.getId(), currentOperationSet);
 		getOperationSetHelper().removeCurrentOperationSet();
 	}
 
@@ -134,6 +136,27 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	// body events
+
+	public void beginInlineInstruction(InlineInstruction instruction) {
+		// only add this instruction if it has a label
+		OperationSet operationSet = new OperationSet(
+				OperationSet.Type.INLINE_INSTRUCTION);
+		OperationSet currentOperationSet = getOperationSetHelper().getCurrentOperationSet();
+		if (currentOperationSet == null) {
+			throw new RuntimeException("Expected an operation set on the stack (at least of Row type) but found none");
+		}
+		currentOperationSet.addOperationSet(operationSet);
+		// add the InstructionSet to the top of the stack. All
+		// operations will peek at this object when writing operations
+		getOperationSetHelper().addNewOperationSet(operationSet);
+	}
+
+	public void endInlineInstruction(InlineInstruction instruction) {
+		OperationSet currentOperationSet = getOperationSetHelper().getCurrentOperationSet(); 
+		inlineInstructionStore.put(instruction.getId(), currentOperationSet);
+		getOperationSetHelper().removeCurrentOperationSet();
+	}
+	
 	public void endInstruction() {
 	}
 
@@ -233,7 +256,14 @@ public class BasicTextRenderer implements Renderer {
 
 	public boolean renderInlineInstructionRef(InlineInstructionRef ref,
 			String label) {
+		if (label == null) {
+			OperationSet operationSet = inlineInstructionStore.get(ref.getReferencedInstruction().getId());
+			if (operationSet == null) {
+				throw new RuntimeException("An inlineInstructionRef was not present in the local store when it should have been");
+			}
+		}
 		getOperationSetHelper().writeOperation(label);
+		// return false if, say, preferences want this to be explicit
 		return true;
 	}
 
@@ -327,7 +357,7 @@ public class BasicTextRenderer implements Renderer {
 						new int[] { crossStitches.getFirst(),
 								crossStitches.getNext() }));
 	}
-	
+
 	public Instruction evaluateInstruction(Instruction instruction) {
 		return instruction;
 	}
@@ -384,18 +414,34 @@ public class BasicTextRenderer implements Renderer {
 		getOperationSetHelper().removeCurrentOperationSet();
 	}
 
-	public void beginRow(Row row, KnittingShape shape) {
-		List<Integer> rows = new ArrayList<Integer>();
-		if (row.getNumbers() != null) {
-			for (Integer rowNumber : row.getNumbers()) {
-				rows.add(rowNumber);
-			}
-		}
-		String yarnId = row.getYarnIdRef();
+	public void beginRow() {
 		if (!getWriterHelper().isBeginningOfParagraph()) {
 			writeNewLine();
 		}
 		OperationSet rowOperationSet = new OperationSet(Type.ROW);
+		// push this operation onto the stack
+		getOperationSetHelper().addNewOperationSet(rowOperationSet);
+	}
+
+	public void endRow(Row row, KnittingShape shape) {
+		// this was originally in beginRow, but we need to process
+		// AFTER the validator has had its way with the Row object,
+		// since it may be modifying row numbers, etc.
+		List<Integer> rowNumbers = new ArrayList<Integer>();
+		if (row.getNumbers() != null) {
+			for (Integer rowNumber : row.getNumbers()) {
+				rowNumbers.add(rowNumber);
+			}
+		}
+		String yarnId = row.getYarnIdRef();
+		OperationSet rowOperationSet = getOperationSetHelper()
+				.getCurrentOperationSet();
+		if (rowOperationSet.getType() != OperationSet.Type.ROW) {
+			throw new IllegalStateException(
+					"Expected to pop a ROW type OperationSet but instead was type "
+							+ rowOperationSet.getType());
+		}
+
 		// get the prefix for the row (i.e. the row label) and set it as the
 		// head of the InstructionSet
 		Information information = row.getInformation();
@@ -405,25 +451,15 @@ public class BasicTextRenderer implements Renderer {
 				information.setDetails(row.getInformation().getDetails());
 			}
 			Message sideMessage = new Message();
-			sideMessage.setMessageKey("operation." + EnumUtils.fromEnum(row.getSide()) + "-side-row-abbreviation");
+			sideMessage.setMessageKey("operation."
+					+ EnumUtils.fromEnum(row.getSide())
+					+ "-side-row-abbreviation");
 			information.getDetails().add(sideMessage);
 		}
-		
-		String rowHeader = getRowLabel(shape, rows, yarnId, information);
+
+		String rowHeader = getRowLabel(shape, rowNumbers, yarnId, information);
 		rowOperationSet.setHead(rowHeader);
-		// push this operation onto the stack
-		getOperationSetHelper().addNewOperationSet(rowOperationSet);
-	}
 
-	public void endRow() {
-
-		OperationSet rowOperationSet = getOperationSetHelper()
-				.getCurrentOperationSet();
-		if (rowOperationSet.getType() != OperationSet.Type.ROW) {
-			throw new IllegalStateException(
-					"Expected to pop a ROW type OperationSet but instead was type "
-							+ rowOperationSet.getType());
-		}
 		getOperationSetHelper().renderCurrentOperationSet();
 		getOperationSetHelper().removeCurrentOperationSet();
 		writeNewLine();
@@ -524,7 +560,8 @@ public class BasicTextRenderer implements Renderer {
 	public void renderNumberOfStitchesInRow(NumberOfStitches numberOfStitches) {
 		// used for the end of a row
 		String message = getMessageHelper().getPluralizedMessage(
-				"operation.number-of-stitches-in-row", numberOfStitches.getNumber());
+				"operation.number-of-stitches-in-row",
+				numberOfStitches.getNumber());
 		if (getOperationSetHelper().isWithinOperationSet()) {
 			OperationSet currentInstructionSet = getOperationSetHelper()
 					.getCurrentOperationSet();
@@ -704,7 +741,8 @@ public class BasicTextRenderer implements Renderer {
 			String yarnId, Information information) {
 		StringBuffer result = new StringBuffer(getMessageHelper().getRowLabel(
 				shape, rows, yarnId, context));
-		if (information != null && information.getDetails() != null && information.getDetails().size() > 0) {
+		if (information != null && information.getDetails() != null
+				&& information.getDetails().size() > 0) {
 			List<String> resolvedList = new ArrayList<String>(information
 					.getDetails().size());
 			for (Object details : information.getDetails()) {
@@ -791,11 +829,6 @@ public class BasicTextRenderer implements Renderer {
 
 	public void setPluralRuleFactory(PluralRuleFactory pluralRuleFactory) {
 		this.pluralRuleFactory = pluralRuleFactory;
-	}
-
-	public boolean requiresExplicitRepeats() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

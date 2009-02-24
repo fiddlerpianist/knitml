@@ -5,7 +5,6 @@ import static com.knitml.renderer.context.ContextUtils.resetLastExpressedRowNumb
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.directions.Directions;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
@@ -16,13 +15,15 @@ public class DirectionsVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(DirectionsVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
-		Directions directions = (Directions)element;
 		resetLastExpressedRowNumber(context);
 		context.getRenderer().beginDirections();
-		visitChildren(directions, context);
-		context.getRenderer().endDirections();
+		return true;
 	}
 
+	public void end(Object element, RenderingContext context)
+	throws RenderingException {
+		context.getRenderer().endDirections();
+	}
 }

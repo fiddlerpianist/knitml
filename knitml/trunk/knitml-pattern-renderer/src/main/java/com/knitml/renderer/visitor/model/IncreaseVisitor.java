@@ -14,10 +14,10 @@ public class IncreaseVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(IncreaseVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		Increase increase = (Increase) element;
-		context.getEngine().increase(increase);
 		context.getRenderer().renderIncrease(increase);
+		return true;
 	}
 }

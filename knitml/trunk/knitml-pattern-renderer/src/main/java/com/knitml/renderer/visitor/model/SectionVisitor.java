@@ -16,14 +16,17 @@ public class SectionVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(SectionVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		Section section = (Section) element;
 		context.getRenderer().beginSection(section);
 		if (section.getResetRowCount()) {
 			resetLastExpressedRowNumber(context);
 		}
-		visitChildren((Section)element, context);
+		return true;
+	}
+
+	public void end(Object element, RenderingContext context) {
 		context.getRenderer().endSection();
 	}
 

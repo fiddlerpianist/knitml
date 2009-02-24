@@ -14,12 +14,13 @@ public class UseNeedlesVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(UseNeedlesVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		UseNeedles useNeedles = (UseNeedles) element;
 		if (!useNeedles.isSilentRendering()) {
 			context.getRenderer().renderUseNeedles(useNeedles.getNeedles());
 		}
+		return true;
 	}
 
 }

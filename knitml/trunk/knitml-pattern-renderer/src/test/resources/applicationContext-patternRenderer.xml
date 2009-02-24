@@ -27,15 +27,8 @@
 		<property name="patternState">
 			<bean class="com.knitml.renderer.context.PatternState" scope="prototype"/>
 		</property>
-		<property name="engine" ref="engine"/>
 	</bean>
 	
-	<bean id="engine" class="com.knitml.engine.impl.DefaultKnittingEngine" scope="prototype">
-		<constructor-arg>
-			<bean class="com.knitml.engine.impl.DefaultKnittingFactory" scope="prototype"/>
-		</constructor-arg>
-	</bean>
-
 <!--	<bean id="engine" class="com.knitml.engine.impl.NoOpKnittingEngine"/>-->
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">

@@ -14,9 +14,9 @@ import com.knitml.engine.common.WrongKnittingShapeException;
 import com.knitml.engine.settings.Direction;
 import com.knitml.validation.common.InvalidStructureException;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class RowVisitor extends AbstractValidationVisitor {
+public class RowVisitor extends AbstractPatternVisitor {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory.getLogger(RowVisitor.class);

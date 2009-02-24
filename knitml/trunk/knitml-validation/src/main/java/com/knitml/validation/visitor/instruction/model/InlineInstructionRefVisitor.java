@@ -8,9 +8,9 @@ import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.PatternRepository;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class InlineInstructionRefVisitor extends AbstractValidationVisitor {
+public class InlineInstructionRefVisitor extends AbstractPatternVisitor {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory

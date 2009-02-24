@@ -10,9 +10,9 @@ import com.knitml.core.units.RowGauge;
 import com.knitml.core.units.StitchGauge;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class GaugeVisitor extends AbstractValidationVisitor {
+public class GaugeVisitor extends AbstractPatternVisitor {
 	
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory.getLogger(GaugeVisitor.class);

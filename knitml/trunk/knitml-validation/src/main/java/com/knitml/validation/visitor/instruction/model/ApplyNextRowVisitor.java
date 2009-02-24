@@ -10,9 +10,9 @@ import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.PatternRepository;
 import com.knitml.validation.context.PatternState;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class ApplyNextRowVisitor extends AbstractValidationVisitor {
+public class ApplyNextRowVisitor extends AbstractPatternVisitor {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory
@@ -34,8 +34,10 @@ public class ApplyNextRowVisitor extends AbstractValidationVisitor {
 
 		// find the row in the PatternState object and execute the next row
 		Row row = holder.getNextRow();
-		// visit the children of this row, not the row itself
+		// visit the children of this row, not the row itself. This is considered a replay
+		context.getPatternState().setReplayMode(true);
 		visitChildren(row, context);
+		context.getPatternState().setReplayMode(false);
 	}
 
 }

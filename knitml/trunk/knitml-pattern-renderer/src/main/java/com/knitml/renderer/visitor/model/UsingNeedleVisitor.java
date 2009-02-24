@@ -14,7 +14,7 @@ public class UsingNeedleVisitor extends AbstractRenderingVisitor {
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory.getLogger(UsingNeedleVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		UsingNeedle operation = (UsingNeedle) element;
 		Needle needle = operation.getNeedle();
@@ -22,7 +22,10 @@ public class UsingNeedleVisitor extends AbstractRenderingVisitor {
 			throw new RenderingException("Cannot find needle for using-needle operation in the pattern repository");
 		}
 		context.getRenderer().beginUsingNeedle(needle);
-		visitChildren(operation, context);
+		return true;
+	}
+	
+	public void end(Object element, RenderingContext context) {
 		context.getRenderer().endUsingNeedle();
 	}
 

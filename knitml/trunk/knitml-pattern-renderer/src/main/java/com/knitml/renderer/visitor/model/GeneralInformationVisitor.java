@@ -14,9 +14,12 @@ public class GeneralInformationVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(GeneralInformationVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
+		// TODO how to handle depth?
 		context.getRenderer().renderGeneralInformation((GeneralInformation)element);
+		// don't process children; we've handled it here
+		return false;
 	}
 
 }

@@ -14,10 +14,11 @@ public class GraftTogetherVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(GraftTogetherVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		GraftTogether operation = (GraftTogether)element;
 		context.getRenderer().renderGraftStitchesTogether(operation.getNeedles());
+		return true;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
@@ -34,8 +35,14 @@ import com.knitml.core.xml.Schemas;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.KnittingContextFactory;
+import com.knitml.validation.context.Listener;
+import com.knitml.validation.context.ListenerManager;
+import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
+import com.knitml.validation.context.impl.DefaultListenerManager;
 import com.knitml.validation.visitor.instruction.Visitor;
 import com.knitml.validation.visitor.instruction.VisitorFactory;
+import com.knitml.validation.visitor.instruction.impl.DefaultVisitorFactory;
+import com.knitml.validation.visitor.instruction.impl.SpringVisitorFactory;
 
 public class ValidationProgram {
 
@@ -43,18 +50,68 @@ public class ValidationProgram {
 	private final static Logger log = LoggerFactory
 			.getLogger(ValidationProgram.class);
 
-	private KnittingContextFactory contextFactory;
-	private VisitorFactory visitorFactory;
+	private KnittingContextFactory contextFactory = new DefaultKnittingContextFactory();
+	private VisitorFactory visitorFactory = new DefaultVisitorFactory();
+	private ListenerManager listenerManager = new DefaultListenerManager();
 
+	/**
+	 * Constructs the program with the specified listener, using defaults for its various factories.
+	 * 
+	 * @param listener
+	 */
+	public ValidationProgram(Listener listener) {
+		this(listener, false);
+	}
+
+	/**
+	 * Constructs the program with the specified listener, using defaults for its various factories.
+	 * 
+	 * @param listener
+	 * @param requestLineNumbers whether line numbers should be reported when 
+	 */
+	public ValidationProgram(Listener listener, boolean requestLineNumbers) {
+		if (requestLineNumbers) {
+			// supports line numbers for error reporting
+			visitorFactory = new SpringVisitorFactory();
+		}
+		listenerManager.addListener(listener);
+	}
+	
+	
+	/**
+	 * Constructs the program with the specified KnittingContextFactory and VisitorFactory
+	 * (with no listeners).
+	 * 
+	 * @param ctxFactory
+	 * @param visitorFactory
+	 */
 	public ValidationProgram(KnittingContextFactory ctxFactory,
 			VisitorFactory visitorFactory) {
 		this.contextFactory = ctxFactory;
 		this.visitorFactory = visitorFactory;
 	}
 
+	/**
+	 * Constructs the program with the specified KnittingContextFactory, VisitorFactory and listeners
+	 * attached to the processing model. This constructor provides maximum flexibility for clients.
+	 * 
+	 * @param ctxFactory
+	 * @param visitorFactory
+	 * @param listeners
+	 */
+	public ValidationProgram(KnittingContextFactory ctxFactory,
+			VisitorFactory visitorFactory, List<Listener> listeners) {
+		this(ctxFactory, visitorFactory);
+		for (Listener listener : listeners) {
+			listenerManager.addListener(listener);
+		}
+	}
+
 	public Pattern validate(Parameters parameters) throws SAXException,
 			JiBXException, IOException, KnittingEngineException {
 		KnittingContext context = contextFactory.createKnittingContext();
+		context.setListenerManager(listenerManager);
+
 		// Document document = parameters.getDocument();
 		Pattern pattern = parameters.getPattern();
 		Reader reader = parameters.getReader();
@@ -76,8 +133,9 @@ public class ValidationProgram {
 				IOUtils.copy(reader, writer);
 				reader.close();
 				writer.close();
-				
-				Source source = new StreamSource(new StringReader(writer.toString()));
+
+				Source source = new StreamSource(new StringReader(writer
+						.toString()));
 				checkSyntax(source);
 				// now use a second reader for later
 				reader = new StringReader(writer.toString());
@@ -88,6 +146,7 @@ public class ValidationProgram {
 			IUnmarshallingContext uctx = factory.createUnmarshallingContext();
 			pattern = (Pattern) uctx.unmarshalDocument(reader);
 		}
+
 		Visitor visitor = visitorFactory.findVisitorFromClassName(pattern);
 		visitor.visit(pattern, context);
 		// the document has now been validated

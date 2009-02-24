@@ -28,7 +28,7 @@ class ApplyNextRowVisitorTests extends AbstractRenderingContextTests {
 							<row number="1"><knit/></row>
 							<row number="2"><purl/></row>
 						</instruction>
-						<row number="1"><knit/></row>
+						<row number="1"><knit/><increase/></row>
 						<row number="2">
 							<apply-next-row instruction-ref="instruction1"/>
 							<knit>1</knit>

@@ -1,115 +1,83 @@
 package com.knitml.renderer;
 
 import java.io.IOException;
-import java.io.Reader;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.xml.XMLConstants;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-
-import org.jibx.runtime.BindingDirectory;
-import org.jibx.runtime.IBindingFactory;
-import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.ls.LSResourceResolver;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.knitml.core.common.Parameters;
 import com.knitml.core.model.Pattern;
-import com.knitml.core.xml.EntityResolverWrapper;
-import com.knitml.core.xml.PluggableSchemaResolver;
-import com.knitml.core.xml.Schemas;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.context.RenderingContextFactory;
-import com.knitml.renderer.visitor.RenderingVisitor;
+import com.knitml.renderer.context.impl.DefaultRenderingContextFactory;
+import com.knitml.renderer.listener.RenderingListenerAdapter;
 import com.knitml.renderer.visitor.VisitorFactory;
+import com.knitml.renderer.visitor.impl.DefaultVisitorFactory;
+import com.knitml.validation.ValidationProgram;
+import com.knitml.validation.context.KnittingContextFactory;
+import com.knitml.validation.context.Listener;
 
+// TODO this initialization is mind-numbingly complex because these classes were never meant to work together like this
 public class RendererProgram {
 
+	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory
 			.getLogger(RendererProgram.class);
 
-	private RenderingContextFactory contextFactory;
-	private VisitorFactory visitorFactory;
+	// default if not passed
+	private RenderingContextFactory renderingCF = new DefaultRenderingContextFactory();
+	private VisitorFactory renderingVF = new DefaultVisitorFactory();
+	private KnittingContextFactory knittingCF;
+	private com.knitml.validation.visitor.instruction.VisitorFactory knittingVF;
 
-	public RendererProgram(RenderingContextFactory ctxFactory,
-			VisitorFactory visitorFactory) {
-		this.contextFactory = ctxFactory;
-		this.visitorFactory = visitorFactory;
+	public RendererProgram() {
+	}
+
+	public RendererProgram(RenderingContextFactory renderingCF,
+			VisitorFactory renderingVF) {
+		this.renderingCF = renderingCF;
+		this.renderingVF = renderingVF;
+	}
+
+	public RendererProgram(RenderingContextFactory renderingCF,
+			VisitorFactory renderingVF, KnittingContextFactory knittingCF,
+			com.knitml.validation.visitor.instruction.VisitorFactory knittingVF) {
+		this.renderingCF = renderingCF;
+		this.renderingVF = renderingVF;
+		this.knittingCF = knittingCF;
+		this.knittingVF = knittingVF;
 	}
 
 	public Pattern render(Parameters parameters) throws SAXException,
 			JiBXException, IOException, RenderingException {
-		Pattern pattern = parameters.getPattern();
-		Reader reader = parameters.getReader();
-		if (pattern == null && reader == null) {
-			throw new IllegalArgumentException(
-					"One of pattern or reader must be specified "
-							+ "in the Parameters object");
-		}
 
-		RenderingContext context = null;
-		if (parameters.getWriter() == null) {
-			log
-					.warn("No writer was provided; will use the default writer for the Renderer (which may do nothing)");
-			context = contextFactory.createRenderingContext();
+		RenderingContext renderingContext = renderingCF
+				.createRenderingContext();
+		RenderingListenerAdapter listener = new RenderingListenerAdapter(
+				renderingContext);
+		ValidationProgram processor;
+		if (knittingCF == null || knittingVF == null) {
+			processor = new ValidationProgram(listener, true);
 		} else {
-			context = contextFactory.createRenderingContext(parameters
-					.getWriter());
+			List<Listener> listeners = new ArrayList<Listener>();
+			listeners.add(listener);
+			processor = new ValidationProgram(knittingCF, knittingVF, listeners);
 		}
 
-		if (pattern == null) {
-			// we are not passing in the object model, so...
-
-			// 1) validate with JAXP
-			if (parameters.isCheckSyntax()) {
-				Source source = new StreamSource(reader);
-				checkSyntax(source);
-			}
-			// 2) Use JiBX to transform to the object model
-			IBindingFactory factory = BindingDirectory
-					.getFactory(Pattern.class);
-			IUnmarshallingContext uctx = factory.createUnmarshallingContext();
-			pattern = (Pattern) uctx.unmarshalDocument(reader);
+		Writer writer = parameters.getWriter();
+		if (writer != null) {
+			renderingContext.getRenderer().setWriter(writer);
+			// the writer is on the listener adapter, not on the processing
+			// program
+			parameters.setWriter(null);
 		}
-		RenderingVisitor visitor = visitorFactory.findVisitorFromClassName(pattern);
-		visitor.visit(pattern, context);
-		return pattern;
-	}
-
-	protected void checkSyntax(Source source) throws IOException, SAXException {
-
-		EntityResolver entityResolver = new PluggableSchemaResolver(this
-				.getClass().getClassLoader());
-		LSResourceResolver resourceResolver = new EntityResolverWrapper(
-				entityResolver);
-
-		// create a SchemaFactory capable of understanding XML Schema
-		SchemaFactory factory = SchemaFactory
-				.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		// set a strategy to validate included XML schemas
-		factory.setResourceResolver(resourceResolver);
-
-		// set primary XML to validate
-		InputSource patternSchema = entityResolver.resolveEntity(null,
-				Schemas.CURRENT_PATTERN_SCHEMA);
-		Source patternSchemaSource = new StreamSource(patternSchema
-				.getByteStream());
-		Schema schema = factory.newSchema(patternSchemaSource);
-
-		// create a Validator instance to validate the document
-		Validator validator = schema.newValidator();
-
-		// validate the tree
-		validator.validate(source);
+		return processor.validate(parameters);
 	}
 
 }

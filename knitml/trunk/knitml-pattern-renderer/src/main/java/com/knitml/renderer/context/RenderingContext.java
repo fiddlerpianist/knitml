@@ -1,6 +1,7 @@
 package com.knitml.renderer.context;
 
 import com.knitml.engine.KnittingEngine;
+import com.knitml.validation.context.KnittingContext;
 
 public class RenderingContext {
 
@@ -8,7 +9,7 @@ public class RenderingContext {
 	private Renderer renderer;
 	private Options options;
 	private PatternState patternState;
-	private KnittingEngine engine;
+	private KnittingContext knittingContext;
 
 	public Options getOptions() {
 		return options;
@@ -42,12 +43,17 @@ public class RenderingContext {
 		this.renderer = renderer;
 	}
 
-	public void setEngine(KnittingEngine engine) {
-		this.engine = engine;
-	}
-
 	public KnittingEngine getEngine() {
-		return engine;
+		return knittingContext.getEngine();
 	}
 
+	public KnittingContext getKnittingContext() {
+		return knittingContext;
+	}
+
+	public void setKnittingContext(KnittingContext knittingContext) {
+		this.knittingContext = knittingContext;
+	}
+
+	
 }

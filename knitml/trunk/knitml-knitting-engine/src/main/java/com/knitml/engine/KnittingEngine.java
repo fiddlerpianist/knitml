@@ -62,10 +62,6 @@ import com.knitml.engine.settings.Direction;
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)
  * 
  */
-/**
- * @author I264193
- * 
- */
 public interface KnittingEngine extends Restorable {
 
 	/**

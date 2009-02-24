@@ -4,6 +4,8 @@ import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
 
 public interface RenderingVisitor {
-	void visit(Object object, RenderingContext context)
+	boolean begin(Object object, RenderingContext context)
 			throws RenderingException;
+
+	void end(Object object, RenderingContext context) throws RenderingException;
 }

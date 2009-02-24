@@ -19,12 +19,7 @@
   <dependencies>
     <dependency>
       <groupId>com.knitml</groupId>
-      <artifactId>knitml-core</artifactId>
-      <version>${project.parent.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.knitml</groupId>
-      <artifactId>knitml-knitting-engine</artifactId>
+      <artifactId>knitml-validation</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
     <dependency>

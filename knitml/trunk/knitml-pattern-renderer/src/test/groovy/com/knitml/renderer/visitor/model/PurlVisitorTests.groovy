@@ -21,16 +21,21 @@ class PurlVisitorTests extends AbstractRenderingContextTests {
 		Yarn yarnTwo = new Yarn('yarn2', 'B')
 		renderingContext.patternRepository.addYarn(yarnOne)
 		renderingContext.patternRepository.addYarn(yarnTwo)
+		renderingContext.with {
+			engine.castOn 2
+		}
 	}
 	
 	@Test
 	void purl() {
+		renderingContext.engine.startNewRow()
 		processXml '<purl xmlns="http://www.knitml.com/schema/pattern"/>', Purl
 		assertThat output, is ('p1')
 	}
 
 	@Test
 	void purlOne() {
+		renderingContext.engine.startNewRow()
 		processXml '<purl xmlns="http://www.knitml.com/schema/pattern">1</purl>', Purl
 		assertThat output, is ('p1')
 	}
@@ -49,6 +54,7 @@ class PurlVisitorTests extends AbstractRenderingContextTests {
 	
 	@Test
 	void purlWithYarnOne() {
+		renderingContext.engine.startNewRow()
 		processXml '<purl yarn-ref="yarn1" xmlns="http://www.knitml.com/schema/pattern">1</purl>', Purl
 		assertThat output, is ('p1 (A)')
 	}
@@ -57,7 +63,7 @@ class PurlVisitorTests extends AbstractRenderingContextTests {
 	void purlWithYarnsOneAndTwo() {
 		processXml '''
 		<row number="1" xmlns="http://www.knitml.com/schema/pattern">
-			<purl yarn-ref="yarn1" >1</purl>
+			<purl yarn-ref="yarn1">1</purl>
 			<purl yarn-ref="yarn2">1</purl>
 		</row>
 		''', Purl

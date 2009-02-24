@@ -8,17 +8,28 @@ import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
 
+/**
+ * 
+ * @author Jonathan Whitall
+ *
+ */
 public class InlineInstructionVisitor extends AbstractRenderingVisitor {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory
 			.getLogger(InlineInstructionVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		InlineInstruction instruction = (InlineInstruction) element;
 		context.getPatternRepository().addInlineInstruction(instruction);
-		visitChildren(instruction, context);
+		// inline instructions not defined in the header do not have a label
+		context.getRenderer().beginInlineInstruction(instruction);
+		return true;
 	}
-	
+
+	public void end(Object element, RenderingContext context) {
+		context.getRenderer().endInlineInstruction((InlineInstruction)element);
+	}
+
 }

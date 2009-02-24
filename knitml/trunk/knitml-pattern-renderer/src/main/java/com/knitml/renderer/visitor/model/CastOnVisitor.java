@@ -20,10 +20,9 @@ public class CastOnVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(CastOnVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		CastOn castOn = (CastOn) element;
-		context.getEngine().castOn(castOn);
 		
 		if (!context.getPatternState().getOperationTree().empty()) {
 			CompositeOperation parent = context.getPatternState()
@@ -47,5 +46,6 @@ public class CastOnVisitor extends AbstractRenderingVisitor {
 		} else {
 			context.getRenderer().renderCastOn(castOn);
 		}
+		return true;
 	}
 }

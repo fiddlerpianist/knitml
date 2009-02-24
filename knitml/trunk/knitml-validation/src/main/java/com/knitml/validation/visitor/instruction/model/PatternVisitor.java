@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.model.Pattern;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class PatternVisitor extends AbstractValidationVisitor {
+public class PatternVisitor extends AbstractPatternVisitor {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory
@@ -16,11 +16,13 @@ public class PatternVisitor extends AbstractValidationVisitor {
 
 	public void visit(Object element, KnittingContext context)
 			throws KnittingEngineException {
+		context.getListenerManager().fireBegin(element, context);
 		Pattern pattern = (Pattern) element;
 		visitChild(pattern.getDirectives(), context);
 		visitChild(pattern.getGeneralInformation(), context);
 		visitChild(pattern.getSupplies(), context);
 		visitChild(pattern.getDirections(), context);
+		context.getListenerManager().fireEnd(element, context);
 	}
 	
 }

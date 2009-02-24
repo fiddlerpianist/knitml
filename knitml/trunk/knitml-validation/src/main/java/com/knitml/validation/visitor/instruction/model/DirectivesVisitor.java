@@ -8,10 +8,10 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.model.header.Directives;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 import com.knitml.validation.visitor.instruction.impl.DefaultNameResolver;
 
-public class DirectivesVisitor extends AbstractValidationVisitor {
+public class DirectivesVisitor extends AbstractPatternVisitor {
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory
 			.getLogger(DirectivesVisitor.class);
@@ -28,15 +28,14 @@ public class DirectivesVisitor extends AbstractValidationVisitor {
 		List<Object> instructionDefinitions = directives
 				.getInstructionDefinitions();
 		if (directives.getInstructionDefinitions() != null) {
-			getVisitorFactory().pushNameResolver(
-					new DefaultNameResolver(
-							"com.knitml.validation.visitor.definition.model"));
+			pushNameResolver(new DefaultNameResolver(
+					"com.knitml.validation.visitor.definition.model"));
 			try {
 				for (Object instructionDefinition : instructionDefinitions) {
 					visitChild(instructionDefinition, context);
 				}
 			} finally {
-				getVisitorFactory().popNameResolver();
+				popNameResolver();
 			}
 		}
 	}

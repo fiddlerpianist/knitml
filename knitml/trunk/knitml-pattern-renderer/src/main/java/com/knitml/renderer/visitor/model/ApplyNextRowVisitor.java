@@ -17,13 +17,17 @@ public class ApplyNextRowVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(ApplyNextRowVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		ApplyNextRow applyNextRow = (ApplyNextRow) element;
-		String label = deriveLabel(applyNextRow.getInstructionRef(), context.getPatternRepository());
+		String label = deriveLabel(applyNextRow.getInstructionRef(), context
+				.getPatternRepository());
 		if (label == null) {
-			throw new ValidationException("An apply-next-row may only be applied to a global instruction");
+			throw new ValidationException(
+					"An apply-next-row may only be applied to a global instruction");
 		}
 		context.getRenderer().renderApplyNextRow(applyNextRow, label);
+		return true;
 	}
+
 }

@@ -14,10 +14,10 @@ public class SlipVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(SlipVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		Slip slip = (Slip) element;
-		context.getEngine().slip(slip);
 		context.getRenderer().renderSlip(slip);
+		return true;
 	}
 }

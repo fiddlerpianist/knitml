@@ -14,13 +14,11 @@ public class DecreaseVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(DecreaseVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		Decrease decrease = (Decrease) element;
-		for (int i = 0; i < decrease.getNumberOfTimes(); i++) {
-			context.getEngine().knitTwoTogether();
-		}
 		context.getRenderer().renderDecrease(decrease);
+		return true;
 	}
 	
 }

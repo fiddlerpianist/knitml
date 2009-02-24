@@ -34,6 +34,7 @@ class InformationVisitorTests extends AbstractRenderingContextTests {
 
 	@Test
 	void numberOfStitchesOutsideOfRow() {
+		renderingContext.engine.castOn 5
 		processXml '''
 		<section xmlns="http://www.knitml.com/schema/pattern">
 			<information>

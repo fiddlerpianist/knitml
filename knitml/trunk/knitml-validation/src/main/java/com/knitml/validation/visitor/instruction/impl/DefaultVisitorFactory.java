@@ -32,8 +32,8 @@ public class DefaultVisitorFactory implements VisitorFactory {
 			Class<Visitor> visitorClass = nameResolvers.peek()
 					.findVisitingClassFromClassName(object);
 			Visitor visitor = visitorClass.newInstance();
-			if (visitor instanceof AbstractValidationVisitor) {
-				((AbstractValidationVisitor) visitor).setVisitorFactory(this);
+			if (visitor instanceof AbstractPatternVisitor) {
+				((AbstractPatternVisitor) visitor).setVisitorFactory(this);
 			}
 			return visitor;
 		} catch (Exception ex) {

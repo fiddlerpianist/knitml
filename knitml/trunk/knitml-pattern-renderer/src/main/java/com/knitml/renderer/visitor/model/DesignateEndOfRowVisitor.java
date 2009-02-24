@@ -6,8 +6,9 @@ import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
 
 public class DesignateEndOfRowVisitor extends AbstractRenderingVisitor {
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		context.getRenderer().renderDesignateEndOfRow(context.getPatternState().getCurrentKnittingShape());
+		return true;
 	}
 }

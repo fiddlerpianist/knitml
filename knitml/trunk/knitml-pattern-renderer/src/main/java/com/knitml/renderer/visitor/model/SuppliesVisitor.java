@@ -22,7 +22,7 @@ public class SuppliesVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(SuppliesVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		Supplies supplies = (Supplies) element;
 		PatternRepository repository = context.getPatternRepository();
@@ -60,6 +60,8 @@ public class SuppliesVisitor extends AbstractRenderingVisitor {
 			}
 		}
 		context.getRenderer().renderSupplies(supplies);
+		// we're parsing this manually
+		return false;
 	}
 
 }

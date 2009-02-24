@@ -9,10 +9,10 @@ import com.knitml.engine.Needle;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.visitor.NeedleNotFoundException;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 import com.knitml.validation.visitor.util.NeedleUtils;
 
-public class UsingNeedleVisitor extends AbstractValidationVisitor {
+public class UsingNeedleVisitor extends AbstractPatternVisitor {
 	
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory.getLogger(UsingNeedleVisitor.class);

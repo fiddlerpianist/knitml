@@ -20,31 +20,52 @@ public class ForEachRowInInstructionVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(ForEachRowInInstructionVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
-		ForEachRowInInstruction forEachRow = (ForEachRowInInstruction) element;
-		Range rowRange = deriveNewRowRange(forEachRow, context);
-		InstructionInfo currentInstructionInfo = context.getPatternState().getCurrentInstructionInfo();
-		if (currentInstructionInfo == null) {
-			throw new RuntimeException("Expected a current instruction info to be in place for a ForEachRowInstruction operation");
-		}
-		currentInstructionInfo.setRowRange(rowRange);
-		Row newRow = new Row(rowRange, forEachRow.getOperations());
-		visitChild(newRow, context);
+		context.getRenderer().beginRow();
+		return true;
 	}
 
-	private Range deriveNewRowRange(ForEachRowInInstruction forEachRow, RenderingContext context) {
+	public void end(Object element, RenderingContext context) {
+		ForEachRowInInstruction forEachRow = (ForEachRowInInstruction) element;
+		Range rowRange = deriveNewRowRange(forEachRow, context);
+		InstructionInfo currentInstructionInfo = context.getPatternState()
+				.getCurrentInstructionInfo();
+		if (currentInstructionInfo == null) {
+			throw new RuntimeException(
+					"Expected a current instruction info to be in place for a ForEachRowInstruction operation");
+		}
+		// this is simply resetting the row range to use in accordance with
+		// where we are in the pattern
+		currentInstructionInfo.setRowRange(rowRange);
+		// this is simply resetting the row range to use in accordance with
+		// where we are in the pattern
+		Row newRow = new Row(currentInstructionInfo.getRowRange(),
+				((ForEachRowInInstruction) element).getOperations());
+		context.getRenderer().endRow(newRow, context.getPatternState().getCurrentKnittingShape());
+	}
+
+	private Range deriveNewRowRange(ForEachRowInInstruction forEachRow,
+			RenderingContext context) {
 		PatternRepository repository = context.getPatternRepository();
-		InstructionInfo targetInstructionInfo = repository.getInstruction(forEachRow.getRef().getId());
+		InstructionInfo targetInstructionInfo = repository
+				.getInstruction(forEachRow.getRef().getId());
 		if (targetInstructionInfo == null) {
-			throw new ValidationException("Cannot locate instruction " + forEachRow.getRef().getId() + "; make sure you have validated the KnitML file");
+			throw new ValidationException("Cannot locate instruction "
+					+ forEachRow.getRef().getId()
+					+ "; make sure you have validated the KnitML file");
 		}
 		Range originalRowRange = targetInstructionInfo.getRowRange();
 		if (originalRowRange == null) {
-			throw new ValidationException("Expecting row numbers defined for instruction [" + forEachRow.getRef().getId() + "]");
+			throw new ValidationException(
+					"Expecting row numbers defined for instruction ["
+							+ forEachRow.getRef().getId() + "]");
 		}
-		int lastRowNumber = context.getPatternState().getLastExpressedRowNumber();
-		return new IntRange(originalRowRange.getMinimumInteger() + lastRowNumber, originalRowRange.getMaximumInteger() + lastRowNumber);
+		int lastRowNumber = context.getPatternState()
+				.getLastExpressedRowNumber();
+		return new IntRange(originalRowRange.getMinimumInteger()
+				+ lastRowNumber, originalRowRange.getMaximumInteger()
+				+ lastRowNumber);
 	}
 
 }

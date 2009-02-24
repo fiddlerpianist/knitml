@@ -1,14 +1,11 @@
 package com.knitml.renderer.impl.charting;
 
-import com.knitml.core.model.directions.block.Row;
 import com.knitml.core.model.directions.inline.Decrease;
 import com.knitml.core.model.directions.inline.Increase;
-import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.Knit;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
-import com.knitml.engine.KnittingEngine;
 
 class ChartingHelper {
 	
@@ -20,7 +17,7 @@ class ChartingHelper {
 		
 	}
 
-	public void beginRow(Row row) {
+	public void beginRow() {
 		// TODO Auto-generated method stub
 		
 	}

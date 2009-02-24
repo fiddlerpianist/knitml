@@ -14,10 +14,11 @@ public class JoinInRoundVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(JoinInRoundVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		context.getPatternState().setCurrentKnittingShape(KnittingShape.ROUND);
 		context.getRenderer().renderJoinInRound();
+		return true;
 	}
 
 }

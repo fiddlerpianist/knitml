@@ -7,9 +7,9 @@ import com.knitml.core.model.directions.inline.Turn;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.WrongNumberOfStitchesException;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class TurnVisitor extends AbstractValidationVisitor {
+public class TurnVisitor extends AbstractPatternVisitor {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory

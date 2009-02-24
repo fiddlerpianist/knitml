@@ -16,6 +16,7 @@ public class DefaultKnittingContextFactory implements KnittingContextFactory {
 		context.setKnittingFactory(knittingFactory);
 		context.setPatternRepository(new DefaultPatternRepository());
 		context.setPatternState(new DefaultPatternState());
+		context.setListenerManager(new DefaultListenerManager());
 		context.setEngine(engine);
 		return context;
 	}

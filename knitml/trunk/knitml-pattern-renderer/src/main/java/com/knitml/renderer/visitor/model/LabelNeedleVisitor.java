@@ -16,7 +16,7 @@ public class LabelNeedleVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(LabelNeedleVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		LabelNeedle operation = (LabelNeedle) element;
 		PatternRepository patternRepository = context.getPatternRepository();
@@ -31,6 +31,7 @@ public class LabelNeedleVisitor extends AbstractRenderingVisitor {
 		log.info("Changed label for [" + needle.getLabel() + "] to [" + newLabel + "]");
 		// now set the new label
 		needle.setLabel(newLabel);
+		return true;
 	}
 
 }

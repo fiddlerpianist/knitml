@@ -5,6 +5,7 @@ import java.util.Iterator;
 import org.apache.commons.lang.StringUtils;
 
 import com.knitml.core.common.Stack;
+import com.knitml.renderer.impl.basic.OperationSet.Type;
 
 class OperationSetHelper {
 
@@ -22,7 +23,8 @@ class OperationSetHelper {
 		return writerHelper;
 	}
 
-	public OperationSetHelper(WriterHelper writerHelper, MessageHelper messageHelper) {
+	public OperationSetHelper(WriterHelper writerHelper,
+			MessageHelper messageHelper) {
 		this.writerHelper = writerHelper;
 		this.messageHelper = messageHelper;
 	}
@@ -43,9 +45,11 @@ class OperationSetHelper {
 			currentOperationSet.addOperation(operation);
 		} else {
 			if (operation.getType() == SimpleInstruction.Type.PURL) {
-				writeOperation(getMessageHelper().getPluralizedMessage("operation.purl", 1));
+				writeOperation(getMessageHelper().getPluralizedMessage(
+						"operation.purl", 1));
 			} else {
-				writeOperation(getMessageHelper().getPluralizedMessage("operation.knit", 1));
+				writeOperation(getMessageHelper().getPluralizedMessage(
+						"operation.knit", 1));
 			}
 		}
 	}
@@ -66,7 +70,6 @@ class OperationSetHelper {
 		return operationSetStack.pop();
 	}
 
-	
 	/**
 	 * The parameter 'potentiallySimple' is an indicator for the renderer as to
 	 * whether the operation set comprises only of one operation, either which
@@ -80,23 +83,25 @@ class OperationSetHelper {
 	 * @param potentiallySimple
 	 *            flag which indicates if the operation set has the potential to
 	 *            consist of a 'knit' or 'purl' only
-	 * @return whether the operation set <i>was</i>, from the perspective of
-	 *         the current recursive call, actually simple
+	 * @return whether the operation set <i>was</i>, from the perspective of the
+	 *         current recursive call, actually simple
 	 */
 	public void renderCurrentOperationSet() {
 		renderOperationSet(getCurrentOperationSet(), true);
 	}
-	
+
 	public boolean isCurrentOperationSetEmpty() {
 		return getCurrentOperationSet().size() == 0;
 	}
-	
-	private boolean renderOperationSet(OperationSet operationSet, boolean potentiallySimple) {
+
+	private boolean renderOperationSet(OperationSet operationSet,
+			boolean potentiallySimple) {
 		if (operationSet.size() > 1) {
 			potentiallySimple = false;
 		}
 		if (operationSet.getHead() != null) {
-			getWriterHelper().write(StringUtils.capitalize(operationSet.getHead()));
+			getWriterHelper().write(
+					StringUtils.capitalize(operationSet.getHead()));
 		}
 
 		Iterator it = operationSet.iterator();
@@ -108,14 +113,19 @@ class OperationSetHelper {
 				renderRepeatInstructionSet((RepeatOperationSet) operation,
 						potentiallySimple);
 			} else if (operation instanceof OperationSet) {
-				// an operation set of type USING_NEEDLE
-				getWriterHelper().writeNewLine();
-				getWriterHelper().incrementIndent();
-				getWriterHelper().writeIndent();
-				renderOperationSet((OperationSet) operation,
-						potentiallySimple);
-				getWriterHelper().decrementIndent();
-				useComma = false;
+				OperationSet nestedOperationSet = (OperationSet) operation;
+				if (nestedOperationSet.getType() == Type.INLINE_INSTRUCTION) {
+					renderOperationSet(nestedOperationSet, potentiallySimple);
+				} else if (operationSet.getType() == Type.USING_NEEDLE) {
+					// an operation set of type USING_NEEDLE
+					getWriterHelper().writeNewLine();
+					getWriterHelper().incrementIndent();
+					getWriterHelper().writeIndent();
+					renderOperationSet((OperationSet) operation,
+							potentiallySimple);
+					getWriterHelper().decrementIndent();
+					useComma = false;
+				}
 			} else if (operation instanceof SimpleInstruction) {
 				SimpleInstruction simpleInstruction = (SimpleInstruction) operation;
 				String message;
@@ -123,13 +133,15 @@ class OperationSetHelper {
 					if (potentiallySimple) {
 						message = getMessage("operation.knit-only");
 					} else {
-						message = getMessageHelper().getPluralizedMessage("operation.knit", 1, StringUtils.EMPTY);
+						message = getMessageHelper().getPluralizedMessage(
+								"operation.knit", 1, StringUtils.EMPTY);
 					}
 				} else if (simpleInstruction.getType() == SimpleInstruction.Type.PURL) {
 					if (potentiallySimple) {
 						message = getMessage("operation.purl-only");
 					} else {
-						message = getMessageHelper().getPluralizedMessage("operation.purl", 1, StringUtils.EMPTY);
+						message = getMessageHelper().getPluralizedMessage(
+								"operation.purl", 1, StringUtils.EMPTY);
 					}
 				} else {
 					throw new IllegalArgumentException(
@@ -144,15 +156,20 @@ class OperationSetHelper {
 				getWriterHelper().write(String.valueOf(operation));
 			}
 			if (it.hasNext() && useComma) {
-				getWriterHelper().write(getMessage("operation.list-item-separator") + " ");
+				getWriterHelper().write(
+						getMessage("operation.list-item-separator") + " ");
 			}
 		}
 		if (operationSet.getTail() != null) {
-			getWriterHelper().write(". " + StringUtils.capitalize(operationSet.getTail()) + ".");
+			getWriterHelper()
+					.write(
+							". "
+									+ StringUtils.capitalize(operationSet
+											.getTail()) + ".");
 		}
 		return potentiallySimple;
 	}
-	
+
 	private String getMessage(String messageKey, Object... args) {
 		return getMessageHelper().getMessage(messageKey, args);
 	}

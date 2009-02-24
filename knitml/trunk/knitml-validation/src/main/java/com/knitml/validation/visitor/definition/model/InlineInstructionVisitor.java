@@ -7,9 +7,9 @@ import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.PatternRepository;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class InlineInstructionVisitor extends AbstractValidationVisitor {
+public class InlineInstructionVisitor extends AbstractPatternVisitor {
 
 	private final static Logger log = LoggerFactory
 			.getLogger(InlineInstructionVisitor.class);

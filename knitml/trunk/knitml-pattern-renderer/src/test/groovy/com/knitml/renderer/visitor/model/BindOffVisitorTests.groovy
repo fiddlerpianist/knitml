@@ -18,9 +18,13 @@ class BindOffVisitorTests extends AbstractRenderingContextTests {
 
 
 	@Before
-	void addYarns() {
+	void setUpContext() {
 		Yarn yarnOne = new Yarn('yarn1', 'A')
-		renderingContext.patternRepository.addYarn(yarnOne)
+		renderingContext.with {
+			patternRepository.addYarn(yarnOne)
+			engine.castOn 5
+			engine.startNewRow()
+		}
 	}
 	
 	@Test

@@ -1,11 +1,10 @@
 package com.knitml.renderer.visitor.model;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.directions.block.InstructionRef;
 import com.knitml.renderer.common.RenderingException;
-import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
 
@@ -15,11 +14,13 @@ public class InstructionRefVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(InstructionRefVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
-		InstructionRef instructionRef = (InstructionRef) element;
-		InstructionInfo instructionInfo = context.getPatternRepository().getInstruction(instructionRef.getRef().getId());
-		visitChild(instructionInfo.getInstruction(), context);
+		// FIXME eventually, but bigger stuff to worry about right now
+		throw new NotImplementedException("Not yet implemented - stay tuned!");
+//		InstructionRef instructionRef = (InstructionRef) element;
+//		InstructionInfo instructionInfo = context.getPatternRepository().getInstruction(instructionRef.getRef().getId());
+//		visitChild(instructionInfo.getInstruction(), context);
 	}
 	
 }

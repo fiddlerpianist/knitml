@@ -8,10 +8,9 @@ import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.Supplies;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.Visitor;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class SuppliesVisitor extends AbstractValidationVisitor {
+public class SuppliesVisitor extends AbstractPatternVisitor {
 
 	public void visit(Object element, KnittingContext context)
 			throws KnittingEngineException {
@@ -24,9 +23,7 @@ public class SuppliesVisitor extends AbstractValidationVisitor {
 			
 			// Now add visit each needle definition, which will add each needle to the repository
 			for (Needle needle : needles) {
-				Visitor visitor = getVisitorFactory().findVisitorFromClassName(
-						needle);
-				visitor.visit(needle, context);
+				visitChild(needle, context);
 			}
 			// Now see what's in the repository. If there is one needle, go ahead and use it.
 			Collection<com.knitml.engine.Needle> engineNeedles = context.getPatternRepository().getNeedles();

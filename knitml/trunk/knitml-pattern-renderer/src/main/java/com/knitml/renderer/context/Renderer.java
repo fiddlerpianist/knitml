@@ -43,9 +43,11 @@ public interface Renderer {
 	void beginInstructionDefinition(Instruction instruction, String label);
 	void endInstructionDefinition();
 	void beginInlineInstructionDefinition(InlineInstruction instruction, String label);
-	void endInlineInstructionDefinition();
+	void endInlineInstructionDefinition(InlineInstruction instruction);
 	
 	// body events
+	void beginInlineInstruction(InlineInstruction instruction);
+	void endInlineInstruction(InlineInstruction instruction);
 	
 	// block events
 	void beginDirections();
@@ -75,8 +77,8 @@ public interface Renderer {
 	void renderArrangeStitchesOnNeedles(List<StitchesOnNeedle> needles);
 	void renderUnworkedStitches(int number);
 
-	void beginRow(Row row, KnittingShape shape);
-	void endRow();
+	void beginRow();
+	void endRow(Row row, KnittingShape shape);
 
 	// inline events
 	void renderKnit(Knit knit);
@@ -111,12 +113,4 @@ public interface Renderer {
 	void setWriter(Writer writer);
 	void setRenderingContext(RenderingContext renderingContext);
 	void renderNumberOfStitchesInRow(NumberOfStitches numberOfStitches);
-	
-	// requirements
-	
-	/**
-	 * @return whether repeat elements will be sent with
-	 * an explicit number of times they need to be repeated
-	 */
-	boolean requiresExplicitRepeats();
 }

@@ -18,7 +18,7 @@ public class InstructionVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(InstructionVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		PatternRepository repository = context.getPatternRepository();
 		Instruction instruction = (Instruction) element;
@@ -32,17 +32,19 @@ public class InstructionVisitor extends AbstractRenderingVisitor {
 		}
 		InstructionInfo instructionInfo = repository.getInstruction(id);
 		context.getPatternState().setCurrentInstructionInfo(instructionInfo);
-
-		if (!instruction.hasRows()) {
-			visitChild(instruction.getForEachRowInInstruction(), context);
-		} else {
-			visitChildren(instruction, context);
-		}
+		return true;
+	}
+	
+	public void end(Object element, RenderingContext context) {
+		InstructionInfo instructionInfo = context.getPatternState().getCurrentInstructionInfo();
+ 
 		if (instructionInfo.getRowRange() != null) {
+			Instruction instruction = instructionInfo.getInstruction();
 			setLastExpressedRowNumber(instructionInfo.getRowRange().getMaximumInteger(), context);
 			// if setLastExpressedRowNumber resets the local instructions, this would also clear out
 			// the currently executing instruction. We don't want that to happen, so add it back in.
-			if (repository.getInstruction(id) == null) {
+			PatternRepository repository = context.getPatternRepository();
+			if (repository.getInstruction(instruction.getId()) == null) {
 				repository.addLocalInstruction(instruction);
 			}
 		}

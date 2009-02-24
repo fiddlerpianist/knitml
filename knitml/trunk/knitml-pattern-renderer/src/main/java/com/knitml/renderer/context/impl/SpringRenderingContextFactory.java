@@ -34,6 +34,7 @@ public class SpringRenderingContextFactory implements RenderingContextFactory {
 	
 	public RenderingContext createRenderingContext(Writer writer) {
 		RenderingContext context = createRenderingContext();
+		context.getRenderer().setRenderingContext(context);
 		context.getRenderer().setWriter(writer);
 		return context;
 	}

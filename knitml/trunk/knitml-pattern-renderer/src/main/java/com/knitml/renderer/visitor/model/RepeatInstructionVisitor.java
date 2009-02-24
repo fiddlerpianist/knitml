@@ -17,7 +17,7 @@ public class RepeatInstructionVisitor extends AbstractRenderingVisitor {
 	private final static Logger log = LoggerFactory
 			.getLogger(RepeatInstructionVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		RepeatInstruction repeatInstruction = (RepeatInstruction) element;
 		String instructionId = repeatInstruction.getRef().getId();
@@ -36,5 +36,6 @@ public class RepeatInstructionVisitor extends AbstractRenderingVisitor {
 				.getCurrentKnittingShape());
 		context.getRenderer().renderRepeatInstruction(repeatInstruction,
 				instructionInfo);
+		return true;
 	}
 }

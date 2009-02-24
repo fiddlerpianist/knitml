@@ -5,8 +5,12 @@ import com.knitml.renderer.visitor.RenderingVisitor;
 
 public class ExceptionThrowingVisitor implements RenderingVisitor {
 
-	public void visit(Object object, RenderingContext context) {
+	public boolean begin(Object object, RenderingContext context) {
 		 throw new RuntimeException("No visitor for [" + object.getClass().getName() + "]");
 	}
 
+	public void end(Object object, RenderingContext context) {
+		 throw new RuntimeException("No visitor for [" + object.getClass().getName() + "]");
+	}
+	
 }

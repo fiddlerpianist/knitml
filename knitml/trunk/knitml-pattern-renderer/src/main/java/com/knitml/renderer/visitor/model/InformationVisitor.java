@@ -9,7 +9,7 @@ import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
 
 public class InformationVisitor extends AbstractRenderingVisitor {
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		Information information = (Information) element;
 		context.getRenderer().beginInformation();
@@ -23,6 +23,11 @@ public class InformationVisitor extends AbstractRenderingVisitor {
 				context.getRenderer().renderNumberOfStitchesInRow((NumberOfStitches) child);
 			}
 		}
+		// 
+		return false;
+	}
+	
+	public void end(Object element, RenderingContext context) {
 		context.getRenderer().endInformation();
 	}
 }

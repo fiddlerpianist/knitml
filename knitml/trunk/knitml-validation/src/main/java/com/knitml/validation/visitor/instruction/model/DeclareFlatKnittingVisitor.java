@@ -10,9 +10,9 @@ import com.knitml.core.model.directions.block.DeclareFlatKnitting;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.settings.Direction;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class DeclareFlatKnittingVisitor extends AbstractValidationVisitor {
+public class DeclareFlatKnittingVisitor extends AbstractPatternVisitor {
 
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory

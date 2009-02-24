@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class IncreaseIntoNextStitchVisitor extends AbstractValidationVisitor {
+public class IncreaseIntoNextStitchVisitor extends AbstractPatternVisitor {
 
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory

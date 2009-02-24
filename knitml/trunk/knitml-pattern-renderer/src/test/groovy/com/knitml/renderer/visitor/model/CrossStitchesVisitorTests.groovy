@@ -16,6 +16,13 @@ import test.support.AbstractRenderingContextTests
 
 class CrossStitchesVisitorTests extends AbstractRenderingContextTests {
 
+	@Before
+	void setUpContext() {
+		renderingContext.with {
+			engine.castOn 5
+			engine.startNewRow()
+		}
+	}
 	
 	@Test
 	void crossInFront() {

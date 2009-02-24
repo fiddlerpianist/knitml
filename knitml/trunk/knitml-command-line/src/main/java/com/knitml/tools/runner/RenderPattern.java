@@ -18,6 +18,8 @@ import com.knitml.renderer.context.RenderingContextFactory;
 import com.knitml.renderer.context.impl.SpringRenderingContextFactory;
 import com.knitml.renderer.visitor.impl.DefaultVisitorFactory;
 import com.knitml.tools.runner.support.RunnerUtils;
+import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
+import com.knitml.validation.visitor.instruction.impl.SpringVisitorFactory;
 
 public class RenderPattern {
 
@@ -52,8 +54,12 @@ public class RenderPattern {
 					applicationContextFiles);
 			Parameters parameters = RunnerUtils.toParameters(line);
 
-			RenderingContextFactory contextFactory = new SpringRenderingContextFactory(applicationContext);
-			RendererProgram renderer = new RendererProgram(contextFactory, new DefaultVisitorFactory());
+			RenderingContextFactory contextFactory = new SpringRenderingContextFactory(
+					applicationContext);
+			RendererProgram renderer = new RendererProgram(contextFactory,
+					new DefaultVisitorFactory(),
+					new DefaultKnittingContextFactory(),
+					new SpringVisitorFactory());
 			renderer.render(parameters);
 		} catch (ParseException exp) {
 			// oops, something went wrong
@@ -65,5 +71,4 @@ public class RenderPattern {
 			ex.printStackTrace();
 		}
 	}
-
 }

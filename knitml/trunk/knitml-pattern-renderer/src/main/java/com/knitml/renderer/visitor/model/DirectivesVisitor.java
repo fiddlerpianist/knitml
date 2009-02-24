@@ -9,14 +9,13 @@ import com.knitml.core.model.header.Directives;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
-import com.knitml.renderer.visitor.impl.DefaultNameResolver;
 
 public class DirectivesVisitor extends AbstractRenderingVisitor {
 
 	private final static Logger log = LoggerFactory
 			.getLogger(DirectivesVisitor.class);
 
-	public void visit(Object element, RenderingContext context)
+	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		Directives directives = (Directives) element;
 		List<String> messageSources = directives.getMessageSources();
@@ -27,28 +26,12 @@ public class DirectivesVisitor extends AbstractRenderingVisitor {
 			context.getPatternRepository().setPatternMessageSources(
 					directives.getMessageSources());
 		}
-		visitInstructionDefinitions(directives, context);
+		context.getRenderer().beginInstructionDefinitions();
+		return true;
 	}
 
-	protected void visitInstructionDefinitions(Directives directives,
-			RenderingContext context) throws RenderingException {
-		// a different package for analyzing instructions in a different context
-		List<Object> instructionDefinitions = directives
-				.getInstructionDefinitions();
-		if (directives.getInstructionDefinitions() != null) {
-			getVisitorFactory().pushNameResolver(
-					new DefaultNameResolver(
-							"com.knitml.renderer.visitor.definition.model"));
-			try {
-				context.getRenderer().beginInstructionDefinitions();
-				for (Object instructionDefinition : instructionDefinitions) {
-					visitChild(instructionDefinition, context);
-				}
-				context.getRenderer().endInstructionDefinitions();
-			} finally {
-				getVisitorFactory().popNameResolver();
-			}
-		}
+	public void end(Object element, RenderingContext context)
+			throws RenderingException {
+		context.getRenderer().endInstructionDefinitions();
 	}
-
 }

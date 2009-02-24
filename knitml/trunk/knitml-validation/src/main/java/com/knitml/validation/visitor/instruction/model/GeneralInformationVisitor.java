@@ -7,10 +7,9 @@ import com.knitml.core.model.header.Gauge;
 import com.knitml.core.model.header.GeneralInformation;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.visitor.instruction.Visitor;
-import com.knitml.validation.visitor.instruction.impl.AbstractValidationVisitor;
+import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
-public class GeneralInformationVisitor extends AbstractValidationVisitor {
+public class GeneralInformationVisitor extends AbstractPatternVisitor {
 	
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory.getLogger(GeneralInformationVisitor.class);
@@ -19,8 +18,7 @@ public class GeneralInformationVisitor extends AbstractValidationVisitor {
 		GeneralInformation info = (GeneralInformation)element;
 		Gauge gauge = info.getGauge();
 		if (gauge != null) {
-			Visitor gaugeVisitor = this.getVisitorFactory().findVisitorFromClassName(gauge);
-			gaugeVisitor.visit(gauge, context);
+			visitChild(gauge, context);
 		}
 	}
 
