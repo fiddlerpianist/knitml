@@ -1,6 +1,8 @@
 package com.knitml.renderer.visitor.model;
 
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import test.support.AbstractRenderingContextTests;
 
@@ -13,7 +15,6 @@ public class CastOnVisitorTests extends AbstractRenderingContextTests {
 	private static final String NEEDLES_HEADER = NEEDLES + LINE_BREAK + INDENT;
 
 	@Test
-	public void placeholder() {
-		
+	public void placeholder() throws Exception {
 	}
 }

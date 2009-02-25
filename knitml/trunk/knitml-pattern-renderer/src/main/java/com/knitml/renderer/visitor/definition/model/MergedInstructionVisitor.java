@@ -9,11 +9,9 @@ import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.core.model.directions.block.MergedInstruction;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.ContextUtils;
-import com.knitml.renderer.context.PatternRepository;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.visitor.controller.InstructionController;
 import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
-import com.knitml.renderer.visitor.impl.DefaultVisitorFactory;
 
 public class MergedInstructionVisitor extends AbstractRenderingVisitor {
 
@@ -24,7 +22,6 @@ public class MergedInstructionVisitor extends AbstractRenderingVisitor {
 	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		MergedInstruction mergedInstruction = (MergedInstruction) element;
-		PatternRepository repository = context.getPatternRepository();
 		if (mergedInstruction.getType() != MergeType.PHYSICAL) {
 			throw new NotImplementedException(
 					"Only physical merge types are supported at this time");
@@ -42,9 +39,9 @@ public class MergedInstructionVisitor extends AbstractRenderingVisitor {
 				.getPatternRepository().getBlockInstruction(
 						mergedInstructionDefinition.getId());
 		context.getRenderer().beginInstructionDefinition(instruction, label);
-		// do we want to hard code the implementation here?
-		InstructionController embeddedController = new InstructionController(new DefaultVisitorFactory());
+		InstructionController embeddedController = new InstructionController(getVisitorFactory());
 		embeddedController.visitInstruction(instruction, context);
 		context.getRenderer().endInstructionDefinition();
+		context.getPatternRepository().addGlobalInstruction(instruction, label);
 	}
 }

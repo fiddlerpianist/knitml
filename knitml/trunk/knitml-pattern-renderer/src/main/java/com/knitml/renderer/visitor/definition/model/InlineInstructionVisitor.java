@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.ContextUtils;
-import com.knitml.renderer.context.PatternRepository;
 import com.knitml.renderer.context.RenderingContext;
+import com.knitml.renderer.visitor.controller.InstructionController;
 import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
 
 public class InlineInstructionVisitor extends AbstractRenderingVisitor {
@@ -18,17 +18,21 @@ public class InlineInstructionVisitor extends AbstractRenderingVisitor {
 
 	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
-		InlineInstruction instruction = (InlineInstruction) element;
-		PatternRepository repository = context.getPatternRepository();
-		context.getRenderer().beginInlineInstructionDefinition(instruction,
-				ContextUtils.deriveLabel(instruction, repository));
-		return true;
+		return false;
 	}
 
 	public void end(Object element, RenderingContext context)
 			throws RenderingException {
-		context.getRenderer().endInlineInstructionDefinition(
-				(InlineInstruction) element);
+		InlineInstruction instruction = (InlineInstruction) element;
+		String label = ContextUtils.deriveLabel(instruction,
+				context.getPatternRepository());
+		InlineInstruction instructionToUse = context.getKnittingContext()
+				.getPatternRepository().getInlineInstruction(
+						instruction.getId());
+		context.getRenderer().beginInlineInstructionDefinition(instructionToUse, label);
+		InstructionController embeddedController = new InstructionController(getVisitorFactory());
+		embeddedController.visitInlineInstruction(instructionToUse, context);
+		context.getRenderer().endInlineInstructionDefinition(instructionToUse);
 	}
 
 }
