@@ -116,7 +116,7 @@ class OperationSetHelper {
 				OperationSet nestedOperationSet = (OperationSet) operation;
 				if (nestedOperationSet.getType() == Type.INLINE_INSTRUCTION) {
 					renderOperationSet(nestedOperationSet, potentiallySimple);
-				} else if (operationSet.getType() == Type.USING_NEEDLE) {
+				} else if (nestedOperationSet.getType() == Type.USING_NEEDLE) {
 					// an operation set of type USING_NEEDLE
 					getWriterHelper().writeNewLine();
 					getWriterHelper().incrementIndent();

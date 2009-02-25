@@ -2,10 +2,14 @@ package com.knitml.validation.visitor.instruction.model;
 
 import static com.knitml.validation.visitor.util.InstructionUtils.createExpandedRows;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.knitml.core.model.directions.block.Instruction;
+import com.knitml.core.model.directions.block.Row;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.PatternRepository;
@@ -34,7 +38,18 @@ public class InstructionVisitor extends AbstractPatternVisitor {
 		if (!instruction.hasRows()) {
 			visitChild(instruction.getForEachRowInInstruction(), context);
 		} else {
-			visitChildren(repository.getBlockInstruction(id), context);
+			Set<Row> rowsPlayed = new HashSet<Row>();
+			Instruction instructionToUse = repository.getBlockInstruction(id); 
+			for (Row row : instructionToUse.getRows()) {
+				if (rowsPlayed.contains(row)) {
+					context.getPatternState().setReplayMode(true);
+					visitChild(row, context);
+					context.getPatternState().setReplayMode(false);
+				} else {
+					visitChild(row, context);
+				}
+				rowsPlayed.add(row);
+			}
 		}
 		context.getPatternState().setWithinInstruction(false);
 	}

@@ -1,6 +1,7 @@
 package com.knitml.renderer.listener;
 
 import com.knitml.core.model.Pattern;
+import com.knitml.core.model.directions.CompositeOperation;
 import com.knitml.core.model.header.Directives;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.visitor.RenderingVisitor;
@@ -49,13 +50,17 @@ public class RenderingListenerAdapter implements Listener {
 		} else {
 			visitor = visitorFactory.findVisitorFromClassName(object);
 		}
-
+		
 		if (object instanceof Directives) {
 			// now set this variable to true, once we've retrieved the
 			// directives visitor
 			withinDirectives = true;
 		}
 
+		// if it's a CompositeOperation, add to the operation tree
+		if (object instanceof CompositeOperation) {
+			 renderingContext.getPatternState().getOperationTree().push((CompositeOperation)object);
+		}
 		boolean processChildren = visitor.begin(object, renderingContext);
 		if (!processChildren) {
 			this.ignoreBelowDepth = currentDepth;
@@ -94,6 +99,10 @@ public class RenderingListenerAdapter implements Listener {
 		}
 
 		visitor.end(object, renderingContext);
+		// if it's a CompositeOperation, add to the operation tree
+		if (object instanceof CompositeOperation) {
+			 renderingContext.getPatternState().getOperationTree().pop();
+		}
 	}
 
 	public boolean desiresRepeats(Object object, KnittingContext context) {
