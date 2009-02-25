@@ -38,7 +38,7 @@ pattern 'en' {
 	}
 	directions {
 		instructionGroup 'start' {
-			useNeedle 'needle1' silently
+			useNeedle 'needle1'
 			castOn 11 'long-tail'
 		}
 		instructionGroup 'knit-swatch' {
