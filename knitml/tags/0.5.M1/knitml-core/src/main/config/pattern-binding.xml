@@ -1,0 +1,18 @@
+<binding track-source="true" add-constructors="true">
+    <namespace uri="http://www.knitml.com/schema/pattern" prefix="" default="elements"/>
+    <namespace uri="http://www.w3.org/2001/XMLSchema-instance" prefix="xsi" default="none"/>
+    <include path="../jibx/header.xml"/>
+    <include path="../jibx/block-operations.xml"/>
+    <mapping name="pattern" class="com.knitml.core.model.Pattern" value-style="attribute">
+        <value ns="http://www.w3.org/XML/1998/namespace" name="lang" field="languageCode"
+            style="attribute" usage="optional"/>
+        <structure field="directives" usage="optional"/>
+        <structure field="generalInformation" usage="optional"/>
+        <structure field="supplies" usage="optional"/>
+        <structure field="directions" usage="optional"/>
+        <value name="schemaLocation" field="schemaLocation" ns="http://www.w3.org/2001/XMLSchema-instance" usage="optional"/>
+    </mapping>
+    <mapping name="directions" class="com.knitml.core.model.directions.Directions">
+        <collection field="operations" type="java.util.ArrayList"/>
+    </mapping>
+</binding>

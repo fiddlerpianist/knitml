@@ -1,0 +1,43 @@
+<assembly>
+  <id>bin</id>
+  <formats>
+    <format>tar.gz</format>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <!-- no directory prefix appears to be better than the same directory twice.... grr!
+    <baseDirectory>knitml-${version}</baseDirectory>-->
+  <fileSets>
+    <fileSet>
+      <excludes>
+        <exclude>src/**</exclude>
+      </excludes>
+      <includes>
+        <include>README*</include>
+        <include>LICENSE*</include>
+        <include>NOTICE*</include>
+        <include>pom.xml</include>
+        <include>bin/**</include>
+        <include>conf/**</include>
+        <include>docs/**</include>
+        <include>samples/**</include>
+      </includes>
+      <useDefaultExcludes>true</useDefaultExcludes>
+    </fileSet>
+  </fileSets>
+  <moduleSets>
+    <moduleSet>
+      <includes>
+        <include>com.knitml:knitml-core</include>
+        <include>com.knitml:knitml-validation</include>
+        <include>com.knitml:knitml-pattern-renderer</include>
+        <include>com.knitml:knitml-tools</include>
+      </includes>
+      <binaries>
+        <outputDirectory>lib</outputDirectory>
+        <includeDependencies>true</includeDependencies>
+        <unpack>false</unpack>
+      </binaries>
+    </moduleSet>
+  </moduleSets>
+</assembly>
