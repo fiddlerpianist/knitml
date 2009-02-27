@@ -35,7 +35,7 @@ import com.knitml.core.xml.Schemas;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.KnittingContextFactory;
-import com.knitml.validation.context.Listener;
+import com.knitml.validation.context.PatternEventListener;
 import com.knitml.validation.context.ListenerManager;
 import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
 import com.knitml.validation.context.impl.DefaultListenerManager;
@@ -59,7 +59,7 @@ public class ValidationProgram {
 	 * 
 	 * @param listener
 	 */
-	public ValidationProgram(Listener listener) {
+	public ValidationProgram(PatternEventListener listener) {
 		this(listener, false);
 	}
 
@@ -69,7 +69,7 @@ public class ValidationProgram {
 	 * @param listener
 	 * @param requestLineNumbers whether line numbers should be reported when 
 	 */
-	public ValidationProgram(Listener listener, boolean requestLineNumbers) {
+	public ValidationProgram(PatternEventListener listener, boolean requestLineNumbers) {
 		if (requestLineNumbers) {
 			// supports line numbers for error reporting
 			visitorFactory = new SpringVisitorFactory();
@@ -100,9 +100,9 @@ public class ValidationProgram {
 	 * @param listeners
 	 */
 	public ValidationProgram(KnittingContextFactory ctxFactory,
-			VisitorFactory visitorFactory, List<Listener> listeners) {
+			VisitorFactory visitorFactory, List<PatternEventListener> listeners) {
 		this(ctxFactory, visitorFactory);
-		for (Listener listener : listeners) {
+		for (PatternEventListener listener : listeners) {
 			listenerManager.addListener(listener);
 		}
 	}

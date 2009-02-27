@@ -39,11 +39,11 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 				<directives>
 					<instruction-definitions>
-						<instruction id="knit-purl" label="Knit / Purl">
+						<instruction id="knit-purl" label="Knit / Purl" shape="flat">
 							<row><knit>5</knit></row>
 							<row><purl>15</purl></row>
 						</instruction>
-						<instruction id="purl-knit" label="Purl / Knit">
+						<instruction id="purl-knit" label="Purl / Knit" shape="flat">
 							<row><knit>15</knit></row>
 							<row><purl>5</purl></row>
 						</instruction>
@@ -83,13 +83,13 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 				<directives>
 					<instruction-definitions>
-						<instruction id="knit-purl" label="Knit / Purl">
+						<instruction id="knit-purl" label="Knit / Purl" shape="flat">
 							<row>
 								<knit>5</knit>
 								<purl>15</purl>
 							</row>
 						</instruction>
-						<instruction id="purl-knit" label="Purl / Knit">
+						<instruction id="purl-knit" label="Purl / Knit" shape="flat">
 							<row>
 								<purl>5</purl>
 								<knit>15</knit>
@@ -153,7 +153,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 						<inline-instruction id="stockinette" label="st st">
 							<knit/>
 						</inline-instruction>
-						<instruction id="garter-ribbing" label="garter rib">
+						<instruction id="garter-ribbing" label="garter rib" shape="flat">
 							<row>
 								<repeat until="end">
 									<inline-instruction-ref ref="k2p2-ribbing"/>
@@ -212,7 +212,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 				<directives>
 					<instruction-definitions>
-						<instruction id="garter-ribbing" label="garter rib">
+						<instruction id="garter-ribbing" label="garter rib" shape="flat">
 							<row>
 								<knit>2</knit>
 								<purl>2</purl>
@@ -221,7 +221,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 								<knit>4</knit>
 							</row>
 						</instruction>
-						<instruction id="body-pattern" label="body pattern">
+						<instruction id="body-pattern" label="body pattern" shape="flat">
 							<row>
 								<knit>5</knit>
 								<purl>3</purl>
@@ -276,7 +276,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 				<directives>
 					<instruction-definitions>
-						<instruction id="test-instruction" label="test instruction">
+						<instruction id="test-instruction" label="test instruction" shape="flat">
 							<row/>
 							<row/>
 							<row/>
@@ -321,12 +321,12 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 				<directives>
 					<instruction-definitions>
-						<instruction id="test-instruction-target" label="test instruction target">
+						<instruction id="test-instruction-target" label="test instruction target" shape="flat">
 							<row/>
 							<row/>
 							<row/>
 						</instruction>
-						<instruction id="test-instruction" label="test instruction">
+						<instruction id="test-instruction" label="test instruction" shape="flat">
 							<for-each-row-in-instruction ref="test-instruction-target"/>
 						</instruction>
 					</instruction-definitions>

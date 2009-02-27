@@ -26,7 +26,7 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 				<directives>
 					<instruction-definitions>
-						<instruction id="knit-purl" label="Knit / Purl Pattern">
+						<instruction id="knit-purl" label="Knit / Purl Pattern" shape="flat">
 							<row><knit>5</knit></row>
 							<row><purl>15</purl></row>
 						</instruction>
@@ -48,7 +48,30 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 				<directives>
 					<instruction-definitions>
-						<instruction id="knit-purl"/>
+						<instruction id="knit-purl" shape="flat"/>
+					</instruction-definitions>
+				</directives>
+				<directions/>
+			</pattern>
+			'''
+	}
+
+	@Test
+	void useGlobalMergedInstruction() {
+		processXml '''
+			<pattern xmlns="http://www.knitml.com/schema/pattern">
+				<directives>
+					<instruction-definitions>
+						<instruction id="knit-purl" label="Knit / purl" shape="flat">
+							<row/>
+						</instruction>
+						<instruction id="purl-knit" label="Purl / knit" shape="flat">
+							<row/>
+						</instruction>
+						<merged-instruction id="merged1" merge-point="end" type="physical" label="Merged Instruction">
+							<instruction-ref ref="knit-purl"/>
+							<instruction-ref ref="purl-knit"/>
+						</merged-instruction>
 					</instruction-definitions>
 				</directives>
 				<directions/>
@@ -62,10 +85,10 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 				<directives>
 					<instruction-definitions>
-						<instruction id="knit-purl" label="Knit / purl">
+						<instruction id="knit-purl" label="Knit / purl" shape="flat">
 							<row/>
 						</instruction>
-						<instruction id="purl-knit" label="Purl / knit">
+						<instruction id="purl-knit" label="Purl / knit" shape="flat">
 							<row/>
 						</instruction>
 						<merged-instruction id="merged1" merge-point="end" type="physical">
@@ -79,14 +102,13 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 			'''
 	}
 
-
 	@Test(expected=UnexpectedRowNumberException)
 	void useInvalidRowNumbersInHeaderInstruction() {
 		def pattern = processXml ('''
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 				<directives>
 					<instruction-definitions>
-						<instruction id="knit-purl" label="Test Pattern">
+						<instruction id="knit-purl" label="Test Pattern" shape="flat">
 							<row number="2"><knit>5</knit></row>
 							<row number="3"><knit>5</knit></row>
 						</instruction>
@@ -97,4 +119,42 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 			''')
 	}
 
+	@Test(expected=InvalidStructureException)
+	void instructionDefinitionWithNoShapeAttribute() {
+		processXml '''
+			<pattern xmlns="http://www.knitml.com/schema/pattern">
+				<directives>
+					<instruction-definitions>
+						<instruction id="knit-purl" label="Knit / purl">
+							<row/>
+						</instruction>
+					</instruction-definitions>
+				</directives>
+				<directions/>
+			</pattern>
+			'''
+	}
+
+	@Test(expected=InvalidStructureException)
+	void mergedInstructionWithTwoDifferentShapes() {
+		processXml '''
+			<pattern xmlns="http://www.knitml.com/schema/pattern">
+				<directives>
+					<instruction-definitions>
+						<instruction id="knit-purl" label="Knit / purl" shape="flat">
+							<row/>
+						</instruction>
+						<instruction id="purl-knit" label="Purl / knit" shape="round">
+							<row/>
+						</instruction>
+						<merged-instruction id="merged1" merge-point="end" type="physical" label="Merged Instruction">
+							<instruction-ref ref="knit-purl"/>
+							<instruction-ref ref="purl-knit"/>
+						</merged-instruction>
+					</instruction-definitions>
+				</directives>
+				<directions/>
+			</pattern>
+			'''
+	}
 }

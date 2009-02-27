@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.MergePoint;
 import com.knitml.core.common.ValidationException;
 import com.knitml.core.model.Identifiable;
@@ -117,6 +118,8 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 
 	private Instruction performPhysicalMerge(MergedInstruction mergedInstruction,
 			PatternRepository repository) throws ValidationException {
+		KnittingShape mergedInstructionShape = null;
+		
 		List<InstructionRef> instructionRefs = mergedInstruction
 				.getInstructions();
 
@@ -134,6 +137,11 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 						"The instruction-refs can only refer to block instruction elements with rows (or physically merged merge-instructions");
 			}
 			Instruction instruction = (Instruction) identifiable;
+			if (mergedInstructionShape == null) {
+				mergedInstructionShape = instruction.getKnittingShape();
+			} else if (mergedInstructionShape != instruction.getKnittingShape()) {
+				throw new InvalidStructureException("Cannot merge instructions of different knitting shapes");
+			}
 			int currentRowSize = instruction.getRows().size();
 			if (mergedInstruction.getMergePoint() == MergePoint.ROW) {
 				// a ROW merge point means that all instructions must have the
@@ -219,6 +227,6 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 					"Merge point for a merged instruction was left unspecified");
 		}
 		return new Instruction(mergedInstruction.getId(), mergedInstruction
-				.getLabel(), mergedInstruction.getMessageKey(), newRows);
+				.getLabel(), mergedInstruction.getMessageKey(), mergedInstructionShape, newRows);
 	}
 }

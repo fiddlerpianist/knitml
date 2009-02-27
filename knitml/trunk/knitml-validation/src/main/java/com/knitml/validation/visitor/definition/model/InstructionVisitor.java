@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.engine.common.KnittingEngineException;
+import com.knitml.validation.common.InvalidStructureException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.PatternRepository;
 import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
@@ -23,6 +24,10 @@ public class InstructionVisitor extends AbstractPatternVisitor {
 		Instruction instruction = (Instruction) element;
 		String id = instruction.getId();
 		if (repository.getBlockInstruction(id) == null) {
+			// validate this instruction
+			if (instruction.getKnittingShape() == null) {
+				throw new InvalidStructureException("An instruction definition (i.e., when it's in the header) must have a 'shape' attribute defined");
+			}
 			Instruction instructionToAdd = createExpandedRows(instruction);
 			validateInstructionAsGlobal(instructionToAdd);
 			context.getPatternRepository().addGlobalBlockInstruction(id,
