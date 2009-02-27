@@ -4,24 +4,24 @@ import com.knitml.core.model.Pattern;
 import com.knitml.core.model.directions.CompositeOperation;
 import com.knitml.core.model.header.Directives;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.RenderingVisitor;
-import com.knitml.renderer.visitor.VisitorFactory;
-import com.knitml.renderer.visitor.impl.DefaultNameResolver;
-import com.knitml.renderer.visitor.impl.DefaultVisitorFactory;
+import com.knitml.renderer.event.EventFactory;
+import com.knitml.renderer.event.RenderingEvent;
+import com.knitml.renderer.event.impl.DefaultEventFactory;
+import com.knitml.renderer.event.impl.DefaultNameResolver;
 import com.knitml.validation.context.KnittingContext;
-import com.knitml.validation.context.Listener;
+import com.knitml.validation.context.PatternEventListener;
 
 /**
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)
  * 
  */
-public class RenderingListenerAdapter implements Listener {
+public class RenderingListenerAdapter implements PatternEventListener {
 
 	public RenderingListenerAdapter(RenderingContext renderingContext) {
 		this.renderingContext = renderingContext;
 	}
 
-	private VisitorFactory visitorFactory = new DefaultVisitorFactory();
+	private EventFactory visitorFactory = new DefaultEventFactory();
 	private RenderingContext renderingContext;
 	private int currentDepth = 0;
 	private Integer ignoreBelowDepth;
@@ -40,7 +40,7 @@ public class RenderingListenerAdapter implements Listener {
 			currentDepth = 0;
 		}
 
-		RenderingVisitor visitor = null;
+		RenderingEvent visitor = null;
 		if (withinDirectives) {
 			// use the special "definitions" package for children of directives
 			visitorFactory.pushNameResolver(new DefaultNameResolver(
@@ -87,7 +87,7 @@ public class RenderingListenerAdapter implements Listener {
 			withinDirectives = false;
 		}
 
-		RenderingVisitor visitor = null;
+		RenderingEvent visitor = null;
 		if (withinDirectives) {
 			// use the special "definitions" package for children of directives
 			visitorFactory.pushNameResolver(new DefaultNameResolver(
@@ -111,7 +111,7 @@ public class RenderingListenerAdapter implements Listener {
 		return false;
 	}
 
-	public void setVisitorFactory(VisitorFactory visitorFactory) {
+	public void setVisitorFactory(EventFactory visitorFactory) {
 		this.visitorFactory = visitorFactory;
 	}
 

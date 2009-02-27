@@ -6,14 +6,14 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 
 /**
  * 
  * @author Jonathan Whitall
  *
  */
-public class InlineInstructionVisitor extends AbstractRenderingVisitor {
+public class InlineInstructionVisitor extends AbstractRenderingEvent {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory

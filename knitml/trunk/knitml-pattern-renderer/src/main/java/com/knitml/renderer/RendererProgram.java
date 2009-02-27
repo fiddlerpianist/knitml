@@ -16,12 +16,12 @@ import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.context.RenderingContextFactory;
 import com.knitml.renderer.context.impl.DefaultRenderingContextFactory;
+import com.knitml.renderer.event.EventFactory;
+import com.knitml.renderer.event.impl.DefaultEventFactory;
 import com.knitml.renderer.listener.RenderingListenerAdapter;
-import com.knitml.renderer.visitor.VisitorFactory;
-import com.knitml.renderer.visitor.impl.DefaultVisitorFactory;
 import com.knitml.validation.ValidationProgram;
 import com.knitml.validation.context.KnittingContextFactory;
-import com.knitml.validation.context.Listener;
+import com.knitml.validation.context.PatternEventListener;
 
 // TODO this initialization is mind-numbingly complex because these classes were never meant to work together like this
 public class RendererProgram {
@@ -32,7 +32,7 @@ public class RendererProgram {
 
 	// default if not passed
 	private RenderingContextFactory renderingCF = new DefaultRenderingContextFactory();
-	private VisitorFactory renderingVF = new DefaultVisitorFactory();
+	private EventFactory renderingVF = new DefaultEventFactory();
 	private KnittingContextFactory knittingCF;
 	private com.knitml.validation.visitor.instruction.VisitorFactory knittingVF;
 
@@ -40,13 +40,13 @@ public class RendererProgram {
 	}
 
 	public RendererProgram(RenderingContextFactory renderingCF,
-			VisitorFactory renderingVF) {
+			EventFactory renderingVF) {
 		this.renderingCF = renderingCF;
 		this.renderingVF = renderingVF;
 	}
 
 	public RendererProgram(RenderingContextFactory renderingCF,
-			VisitorFactory renderingVF, KnittingContextFactory knittingCF,
+			EventFactory renderingVF, KnittingContextFactory knittingCF,
 			com.knitml.validation.visitor.instruction.VisitorFactory knittingVF) {
 		this.renderingCF = renderingCF;
 		this.renderingVF = renderingVF;
@@ -65,7 +65,7 @@ public class RendererProgram {
 		if (knittingCF == null || knittingVF == null) {
 			processor = new ValidationProgram(listener, true);
 		} else {
-			List<Listener> listeners = new ArrayList<Listener>();
+			List<PatternEventListener> listeners = new ArrayList<PatternEventListener>();
 			listeners.add(listener);
 			processor = new ValidationProgram(knittingCF, knittingVF, listeners);
 		}

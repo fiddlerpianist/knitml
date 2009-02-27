@@ -7,10 +7,10 @@ import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.ContextUtils;
 import com.knitml.renderer.context.RenderingContext;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 import com.knitml.renderer.visitor.controller.InstructionController;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
 
-public class InstructionVisitor extends AbstractRenderingVisitor {
+public class InstructionVisitor extends AbstractRenderingEvent {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory
@@ -26,13 +26,17 @@ public class InstructionVisitor extends AbstractRenderingVisitor {
 		Instruction instruction = (Instruction) element;
 		String label = ContextUtils.deriveLabel(instruction,
 				context.getPatternRepository());
-		Instruction instructionToUse = context.getKnittingContext()
+		Instruction candidateInstruction = context.getKnittingContext()
 				.getPatternRepository().getBlockInstruction(
 						instruction.getId());
+		Instruction instructionToUse = context.getRenderer().evaluateInstructionDefinition(candidateInstruction);
+		if (instructionToUse == null) {
+			instructionToUse = candidateInstruction;
+		}
 		context.getRenderer().beginInstructionDefinition(instructionToUse, label);
 		InstructionController embeddedController = new InstructionController(getVisitorFactory());
 		embeddedController.visitInstruction(instructionToUse, context);
-		context.getRenderer().endInstruction();
+		context.getRenderer().endInstructionDefinition();
 
 		context.getPatternRepository().addGlobalInstruction(instructionToUse, label);
 	}

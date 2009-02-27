@@ -1,10 +1,13 @@
 package com.knitml.renderer.impl.charting;
 
+import static com.knitml.renderer.impl.charting.ChartElement.K2TOG;
+import static com.knitml.renderer.impl.charting.ChartElement.SSK;
+import static com.knitml.renderer.impl.charting.ChartElement.YO;
+import static com.knitml.renderer.impl.charting.ChartElement.K;
+import static com.knitml.renderer.impl.charting.ChartElement.P;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.knitml.core.common.DecreaseType;
-import com.knitml.core.common.IncreaseType;
 
 public class ChartingSymbols {
 
@@ -14,14 +17,14 @@ public class ChartingSymbols {
 		return instance;
 	}
 
-	private Map<String,String> symbols = new HashMap<String,String>();
+	private Map<ChartElement,String> symbols = new HashMap<ChartElement,String>();
 
 	private ChartingSymbols() {
-		symbols.put("knit", "k");
-		symbols.put("purl", "p");
-		symbols.put(DecreaseType.K2TOG.name(), "/");
-		symbols.put(DecreaseType.SSK.name(), "\\");
-		symbols.put(IncreaseType.YO.name(), "o");
+		symbols.put(K, "k");
+		symbols.put(P, "p");
+		symbols.put(K2TOG, "/");
+		symbols.put(SSK, "\\");
+		symbols.put(YO, "o");
 	}
 
 	public String getSymbol(String key) {

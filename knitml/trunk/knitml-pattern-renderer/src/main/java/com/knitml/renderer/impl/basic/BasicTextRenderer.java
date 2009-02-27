@@ -116,7 +116,8 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public void endInlineInstructionDefinition(InlineInstruction instruction) {
-		OperationSet currentOperationSet = getOperationSetHelper().getCurrentOperationSet(); 
+		OperationSet currentOperationSet = getOperationSetHelper()
+				.getCurrentOperationSet();
 		if (currentOperationSet.getHead() != null) {
 			getOperationSetHelper().renderCurrentOperationSet();
 			writeNewLine();
@@ -141,9 +142,11 @@ public class BasicTextRenderer implements Renderer {
 		// only add this instruction if it has a label
 		OperationSet operationSet = new OperationSet(
 				OperationSet.Type.INLINE_INSTRUCTION);
-		OperationSet currentOperationSet = getOperationSetHelper().getCurrentOperationSet();
+		OperationSet currentOperationSet = getOperationSetHelper()
+				.getCurrentOperationSet();
 		if (currentOperationSet == null) {
-			throw new RuntimeException("Expected an operation set on the stack (at least of Row type) but found none");
+			throw new RuntimeException(
+					"Expected an operation set on the stack (at least of Row type) but found none");
 		}
 		currentOperationSet.addOperationSet(operationSet);
 		// add the InstructionSet to the top of the stack. All
@@ -152,11 +155,12 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public void endInlineInstruction(InlineInstruction instruction) {
-		OperationSet currentOperationSet = getOperationSetHelper().getCurrentOperationSet(); 
+		OperationSet currentOperationSet = getOperationSetHelper()
+				.getCurrentOperationSet();
 		inlineInstructionStore.put(instruction.getId(), currentOperationSet);
 		getOperationSetHelper().removeCurrentOperationSet();
 	}
-	
+
 	public void endInstruction() {
 	}
 
@@ -257,9 +261,11 @@ public class BasicTextRenderer implements Renderer {
 	public boolean renderInlineInstructionRef(InlineInstructionRef ref,
 			String label) {
 		if (label == null) {
-			OperationSet operationSet = inlineInstructionStore.get(ref.getReferencedInstruction().getId());
+			OperationSet operationSet = inlineInstructionStore.get(ref
+					.getReferencedInstruction().getId());
 			if (operationSet == null) {
-				throw new RuntimeException("An inlineInstructionRef was not present in the local store when it should have been");
+				throw new RuntimeException(
+						"An inlineInstructionRef was not present in the local store when it should have been");
 			}
 		}
 		getOperationSetHelper().writeOperation(label);
@@ -356,10 +362,6 @@ public class BasicTextRenderer implements Renderer {
 						key.toString(),
 						new int[] { crossStitches.getFirst(),
 								crossStitches.getNext() }));
-	}
-
-	public Instruction evaluateInstruction(Instruction instruction) {
-		return instruction;
 	}
 
 	public void beginInstruction(Instruction instruction, String message) {
@@ -829,6 +831,18 @@ public class BasicTextRenderer implements Renderer {
 
 	public void setPluralRuleFactory(PluralRuleFactory pluralRuleFactory) {
 		this.pluralRuleFactory = pluralRuleFactory;
+	}
+
+	public Instruction evaluateInstruction(Instruction instruction) {
+		// returning null tells the controller that we don't want to superimpose
+		// a different Instruction than the one that we were given
+		return null;
+	}
+
+	public Instruction evaluateInstructionDefinition(Instruction instruction) {
+		// returning null tells the controller that we don't want to superimpose
+		// a different Instruction than the one that we were given
+		return null;
 	}
 
 }

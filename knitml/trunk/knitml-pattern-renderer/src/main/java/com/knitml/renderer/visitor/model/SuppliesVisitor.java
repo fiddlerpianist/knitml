@@ -12,9 +12,9 @@ import com.knitml.core.model.header.Yarn;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.PatternRepository;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 
-public class SuppliesVisitor extends AbstractRenderingVisitor {
+public class SuppliesVisitor extends AbstractRenderingEvent {
 	
 	private static final String SYMBOL_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 

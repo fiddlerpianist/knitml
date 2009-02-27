@@ -10,9 +10,9 @@ import com.knitml.core.model.directions.block.Row;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 
-public class RowVisitor extends AbstractRenderingVisitor {
+public class RowVisitor extends AbstractRenderingEvent {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory.getLogger(RowVisitor.class);

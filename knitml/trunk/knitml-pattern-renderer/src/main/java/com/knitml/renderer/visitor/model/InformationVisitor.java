@@ -5,9 +5,9 @@ import com.knitml.core.model.directions.information.Message;
 import com.knitml.core.model.directions.information.NumberOfStitches;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 
-public class InformationVisitor extends AbstractRenderingVisitor {
+public class InformationVisitor extends AbstractRenderingEvent {
 
 	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {

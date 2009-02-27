@@ -7,9 +7,9 @@ import com.knitml.core.common.KnittingShape;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 
-public class DeclareFlatKnittingVisitor extends AbstractRenderingVisitor {
+public class DeclareFlatKnittingVisitor extends AbstractRenderingEvent {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory

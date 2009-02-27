@@ -61,6 +61,8 @@ public interface Renderer {
 	void endInstructionGroup();
 
 	Instruction evaluateInstruction(Instruction instruction);
+	Instruction evaluateInstructionDefinition(Instruction instruction);
+	
 	void beginInstruction(Instruction instruction, String label);
 	void endInstruction();
 	

@@ -10,10 +10,10 @@ import com.knitml.core.model.directions.block.MergedInstruction;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.ContextUtils;
 import com.knitml.renderer.context.RenderingContext;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 import com.knitml.renderer.visitor.controller.InstructionController;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
 
-public class MergedInstructionVisitor extends AbstractRenderingVisitor {
+public class MergedInstructionVisitor extends AbstractRenderingEvent {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory

@@ -8,9 +8,9 @@ import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.ContextUtils;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 
-public class InlineInstructionRefVisitor extends AbstractRenderingVisitor {
+public class InlineInstructionRefVisitor extends AbstractRenderingEvent {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory

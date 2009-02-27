@@ -7,9 +7,9 @@ import com.knitml.core.model.directions.inline.UsingNeedle;
 import com.knitml.core.model.header.Needle;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 
-public class UsingNeedleVisitor extends AbstractRenderingVisitor {
+public class UsingNeedleVisitor extends AbstractRenderingEvent {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory.getLogger(UsingNeedleVisitor.class);

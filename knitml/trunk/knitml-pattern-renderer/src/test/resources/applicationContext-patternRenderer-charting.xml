@@ -22,16 +22,9 @@
 		<property name="patternState">
 			<bean class="com.knitml.renderer.context.PatternState" scope="prototype"/>
 		</property>
-		<property name="engine" ref="engine"/>
 	</bean>
 	
-	<bean id="engine" class="com.knitml.engine.impl.DefaultKnittingEngine" scope="prototype">
-		<constructor-arg>
-			<bean class="com.knitml.engine.impl.DefaultKnittingFactory" scope="prototype"/>
-		</constructor-arg>
-	</bean>
-
-	<bean id="renderer" class="com.knitml.renderer.impl.charting.ChartingRenderer">
+	<bean id="renderer" class="com.knitml.renderer.impl.charting.ChartingRenderDispatcher">
 		<constructor-arg index="0">
 			<bean class="com.knitml.renderer.impl.basic.BasicTextRenderer" scope="prototype" init-method="initialize">
 				<property name="messageSource" ref="messageSource"/>
@@ -40,8 +33,6 @@
 		</constructor-arg>
 	</bean>
 	
-	
-
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="com.knitml.renderer.impl.operations"/>
 	</bean>

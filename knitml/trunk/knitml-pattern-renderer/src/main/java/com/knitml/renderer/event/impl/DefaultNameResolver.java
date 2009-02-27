@@ -1,7 +1,7 @@
-package com.knitml.renderer.visitor.impl;
+package com.knitml.renderer.event.impl;
 
-import com.knitml.renderer.visitor.NameResolver;
-import com.knitml.renderer.visitor.RenderingVisitor;
+import com.knitml.renderer.event.NameResolver;
+import com.knitml.renderer.event.RenderingEvent;
 
 
 public class DefaultNameResolver implements NameResolver {
@@ -17,11 +17,11 @@ public class DefaultNameResolver implements NameResolver {
 	}
 
 	/**
-	 * @see com.knitml.renderer.visitor.INameResolver#findVisitingClassFromClassName(java.lang.Object)
+	 * @see com.knitml.renderer.visitor.INameResolver#findTargetClassFromClassName(java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
-	public Class<RenderingVisitor> findVisitingClassFromClassName(Object object) throws ClassNotFoundException {
-		return (Class<RenderingVisitor>)Class.forName(packageName + "." + object.getClass().getSimpleName() + "Visitor");
+	public Class<RenderingEvent> findTargetClassFromClassName(Object object) throws ClassNotFoundException {
+		return (Class<RenderingEvent>)Class.forName(packageName + "." + object.getClass().getSimpleName() + "Visitor");
 	}
 	
 	public void setPackageName(String packageName) {

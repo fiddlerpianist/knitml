@@ -1,15 +1,14 @@
 package com.knitml.renderer.impl.charting.analyzer
 
 import static org.hamcrest.CoreMatchers.is
+import static org.hamcrest.CoreMatchers.not
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertNull
 import static org.junit.Assert.assertThat
+import static test.support.JiBXUtils.parseXml
 
 import java.io.StringReader
 
-import org.jibx.runtime.BindingDirectory
-import org.jibx.runtime.IBindingFactory
-import org.jibx.runtime.IUnmarshallingContext
 import org.junit.Before
 import org.junit.Test
 import org.junit.internal.runners.JUnit4ClassRunner
@@ -31,15 +30,9 @@ public class ChartingAnalyzerHeaderTests {
 	public void setUp() {
 		RenderingContextFactory factory = new DefaultRenderingContextFactory()
 		context = factory.createRenderingContext()
-		analyzer = new ChartingAnalyzer(context, true)
+		analyzer = new ChartingAnalyzer(context)
 	}
 
-	protected <C> C parseXml(String xml, Class<C> rootClass) throws Exception {
-		IBindingFactory factory = BindingDirectory.getFactory(rootClass)
-		IUnmarshallingContext uctx = factory.createUnmarshallingContext()
-		return (C) uctx.unmarshalDocument(new StringReader(xml))
-	}
-	
 	@Test
 	public void simpleHeaderInstruction() throws Exception {
 		Instruction instruction = parseXml ('''
@@ -52,9 +45,9 @@ public class ChartingAnalyzerHeaderTests {
             	<knit>4</knit>
 			</row>
 		 </instruction>''', Instruction)
-		Instruction newInstruction = analyzer.analyzeInstruction(instruction)
-		assertNotNull(newInstruction)
-		assertThat analyzer.maxWidth, is (4)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,true)
+		assertThat analysis.chartable, is (true)
+		assertThat analysis.maxWidth, is (4)
 	}
 
 	
@@ -72,11 +65,11 @@ public class ChartingAnalyzerHeaderTests {
             	<repeat until='end'><knit/></repeat>
 			</row>
 		 </instruction>''', Instruction)
-		Instruction newInstruction = analyzer.analyzeInstruction(instruction)
-		assertNotNull(newInstruction)
-		assertThat analyzer.maxWidth, is (12)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,true)
+		assertThat analysis.chartable, is (true)
+		assertThat analysis.maxWidth, is (12)
 		// ensure that the second row's repeat has been literalized to '12 times'
-		newInstruction.rows[1].operations[0].with {
+		analysis.instructionToUse.rows[1].operations[0].with {
 			assertThat until, is (Until.TIMES)
 			assertThat value, is (12)
 		}
@@ -93,7 +86,7 @@ public class ChartingAnalyzerHeaderTests {
 		       </repeat>
 			</row>
 		 </instruction>''', Instruction)
-		Instruction newInstruction = analyzer.analyzeInstruction(instruction)
-		assertNull(newInstruction)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,true)
+		assertThat analysis.chartable, is (false)
 	}
 }

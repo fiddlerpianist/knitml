@@ -22,7 +22,7 @@ import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.listener.RenderingListenerAdapter;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.KnittingContextFactory;
-import com.knitml.validation.context.Listener;
+import com.knitml.validation.context.PatternEventListener;
 import com.knitml.validation.context.ListenerManager;
 import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
 import com.knitml.validation.context.impl.DefaultListenerManager;
@@ -41,7 +41,7 @@ public abstract class AbstractRenderingContextTests extends AbstractDependencyIn
 	protected static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
 	// knitting context variables
-	protected Listener listener;
+	protected PatternEventListener listener;
 	protected KnittingContext knittingContext;
 	protected VisitorFactory visitorFactory = new DefaultVisitorFactory(); // stateless, so init here
 	
@@ -69,7 +69,7 @@ public abstract class AbstractRenderingContextTests extends AbstractDependencyIn
 		onSetItUp();
 	}
 	
-	protected KnittingContext setUpKnittingContext(Listener listener) throws Exception {
+	protected KnittingContext setUpKnittingContext(PatternEventListener listener) throws Exception {
 		// create the listener manager and add a listener to it
 		// create the knitting context 
 		KnittingContextFactory contextFactory = new DefaultKnittingContextFactory();

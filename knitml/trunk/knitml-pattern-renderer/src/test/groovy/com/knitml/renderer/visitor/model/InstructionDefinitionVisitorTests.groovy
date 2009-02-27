@@ -42,7 +42,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 			<pattern xmlns="http://www.knitml.com/schema/pattern" number="1">
 				<directives>
 					<instruction-definitions>
-						<instruction id="sunny-day" label="Sunny Day Stitch">
+						<instruction id="sunny-day" label="Sunny Day Stitch" shape="round">
 							<row>
 								<knit>9</knit>
 								<purl>1</purl>
@@ -65,7 +65,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 			<pattern xmlns="http://www.knitml.com/schema/pattern" number="1">
 				<directives>
 					<instruction-definitions>
-						<instruction id="sunny-day" label="Sunny Day Stitch">
+						<instruction id="sunny-day" label="Sunny Day Stitch" shape="round">
 							<row>
 								<knit>9</knit>
 								<purl>1</purl>
@@ -97,7 +97,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 		<pattern xmlns="http://www.knitml.com/schema/pattern">
 		  <directives>
 		    <instruction-definitions>
-		      <instruction id="left-side" label="Blah 1">
+		      <instruction id="left-side" label="Blah 1" shape="round">
 		        <row>
 		          <purl>2</purl>
 		          <increase type="yo" />
@@ -107,7 +107,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 		          <purl>1</purl>
 		        </row>
 		      </instruction>
-		      <instruction id="right-side" label="Blah 2">
+		      <instruction id="right-side" label="Blah 2" shape="round">
 		        <row>
 		          <purl>1</purl>
 		          <knit>9</knit>
@@ -135,7 +135,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 		<pattern xmlns="http://www.knitml.com/schema/pattern">
 		  <directives>
 		    <instruction-definitions>
-		      <instruction id="left-side" label="Blah 1">
+		      <instruction id="left-side" label="Blah 1" shape="round">
 		        <row>
 		          <purl>2</purl>
 		          <increase type="yo" />
@@ -145,7 +145,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 		          <purl>1</purl>
 		        </row>
 		      </instruction>
-		      <instruction id="right-side" label="Blah 2">
+		      <instruction id="right-side" label="Blah 2" shape="round">
 		        <row>
 		          <purl>1</purl>
 		          <knit>9</knit>
@@ -163,6 +163,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 		 </directives>
 		<directions>
 			<cast-on>44</cast-on>
+			<join-in-round/>
 			<instruction id="next">
 			  <for-each-row-in-instruction ref="merged">
 				<knit>5</knit>

@@ -9,9 +9,9 @@ import com.knitml.core.model.header.Needle;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.PatternRepository;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 
-public class LabelNeedleVisitor extends AbstractRenderingVisitor {
+public class LabelNeedleVisitor extends AbstractRenderingEvent {
 
 	private final static Logger log = LoggerFactory
 			.getLogger(LabelNeedleVisitor.class);

@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.knitml.core.common.KnittingShape;
 import com.knitml.core.model.directions.DiscreteInlineOperation;
 import com.knitml.core.model.directions.InlineOperation;
 import com.knitml.core.model.directions.block.Instruction;
@@ -27,9 +28,21 @@ import com.knitml.core.model.directions.inline.Repeat.Until;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.renderer.context.RenderingContext;
 
+/**
+ * <p>
+ * Provides analysis of an instruction to determine whether it is chartable.
+ * Should be used in conjunction with a specific renderer capable of handling
+ * instructions returned from the analysis.
+ * 
+ * <p>
+ * Note: this class is <i>not</i> thread-safe.
+ * 
+ * @author Jonathan Whitall (fiddlerpianist@gmail.com)
+ * 
+ */
 public class ChartingAnalyzer {
 
-	private RenderingContext context;
+	private RenderingContext renderingContext;
 	/**
 	 * Set this variable to true to indicate that the KnittingEngine is not
 	 * immediately in a state where knitting can commence, i.e. a pattern is
@@ -38,42 +51,61 @@ public class ChartingAnalyzer {
 	 */
 	private boolean dynamicFirstRowCastOn = false;
 	private int maxWidth = 0;
-	private int currentChartWidth;
+	private int currentChartWidth = 0;
 	private boolean currentlyRepeating = false;
+	private KnittingShape shape = KnittingShape.FLAT;
 	private final static Logger log = LoggerFactory
 			.getLogger(ChartingAnalyzer.class);
 
-	public ChartingAnalyzer(RenderingContext context, boolean dynamicCastOn) {
-		this.context = context;
-		this.dynamicFirstRowCastOn = dynamicCastOn;
+	public ChartingAnalyzer(RenderingContext context) {
+		this.renderingContext = context;
 	}
 
-	public Instruction analyzeInstruction(Instruction originalInstruction) {
-		List<Row> newRows = new ArrayList<Row>();
-		Instruction newInstruction = new Instruction(originalInstruction,
-				newRows);
-		if (!originalInstruction.hasRows()) {
-			// cannot handle for-each-row-in-instruction yet. Possibly this
-			// would be
-			// expanded ahead of time.
-			log
-					.info("Cannot handle an Instruction whose operations are not made up entirely of Rows");
-			return null;
-		}
+	public Analysis analyzeInstruction(Instruction originalInstruction,
+			boolean fromInstructionDefinition) {
+		this.dynamicFirstRowCastOn = fromInstructionDefinition;
+		this.maxWidth = 0;
+		this.currentChartWidth = 0;
+		this.currentlyRepeating = false;
+		this.shape = KnittingShape.FLAT;
 
-		for (Row originalRow : originalInstruction.getRows()) {
-			Row newRow = analyzeRow(originalRow);
-			// if null is returned, we cannot chart, so return null up the chain
-			if (newRow == null) {
-				return null;
+		Object engineState = renderingContext.getEngine().save();
+
+		try {
+			List<Row> newRows = new ArrayList<Row>();
+			Instruction newInstruction = new Instruction(originalInstruction,
+					newRows);
+			if (!originalInstruction.hasRows()) {
+				// cannot handle for-each-row-in-instruction yet. Possibly this
+				// would be
+				// expanded ahead of time.
+				log
+						.info("Cannot handle an Instruction whose operations are not made up entirely of Rows");
+				return new Analysis();
 			}
-			newRows.add(newRow);
+
+			for (Row originalRow : originalInstruction.getRows()) {
+				Row newRow = analyzeRow(originalRow);
+				// if null is returned, we cannot chart, so return null up the
+				// chain
+				if (newRow == null) {
+					return new Analysis();
+				}
+				newRows.add(newRow);
+			}
+			Analysis result = new Analysis();
+			result.setInstructionToUse(newInstruction);
+			result.setChartable(true);
+			result.setMaxWidth(this.maxWidth);
+			result.setKnittingShape(this.shape);
+			return result;
+		} finally {
+			renderingContext.getEngine().restore(engineState);
 		}
-		return newInstruction;
 	}
 
-	public Row analyzeRow(Row originalRow) {
-		KnittingEngine engine = context.getEngine();
+	protected Row analyzeRow(Row originalRow) {
+		KnittingEngine engine = renderingContext.getEngine();
 		// TODO return modified row, if applicable
 		List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
 		Row newRow = new Row(originalRow, newOperations);
@@ -81,6 +113,12 @@ public class ChartingAnalyzer {
 
 		// Begin the row for the engine
 		if (dynamicFirstRowCastOn) {
+			// if this is an instruction definition, infer the intended shape
+			// from what is specified by the first row's shape.
+			// If nothing is specified, flat knitting is assumed.
+			if (originalRow.getType() != null) {
+				this.shape = originalRow.getType();
+			}
 			// cast on one stitch so that we can start a new row below
 			engine.castOn(1, false);
 		}
@@ -134,8 +172,8 @@ public class ChartingAnalyzer {
 
 	protected InlineOperation handle(InlineInstruction object) {
 		List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
-		InlineInstruction oldInlineInstruction = context.getPatternRepository()
-				.getInlineInstruction(object.getId());
+		InlineInstruction oldInlineInstruction = renderingContext
+				.getPatternRepository().getInlineInstruction(object.getId());
 		InlineInstruction newInlineInstruction = new InlineInstruction(
 				oldInlineInstruction, newOperations);
 
@@ -151,9 +189,9 @@ public class ChartingAnalyzer {
 	}
 
 	protected InlineOperation handle(InlineInstructionRef object) {
-		InlineInstruction oldInlineInstruction = context
-				.getPatternRepository()
-				.getInlineInstruction(object.getReferencedInstruction().getId());
+		InlineInstruction oldInlineInstruction = renderingContext
+				.getPatternRepository().getInlineInstruction(
+						object.getReferencedInstruction().getId());
 		return handle(oldInlineInstruction);
 	}
 
@@ -183,9 +221,11 @@ public class ChartingAnalyzer {
 		Repeat newRepeat = new Repeat();
 		newRepeat.setOperations(newOperations);
 
-		KnittingEngine engine = context.getEngine();
-		int startingTotalStitches = engine.getTotalNumberOfStitchesOnCurrentNeedle();
-		int startingStitchesRemaining = engine.getStitchesRemainingOnCurrentNeedle();
+		KnittingEngine engine = renderingContext.getEngine();
+		int startingTotalStitches = engine
+				.getTotalNumberOfStitchesOnCurrentNeedle();
+		int startingStitchesRemaining = engine
+				.getStitchesRemainingOnCurrentNeedle();
 		Object engineState = engine.save();
 		int savedCurrentWidth = this.currentChartWidth;
 		// TODO handle the case where we should have 0 repeats
@@ -197,14 +237,16 @@ public class ChartingAnalyzer {
 			}
 			newOperations.add(newOperation);
 		}
-		int endingTotalStitches = engine.getTotalNumberOfStitchesOnCurrentNeedle();
-		int endingStitchesRemaining = engine.getStitchesRemainingOnCurrentNeedle();
+		int endingTotalStitches = engine
+				.getTotalNumberOfStitchesOnCurrentNeedle();
+		int endingStitchesRemaining = engine
+				.getStitchesRemainingOnCurrentNeedle();
 		engine.restore(engineState);
 		this.currentChartWidth = savedCurrentWidth;
-		
+
 		int advanceCount = startingStitchesRemaining - endingStitchesRemaining;
 		int increaseCount = endingTotalStitches - startingTotalStitches;
-		
+
 		int counter = 0;
 		switch (until) {
 		case TIMES:
@@ -214,37 +256,38 @@ public class ChartingAnalyzer {
 			counter = value;
 			break;
 		case BEFORE_END:
-			while (context.getEngine().getStitchesRemainingInRow() > value) {
+			while (renderingContext.getEngine().getStitchesRemainingInRow() > value) {
 				advanceAndIncrease(advanceCount, increaseCount);
 				counter++;
 			}
 			break;
 		case END:
-			while (context.getEngine().getStitchesRemainingInRow() > 0) {
+			while (renderingContext.getEngine().getStitchesRemainingInRow() > 0) {
 				advanceAndIncrease(advanceCount, increaseCount);
 				counter++;
 			}
 			break;
 		case BEFORE_GAP:
-			while (context.getEngine().getStitchesToGap() > value) {
+			while (renderingContext.getEngine().getStitchesToGap() > value) {
 				advanceAndIncrease(advanceCount, increaseCount);
 				counter++;
 			}
 			break;
 		case BEFORE_MARKER:
-			while (context.getEngine().getStitchesToNextMarker() > value) {
+			while (renderingContext.getEngine().getStitchesToNextMarker() > value) {
 				advanceAndIncrease(advanceCount, increaseCount);
 				counter++;
 			}
 			break;
 		case MARKER:
-			while (context.getEngine().getStitchesToNextMarker() > 0) {
+			while (renderingContext.getEngine().getStitchesToNextMarker() > 0) {
 				advanceAndIncrease(advanceCount, increaseCount);
 				counter++;
 			}
 			break;
 		default:
-			throw new RuntimeException("The until value [" + until + "] has not been properly coded");
+			throw new RuntimeException("The until value [" + until
+					+ "] has not been properly coded");
 		}
 
 		newRepeat.setUntil(Until.TIMES);
@@ -285,32 +328,32 @@ public class ChartingAnalyzer {
 			// dynamically cast on the advance count (since all stitches are
 			// unaccounted for)
 			// then slip them in reverse so that we can work them "normally"
-			context.getEngine().castOn(new InlineCastOn(advanceCount));
-			context.getEngine().reverseSlip(advanceCount);
+			renderingContext.getEngine().castOn(new InlineCastOn(advanceCount));
+			renderingContext.getEngine().reverseSlip(advanceCount);
 		}
 		advanceAndIncrease(advanceCount, increaseCount);
 
 		return object;
 	}
-	
+
 	protected void advanceAndIncrease(int advanceCount, int increaseCount) {
 		this.currentChartWidth += advanceCount + increaseCount;
 		if (increaseCount < 0) {
 			// decrease the number specified by increaseCount
 			for (int i = 0; i > increaseCount; i--) {
-				context.getEngine().knitTwoTogether();
-				context.getEngine().reverseSlip();
+				renderingContext.getEngine().knitTwoTogether();
+				renderingContext.getEngine().reverseSlip();
 			}
 		} else if (increaseCount > 0) {
 			// increase the number specified by increaseCount
 			for (int i = 0; i < increaseCount; i++) {
-				context.getEngine().increase(new Increase(1));
-				context.getEngine().reverseSlip();
+				renderingContext.getEngine().increase(new Increase(1));
+				renderingContext.getEngine().reverseSlip();
 			}
 		}
 		// advance the engine the number that this operations says to advance
 		// plus the increases
-		context.getEngine().slip(advanceCount + increaseCount);
+		renderingContext.getEngine().slip(advanceCount + increaseCount);
 	}
 
 	protected InlineOperation handle(NoStitch object) {
@@ -322,10 +365,10 @@ public class ChartingAnalyzer {
 	}
 
 	protected InlineOperation handle(PlaceMarker object) {
-		context.getEngine().placeMarker();
+		renderingContext.getEngine().placeMarker();
 		return object;
 	}
-	
+
 	protected InlineOperation handle(InlineOperation operation) {
 		Method m = null;
 		try {

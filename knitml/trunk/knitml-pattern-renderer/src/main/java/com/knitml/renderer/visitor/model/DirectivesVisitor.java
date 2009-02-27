@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.model.header.Directives;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 
-public class DirectivesVisitor extends AbstractRenderingVisitor {
+public class DirectivesVisitor extends AbstractRenderingEvent {
 
 	private final static Logger log = LoggerFactory
 			.getLogger(DirectivesVisitor.class);

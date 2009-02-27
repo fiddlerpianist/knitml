@@ -9,13 +9,13 @@ import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.core.model.directions.block.Row;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.RenderingVisitor;
-import com.knitml.renderer.visitor.VisitorFactory;
+import com.knitml.renderer.event.EventFactory;
+import com.knitml.renderer.event.RenderingEvent;
 
 public class InstructionController {
-	private VisitorFactory visitorFactory;
+	private EventFactory visitorFactory;
 
-	public InstructionController(VisitorFactory visitorFactory) {
+	public InstructionController(EventFactory visitorFactory) {
 		this.visitorFactory = visitorFactory;
 	}
 
@@ -37,7 +37,7 @@ public class InstructionController {
 	}
 
 	protected void visit(Operation operation, RenderingContext context) {
-		RenderingVisitor visitor = visitorFactory
+		RenderingEvent visitor = visitorFactory
 				.findVisitorFromClassName(operation);
 		boolean result = visitor.begin(operation, context);
 		if (result) {

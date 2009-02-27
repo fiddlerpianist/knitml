@@ -12,9 +12,9 @@ import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.PatternRepository;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 
-public class ForEachRowInInstructionVisitor extends AbstractRenderingVisitor {
+public class ForEachRowInInstructionVisitor extends AbstractRenderingEvent {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory

@@ -5,13 +5,13 @@ import static org.hamcrest.CoreMatchers.not
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertNull
 import static org.junit.Assert.assertThat
+import static org.junit.Assert.assertTrue
+import static org.junit.Assert.assertFalse
 import static com.knitml.core.model.directions.inline.Repeat.Until.TIMES
+import static test.support.JiBXUtils.parseXml
 
 import java.io.StringReader
 
-import org.jibx.runtime.BindingDirectory
-import org.jibx.runtime.IBindingFactory
-import org.jibx.runtime.IUnmarshallingContext
 import org.junit.Before
 import org.junit.Test
 import org.junit.internal.runners.JUnit4ClassRunner
@@ -33,14 +33,7 @@ public class ChartingAnalyzerBodyTests {
 	public void setUp() {
 		RenderingContextFactory factory = new DefaultRenderingContextFactory()
 		context = factory.createRenderingContext()
-		// the 'false' indicates that we do not want to do a dynamic cast-on
-		analyzer = new ChartingAnalyzer(context, false)
-	}
-	
-	protected <C> C parseXml(String xml, Class<C> rootClass) throws Exception {
-		IBindingFactory factory = BindingDirectory.getFactory(rootClass)
-		IUnmarshallingContext uctx = factory.createUnmarshallingContext()
-		return (C) uctx.unmarshalDocument(new StringReader(xml))
+		analyzer = new ChartingAnalyzer(context)
 	}
 	
 	@Test
@@ -56,9 +49,10 @@ public class ChartingAnalyzerBodyTests {
 			</row>
 		 </instruction>''', Instruction)
 		context.engine.castOn 4
-		Instruction newInstruction = analyzer.analyzeInstruction(instruction)
-		assertNotNull(newInstruction)
-		assertThat analyzer.maxWidth, is (4)
+		// the 'false' indicates that we do not want to do a dynamic cast-on
+		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		assertTrue analysis.isChartable()
+		assertThat analysis.maxWidth, is (4)
 	}
 	
 	
@@ -74,9 +68,9 @@ public class ChartingAnalyzerBodyTests {
 		    </row>
 		 </instruction>''', Instruction)
 		context.engine.castOn 16
-		Instruction newInstruction = analyzer.analyzeInstruction(instruction)
-		assertThat newInstruction, not (null)
-		assertThat analyzer.maxWidth, is (16)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		assertTrue analysis.isChartable()
+		assertThat analysis.maxWidth, is (16)
 	}
 	
 	@Test
@@ -91,11 +85,12 @@ public class ChartingAnalyzerBodyTests {
 		       </repeat>
 		    </row>
 		 </instruction>''', Instruction)
-		Instruction newInstruction = analyzer.analyzeInstruction(instruction)
-		assertThat newInstruction, not (null)
-		assertThat analyzer.maxWidth, is (16)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		assertTrue analysis.isChartable()
+		assertThat analysis.maxWidth, is (16)
+		assertThat analysis.instructionToUse, not (null)
 		// ensure that the second row's repeat has been literalized to '12 times'
-		newInstruction.rows[0].operations[0].with {
+		analysis.instructionToUse.rows[0].operations[0].with {
 			assertThat until, is (TIMES)
 			assertThat value, is (4)
 		}
@@ -115,8 +110,8 @@ public class ChartingAnalyzerBodyTests {
 		         <knit>4</knit> 
 		    </row>
 		 </instruction>''', Instruction)
-		Instruction newInstruction = analyzer.analyzeInstruction(instruction)
-		assertThat newInstruction, is (null)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		assertFalse analysis.isChartable()
 	}
 	
 	@Test
@@ -138,8 +133,8 @@ public class ChartingAnalyzerBodyTests {
 		    </directions>
 		 </pattern>''', Pattern)
 		context.patternRepository.addGlobalInstruction(pattern.directions.operations[0], "Ref Instruction")
-		Instruction newInstruction = analyzer.analyzeInstruction(pattern.directions.operations[1])
-		assertThat newInstruction, is (null)
+		Analysis analysis = analyzer.analyzeInstruction(pattern.directions.operations[1],false)
+		assertFalse analysis.isChartable()
 	}
 	
 	@Test
@@ -152,8 +147,8 @@ public class ChartingAnalyzerBodyTests {
 				<bind-off-all/>
 		    </row>
 		 </instruction>''', Instruction)
-		Instruction newInstruction = analyzer.analyzeInstruction(instruction)
-		assertThat newInstruction, is (null)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		assertFalse analysis.isChartable()
 	}
 	
 	@Test
@@ -165,8 +160,8 @@ public class ChartingAnalyzerBodyTests {
 				<designate-end-of-row/>
 		    </row>
 		 </instruction>''', Instruction)
-		Instruction newInstruction = analyzer.analyzeInstruction(instruction)
-		assertThat newInstruction, is (null)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		assertFalse analysis.isChartable()
 	}
 	
 	@Test
@@ -188,14 +183,14 @@ public class ChartingAnalyzerBodyTests {
 		    	</repeat>
 		    </row>
 		 </instruction>''', Instruction)
-		Instruction newInstruction = analyzer.analyzeInstruction(instruction)
-		assertThat newInstruction, not (null)
-		assertThat analyzer.maxWidth, is (12)
-		newInstruction.rows[1].operations[0].with {
+		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		assertTrue analysis.isChartable()
+		assertThat analysis.maxWidth, is (12)
+		analysis.instructionToUse.rows[1].operations[0].with {
 			assertThat until, is (TIMES)
 			assertThat value, is (6)
 		}
-		newInstruction.rows[1].operations[1].with {
+		analysis.instructionToUse.rows[1].operations[1].with {
 			assertThat until, is (TIMES)
 			assertThat value, is (6)
 		}
@@ -222,10 +217,10 @@ public class ChartingAnalyzerBodyTests {
 		    	</repeat>
 		    </row>
 		 </instruction>''', Instruction)
-		Instruction newInstruction = analyzer.analyzeInstruction(instruction)
-		assertThat newInstruction, not (null)
-		assertThat analyzer.maxWidth, is (12)
-		newInstruction.rows[0].operations[0].with {
+		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		assertTrue analysis.isChartable()
+		assertThat analysis.maxWidth, is (12)
+		analysis.instructionToUse.rows[0].operations[0].with {
 			assertThat until, is (TIMES)
 			assertThat value, is (6)
 		}
@@ -255,8 +250,8 @@ public class ChartingAnalyzerBodyTests {
 		 </instruction>
     	</directions>
         </pattern>''', Pattern)
-		Instruction newInstruction = analyzer.analyzeInstruction(pattern.directions.operations[0])
-		assertThat newInstruction, is (null)
+		Analysis analysis = analyzer.analyzeInstruction(pattern.directions.operations[0],false)
+		assertFalse analysis.isChartable()
 	}
 
 	@Test
@@ -278,8 +273,8 @@ public class ChartingAnalyzerBodyTests {
 		 </instruction>
     	</directions>
         </pattern>''', Pattern)
-		Instruction newInstruction = analyzer.analyzeInstruction(pattern.directions.operations[1])
-		assertThat newInstruction, is (null)
+		Analysis analysis = analyzer.analyzeInstruction(pattern.directions.operations[1],false)
+		assertFalse analysis.isChartable()
 	}
 	
 	
@@ -294,8 +289,8 @@ public class ChartingAnalyzerBodyTests {
 						<purl>2</purl>
 					</row>
 				 </instruction>''', Instruction)
-		Instruction newInstruction = analyzer.analyzeInstruction(instruction)
-		assertNotNull(newInstruction)
-		assertThat analyzer.maxWidth, is (8)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		assertTrue analysis.isChartable()
+		assertThat analysis.maxWidth, is (8)
 	}
 }

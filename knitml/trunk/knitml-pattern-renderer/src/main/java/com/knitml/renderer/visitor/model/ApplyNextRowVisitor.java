@@ -9,9 +9,9 @@ import com.knitml.core.common.ValidationException;
 import com.knitml.core.model.directions.inline.ApplyNextRow;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.visitor.impl.AbstractRenderingVisitor;
+import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 
-public class ApplyNextRowVisitor extends AbstractRenderingVisitor {
+public class ApplyNextRowVisitor extends AbstractRenderingEvent {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory
