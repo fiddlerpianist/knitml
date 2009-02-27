@@ -16,7 +16,7 @@ import com.knitml.core.common.Parameters;
 import com.knitml.renderer.RendererProgram;
 import com.knitml.renderer.context.RenderingContextFactory;
 import com.knitml.renderer.context.impl.SpringRenderingContextFactory;
-import com.knitml.renderer.visitor.impl.DefaultVisitorFactory;
+import com.knitml.renderer.event.impl.DefaultEventFactory;
 import com.knitml.tools.runner.support.RunnerUtils;
 import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
 import com.knitml.validation.visitor.instruction.impl.SpringVisitorFactory;
@@ -57,7 +57,7 @@ public class RenderPattern {
 			RenderingContextFactory contextFactory = new SpringRenderingContextFactory(
 					applicationContext);
 			RendererProgram renderer = new RendererProgram(contextFactory,
-					new DefaultVisitorFactory(),
+					new DefaultEventFactory(),
 					new DefaultKnittingContextFactory(),
 					new SpringVisitorFactory());
 			renderer.render(parameters);

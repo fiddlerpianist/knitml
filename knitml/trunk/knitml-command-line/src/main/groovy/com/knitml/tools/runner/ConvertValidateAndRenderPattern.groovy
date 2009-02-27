@@ -26,7 +26,7 @@ import com.knitml.core.xml.PluggableSchemaResolver
 import com.knitml.core.xml.EntityResolverWrapper
 import com.knitml.renderer.context.RenderingContextFactory
 import com.knitml.renderer.context.impl.SpringRenderingContextFactory
-import com.knitml.renderer.visitor.impl.DefaultVisitorFactory
+import com.knitml.renderer.event.impl.DefaultEventFactory
 import com.knitml.renderer.RendererProgram
 import com.knitml.el.GroovyKnitProgram
 import com.knitml.tools.runner.support.RunnerUtils
@@ -95,7 +95,7 @@ class ConvertValidateAndRenderPattern {
 		}
 		parameters.writer = RunnerUtils.getWriter(line)
 		RenderingContextFactory contextFactory = new SpringRenderingContextFactory(applicationContextFiles)
-		RendererProgram renderer = new RendererProgram(contextFactory, new DefaultVisitorFactory())
+		RendererProgram renderer = new RendererProgram(contextFactory, new DefaultEventFactory())
 		renderer.render(parameters)
 	}
 
