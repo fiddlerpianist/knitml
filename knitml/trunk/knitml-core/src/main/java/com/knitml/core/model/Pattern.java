@@ -16,6 +16,7 @@ public class Pattern {
 	protected Directions directions;
 	protected String schemaLocation;
 	protected String languageCode;
+	protected String version;
 	
 	public Directives getDirectives() {
 		return directives;
@@ -31,5 +32,8 @@ public class Pattern {
 	}
 	public String getLanguageCode() {
 		return languageCode;
+	}
+	public String getVersion() {
+		return version;
 	}
 }

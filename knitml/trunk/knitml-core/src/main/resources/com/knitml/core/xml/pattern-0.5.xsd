@@ -1093,6 +1093,20 @@
       <xsd:element name="for-each-row-in-instruction" type="ForEachRowInInstructionType"/>
     </xsd:choice>
     <xsd:attribute name="id" type="id-type" use="required"/>
+    <xsd:attribute name="shape">
+      <xsd:annotation>
+        <xsd:documentation>Documents the shape of the work, i.e. whether it is knit flat or in the
+          round. If the instruction appears in the header (under an
+          &lt;instruction-definition&gt; element) then this attribute must be
+        specified.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="flat"/>
+          <xsd:enumeration value="round"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
     <xsd:attributeGroup ref="labelAttrs"/>
   </xsd:complexType>
 

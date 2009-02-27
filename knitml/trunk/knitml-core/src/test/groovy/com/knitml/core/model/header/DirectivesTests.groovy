@@ -7,6 +7,8 @@ import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
 import static com.knitml.core.common.MergeType.PHYSICAL
 import static com.knitml.core.common.MergePoint.ROW
+import static com.knitml.core.common.KnittingShape.FLAT
+import static com.knitml.core.common.KnittingShape.ROUND
 import static test.support.JiBXTestUtils.unmarshalXml
 import static test.support.JiBXTestUtils.marshalXmlAndCompare
 
@@ -38,8 +40,9 @@ class DirectivesTests {
 		<pattern xmlns="http://www.knitml.com/schema/pattern">
 			<directives>
 				<instruction-definitions>
-					<instruction id="thingy1"/>
-					<instruction id="thingy2"/>
+					<instruction id="thingy1" shape="flat"/>
+					<instruction id="thingy2" shape="round"/>
+					<instruction id="thingy3"/>
 					<merged-instruction id="thingy12" merge-point="row" type="physical">
 						<instruction-ref ref="thingy1"/>
 						<instruction-ref ref="thingy2"/>
@@ -51,7 +54,12 @@ class DirectivesTests {
 		Pattern pattern = unmarshalXml(xml)
 		def instruction1 = pattern.directives.instructionDefinitions[0]
 		def instruction2 = pattern.directives.instructionDefinitions[1]
-		def mergedInstruction = pattern.directives.instructionDefinitions[2]
+		def instruction3 = pattern.directives.instructionDefinitions[2]
+		assertThat instruction1.knittingShape, is (FLAT)
+		assertThat instruction2.knittingShape, is (ROUND)
+		assertThat instruction3.knittingShape, is (null)
+		
+		def mergedInstruction = pattern.directives.instructionDefinitions[3]
 		mergedInstruction.with {
 			assertThat id, is ('thingy12')
 			assertThat mergePoint, is (ROW)

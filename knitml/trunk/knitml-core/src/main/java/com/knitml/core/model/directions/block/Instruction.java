@@ -3,6 +3,7 @@ package com.knitml.core.model.directions.block;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.ValidationException;
 import com.knitml.core.model.Identifiable;
 import com.knitml.core.model.directions.BlockOperation;
@@ -19,6 +20,7 @@ public class Instruction implements BlockOperation, Identifiable,
 	protected String id;
 	protected String label;
 	protected String messageKey;
+	protected KnittingShape knittingShape;
 
 	public void validate() {
 		if (forEachRowInInstruction != null && rows != null && !rows.isEmpty()) {
@@ -63,6 +65,7 @@ public class Instruction implements BlockOperation, Identifiable,
 		this.id = instruction.getId();
 		this.label = instruction.getLabel();
 		this.messageKey = instruction.getMessageKey();
+		this.knittingShape = instruction.getKnittingShape();
 		this.rows = rows;
 	}
 	
@@ -71,6 +74,18 @@ public class Instruction implements BlockOperation, Identifiable,
 		this.label = label;
 		this.messageKey = messageKey;
 		this.rows = rows;
+	}
+
+	public Instruction(String id, String label, String messageKey, KnittingShape knittingShape, List<Row> rows) {
+		this.id = id;
+		this.label = label;
+		this.messageKey = messageKey;
+		this.knittingShape = knittingShape;
+		this.rows = rows;
+	}
+	
+	public KnittingShape getKnittingShape() {
+		return knittingShape;
 	}
 	
 }

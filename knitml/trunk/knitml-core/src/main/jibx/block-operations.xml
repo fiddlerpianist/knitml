@@ -17,6 +17,7 @@
         <value name="id" field="id" ident="def"/>
         <value name="label" field="label" usage="optional"/>
         <value name="message-key" field="messageKey" usage="optional"/>
+        <value name="shape" field="knittingShape" enum-value-method="getCanonicalName" usage="optional"/>
     </mapping>
     <mapping name="instruction-ref" class="com.knitml.core.model.directions.block.InstructionRef"
         marshaller="com.knitml.core.xml.translator.InstructionRefTranslator"
