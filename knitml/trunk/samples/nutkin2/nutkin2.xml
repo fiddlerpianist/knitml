@@ -4,7 +4,7 @@
       <message-source>nutkin2-messages</message-source>
     </message-sources>
     <instruction-definitions>
-      <instruction id="nutkin2-left-side" message-key="instruction.nutkin2-left-side">
+      <instruction id="nutkin2-left-side" message-key="instruction.nutkin2-left-side" shape="round">
         <row>
           <purl>2</purl>
           <increase type="yo" />
@@ -94,7 +94,7 @@
           <purl>1</purl>
         </row>
       </instruction>
-      <instruction id="nutkin2-right-side" message-key="instruction.nutkin2-right-side">
+      <instruction id="nutkin2-right-side" message-key="instruction.nutkin2-right-side" shape="round">
         <row>
           <purl>1</purl>
           <knit>9</knit>
@@ -210,7 +210,7 @@
         <knit>2</knit>
         <purl>2</purl>
       </inline-instruction>
-      <instruction id="garter-ribbing" message-key="instruction.garter-ribbing">
+      <instruction id="garter-ribbing" message-key="instruction.garter-ribbing" shape="round">
         <row>
           <inline-instruction-ref ref="k2p2-ribbing" />
         </row>

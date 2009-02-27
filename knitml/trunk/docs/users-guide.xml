@@ -1274,17 +1274,18 @@ Next Row: Bind off all stitches</programlisting>
               <entry>
                 <para>id as <link xlink:href="#id-type">ID</link>, <emphasis>withKey</emphasis>,
                     <emphasis>withLabel</emphasis>, label as <link xlink:href="#string-type"
-                  >String</link>, xmlAttributes as <link xlink:href="#map-type">Map</link>
+                  >String</link>, shape as <link xlink:href="#shape-type">Shape</link>,
+                  xmlAttributes as <link xlink:href="#map-type">Map</link>
                 </para>
                 <para>(all parameters except id optional)</para>
               </entry>
               <entry>Define a block instruction</entry>
               <entry>
-                <code>instruction 'my' withKey withLabel 'Just do it' {...}</code>
+                <code>instruction 'my' withKey withLabel 'Just do it' round {...}</code>
               </entry>
               <entry>
-                <code>&lt;instruction id="my" message-key="instruction.my" label="Just do it"> ...
-                  &lt;/instruction></code>
+                <code>&lt;instruction id="my" message-key="instruction.my" label="Just do it"
+                  shape="round"> ... &lt;/instruction></code>
               </entry>
             </row>
             <row>
@@ -2434,6 +2435,11 @@ state unworked</programlisting>
               <entry>
                 <code>wrong</code>
               </entry>
+            </row>
+            <row xml:id="shape-type">
+              <entry>Shape</entry>
+              <entry><code>('flat' | 'round')</code></entry>
+              <entry><code>round</code></entry>
             </row>
             <row xml:id="state-description-type">
               <entry>StateDescription</entry>
