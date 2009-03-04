@@ -31,5 +31,10 @@
 
 = Inline Instructions =
 
-= For Each Row in Instruction / Apply Next Row =
+= Stitches =
+  * A "Western" stitch mount is assumed for all stitches
+    * Means that k2togs lean right, ssks lean left
+    * "front" loop is leading loop, "back" is trailing loop
+    * slip knitwise twists the stitch
 
+= For Each Row in Instruction / Apply Next Row =
