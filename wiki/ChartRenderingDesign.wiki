@@ -14,8 +14,9 @@ Pass 1: Walk through instruction's elements to determine if it is chartable.
   * If unchartable, revert to basic text renderer and revert engine back to original state.
 
 Pass 2: 
-Build an in-memory chart whose width is twice the gathered "width" minus one (in case the knitting needs to expand in either direction)
+Build an in-memory chart
   * Chart should start "centered" for the first row and then shrink according to the way each decrease leans
-  * Once charted with standard internal symbols, trim the "edges" of the chart
+  * Chart should use "logical" representations of operations
   * Then produce a translation from internal syntax to a character syntax which is the target. By default provide one of the Unicode symbols from the Knitting Universe font set.
-  * The engine is used to determine whether the chart represents knitting flat or in-the-round
+  * The engine is used to determine whether the chart represents knitting flat or in-the-round, unless it's from the instruction definition section, in which case it must be specified on the instruction object itself
+  * Use a separate ChartWriter with a symbol set to actually produce the real chart
