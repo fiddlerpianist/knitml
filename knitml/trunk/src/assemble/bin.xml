@@ -29,9 +29,11 @@
     <moduleSet>
       <includes>
         <include>com.knitml:knitml-core</include>
+        <include>com.knitml:knitml-knitting-engine</include>
         <include>com.knitml:knitml-validation</include>
         <include>com.knitml:knitml-pattern-renderer</include>
-        <include>com.knitml:knitml-tools</include>
+        <include>com.knitml:knitml-el</include>
+        <include>com.knitml:knitml-command-line</include>
       </includes>
       <binaries>
         <outputDirectory>lib</outputDirectory>
