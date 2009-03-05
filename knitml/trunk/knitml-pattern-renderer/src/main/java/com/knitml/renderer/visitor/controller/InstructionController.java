@@ -5,6 +5,7 @@ import java.util.List;
 import com.knitml.core.model.directions.CompositeOperation;
 import com.knitml.core.model.directions.InlineOperation;
 import com.knitml.core.model.directions.Operation;
+import com.knitml.core.model.directions.block.ForEachRowInInstruction;
 import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.core.model.directions.block.Row;
 import com.knitml.core.model.directions.inline.InlineInstruction;
@@ -25,6 +26,8 @@ public class InstructionController {
 			for (Row row : instruction.getRows()) {
 				visit(row, context);
 			}
+		} else {
+			visit(instruction.getForEachRowInInstruction(), context);
 		}
 	}
 

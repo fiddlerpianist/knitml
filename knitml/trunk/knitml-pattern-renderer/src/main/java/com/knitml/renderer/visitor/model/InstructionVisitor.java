@@ -12,6 +12,7 @@ import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.PatternRepository;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.event.impl.AbstractRenderingEvent;
+import com.knitml.renderer.visitor.controller.InstructionController;
 
 public class InstructionVisitor extends AbstractRenderingEvent {
 
@@ -20,34 +21,47 @@ public class InstructionVisitor extends AbstractRenderingEvent {
 
 	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
+		return false;
+	}
+
+	public void end(Object element, RenderingContext context) {
 		PatternRepository repository = context.getPatternRepository();
 		Instruction instruction = (Instruction) element;
 		String id = instruction.getId();
-		if (instruction.hasLabelOrMessageKey()) {
-			repository.addGlobalInstruction(instruction, ContextUtils.deriveLabel(instruction, repository));
-			log.info("Adding global instruction [{}] to the pattern repository",id);
-		} else {
-			repository.addLocalInstruction(instruction);
-			log.info("Adding local instruction [{}] to the pattern repository",id);
+		Instruction candidateInstruction = context.getKnittingContext()
+				.getPatternRepository()
+				.getBlockInstruction(instruction.getId());
+		Instruction instructionToUse = context.getRenderer().evaluateInstruction(candidateInstruction);
+		if (instructionToUse == null) {
+			instructionToUse = candidateInstruction;
 		}
-		InstructionInfo instructionInfo = repository.getInstruction(id);
+		InstructionInfo instructionInfo;
+		if (instructionToUse.hasLabelOrMessageKey()) {
+			instructionInfo = repository.addGlobalInstruction(instruction, ContextUtils
+					.deriveLabel(instruction, repository));
+			log.info(
+					"Adding global instruction [{}] to the pattern repository",
+					id);
+		} else {
+			instructionInfo = repository.addLocalInstruction(instruction);
+			log.info("Adding local instruction [{}] to the pattern repository",
+					id);
+		}
 		context.getPatternState().setCurrentInstructionInfo(instructionInfo);
-		return true;
-	}
-	
-	public void end(Object element, RenderingContext context) {
-		InstructionInfo instructionInfo = context.getPatternState().getCurrentInstructionInfo();
- 
 		if (instructionInfo.getRowRange() != null) {
-			Instruction instruction = instructionInfo.getInstruction();
-			setLastExpressedRowNumber(instructionInfo.getRowRange().getMaximumInteger(), context);
-			// if setLastExpressedRowNumber resets the local instructions, this would also clear out
-			// the currently executing instruction. We don't want that to happen, so add it back in.
-			PatternRepository repository = context.getPatternRepository();
+			setLastExpressedRowNumber(instructionInfo.getRowRange()
+					.getMaximumInteger(), context);
+			// if setLastExpressedRowNumber resets the local instructions, this
+			// would also clear out the currently executing instruction. We don't want that to
+			// happen, so add it back in.
+			// FIXME this is really backwards; maybe we should redo this
 			if (repository.getInstruction(instruction.getId()) == null) {
-				repository.addLocalInstruction(instruction);
+				repository.addLocalInstruction(instructionInfo.getInstruction());
 			}
 		}
+		context.getRenderer().beginInstruction(instructionInfo);
+		InstructionController embeddedController = new InstructionController(getEventFactory());
+		embeddedController.visitInstruction(instructionToUse, context);
 		context.getPatternState().clearCurrentInstructionInfo();
 		context.getRenderer().endInstruction();
 	}

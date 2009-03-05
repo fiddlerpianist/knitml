@@ -24,7 +24,7 @@
 		</property>
 	</bean>
 	
-	<bean id="renderer" class="com.knitml.renderer.impl.charting.ChartingRenderDispatcher">
+	<bean id="renderer" class="com.knitml.renderer.impl.charting.ChartingRenderer">
 		<constructor-arg index="0">
 			<bean class="com.knitml.renderer.impl.basic.BasicTextRenderer" scope="prototype" init-method="initialize">
 				<property name="messageSource" ref="messageSource"/>

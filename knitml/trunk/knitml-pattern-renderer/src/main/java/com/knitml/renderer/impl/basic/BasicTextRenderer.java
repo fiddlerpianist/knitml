@@ -127,9 +127,16 @@ public class BasicTextRenderer implements Renderer {
 		getOperationSetHelper().removeCurrentOperationSet();
 	}
 
-	public void beginInstructionDefinition(Instruction instruction, String label) {
-		getWriterHelper().write(
-				label + getMessage("operation.group-end-punctuation"));
+	public void beginInstructionDefinition(InstructionInfo instructionInfo) {
+		if (instructionInfo.getRenderedText() != null) {
+			// someone else has already figured out how to render this, so just
+			// write it to the current buffer in play
+			getWriterHelper().write(instructionInfo.getRenderedText());
+		} else {
+			getWriterHelper().write(
+					instructionInfo.getLabel()
+							+ getMessage("operation.group-end-punctuation"));
+		}
 	}
 
 	public void endInstructionDefinition() {
@@ -364,8 +371,15 @@ public class BasicTextRenderer implements Renderer {
 								crossStitches.getNext() }));
 	}
 
-	public void beginInstruction(Instruction instruction, String message) {
-		beginInstructionGroup(message);
+	public void beginInstruction(InstructionInfo instructionInfo) {
+		if (instructionInfo.getRenderedText() != null) {
+			// someone else has already figured out how to render this, so just
+			// write it to the current buffer in play
+			writeNewLine();
+			getWriterHelper().write(instructionInfo.getRenderedText());
+		} else {
+			beginInstructionGroup(instructionInfo.getLabel());
+		}
 	}
 
 	public void beginRepeat(Repeat repeat) {

@@ -14,8 +14,8 @@ public interface PatternRepository {
 	Needle getNeedle(String id);
 	void addNeedle(Needle needle);
 	
-	void addLocalInstruction(Instruction instruction);
-	void addGlobalInstruction(Instruction instruction, String label);
+	InstructionInfo addLocalInstruction(Instruction instruction);
+	InstructionInfo addGlobalInstruction(Instruction instruction, String label);
 	void clearLocalInstructions();
 	InstructionInfo getInstruction(String instructionId);
 	

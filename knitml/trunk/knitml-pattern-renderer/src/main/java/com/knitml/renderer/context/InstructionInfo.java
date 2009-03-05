@@ -9,8 +9,8 @@ public class InstructionInfo {
 
 	private final Instruction instruction;
 	private final String label;
+	private String renderedText;
 	private KnittingShape knittingShape = KnittingShape.FLAT;
-	// private SortedSet<Integer> rows = new TreeSet<Integer>();
 	private Range rowRange;
 
 	public InstructionInfo(Instruction instruction, String label) {
@@ -30,6 +30,10 @@ public class InstructionInfo {
 	public String getLabel() {
 		return label;
 	}
+	
+	public String getId() {
+		return instruction.getId();
+	}
 
 	public Range getRowRange() {
 		return rowRange;
@@ -38,46 +42,6 @@ public class InstructionInfo {
 	public void setRowRange(Range rowRange) {
 		this.rowRange = rowRange;
 	}
-	//
-	// public void addRows(Collection<Integer> rowsToAdd) {
-	// if (rowsToAdd != null) {
-	// this.rows.addAll(rowsToAdd);
-	// }
-	// }
-	//	
-	// public void addRowArray(int[] rowsToAdd) {
-	// if (rowsToAdd != null) {
-	// for (Integer rowToAdd : rowsToAdd) {
-	// this.rows.add(rowToAdd);
-	// }
-	// }
-	// }
-
-	// public Range getRowRange() {
-	// if (!areRowsConsecutive()) {
-	// throw new IllegalStateException(
-	// "Cannot return a row range of non-consecutive rows");
-	// }
-	// return new IntRange(rows.first(), rows.last());
-	// }
-	//
-	// public boolean areRowsConsecutive() {
-	// if (rows.size() == 0) {
-	// return true;
-	// }
-	// int previous = rows.first();
-	// for (int i : rows) {
-	// if (i == previous) {
-	// continue;
-	// }
-	// if (i != (previous + 1)) {
-	// return false;
-	// }
-	// previous = i;
-	// }
-	// return true;
-	// }
-
 	public KnittingShape getKnittingShape() {
 		return knittingShape;
 	}
@@ -86,8 +50,12 @@ public class InstructionInfo {
 		this.knittingShape = knittingShape;
 	}
 
-	// public SortedSet<Integer> getRows() {
-	// return rows;
-	// }
+	public String getRenderedText() {
+		return renderedText;
+	}
+
+	public void setRenderedText(String renderedText) {
+		this.renderedText = renderedText;
+	}
 
 }

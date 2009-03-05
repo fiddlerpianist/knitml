@@ -1,13 +1,12 @@
 package com.knitml.renderer.impl.charting;
 
+import java.io.StringWriter;
 import java.io.Writer;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import org.apache.commons.lang.NotImplementedException;
+import java.util.Map;
 
 import com.knitml.core.common.KnittingShape;
-import com.knitml.core.common.Stack;
 import com.knitml.core.common.StitchesOnNeedle;
 import com.knitml.core.model.directions.block.CastOn;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
@@ -34,407 +33,337 @@ import com.knitml.core.model.header.GeneralInformation;
 import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.Supplies;
 import com.knitml.core.model.header.Yarn;
-import com.knitml.engine.settings.Direction;
+import com.knitml.renderer.chart.ChartElement;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.Renderer;
 import com.knitml.renderer.context.RenderingContext;
+import com.knitml.renderer.impl.charting.analyzer.Analysis;
+import com.knitml.renderer.impl.charting.analyzer.ChartingAnalyzer;
 
 public class ChartingRenderer implements Renderer {
 
-	private Writer writer;
-	private int maxStitchesToChart;
-	private KnittingShape shape = KnittingShape.FLAT;
-	private Direction direction = Direction.FORWARDS;
-	private List<List<ChartElement>> chart = new ArrayList<List<ChartElement>>();
-	private List<ChartElement> currentRow;
-	private Stack<RepeatSet> repeatSetStack = new Stack<RepeatSet>();
+	private InstructionInfo currentChartingInstruction = null;
+	private ChartingAnalyzer analyzer;
+	private Map<String, Analysis> instructionIdToAnalysisMap = new HashMap<String, Analysis>();
+	private StringWriter chartOutput;
+	private ChartProducer chartProducer;
+	// the delegate renderer and the fallback renderer
+	private Renderer delegate;
+	private Renderer fallbackRenderer;
 
-	private RenderingContext renderingContext;
-
-	public void setMaxStitchesToChart(int maxStitchesToChart) {
-		this.maxStitchesToChart = maxStitchesToChart;
-	}
-	
-	protected List<List<ChartElement>> getChart() {
-		return chart;
-	}
-
-	// methods on repeatSetStack
-
-	public boolean isWithinRepeatSet() {
-		return !repeatSetStack.empty();
-	}
-
-	public RepeatSet getCurrentRepeatSet() {
-		return repeatSetStack.peek();
-	}
-
-	public void addNewRepeatSet(RepeatSet newRepeatSet) {
-		if (isWithinRepeatSet()) {
-			getCurrentRepeatSet().addOperation(newRepeatSet);
-		}
-		repeatSetStack.push(newRepeatSet);
-	}
-
-	public RepeatSet removeCurrentRepeatSet() {
-		return repeatSetStack.pop();
-	}
-
-	// methods from Renderer that are implemented
-
-	public void beginInstructionDefinition(Instruction instruction, String label) {
-		this.direction = Direction.FORWARDS;
-		// the engine hasn't been used yet to set shape, so get this information
-		// from the instruction itself
-		this.shape = instruction.getKnittingShape();
-		chart = new ArrayList<List<ChartElement>>();
-	}
-
-	public void endInstructionDefinition() {
-		endInstruction();
-	}
-
-	public void beginInstruction(Instruction instruction, String label) {
-		this.direction = Direction.FORWARDS;
-		// during directions, trust that the engine is right
-		this.shape = renderingContext.getEngine().getKnittingShape();
-		chart = new ArrayList<List<ChartElement>>();
-	}
-
-	public void endInstruction() {
-		// TODO write out the pattern somehow
-	}
-
-	public void beginInlineInstruction(InlineInstruction instruction) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void endInlineInstruction(InlineInstruction instruction) {
-		// TODO Auto-generated method stub
-	}
-
-	protected void add(ChartElement point) {
-		if (isWithinRepeatSet()) {
-			getCurrentRepeatSet().addOperation(point);
-		} else {
-			if (direction == Direction.BACKWARDS) {
-				currentRow.add(0, inverse(point));
-			} else {
-				currentRow.add(point);
-			}
-		}
-	}
-
-	protected ChartElement inverse(ChartElement point) {
-		if (point == ChartElement.K) {
-			return ChartElement.P;
-		} else if (point == ChartElement.P) {
-			return ChartElement.K;
-		} else if (point == ChartElement.K2TOG) {
-			return ChartElement.SSK;
-		} else if (point == ChartElement.SSK) {
-			return ChartElement.K2TOG;
-		} else {
-			return point;
-		}
-	}
-
-	public void beginRow() {
-		this.currentRow = new ArrayList<ChartElement>(this.maxStitchesToChart);
-		chart.add(currentRow);
-	}
-
-	public void endRow(Row row, KnittingShape doNotUseThisVariable) {
-		currentRow = null;
-		if (shape == KnittingShape.FLAT) {
-			if (direction == Direction.FORWARDS) {
-				direction = Direction.BACKWARDS;
-			} else {
-				direction = Direction.FORWARDS;
-			}
-		}
-	}
-
-	public void beginRepeat(Repeat repeat) {
-		RepeatSet repeatSet = new RepeatSet(repeat);
-		addNewRepeatSet(repeatSet);
-	}
-
-	public void endRepeat(Until until, Integer value) {
-		RepeatSet repeatSet = removeCurrentRepeatSet();
-		if (!isWithinRepeatSet()) { // i.e. the repeatSetStack is empty
-			addRepeatSetToRow(repeatSet);
-		}
-	}
-
-	protected void addRepeatSetToRow(RepeatSet repeatSet) {
-		if (repeatSet.getRepeat().getUntil() != Until.TIMES) {
-			throw new IllegalArgumentException(
-					"All repeats handed to this renderer must use the TIMES type of until attribute");
-		}
-		int times = repeatSet.getRepeat().getValue();
-		for (int i = 0; i < times; i++) {
-			// work repeat set
-			for (Object operation : repeatSet) {
-				if (operation instanceof ChartElement) {
-					add((ChartElement) operation);
-				} else {
-					// recurse through the nested repeat
-					addRepeatSetToRow((RepeatSet) operation);
-				}
-			}
-		}
-	}
-
-	public void renderCrossStitches(CrossStitches element) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void renderDecrease(Decrease decrease) {
-		int times = decrease.getNumberOfTimes() == null ? 1 : decrease
-				.getNumberOfTimes();
-		ChartElement point = null;
-		if (decrease.getType() != null) {
-			switch (decrease.getType()) {
-			case K2TOG:
-				point = ChartElement.K2TOG;
-				break;
-			case SSK:
-				point = ChartElement.SSK;
-				break;
-			default:
-				throw new RuntimeException(
-						"This type of ChartElement is not defined yet (testing purposes only)");
-			}
-		}
-		for (int i = 0; i < times; i++) {
-			add(point);
-		}
-	}
-
-	public void renderKnit(Knit knit) {
-		int times = knit.getNumberOfTimes() == null ? 1 : knit
-				.getNumberOfTimes();
-		for (int i = 0; i < times; i++) {
-			add(ChartElement.K);
-		}
-	}
-
-	public void renderNumberOfStitchesInRow(NumberOfStitches numberOfStitches) {
-		// information only. It will be evident from the chart.
-		return;
-	}
-
-	public void renderPlaceMarker() {
-		return;
-	}
-
-	public void renderPurl(Purl purl) {
-		int times = purl.getNumberOfTimes() == null ? 1 : purl
-				.getNumberOfTimes();
-		for (int i = 0; i < times; i++) {
-			add(ChartElement.P);
-		}
-	}
-
-	public void renderRemoveMarker() {
-		return;
-	}
-
-	public void renderSlip(Slip slip) {
-		int times = slip.getNumberOfTimes() == null ? 1 : slip
-				.getNumberOfTimes();
-		for (int i = 0; i < times; i++) {
-			add(ChartElement.SL);
-		}
-	}
-
-	public void renderIncrease(Increase increase) {
-		int times = increase.getNumberOfTimes() == null ? 1 : increase
-				.getNumberOfTimes();
-		ChartElement point = null;
-		if (increase.getType() != null) {
-			switch (increase.getType()) {
-			case YO:
-				point = ChartElement.YO;
-				break;
-			default:
-				throw new RuntimeException(
-						"This type of ChartElement is not defined yet (testing purposes only)");
-			}
-		}
-		for (int i = 0; i < times; i++) {
-			add(point);
-		}
-	}
-
-	public boolean renderInlineInstructionRef(
-			InlineInstructionRef instructionRef, String label) {
-		// FIXME make this go
-		throw new NotImplementedException("But it will be soon!");
+	public ChartingRenderer(Renderer fallbackRenderer) {
+		this.fallbackRenderer = fallbackRenderer;
+		this.delegate = fallbackRenderer;
+		this.chartProducer = new ChartProducer(new ChartElementTranslatorRegistry());
 	}
 
 	public void setRenderingContext(RenderingContext renderingContext) {
-		this.renderingContext = renderingContext;
+		chartProducer.setRenderingContext(renderingContext);
+		fallbackRenderer.setRenderingContext(renderingContext);
+		analyzer = new ChartingAnalyzer(renderingContext);
 	}
 
 	public void setWriter(Writer writer) {
-		this.writer = writer;
+		fallbackRenderer.setWriter(writer);
 	}
 
-	// all un-implemented methods
+	protected boolean isCharting() {
+		return currentChartingInstruction != null;
+	}
+	
+	protected List<List<ChartElement>> getGraph() {
+		return chartProducer.getChart().getGraph();
+	}
+
+	protected void beginCharting(InstructionInfo instructionInfo, Analysis analysis) {
+		this.chartProducer.setAnalysis(analysis);
+		this.chartOutput = new StringWriter(512);
+		this.chartProducer.setWriter(chartOutput);
+		this.delegate = this.chartProducer;
+		this.currentChartingInstruction = instructionInfo;
+	}
+
+	protected void endCharting() {
+		this.delegate = this.fallbackRenderer;
+		this.chartProducer.setWriter(null);
+		this.chartProducer.setAnalysis(null);
+		this.currentChartingInstruction = null;
+	}
+	
+	public Instruction evaluateInstruction(Instruction instruction) {
+		return doEvaluateInstruction(instruction, false);
+	}
+
+	public Instruction evaluateInstructionDefinition(Instruction instruction) {
+		return doEvaluateInstruction(instruction, true);
+	}
+
+	protected Instruction doEvaluateInstruction(Instruction instruction,
+			boolean definitionOnly) {
+		Analysis analysis = analyzer.analyzeInstruction(instruction,
+				definitionOnly);
+		if (analysis.isChartable()) { 
+			instructionIdToAnalysisMap.put(instruction.getId(), analysis);
+			return analysis.getInstructionToUse();
+		} else { // null means we could not chart
+			return null;
+		}
+	}
+
+	public void beginInstruction(InstructionInfo instructionInfo) {
+		Analysis analysis = instructionIdToAnalysisMap.get(instructionInfo.getId());
+		if (analysis != null) {
+			beginCharting(instructionInfo, analysis);
+		}
+		delegate.beginInstruction(instructionInfo);
+	}
+
+	public void beginInstructionDefinition(InstructionInfo instructionInfo) {
+		Analysis analysis = instructionIdToAnalysisMap.get(instructionInfo.getId());
+		if (analysis != null) {
+			// this sets the delegate to be the ChartProducer
+			beginCharting(instructionInfo, analysis);
+		}
+		delegate.beginInstructionDefinition(instructionInfo);
+	}
+
+	public void endInstruction() {
+		delegate.endInstruction();
+		if (isCharting()) {
+			// this means that the delegate is the ChartProducer, so
+			// set the text to be rendered into the InstructionInfo object
+			// and call begin() and end() on the fallback renderer
+			InstructionInfo instructionInfo = this.currentChartingInstruction;
+			instructionInfo.setRenderedText(this.chartOutput.toString());
+			fallbackRenderer.beginInstruction(instructionInfo);
+			fallbackRenderer.endInstruction();
+			endCharting();
+			// now delegate is the fallback renderer
+		}
+	}
+
+	public void endInstructionDefinition() {
+		delegate.endInstructionDefinition();
+		if (isCharting()) {
+			// this means that the delegate is the ChartProducer, so
+			// set the text to be rendered into the InstructionInfo object
+			// and call begin() and end() on the fallback renderer
+			InstructionInfo instructionInfo = this.currentChartingInstruction;
+			instructionInfo.setRenderedText(this.chartOutput.toString());
+			fallbackRenderer.beginInstructionDefinition(instructionInfo);
+			fallbackRenderer.endInstructionDefinition();
+			endCharting();
+			// now delegate is the fallback renderer
+		}
+	}
+
+	// delegate-only methods
 
 	public void addYarn(Yarn yarn) {
-		throw new NotImplementedException();
+		delegate.addYarn(yarn);
 	}
 
 	public void beginDirections() {
-		throw new NotImplementedException();
+		delegate.beginDirections();
 	}
 
 	public void beginInformation() {
-		throw new NotImplementedException();
+		delegate.beginInformation();
 	}
 
 	public void beginInlineInstructionDefinition(InlineInstruction instruction,
 			String label) {
-		throw new NotImplementedException();
+		delegate.beginInlineInstructionDefinition(instruction, label);
 	}
 
 	public void beginInstructionDefinitions() {
-		throw new NotImplementedException();
-	}
-
-	public void beginInstructionGroup(String label) {
-		throw new NotImplementedException();
+		delegate.beginInstructionDefinitions();
 	}
 
 	public void beginInstructionGroup() {
-		throw new NotImplementedException();
+		delegate.beginInstructionGroup();
+	}
+
+	public void beginInstructionGroup(String label) {
+		delegate.beginInstructionGroup(label);
 	}
 
 	public void beginSection(Section section) {
-		throw new NotImplementedException();
+		delegate.beginSection(section);
 	}
 
 	public void beginUsingNeedle(Needle needle) {
-		throw new NotImplementedException();
+		delegate.beginUsingNeedle(needle);
 	}
 
 	public void endDirections() {
-		throw new NotImplementedException();
+		delegate.endDirections();
 	}
 
 	public void endInformation() {
-		throw new NotImplementedException();
+		delegate.endInformation();
 	}
 
 	public void endInlineInstructionDefinition(InlineInstruction instruction) {
-		throw new NotImplementedException();
+		delegate.endInlineInstructionDefinition(instruction);
 	}
 
 	public void endInstructionDefinitions() {
-		throw new NotImplementedException();
+		delegate.endInstructionDefinitions();
 	}
 
 	public void endInstructionGroup() {
-		throw new NotImplementedException();
+		delegate.endInstructionGroup();
 	}
 
 	public void endSection() {
-		throw new NotImplementedException();
+		delegate.endSection();
 	}
 
 	public void endUsingNeedle() {
-		throw new NotImplementedException();
+		delegate.endUsingNeedle();
 	}
 
 	public void renderApplyNextRow(ApplyNextRow applyNextRow, String label) {
-		// for now, at least
-		throw new NotImplementedException();
+		delegate.renderApplyNextRow(applyNextRow, label);
 	}
 
 	public void renderArrangeStitchesOnNeedles(List<StitchesOnNeedle> needles) {
-		throw new NotImplementedException();
+		delegate.renderArrangeStitchesOnNeedles(needles);
 	}
 
-	public void renderBindOff(BindOff bindOff) {
-		throw new NotImplementedException();
-	}
-
-	public void renderBindOffAll(BindOffAll bindOff) {
-		throw new NotImplementedException();
-	}
-
-	public void renderCastOn(CastOn castOn) {
-		throw new NotImplementedException();
-	}
-
-	public void renderDeclareFlatKnitting(DeclareFlatKnitting spec) {
-		throw new NotImplementedException();
-	}
-
-	public void renderDeclareRoundKnitting() {
-		throw new NotImplementedException();
+	public void renderCrossStitches(CrossStitches element) {
+		delegate.renderCrossStitches(element);
 	}
 
 	public void renderDesignateEndOfRow(KnittingShape currentKnittingShape) {
-		throw new NotImplementedException();
+		delegate.renderDesignateEndOfRow(currentKnittingShape);
 	}
 
 	public void renderGeneralInformation(GeneralInformation generalInformation) {
-		throw new NotImplementedException();
+		delegate.renderGeneralInformation(generalInformation);
 	}
 
 	public void renderGraftStitchesTogether(List<Needle> needles) {
-		throw new NotImplementedException();
+		delegate.renderGraftStitchesTogether(needles);
 	}
 
 	public void renderJoinInRound() {
-		throw new NotImplementedException();
+		delegate.renderJoinInRound();
 	}
 
 	public void renderMessage(String messageToRender) {
-		throw new NotImplementedException();
+		delegate.renderMessage(messageToRender);
 	}
 
-	public void renderPickUpStitches(InlinePickUpStitches pickUpStitches) {
-		throw new NotImplementedException();
+	public void renderNumberOfStitchesInRow(NumberOfStitches numberOfStitches) {
+		delegate.renderNumberOfStitchesInRow(numberOfStitches);
 	}
 
 	public void renderRepeatInstruction(RepeatInstruction repeatInstruction,
 			InstructionInfo instructionInfo) {
-		throw new NotImplementedException();
+		delegate.renderRepeatInstruction(repeatInstruction, instructionInfo);
 	}
 
 	public void renderSupplies(Supplies supplies) {
-		throw new NotImplementedException();
+		delegate.renderSupplies(supplies);
 	}
 
 	public void renderTurn() {
-		throw new NotImplementedException();
+		delegate.renderTurn();
 	}
 
 	public void renderUnworkedStitches(int number) {
-		throw new NotImplementedException();
+		delegate.renderUnworkedStitches(number);
 	}
 
-	public void renderUseNeedles(List<Needle> needles) {
-		throw new NotImplementedException();
+	public void renderUseNeedles(List<Needle> needless) {
+		delegate.renderUseNeedles(needless);
 	}
 
 	public void renderUsingNeedlesCastOn(List<Needle> needles, CastOn castOn) {
-		throw new NotImplementedException();
+		delegate.renderUsingNeedlesCastOn(needles, castOn);
 	}
 
-	public Instruction evaluateInstruction(Instruction instruction) {
-		throw new NotImplementedException();
+	public void renderBindOff(BindOff bindOff) {
+		delegate.renderBindOff(bindOff);
 	}
 
-	public Instruction evaluateInstructionDefinition(Instruction instruction) {
-		throw new NotImplementedException();
+	public void renderBindOffAll(BindOffAll bindOff) {
+		delegate.renderBindOffAll(bindOff);
+	}
+
+	public void renderCastOn(CastOn castOn) {
+		delegate.renderCastOn(castOn);
+	}
+
+	public void renderPickUpStitches(InlinePickUpStitches pickUpStitches) {
+		delegate.renderPickUpStitches(pickUpStitches);
+	}
+
+	public void renderDeclareFlatKnitting(DeclareFlatKnitting spec) {
+		delegate.renderDeclareFlatKnitting(spec);
+	}
+
+	public void renderDeclareRoundKnitting() {
+		delegate.renderDeclareRoundKnitting();
+	}
+
+	public void renderPlaceMarker() {
+		delegate.renderPlaceMarker();
+	}
+
+	public void renderRemoveMarker() {
+		delegate.renderRemoveMarker();
+	}
+
+	public void beginInlineInstruction(InlineInstruction instruction) {
+		delegate.beginInlineInstruction(instruction);
+	}
+
+	public void beginRepeat(Repeat repeat) {
+		delegate.beginRepeat(repeat);
+	}
+
+	public void beginRow() {
+		delegate.beginRow();
+	}
+
+	public void endInlineInstruction(InlineInstruction instruction) {
+		delegate.endInlineInstruction(instruction);
+	}
+
+	public void endRepeat(Until until, Integer value) {
+		delegate.endRepeat(until, value);
+	}
+
+	public void endRow(Row row, KnittingShape shape) {
+		delegate.endRow(row, shape);
+	}
+
+	public void renderDecrease(Decrease decrease) {
+		delegate.renderDecrease(decrease);
+	}
+
+	public void renderIncrease(Increase increase) {
+		delegate.renderIncrease(increase);
+	}
+
+	public boolean renderInlineInstructionRef(
+			InlineInstructionRef instructionRef, String label) {
+		return delegate.renderInlineInstructionRef(instructionRef, label);
+	}
+
+	public void renderKnit(Knit knit) {
+		delegate.renderKnit(knit);
+	}
+
+	public void renderPurl(Purl purl) {
+		delegate.renderPurl(purl);
+	}
+
+	public void renderSlip(Slip slip) {
+		delegate.renderSlip(slip);
 	}
 
 }

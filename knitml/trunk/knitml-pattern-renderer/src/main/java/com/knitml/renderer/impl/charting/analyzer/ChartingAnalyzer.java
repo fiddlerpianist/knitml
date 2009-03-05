@@ -107,6 +107,9 @@ public class ChartingAnalyzer {
 	protected Row analyzeRow(Row originalRow) {
 		KnittingEngine engine = renderingContext.getEngine();
 		// TODO return modified row, if applicable
+		if (originalRow.isShortRow()) {
+			return null;
+		}
 		List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
 		Row newRow = new Row(originalRow, newOperations);
 		this.currentChartWidth = 0;

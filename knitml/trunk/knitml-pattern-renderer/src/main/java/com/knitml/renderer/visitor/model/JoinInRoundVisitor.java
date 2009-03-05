@@ -16,7 +16,6 @@ public class JoinInRoundVisitor extends AbstractRenderingEvent {
 
 	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
-		context.getPatternState().setCurrentKnittingShape(KnittingShape.ROUND);
 		context.getRenderer().renderJoinInRound();
 		return true;
 	}

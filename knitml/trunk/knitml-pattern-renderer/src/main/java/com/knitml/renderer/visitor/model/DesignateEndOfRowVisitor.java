@@ -8,7 +8,7 @@ public class DesignateEndOfRowVisitor extends AbstractRenderingEvent {
 
 	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
-		context.getRenderer().renderDesignateEndOfRow(context.getPatternState().getCurrentKnittingShape());
+		context.getRenderer().renderDesignateEndOfRow(context.getEngine().getKnittingShape());
 		return true;
 	}
 }

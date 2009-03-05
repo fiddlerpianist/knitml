@@ -13,7 +13,7 @@ import com.knitml.renderer.context.Renderer;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.context.RenderingContextFactory;
 import com.knitml.renderer.impl.basic.BasicTextRenderer;
-import com.knitml.renderer.impl.charting.ChartingRenderDispatcher;
+import com.knitml.renderer.impl.charting.ChartingRenderer;
 import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
 
 public class DefaultRenderingContextFactory implements RenderingContextFactory {
@@ -26,7 +26,7 @@ public class DefaultRenderingContextFactory implements RenderingContextFactory {
 		basicTextRenderer.setMessageSource(messageSource);
 		basicTextRenderer.setLocale(Locale.US);
 		
-		Renderer chartingRenderer = new ChartingRenderDispatcher(basicTextRenderer);
+		Renderer chartingRenderer = new ChartingRenderer(basicTextRenderer);
 		// a logical circular reference? yes, but the circular dependency is within one package
 		chartingRenderer.setRenderingContext(context);
 

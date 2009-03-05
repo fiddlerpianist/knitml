@@ -3,8 +3,8 @@ package com.knitml.renderer.impl.charting
 import static org.hamcrest.CoreMatchers.is
 import static org.hamcrest.CoreMatchers.not
 import static org.junit.Assert.assertThat
-import static com.knitml.renderer.impl.charting.ChartElement.*
-import static test.support.JiBXUtils.parseXml
+import static com.knitml.renderer.chart.ChartElement.*
+import static test.support.JiBXUtils.parseXml 
 
 import test.support.AbstractRenderingContextTests
 
@@ -46,7 +46,7 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</directives>
 		 </pattern>'''
 		 
-		 assertThat renderingContext.renderer.chart, is ([[K,K,K,K],[K,K,K,K]])
+		 assertThat renderingContext.renderer.graph, is ([[K,K,K,K],[K,K,K,K]])
 	}
 
 	@Test
@@ -67,7 +67,7 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</directives>
 		 </pattern>'''
 
-		 assertThat renderingContext.renderer.chart, is ([[K,K,K,K],[K,K,K,K]])
+		 assertThat renderingContext.renderer.graph, is ([[K,K,K,K],[K,K,K,K]])
 	}
 	
 	@Test
@@ -94,7 +94,7 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</directives>
 		 </pattern>'''
 
-		 assertThat renderingContext.renderer.chart, is ([[K,K,P,P,K,K,P,P],
+		 assertThat renderingContext.renderer.graph, is ([[K,K,P,P,K,K,P,P],
 		                                                  [K,K,P,P,K,K,P,P]]);
 	}
 
@@ -135,7 +135,7 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</directives>
 		 </pattern>'''
 
-		 assertThat renderingContext.renderer.chart, is ([[P,P,YO,K,K,K,SSK,K,K,K,K,K,K,K,K,K2TOG,K,K,K,YO,P,P],
+		 assertThat renderingContext.renderer.graph, is ([[P,P,YO,K,K,K,SSK,K,K,K,K,K,K,K,K,K2TOG,K,K,K,YO,P,P],
 		                                                  [P,P,K,YO,K,K,K,SSK,K,K,K,K,K,K,K2TOG,K,K,K,YO,K,P,P]]);
 	}
 }

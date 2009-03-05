@@ -42,7 +42,7 @@ public class ForEachRowInInstructionVisitor extends AbstractRenderingEvent {
 		// where we are in the pattern
 		Row newRow = new Row(currentInstructionInfo.getRowRange(),
 				((ForEachRowInInstruction) element).getOperations());
-		context.getRenderer().endRow(newRow, context.getPatternState().getCurrentKnittingShape());
+		context.getRenderer().endRow(newRow, context.getEngine().getKnittingShape());
 	}
 
 	private Range deriveNewRowRange(ForEachRowInInstruction forEachRow,

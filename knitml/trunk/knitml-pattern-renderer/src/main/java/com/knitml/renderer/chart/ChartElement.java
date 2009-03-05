@@ -1,10 +1,10 @@
-package com.knitml.renderer.impl.charting;
+package com.knitml.renderer.chart;
 
 import com.knitml.core.common.Lean;
 
 public enum ChartElement {
 
-	K(1), P(1), SL(1), K_TRAILING(1), P_TRAILING(1), YO(1), SSK(1), K2TOG(1);
+	K(1), P(1), SL(1), K_TRAILING(1), P_TRAILING(1), YO(1), SSK(1), K2TOG(1), NS(1);
 
 	private int width;
 

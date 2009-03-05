@@ -40,7 +40,7 @@ public interface Renderer {
 	void beginInstructionDefinitions();
 	void endInstructionDefinitions();
 
-	void beginInstructionDefinition(Instruction instruction, String label);
+	void beginInstructionDefinition(InstructionInfo instructionInfo);
 	void endInstructionDefinition();
 	void beginInlineInstructionDefinition(InlineInstruction instruction, String label);
 	void endInlineInstructionDefinition(InlineInstruction instruction);
@@ -63,7 +63,7 @@ public interface Renderer {
 	Instruction evaluateInstruction(Instruction instruction);
 	Instruction evaluateInstructionDefinition(Instruction instruction);
 	
-	void beginInstruction(Instruction instruction, String label);
+	void beginInstruction(InstructionInfo instructionInfo);
 	void endInstruction();
 	
 	boolean renderInlineInstructionRef(InlineInstructionRef instructionRef, String label);

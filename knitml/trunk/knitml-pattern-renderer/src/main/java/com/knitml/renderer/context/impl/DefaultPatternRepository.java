@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.math.IntRange;
 import org.apache.commons.lang.math.Range;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -100,26 +101,42 @@ public class DefaultPatternRepository implements PatternRepository {
 		return instructionInfo;
 	}
 
-	public void addLocalInstruction(Instruction instruction) {
-		if (instruction != null) {
-			InstructionInfo instructionInfo = new InstructionInfo(instruction);
-			Range rowRange = deriveRowNumbers(instruction);
-			if (rowRange != null) {
-				instructionInfo.setRowRange(rowRange);
-			}
-			localInstructions.put(instruction.getId(), instructionInfo);
+	public InstructionInfo addLocalInstruction(Instruction instruction) {
+		if (instruction == null) {
+			throw new NullArgumentException("instruction");
 		}
-	}
-
-	public void addGlobalInstruction(Instruction instruction, String label) {
-		InstructionInfo instructionInfo = new InstructionInfo(instruction,
-				label);
+		InstructionInfo instructionInfo = new InstructionInfo(instruction);
+		if (instruction.getKnittingShape() != null) {
+			// sync up the instruction info's shape with the shape declared in
+			// the definition (if we know what the shape is)
+			instructionInfo.setKnittingShape(instruction.getKnittingShape());
+		}
 		Range rowRange = deriveRowNumbers(instruction);
 		if (rowRange != null) {
 			instructionInfo.setRowRange(rowRange);
 		}
-		globalInstructions.put(instruction.getId(),
-				instructionInfo);
+		localInstructions.put(instruction.getId(), instructionInfo);
+		return instructionInfo;
+	}
+
+	public InstructionInfo addGlobalInstruction(Instruction instruction,
+			String label) {
+		if (instruction == null) {
+			throw new NullArgumentException("instruction");
+		}
+		InstructionInfo instructionInfo = new InstructionInfo(instruction,
+				label);
+		if (instruction.getKnittingShape() != null) {
+			// sync up the instruction info's shape with the shape declared in
+			// the definition (if we know what the shape is)
+			instructionInfo.setKnittingShape(instruction.getKnittingShape());
+		}
+		Range rowRange = deriveRowNumbers(instruction);
+		if (rowRange != null) {
+			instructionInfo.setRowRange(rowRange);
+		}
+		globalInstructions.put(instruction.getId(), instructionInfo);
+		return instructionInfo;
 	}
 
 	public void addInlineInstruction(InlineInstruction instruction) {
@@ -127,11 +144,11 @@ public class DefaultPatternRepository implements PatternRepository {
 			inlineInstructions.put(instruction.getId(), instruction);
 		}
 	}
-	
+
 	public InlineInstruction getInlineInstruction(String id) {
 		return inlineInstructions.get(id);
 	}
-	
+
 	private Range deriveRowNumbers(Instruction instruction) {
 		if (!instruction.hasRows()) {
 			return null;

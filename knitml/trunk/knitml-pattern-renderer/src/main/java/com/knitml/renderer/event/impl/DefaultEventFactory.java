@@ -32,7 +32,7 @@ public class DefaultEventFactory implements EventFactory {
 			Class<RenderingEvent> visitorClass = nameResolvers.peek().findTargetClassFromClassName(object);
 			RenderingEvent visitor = visitorClass.newInstance();
 			if (visitor instanceof AbstractRenderingEvent) {
-				((AbstractRenderingEvent)visitor).setVisitorFactory(this);
+				((AbstractRenderingEvent)visitor).setEventFactory(this);
 			}
 			return visitor;
 		} catch (Exception ex) {

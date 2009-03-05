@@ -29,8 +29,10 @@ public class InlineInstructionVisitor extends AbstractRenderingEvent {
 		InlineInstruction instructionToUse = context.getKnittingContext()
 				.getPatternRepository().getInlineInstruction(
 						instruction.getId());
+		context.getPatternRepository().addInlineInstruction(instructionToUse);
+		
 		context.getRenderer().beginInlineInstructionDefinition(instructionToUse, label);
-		InstructionController embeddedController = new InstructionController(getVisitorFactory());
+		InstructionController embeddedController = new InstructionController(getEventFactory());
 		embeddedController.visitInlineInstruction(instructionToUse, context);
 		context.getRenderer().endInlineInstructionDefinition(instructionToUse);
 	}

@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.knitml.core.model.directions.block.Row;
-import com.knitml.engine.KnittingEngine;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.event.impl.AbstractRenderingEvent;
@@ -20,11 +19,6 @@ public class RowVisitor extends AbstractRenderingEvent {
 	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
 		Row row = (Row) element;
-		if (row.getType() != null) {
-			// set the current shape to be whatever the row says it is (if it
-			// says anything at all)
-			context.getPatternState().setCurrentKnittingShape(row.getType());
-		}
 		if (row.isResetRowCount()) {
 			resetLastExpressedRowNumber(context);
 		}
@@ -36,7 +30,7 @@ public class RowVisitor extends AbstractRenderingEvent {
 	public void end(Object element, RenderingContext context)
 			throws RenderingException {
 		context.getRenderer().endRow((Row)element,
-				context.getPatternState().getCurrentKnittingShape());
+				context.getEngine().getKnittingShape());
 
 		Row row = (Row) element;
 		int[] rowNumbers = row.getNumbers();

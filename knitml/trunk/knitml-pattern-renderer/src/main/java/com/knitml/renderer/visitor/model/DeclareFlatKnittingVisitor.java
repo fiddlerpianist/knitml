@@ -3,7 +3,6 @@ package com.knitml.renderer.visitor.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.common.KnittingShape;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
@@ -17,7 +16,6 @@ public class DeclareFlatKnittingVisitor extends AbstractRenderingEvent {
 
 	public boolean begin(Object element, RenderingContext context)
 			throws RenderingException {
-		context.getPatternState().setCurrentKnittingShape(KnittingShape.FLAT);
 		DeclareFlatKnitting spec = (DeclareFlatKnitting) element;
 		context.getRenderer().renderDeclareFlatKnitting((DeclareFlatKnitting)element);
 		return true;

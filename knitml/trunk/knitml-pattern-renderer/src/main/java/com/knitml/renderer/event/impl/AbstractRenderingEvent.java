@@ -7,14 +7,14 @@ import com.knitml.renderer.event.RenderingEvent;
 
 public abstract class AbstractRenderingEvent implements RenderingEvent {
 
-	private EventFactory visitorFactory;
+	private EventFactory eventFactory;
 
-	public EventFactory getVisitorFactory() {
-		return visitorFactory;
+	public EventFactory getEventFactory() {
+		return eventFactory;
 	}
 
-	public void setVisitorFactory(EventFactory visitorFactory) {
-		this.visitorFactory = visitorFactory;
+	public void setEventFactory(EventFactory eventFactory) {
+		this.eventFactory = eventFactory;
 	}
 
 	public void end(Object object, RenderingContext context)

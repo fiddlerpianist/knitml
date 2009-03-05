@@ -32,8 +32,8 @@ public class RepeatInstructionVisitor extends AbstractRenderingEvent {
 					+ instructionId
 					+ "] could not be found in the pattern repository");
 		}
-		instructionInfo.setKnittingShape(context.getPatternState()
-				.getCurrentKnittingShape());
+		instructionInfo.setKnittingShape(context.getEngine()
+				.getKnittingShape());
 		context.getRenderer().renderRepeatInstruction(repeatInstruction,
 				instructionInfo);
 		return true;

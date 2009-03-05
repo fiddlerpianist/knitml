@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.ContextUtils;
+import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 import com.knitml.renderer.visitor.controller.InstructionController;
@@ -33,12 +34,12 @@ public class InstructionVisitor extends AbstractRenderingEvent {
 		if (instructionToUse == null) {
 			instructionToUse = candidateInstruction;
 		}
-		context.getRenderer().beginInstructionDefinition(instructionToUse, label);
-		InstructionController embeddedController = new InstructionController(getVisitorFactory());
+		InstructionInfo instructionInfo = context.getPatternRepository().addGlobalInstruction(instructionToUse, label);
+		context.getRenderer().beginInstructionDefinition(instructionInfo);
+		InstructionController embeddedController = new InstructionController(getEventFactory());
 		embeddedController.visitInstruction(instructionToUse, context);
 		context.getRenderer().endInstructionDefinition();
 
-		context.getPatternRepository().addGlobalInstruction(instructionToUse, label);
 	}
 
 }

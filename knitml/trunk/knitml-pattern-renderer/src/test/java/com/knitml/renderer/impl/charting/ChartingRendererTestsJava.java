@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 
 import test.support.AbstractRenderingContextTests;
 
-import com.knitml.core.model.Pattern;
+import com.knitml.renderer.chart.ChartElement;
 
 @RunWith(JUnit4ClassRunner.class)
 public class ChartingRendererTestsJava extends AbstractRenderingContextTests {
@@ -23,8 +23,8 @@ public class ChartingRendererTestsJava extends AbstractRenderingContextTests {
 		processXml(
 				"<pattern xmlns='http://www.knitml.com/schema/pattern'><directives><instruction-definitions><instruction id='inst1' label='That' shape='flat'><row><knit>4</knit></row>"
 						+ "   	<row>       	<purl>4</purl>	</row> </instruction></instruction-definitions></directives></pattern>");
-		List<List<ChartElement>> chart = ((ChartingRenderDispatcher) renderingContext
-				.getRenderer()).getChart();
+		List<List<ChartElement>> chart = ((ChartingRenderer) renderingContext
+				.getRenderer()).getGraph();
 	}
 
 }

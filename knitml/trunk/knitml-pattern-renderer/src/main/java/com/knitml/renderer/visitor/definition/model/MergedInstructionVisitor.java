@@ -9,6 +9,7 @@ import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.core.model.directions.block.MergedInstruction;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.ContextUtils;
+import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.event.impl.AbstractRenderingEvent;
 import com.knitml.renderer.visitor.controller.InstructionController;
@@ -35,13 +36,17 @@ public class MergedInstructionVisitor extends AbstractRenderingEvent {
 		MergedInstruction mergedInstructionDefinition = (MergedInstruction) element;
 		String label = ContextUtils.deriveLabel(mergedInstructionDefinition,
 				context.getPatternRepository());
-		Instruction instruction = context.getKnittingContext()
+		Instruction candidateInstruction = context.getKnittingContext()
 				.getPatternRepository().getBlockInstruction(
 						mergedInstructionDefinition.getId());
-		context.getRenderer().beginInstructionDefinition(instruction, label);
-		InstructionController embeddedController = new InstructionController(getVisitorFactory());
-		embeddedController.visitInstruction(instruction, context);
+		Instruction instructionToUse = context.getRenderer().evaluateInstructionDefinition(candidateInstruction);
+		if (instructionToUse == null) {
+			instructionToUse = candidateInstruction;
+		}
+		InstructionInfo instructionInfo = context.getPatternRepository().addGlobalInstruction(instructionToUse, label);
+		context.getRenderer().beginInstructionDefinition(instructionInfo);
+		InstructionController embeddedController = new InstructionController(getEventFactory());
+		embeddedController.visitInstruction(candidateInstruction, context);
 		context.getRenderer().endInstructionDefinition();
-		context.getPatternRepository().addGlobalInstruction(instruction, label);
 	}
 }
