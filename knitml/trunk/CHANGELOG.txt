@@ -2,6 +2,25 @@ KNITML CHANGELOG
 =====================
 http://www.knitml.com
 
+Changes in version 0.5.0 (????-??-??)
+-------------------------------------
+
+General
+* New projects from refactoring effort:
+  * knitml-knitting-engine: the knitting simulation component from knitml-validation
+  * knitml-el: the Knitting Expression Language (formlery in knitml-tools)
+  * knitml-command-line: command line only utilities
+
+knitml-core
+* Added 'version' to pattern element (for compatibility tracking)
+  
+knitml-pattern-renderer
+* Chart rendering
+* Internal refactoring of model (from visitor to event listener)
+
+Known Incompatibilities:
+* Instruction and inline-instruction elements defined under an instruction-definitions section must have the 'shape' attribute set
+
 Changes in version 0.4.1 (2008-12-04)
 -------------------------------------
 General
