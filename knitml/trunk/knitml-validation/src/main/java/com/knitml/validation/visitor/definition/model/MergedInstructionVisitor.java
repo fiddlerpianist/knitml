@@ -166,6 +166,9 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 			int i = 1;
 			for (Instruction instruction : instructions) {
 				for (Row row : instruction.getRows()) {
+					if (row.getNumbers() != null && row.getNumbers().length > 1) {
+						throw new ValidationException("Cannot merge rows together with multiple row numbers per row element (not implemented at this time)");
+					}
 					Row newRow = new Row(row, row.getOperations());
 					newRow.setNumber(i);
 					i++;
@@ -180,6 +183,9 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 				InlineOperation lastOperation = null;
 				for (Instruction instruction : instructions) {
 					Row currentRow = instruction.getRows().get(i);
+					if (currentRow.getNumbers() != null && currentRow.getNumbers().length > 1) {
+						throw new ValidationException("Cannot merge rows together with multiple row numbers per row element (not implemented at this time)");
+					}
 					List<InlineOperation> currentOperations = currentRow
 							.getOperations();
 					if (lastOperation != null
