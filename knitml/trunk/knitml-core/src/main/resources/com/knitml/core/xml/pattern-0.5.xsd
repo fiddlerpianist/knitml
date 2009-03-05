@@ -212,7 +212,7 @@
         <xsd:attribute name="type">
           <xsd:annotation>
             <xsd:documentation><![CDATA[
-                Indicates the type of decrease to perform.
+                Indicates the type of decrease to perform. Note that the decrease names are defined assuming stitch mounts using Western knitting techniques.
                 Recognized decreases are:
                 ssk: slip-slip-knit (slip knitwise, slip knitwise, knit the 2 slipped stitches together through their now leading loops)
                 k2tog: knit 2 together (knit 2 stitches together)

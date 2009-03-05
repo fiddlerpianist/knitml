@@ -11,6 +11,7 @@
         <structure field="supplies" usage="optional"/>
         <structure field="directions" usage="optional"/>
         <value name="schemaLocation" field="schemaLocation" ns="http://www.w3.org/2001/XMLSchema-instance" usage="optional"/>
+        <value name="version" field="version" usage="optional"/>
     </mapping>
     <mapping name="directions" class="com.knitml.core.model.directions.Directions">
         <collection field="operations" type="java.util.ArrayList"/>

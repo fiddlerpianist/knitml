@@ -117,7 +117,7 @@
             ns="http://www.knitml.com/schema/pattern"/>
     </mapping>
     <mapping name="needle" class="com.knitml.core.model.header.Needle" value-style="attribute" post-set="afterPropertiesSet">
-        <value name="id" field="id" ident="def"/>
+        <value name="id" field="id" get-method="getId" ident="def"/>
         <value name="typeref" field="type" ident="ref"/>
         <value name="message-key" field="messageKey" usage="optional"/>
         <value name="label" field="label" usage="optional"/>

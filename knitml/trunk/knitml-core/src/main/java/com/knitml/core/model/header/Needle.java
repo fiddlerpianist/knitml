@@ -10,10 +10,10 @@ import com.knitml.core.model.Identifiable;
  */
 public class Needle implements Identifiable {
 
-	private String id;
-	private String messageKey;
-	private NeedleType type;
-	private String label;
+	protected String id;
+	protected String messageKey;
+	protected NeedleType type;
+	protected String label;
 	
 	private String labelOverride;
 	

@@ -94,7 +94,7 @@ public class Row implements BlockOperation, CompositeOperation {
 		this.side = row.getSide();
 		this.assignRowNumber = row.getAssignRowNumber();
 		this.resetRowCount = row.isResetRowCount();
-		this.numbers = null; // we don't have a good way to track this
+		this.numbers = row.getNumbers();
 		this.type = row.getType();
 		this.operations = operations;
 	}
@@ -141,6 +141,29 @@ public class Row implements BlockOperation, CompositeOperation {
 	}
 	public void setType(KnittingShape type) {
 		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer(128);
+		if (isShortRow()) {
+			sb.append("Short ");
+		}
+		if (getType() == KnittingShape.ROUND) {
+			sb.append("Round ");
+		} else {
+			sb.append("Row ");
+		}
+		if (getNumbers() != null) {
+			sb.append(String.valueOf(getNumbers()));
+			sb.append(" ");
+		}
+		if (getSide() != null) {
+			sb.append("Side: ").append(getSide()).append(" ");
+		}
+		sb.append(": ");
+		sb.append(getOperations());
+		return sb.toString();
 	}
 
 }
