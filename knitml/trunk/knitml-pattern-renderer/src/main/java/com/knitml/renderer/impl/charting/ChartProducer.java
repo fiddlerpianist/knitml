@@ -9,6 +9,7 @@ import org.apache.commons.lang.NotImplementedException;
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Stack;
 import com.knitml.core.common.StitchesOnNeedle;
+import com.knitml.core.model.Pattern;
 import com.knitml.core.model.directions.block.CastOn;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
 import com.knitml.core.model.directions.block.Instruction;
@@ -37,14 +38,16 @@ import com.knitml.core.model.header.Yarn;
 import com.knitml.engine.settings.Direction;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.ChartElementTranslator;
-import com.knitml.renderer.chart.ChartWriter;
-import com.knitml.renderer.chart.impl.TextArtChartWriter;
+import com.knitml.renderer.chart.translator.ChartElementTranslator;
+import com.knitml.renderer.chart.translator.ChartElementTranslatorRegistry;
+import com.knitml.renderer.chart.writer.ChartWriter;
+import com.knitml.renderer.chart.writer.ChartWriterFactory;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.Renderer;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.impl.charting.analyzer.Analysis;
 import com.knitml.renderer.impl.charting.analyzer.ChartingAnalyzer;
+import com.knitml.renderer.impl.charting.analyzer.RowInfo;
 
 /**
  * A renderer which performs the layout of ChartElements in logical form, based
@@ -56,26 +59,38 @@ import com.knitml.renderer.impl.charting.analyzer.ChartingAnalyzer;
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)
  * 
  */
-public class ChartProducer implements Renderer {
-	
+class ChartProducer implements Renderer {
+
 	// fields which should be set before calling begin() methods
+	private ChartWriterFactory chartWriterFactory;
 	private ChartElementTranslatorRegistry registry;
 	private Writer writer;
 	private Analysis analysis;
-	
+
 	private Direction direction = Direction.FORWARDS;
 	private Chart chart;
 	private List<ChartElement> currentRow;
+	private boolean condenseRepeats = true; // assume that we can until we can't
 	private Stack<RepeatSet> repeatSetStack = new Stack<RepeatSet>();
 
 	private RenderingContext renderingContext;
-	
-	public ChartProducer(ChartElementTranslatorRegistry registry) {
+
+	public ChartProducer(ChartWriterFactory chartWriterFactory,
+			ChartElementTranslatorRegistry registry) {
+		this.chartWriterFactory = chartWriterFactory;
 		this.registry = registry;
 	}
 
 	public void setAnalysis(Analysis analysis) {
 		this.analysis = analysis;
+		if (analysis != null) {
+			for (RowInfo rowInfo : analysis.getRowInfos()) {
+				if (rowInfo.getRowWidth() != analysis.getMaxWidth()) {
+					this.condenseRepeats = false;
+					break;
+				}
+			}
+		}
 	}
 
 	protected Chart getChart() {
@@ -128,19 +143,19 @@ public class ChartProducer implements Renderer {
 	}
 
 	public void endInstruction() {
-		ChartElementTranslator translator = registry.getChartElementTranslator(null);
-		// FIXME un-hardcode this
-		ChartWriter writer = new TextArtChartWriter(translator);
+		// TODO pass an ID to use somehow
+		ChartElementTranslator translator = registry
+				.getChartElementTranslator(null);
+		ChartWriter writer = chartWriterFactory.createChartWriter(translator);
 		writer.writeChart(chart, this.writer);
 	}
 
 	public void beginInlineInstruction(InlineInstruction instruction) {
-		// TODO Auto-generated method stub
-
+		// Do nothing, as the children will get visited
 	}
 
 	public void endInlineInstruction(InlineInstruction instruction) {
-		// TODO Auto-generated method stub
+		// Do nothing, as the children will get visited
 	}
 
 	protected void add(ChartElement point) {
@@ -226,17 +241,15 @@ public class ChartProducer implements Renderer {
 				.getNumberOfTimes();
 		ChartElement point = null;
 		if (decrease.getType() != null) {
-			switch (decrease.getType()) {
-			case K2TOG:
-				point = ChartElement.K2TOG;
-				break;
-			case SSK:
-				point = ChartElement.SSK;
-				break;
-			default:
+			try {
+				point = ChartElement.valueOf(decrease.getType().name());
+			} catch (IllegalArgumentException ex) {
 				throw new RuntimeException(
-						"This type of ChartElement is not defined yet (testing purposes only)");
+						"This type of ChartElement is not defined yet (testing purposes only)",
+						ex);
 			}
+		} else {
+			point = ChartElement.DECREASE;
 		}
 		for (int i = 0; i < times; i++) {
 			add(point);
@@ -299,7 +312,7 @@ public class ChartProducer implements Renderer {
 		}
 	}
 
-	public boolean renderInlineInstructionRef(
+	public void renderInlineInstructionRef(
 			InlineInstructionRef instructionRef, String label) {
 		// FIXME make this go
 		throw new NotImplementedException("But it will be soon!");
@@ -463,6 +476,14 @@ public class ChartProducer implements Renderer {
 	}
 
 	public Instruction evaluateInstructionDefinition(Instruction instruction) {
+		throw new NotImplementedException();
+	}
+
+	public void beginPattern(Pattern pattern) {
+		throw new NotImplementedException();
+	}
+
+	public void endPattern() {
 		throw new NotImplementedException();
 	}
 

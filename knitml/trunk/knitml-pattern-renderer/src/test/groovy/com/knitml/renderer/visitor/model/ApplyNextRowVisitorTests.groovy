@@ -37,7 +37,7 @@ class ApplyNextRowVisitorTests extends AbstractRenderingContextTests {
 				</directions>
 			</pattern>
 			'''
-		assertThat output.trim(), endsWith ('Row 2: work next row from Sunny Day Stitch pattern, k1')
+		assertThat output.trim(), endsWith ('Row 2: work next row from Sunny Day Stitch instruction, k1')
 	}
 
 	@Test(expected=ValidationException)

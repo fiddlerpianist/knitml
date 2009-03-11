@@ -1,6 +1,8 @@
-package com.knitml.renderer.chart;
+package com.knitml.renderer.chart.writer;
 
 import java.io.Writer;
+
+import com.knitml.renderer.chart.Chart;
 
 public interface ChartWriter {
 

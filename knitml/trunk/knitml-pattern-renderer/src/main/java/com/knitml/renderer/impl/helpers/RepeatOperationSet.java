@@ -1,4 +1,4 @@
-package com.knitml.renderer.impl.basic;
+package com.knitml.renderer.impl.helpers;
 
 public class RepeatOperationSet extends OperationSet {
 

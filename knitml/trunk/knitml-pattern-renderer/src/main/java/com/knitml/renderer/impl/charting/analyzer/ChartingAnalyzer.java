@@ -51,8 +51,16 @@ public class ChartingAnalyzer {
 	 */
 	private boolean dynamicFirstRowCastOn = false;
 	private int maxWidth = 0;
-	private int currentChartWidth = 0;
+	private boolean containsNoStitchOperations = false;
+	private List<RowInfo> rowInfos = new ArrayList<RowInfo>();
+	private RowInfo currentRowInfo;
+
+	// private List<RepeatMetaData> firstRepeatPerRow = new
+	// ArrayList<RepeatMetaData>();
+	// private RepeatMetaData largestRepeatBlock = null;
+
 	private boolean currentlyRepeating = false;
+
 	private KnittingShape shape = KnittingShape.FLAT;
 	private final static Logger log = LoggerFactory
 			.getLogger(ChartingAnalyzer.class);
@@ -65,8 +73,12 @@ public class ChartingAnalyzer {
 			boolean fromInstructionDefinition) {
 		this.dynamicFirstRowCastOn = fromInstructionDefinition;
 		this.maxWidth = 0;
-		this.currentChartWidth = 0;
+		this.rowInfos.clear();
+		this.currentRowInfo = null;
 		this.currentlyRepeating = false;
+		// variables pertaining to the global repeat tracker
+		// this.repeatInCurrentRow = false;
+		// this.largestRepeatBlock = null;
 		this.shape = KnittingShape.FLAT;
 
 		Object engineState = renderingContext.getEngine().save();
@@ -77,8 +89,7 @@ public class ChartingAnalyzer {
 					newRows);
 			if (!originalInstruction.hasRows()) {
 				// cannot handle for-each-row-in-instruction yet. Possibly this
-				// would be
-				// expanded ahead of time.
+				// would be expanded ahead of time.
 				log
 						.info("Cannot handle an Instruction whose operations are not made up entirely of Rows");
 				return new Analysis();
@@ -97,7 +108,10 @@ public class ChartingAnalyzer {
 			result.setInstructionToUse(newInstruction);
 			result.setChartable(true);
 			result.setMaxWidth(this.maxWidth);
+			result.setRowInfos(this.rowInfos);
+			result.setContainsNoStitchOperations(this.containsNoStitchOperations);
 			result.setKnittingShape(this.shape);
+//			result.setGlobalRepeatInfo(this.largestRepeatBlock);
 			return result;
 		} finally {
 			renderingContext.getEngine().restore(engineState);
@@ -106,13 +120,13 @@ public class ChartingAnalyzer {
 
 	protected Row analyzeRow(Row originalRow) {
 		KnittingEngine engine = renderingContext.getEngine();
-		// TODO return modified row, if applicable
+		// can't handle short rows
 		if (originalRow.isShortRow()) {
 			return null;
 		}
 		List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
 		Row newRow = new Row(originalRow, newOperations);
-		this.currentChartWidth = 0;
+		this.currentRowInfo = new RowInfo();
 
 		// Begin the row for the engine
 		if (dynamicFirstRowCastOn) {
@@ -125,6 +139,7 @@ public class ChartingAnalyzer {
 			// cast on one stitch so that we can start a new row below
 			engine.castOn(1, false);
 		}
+//		this.repeatInCurrentRow = false;
 		engine.startNewRow();
 
 		// Walk through all of the row's operations and see how it affects the
@@ -150,12 +165,25 @@ public class ChartingAnalyzer {
 
 		// if this row pushed the bounds of the previously recorded maximum
 		// width, record the new max width
-		if (currentChartWidth > maxWidth) {
-			maxWidth = currentChartWidth;
+		if (currentRowInfo.getRowWidth() > maxWidth) {
+			maxWidth = currentRowInfo.getRowWidth();
 		}
 
+//		if (!repeatInCurrentRow) {
+//			resetGlobalRepeatTracker();
+//		}
+
+		this.rowInfos.add(currentRowInfo);
 		return newRow;
 	}
+
+//	private void resetGlobalRepeatTracker() {
+//		this.largestRepeatBlock = null;
+//	}
+
+//	private boolean isFirstRow() {
+//		return rowInfos.size() == 0;
+//	}
 
 	protected InlineOperation handle(ApplyNextRow object) {
 		// cannot handle (for now, at least)
@@ -200,6 +228,8 @@ public class ChartingAnalyzer {
 
 	protected InlineOperation handle(Repeat oldRepeat) {
 
+//		this.repeatInCurrentRow = true;
+
 		Until until = oldRepeat.getUntil();
 		Integer value = oldRepeat.getValue();
 
@@ -230,7 +260,7 @@ public class ChartingAnalyzer {
 		int startingStitchesRemaining = engine
 				.getStitchesRemainingOnCurrentNeedle();
 		Object engineState = engine.save();
-		int savedCurrentWidth = this.currentChartWidth;
+		int originalChartWidth = this.currentRowInfo.getRowWidth();
 		// TODO handle the case where we should have 0 repeats
 		for (InlineOperation operation : oldRepeat.getOperations()) {
 			InlineOperation newOperation = handle(operation);
@@ -245,7 +275,7 @@ public class ChartingAnalyzer {
 		int endingStitchesRemaining = engine
 				.getStitchesRemainingOnCurrentNeedle();
 		engine.restore(engineState);
-		this.currentChartWidth = savedCurrentWidth;
+		this.currentRowInfo.setRowWidth(originalChartWidth);
 
 		int advanceCount = startingStitchesRemaining - endingStitchesRemaining;
 		int increaseCount = endingTotalStitches - startingTotalStitches;
@@ -295,6 +325,30 @@ public class ChartingAnalyzer {
 
 		newRepeat.setUntil(Until.TIMES);
 		newRepeat.setValue(counter);
+
+//		int startingStitchIndexForRepeat = originalChartWidth + 1;
+//		int endingStitchIndexForRepeat = startingStitchIndexForRepeat
+//				+ advanceCount + increaseCount;
+//		if (isFirstRow() && largestRepeatBlock == null) {
+//			// if this is the first row and we haven't tracked a global repeat
+//			// yet, start tracking the global repeat
+//			Repeat globalRepeat = new Repeat(newRepeat.getUntil(), newRepeat
+//					.getValue());
+//			Range globalRepeatRange = new IntRange(
+//					startingStitchIndexForRepeat, endingStitchIndexForRepeat);
+//			this.largestRepeatBlock = new RepeatMetaData(globalRepeat,
+//					globalRepeatRange);
+//		} else if (largestRepeatBlock != null) {
+//			Range thisRepeatRange = new IntRange(startingStitchIndexForRepeat,
+//					endingStitchIndexForRepeat);
+//			// if there is already a global repeat, make sure this repeat
+//			// matches it, otherwise reset the global repeat
+//			if (!largestRepeatBlock.equals(new RepeatMetaData(newRepeat,
+//					thisRepeatRange))) {
+//				resetGlobalRepeatTracker();
+//			}
+//		}
+
 		currentlyRepeating = false;
 		return newRepeat;
 	}
@@ -340,7 +394,7 @@ public class ChartingAnalyzer {
 	}
 
 	protected void advanceAndIncrease(int advanceCount, int increaseCount) {
-		this.currentChartWidth += advanceCount + increaseCount;
+		this.currentRowInfo.addToRowWidth(advanceCount + increaseCount);
 		if (increaseCount < 0) {
 			// decrease the number specified by increaseCount
 			for (int i = 0; i > increaseCount; i--) {
@@ -362,8 +416,10 @@ public class ChartingAnalyzer {
 	protected InlineOperation handle(NoStitch object) {
 		// A NoStitch indicates a blank on a chart but does not advance the
 		// engine
-		this.currentChartWidth += object.getNumberOfStitches() == null ? 1
-				: object.getNumberOfStitches();
+		this.currentRowInfo
+				.addToRowWidth(object.getNumberOfStitches() == null ? 1
+						: object.getNumberOfStitches());
+		this.containsNoStitchOperations = true;
 		return object;
 	}
 

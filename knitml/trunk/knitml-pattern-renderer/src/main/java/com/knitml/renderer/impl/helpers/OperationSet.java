@@ -1,8 +1,9 @@
-package com.knitml.renderer.impl.basic;
+package com.knitml.renderer.impl.helpers;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 
 public class OperationSet implements Iterable<Object> {
 

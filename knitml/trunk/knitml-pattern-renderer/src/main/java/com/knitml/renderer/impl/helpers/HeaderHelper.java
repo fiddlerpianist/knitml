@@ -1,7 +1,9 @@
-package com.knitml.renderer.impl.basic;
+package com.knitml.renderer.impl.helpers;
 
 import static com.knitml.core.common.EnumUtils.fromEnum;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import javax.measure.quantity.Length;
 import javax.measure.unit.Unit;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.tools.ant.taskdefs.Definer.Format;
 
 import com.knitml.core.common.NeedleStyle;
 import com.knitml.core.model.header.Author;
@@ -21,34 +24,40 @@ import com.knitml.core.model.header.NeedleType;
 import com.knitml.core.model.header.Supplies;
 import com.knitml.core.model.header.Yarn;
 import com.knitml.core.model.header.YarnType;
+import com.knitml.core.units.RowGauge;
+import com.knitml.core.units.StitchGauge;
 import com.knitml.core.units.Units;
+import com.knitml.renderer.context.Options;
 
-class HeaderHelper {
-	
+public class HeaderHelper {
+
 	private static final String INSTRUCTION_DEFS_KEY = "instructionDefs";
 
 	private WriterHelper writerHelper;
-	
+	private Options options;
+
 	private WriterHelper getWriterHelper() {
 		return writerHelper;
 	}
 
-	public HeaderHelper(WriterHelper writerHelper) {
+	public HeaderHelper(WriterHelper writerHelper, Options options) {
 		this.writerHelper = writerHelper;
+		this.options = options;
 	}
 
 	private void writeLine(String text) {
 		getWriterHelper().writeLine(text);
 	}
-	
+
 	private void write(String string) {
 		getWriterHelper().write(string);
 	}
-	
+
 	private void writeNewLine() {
 		getWriterHelper().writeNewLine();
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public void renderGeneralInformation(GeneralInformation generalInformation) {
 		writeLine(generalInformation.getPatternName());
 		String description = generalInformation.getDescription();
@@ -70,23 +79,105 @@ class HeaderHelper {
 		writeNewLine();
 		Gauge gauge = generalInformation.getGauge();
 		if (gauge != null) {
-			if (gauge.getStitchGauge() != null) {
-				write("Stitch Gauge: ");
-				write(gauge.getStitchGauge().toString());
-				writeNewLine();
-			}
-			if (gauge.getRowGauge() != null) {
-				write("Row Gauge: ");
-				write(gauge.getRowGauge().toString());
-				writeNewLine();
+			if (options.isSquareGauge()) {
+				renderSquareGauge(gauge);
+			} else {
+				DecimalFormat format = new DecimalFormat();
+				format.setMaximumFractionDigits(1);
+				if (gauge.getStitchGauge() != null) {
+					Unit<StitchGauge> targetGaugeUnit;
+					if (options.getStitchGaugeUnit() != null) {
+						targetGaugeUnit = options.getStitchGaugeUnit();
+					} else {
+						targetGaugeUnit = ((Measure)gauge.getStitchGauge()).getUnit();
+					}
+					write("Stitch Gauge: ");
+					double gaugeAsDouble = gauge.getStitchGauge().doubleValue(
+							targetGaugeUnit);
+					write(format.format(gaugeAsDouble));
+					write(" ");
+					write(targetGaugeUnit.toString());
+					writeNewLine();
+				}
+				if (gauge.getRowGauge() != null) {
+					Unit<RowGauge> targetGaugeUnit;
+					write("Row Gauge: ");
+					if (options.getRowGaugeUnit() != null) {
+						targetGaugeUnit = options.getRowGaugeUnit();
+					} else {
+						targetGaugeUnit = ((Measure)gauge.getRowGauge()).getUnit();
+					}
+					double gaugeAsDouble = gauge.getRowGauge().doubleValue(
+							targetGaugeUnit);
+					write(format.format(gaugeAsDouble));
+					write(" ");
+					write(targetGaugeUnit.toString());
+					writeNewLine();
+				}
 			}
 		}
 		writeNewLine();
 
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	protected void renderNeedles(Supplies supplies) {
+	private void renderSquareGauge(Gauge gauge) {
+		int denominator = 1;
+		Unit targetGaugeUnit = null;
+		Unit<?> denominatorUnit;
+		if (gauge.getStitchGauge() != null) {
+			if (options.getStitchGaugeUnit() != null) {
+				targetGaugeUnit = options.getStitchGaugeUnit();
+			} else {
+				targetGaugeUnit = ((Measure)gauge.getStitchGauge()).getUnit();
+			}
+			denominatorUnit = targetGaugeUnit.divide(Units.STITCH).inverse();
+		} else if (gauge.getRowGauge() != null) {
+			if (options.getRowGaugeUnit() != null) {
+				targetGaugeUnit = options.getRowGaugeUnit();
+			} else {
+				targetGaugeUnit = ((Measure)gauge.getRowGauge()).getUnit();
+			}
+			denominatorUnit = targetGaugeUnit.divide(Units.ROW)
+					.inverse();
+		} else {
+			// no gauge at all. Weird, and maybe not even possible
+			return;
+		}
+
+		denominatorUnit.asType(Length.class);
+		if (Units.CENTIMETER.equals(denominatorUnit)) {
+			denominator = 10;
+		} else if (Units.INCH.equals(denominatorUnit)) {
+			denominator = 4;
+		}
+
+		write("Gauge:  ");
+		if (gauge.getStitchGauge() != null) {
+			write(String.valueOf(Math.round(gauge.getStitchGauge().doubleValue(
+					targetGaugeUnit)
+					* denominator)));
+			write(" sts");
+			if (gauge.getRowGauge() != null) {
+				write(", ");
+			} else {
+				write(" ");
+			}
+		}
+		if (gauge.getRowGauge() != null) {
+			write(String.valueOf(Math.round(gauge.getRowGauge().doubleValue(
+					targetGaugeUnit)
+					* denominator)));
+			write(" rows ");
+		}
+		write("= ");
+		Measurable<?> size = Measure.valueOf(denominator, denominatorUnit);
+		write(size.toString());
+		writeNewLine();
+	}
+
+	@SuppressWarnings("unchecked")
+	public void renderNeedles(Supplies supplies) {
 		List<NeedleType> needleTypes = supplies.getNeedleTypes();
 		if (needleTypes == null || needleTypes.size() == 0) {
 			return;
@@ -122,8 +213,6 @@ class HeaderHelper {
 								.append(")");
 						tokens.add(sb.toString());
 					}
-					// TODO create an option to display a different kind of
-					// non-metric unit
 				}
 			}
 
@@ -149,7 +238,7 @@ class HeaderHelper {
 		writeNewLine();
 	}
 
-	protected void renderYarns(Supplies supplies) {
+	public void renderYarns(Supplies supplies) {
 		List<YarnType> yarnTypes = supplies.getYarnTypes();
 		if (yarnTypes == null || yarnTypes.isEmpty()) {
 			return;
@@ -316,5 +405,5 @@ class HeaderHelper {
 	public void renderInstructionDefinitions() {
 		getWriterHelper().writeSegmentToWriter(INSTRUCTION_DEFS_KEY);
 	}
-	
+
 }

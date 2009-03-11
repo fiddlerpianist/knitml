@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.StaticMessageSource;
 
-import com.knitml.renderer.impl.basic.MessageHelper;
+import com.knitml.renderer.impl.helpers.MessageHelper;
 import com.knitml.renderer.plural.PluralRuleFactory;
 import com.knitml.renderer.plural.impl.DefaultPluralRuleFactory;
 

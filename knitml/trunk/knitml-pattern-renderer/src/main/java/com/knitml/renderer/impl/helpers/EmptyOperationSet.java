@@ -1,7 +1,8 @@
-package com.knitml.renderer.impl.basic;
+package com.knitml.renderer.impl.helpers;
 
 import java.util.Collections;
 import java.util.Iterator;
+
 
 public class EmptyOperationSet extends OperationSet {
 

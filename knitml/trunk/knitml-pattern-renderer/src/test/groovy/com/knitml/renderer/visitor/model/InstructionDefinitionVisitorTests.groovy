@@ -88,7 +88,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 					</instruction>
 				</directions>
 			</pattern>'''
-		assertThat output, containsString ('k5, work next row from Sunny Day Stitch pattern, k5')
+		assertThat output, containsString ('k5, work next row from Sunny Day Stitch instruction, k5')
 	}
 	
 	@Test
@@ -174,7 +174,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 		</directions>
 		</pattern>
 		'''
-		assertThat output, containsString ('k5, work next row from Merged Instruction pattern, k5')
+		assertThat output, containsString ('k5, work next row from Merged Instruction instruction, k5')
 	}
 	
 	static void main(args) {

@@ -1,4 +1,4 @@
-package com.knitml.renderer.impl.basic;
+package com.knitml.renderer.impl.helpers;
 
 import static com.knitml.core.common.KnittingShape.ROUND;
 
@@ -18,7 +18,7 @@ import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.plural.PluralRule;
 import com.knitml.renderer.plural.PluralRuleFactory;
 
-class MessageHelper {
+public class MessageHelper {
 
 	private MessageSource messageSource;
 	private Locale locale;

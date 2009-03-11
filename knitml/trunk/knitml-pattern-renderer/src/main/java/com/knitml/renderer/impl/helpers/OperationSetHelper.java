@@ -1,13 +1,13 @@
-package com.knitml.renderer.impl.basic;
+package com.knitml.renderer.impl.helpers;
 
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 
 import com.knitml.core.common.Stack;
-import com.knitml.renderer.impl.basic.OperationSet.Type;
+import com.knitml.renderer.impl.helpers.OperationSet.Type;
 
-class OperationSetHelper {
+public class OperationSetHelper {
 
 	// a stack to hold the operation sets; eases in rendering groupings of
 	// operations
@@ -104,7 +104,7 @@ class OperationSetHelper {
 					StringUtils.capitalize(operationSet.getHead()));
 		}
 
-		Iterator it = operationSet.iterator();
+		Iterator<Object> it = operationSet.iterator();
 		while (it.hasNext()) {
 			Object operation = it.next();
 			boolean useComma = true;

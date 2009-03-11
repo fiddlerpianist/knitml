@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.StitchesOnNeedle;
+import com.knitml.core.model.Pattern;
 import com.knitml.core.model.directions.block.CastOn;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
 import com.knitml.core.model.directions.block.Instruction;
@@ -20,8 +21,8 @@ import com.knitml.core.model.directions.inline.Decrease;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
-import com.knitml.core.model.directions.inline.Knit;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
+import com.knitml.core.model.directions.inline.Knit;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
@@ -33,6 +34,9 @@ import com.knitml.core.model.header.Yarn;
 public interface Renderer {
 	
 	// header events
+	
+	void beginPattern(Pattern pattern);
+	void endPattern();
 	void addYarn(Yarn yarn);
 	void renderGeneralInformation(GeneralInformation generalInformation);
 	void renderSupplies(Supplies supplies);
@@ -66,7 +70,7 @@ public interface Renderer {
 	void beginInstruction(InstructionInfo instructionInfo);
 	void endInstruction();
 	
-	boolean renderInlineInstructionRef(InlineInstructionRef instructionRef, String label);
+	void renderInlineInstructionRef(InlineInstructionRef instructionRef, String label);
 
 	void renderRepeatInstruction(RepeatInstruction repeatInstruction, InstructionInfo instructionInfo);
 	void renderUseNeedles(List<Needle> needles);

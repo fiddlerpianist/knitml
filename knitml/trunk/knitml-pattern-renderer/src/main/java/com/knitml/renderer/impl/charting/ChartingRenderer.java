@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.StitchesOnNeedle;
+import com.knitml.core.model.Pattern;
 import com.knitml.core.model.directions.block.CastOn;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
 import com.knitml.core.model.directions.block.Instruction;
@@ -34,7 +35,10 @@ import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.Supplies;
 import com.knitml.core.model.header.Yarn;
 import com.knitml.renderer.chart.ChartElement;
+import com.knitml.renderer.chart.translator.ChartElementTranslatorRegistry;
+import com.knitml.renderer.chart.writer.ChartWriterFactory;
 import com.knitml.renderer.context.InstructionInfo;
+import com.knitml.renderer.context.Options;
 import com.knitml.renderer.context.Renderer;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.impl.charting.analyzer.Analysis;
@@ -42,22 +46,32 @@ import com.knitml.renderer.impl.charting.analyzer.ChartingAnalyzer;
 
 public class ChartingRenderer implements Renderer {
 
+	// properties that can be set by the client
+	private Renderer fallbackRenderer;
+	private RenderingContext renderingContext;
+
 	private InstructionInfo currentChartingInstruction = null;
 	private ChartingAnalyzer analyzer;
 	private Map<String, Analysis> instructionIdToAnalysisMap = new HashMap<String, Analysis>();
 	private StringWriter chartOutput;
 	private ChartProducer chartProducer;
-	// the delegate renderer and the fallback renderer
 	private Renderer delegate;
-	private Renderer fallbackRenderer;
 
-	public ChartingRenderer(Renderer fallbackRenderer) {
+	public ChartingRenderer(Renderer fallbackRenderer,
+			ChartWriterFactory chartWriterFactory,
+			ChartElementTranslatorRegistry registry) {
+		if (chartWriterFactory == null || fallbackRenderer == null) {
+			throw new IllegalArgumentException(
+					"The chartWriterFactory and fallbackRenderer parameters must be set");
+		}
 		this.fallbackRenderer = fallbackRenderer;
+		// derive the delegate and the ChartProducer
 		this.delegate = fallbackRenderer;
-		this.chartProducer = new ChartProducer(new ChartElementTranslatorRegistry());
+		this.chartProducer = new ChartProducer(chartWriterFactory, registry);
 	}
 
 	public void setRenderingContext(RenderingContext renderingContext) {
+		this.renderingContext = renderingContext;
 		chartProducer.setRenderingContext(renderingContext);
 		fallbackRenderer.setRenderingContext(renderingContext);
 		analyzer = new ChartingAnalyzer(renderingContext);
@@ -70,12 +84,13 @@ public class ChartingRenderer implements Renderer {
 	protected boolean isCharting() {
 		return currentChartingInstruction != null;
 	}
-	
+
 	protected List<List<ChartElement>> getGraph() {
 		return chartProducer.getChart().getGraph();
 	}
 
-	protected void beginCharting(InstructionInfo instructionInfo, Analysis analysis) {
+	protected void beginCharting(InstructionInfo instructionInfo,
+			Analysis analysis) {
 		this.chartProducer.setAnalysis(analysis);
 		this.chartOutput = new StringWriter(512);
 		this.chartProducer.setWriter(chartOutput);
@@ -89,7 +104,7 @@ public class ChartingRenderer implements Renderer {
 		this.chartProducer.setAnalysis(null);
 		this.currentChartingInstruction = null;
 	}
-	
+
 	public Instruction evaluateInstruction(Instruction instruction) {
 		return doEvaluateInstruction(instruction, false);
 	}
@@ -100,18 +115,22 @@ public class ChartingRenderer implements Renderer {
 
 	protected Instruction doEvaluateInstruction(Instruction instruction,
 			boolean definitionOnly) {
-		Analysis analysis = analyzer.analyzeInstruction(instruction,
-				definitionOnly);
-		if (analysis.isChartable()) { 
-			instructionIdToAnalysisMap.put(instruction.getId(), analysis);
-			return analysis.getInstructionToUse();
-		} else { // null means we could not chart
-			return null;
+		Options options = renderingContext.getOptions();
+		if (options.shouldChart(instruction)) {
+			Analysis analysis = analyzer.analyzeInstruction(instruction,
+					definitionOnly);
+			if (analysis.isChartable()) {
+				instructionIdToAnalysisMap.put(instruction.getId(), analysis);
+				return analysis.getInstructionToUse();
+			}
 		}
+		// null means we could not chart
+		return null;
 	}
 
 	public void beginInstruction(InstructionInfo instructionInfo) {
-		Analysis analysis = instructionIdToAnalysisMap.get(instructionInfo.getId());
+		Analysis analysis = instructionIdToAnalysisMap.get(instructionInfo
+				.getId());
 		if (analysis != null) {
 			beginCharting(instructionInfo, analysis);
 		}
@@ -119,7 +138,8 @@ public class ChartingRenderer implements Renderer {
 	}
 
 	public void beginInstructionDefinition(InstructionInfo instructionInfo) {
-		Analysis analysis = instructionIdToAnalysisMap.get(instructionInfo.getId());
+		Analysis analysis = instructionIdToAnalysisMap.get(instructionInfo
+				.getId());
 		if (analysis != null) {
 			// this sets the delegate to be the ChartProducer
 			beginCharting(instructionInfo, analysis);
@@ -349,9 +369,9 @@ public class ChartingRenderer implements Renderer {
 		delegate.renderIncrease(increase);
 	}
 
-	public boolean renderInlineInstructionRef(
-			InlineInstructionRef instructionRef, String label) {
-		return delegate.renderInlineInstructionRef(instructionRef, label);
+	public void renderInlineInstructionRef(InlineInstructionRef instructionRef,
+			String label) {
+		delegate.renderInlineInstructionRef(instructionRef, label);
 	}
 
 	public void renderKnit(Knit knit) {
@@ -364,6 +384,14 @@ public class ChartingRenderer implements Renderer {
 
 	public void renderSlip(Slip slip) {
 		delegate.renderSlip(slip);
+	}
+
+	public void beginPattern(Pattern pattern) {
+		delegate.beginPattern(pattern);
+	}
+
+	public void endPattern() {
+		delegate.endPattern();
 	}
 
 }

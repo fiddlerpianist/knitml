@@ -16,12 +16,14 @@ import com.knitml.core.common.Side;
  * addition, the rows and stitches themselves are in logical order (i.e. the
  * first row in the list is the first row worked, not the last).
  * 
- * <p>A {@link ChartWriter} will take this logical graph of operations and display
- * it according to the conventions of that writer. Most {@link ChartWriter}
+ * <p>
+ * A {@link com.knitml.renderer.chart.writer.ChartWriter} will take this logical
+ * graph of operations and display it according to the conventions of that
+ * writer. Most {@link com.knitml.renderer.chart.writer.ChartWriter}
  * implementations will want to start at the end of the graph and work their way
  * backwards so that it displays like a "normal" chart.
  * 
- * @see ChartWriter
+ * @see com.knitml.renderer.chart.writer.ChartWriter
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)
  * 
  */
@@ -36,7 +38,7 @@ public class Chart {
 	public Chart() {
 		this.graph = new ArrayList<List<ChartElement>>();
 	}
-	
+
 	public Chart(List<List<ChartElement>> graph) {
 		this.graph = graph;
 	}

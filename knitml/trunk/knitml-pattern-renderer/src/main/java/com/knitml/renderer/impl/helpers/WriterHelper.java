@@ -1,4 +1,4 @@
-package com.knitml.renderer.impl.basic;
+package com.knitml.renderer.impl.helpers;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.commons.io.output.NullWriter;
 import org.apache.commons.lang.StringUtils;
 
-class WriterHelper {
+public class WriterHelper {
 
 	public final static String LINE_SEPARATOR = System
 			.getProperty("line.separator");

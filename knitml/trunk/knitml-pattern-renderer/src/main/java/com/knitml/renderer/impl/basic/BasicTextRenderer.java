@@ -3,6 +3,7 @@ package com.knitml.renderer.impl.basic;
 import static com.knitml.core.common.EnumUtils.fromEnum;
 
 import java.io.Writer;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.LoopToWork;
 import com.knitml.core.common.StitchesOnNeedle;
 import com.knitml.core.common.ValidationException;
+import com.knitml.core.model.Pattern;
 import com.knitml.core.model.directions.block.CastOn;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
 import com.knitml.core.model.directions.block.Instruction;
@@ -48,22 +50,28 @@ import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.Supplies;
 import com.knitml.core.model.header.Yarn;
 import com.knitml.renderer.context.InstructionInfo;
+import com.knitml.renderer.context.Options;
 import com.knitml.renderer.context.Renderer;
 import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.impl.basic.OperationSet.Type;
+import com.knitml.renderer.impl.helpers.HeaderHelper;
+import com.knitml.renderer.impl.helpers.MessageHelper;
+import com.knitml.renderer.impl.helpers.OperationSet;
+import com.knitml.renderer.impl.helpers.OperationSetHelper;
+import com.knitml.renderer.impl.helpers.RepeatOperationSet;
+import com.knitml.renderer.impl.helpers.SimpleInstruction;
+import com.knitml.renderer.impl.helpers.WriterHelper;
+import com.knitml.renderer.impl.helpers.OperationSet.Type;
 import com.knitml.renderer.plural.PluralRuleFactory;
 import com.knitml.renderer.plural.impl.DefaultPluralRuleFactory;
 
 public class BasicTextRenderer implements Renderer {
 
-	// This is only used for resolving yarn IDs.
-	// FIXME yarn IDs should be resolved by the model rather than through the
-	// repository
-	private RenderingContext context;
+	protected RenderingContext context;
+	private Options options = new Options();
 
 	// Helpers which help with rendering and breaking out the functionality
 	private WriterHelper writerHelper = new WriterHelper();
-	private HeaderHelper headerHelper = new HeaderHelper(writerHelper);
+	private HeaderHelper headerHelper;
 	private OperationSetHelper operationSetHelper = new OperationSetHelper(
 			writerHelper, null);
 	private Map<String, OperationSet> inlineInstructionStore = new LinkedHashMap<String, OperationSet>();
@@ -75,7 +83,7 @@ public class BasicTextRenderer implements Renderer {
 	public void initialize() {
 		this.messageHelper = new MessageHelper(this.messageSource,
 				this.pluralRuleFactory, this.locale);
-		this.headerHelper = new HeaderHelper(this.writerHelper);
+		this.headerHelper = new HeaderHelper(this.writerHelper, this.options);
 		this.operationSetHelper = new OperationSetHelper(this.writerHelper,
 				this.messageHelper);
 	}
@@ -84,6 +92,13 @@ public class BasicTextRenderer implements Renderer {
 
 	// header events
 	public void addYarn(Yarn yarn) {
+	}
+
+	public void beginPattern(Pattern pattern) {
+	}
+
+	public void endPattern() {
+		getWriterHelper().closeWriter();
 	}
 
 	public void renderGeneralInformation(GeneralInformation generalInformation) {
@@ -265,19 +280,28 @@ public class BasicTextRenderer implements Renderer {
 		writeSentence(operation);
 	}
 
-	public boolean renderInlineInstructionRef(InlineInstructionRef ref,
+	public void renderInlineInstructionRef(InlineInstructionRef ref,
 			String label) {
-		if (label == null) {
+		// TODO check preferences here to see if we want a label or the full
+		// inline instruction
+		if (label != null) {
+			getOperationSetHelper().writeOperation(label);
+		} else {
+			// render the inline instruction explicitly
 			OperationSet operationSet = inlineInstructionStore.get(ref
 					.getReferencedInstruction().getId());
 			if (operationSet == null) {
 				throw new RuntimeException(
 						"An inlineInstructionRef was not present in the local store when it should have been");
 			}
+			OperationSet currentOperationSet = getOperationSetHelper()
+					.getCurrentOperationSet();
+			if (currentOperationSet == null) {
+				throw new RuntimeException(
+						"Expected an operation set on the stack (at least of Row type) but found none");
+			}
+			currentOperationSet.addOperationSet(operationSet);
 		}
-		getOperationSetHelper().writeOperation(label);
-		// return false if, say, preferences want this to be explicit
-		return true;
 	}
 
 	public void renderUsingNeedlesCastOn(List<Needle> needles, CastOn castOn) {
@@ -497,6 +521,7 @@ public class BasicTextRenderer implements Renderer {
 				instructionIdentifier);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void renderRepeatInstructionInternal(
 			RepeatInstruction repeatInstruction, String instructionIdentifier) {
 		StringBuffer key = new StringBuffer("operation.repeat-instruction.");
@@ -517,10 +542,18 @@ public class BasicTextRenderer implements Renderer {
 				throw new ValidationException(
 						"Expecting a unit of measure for repeat-instruction's value");
 			}
-			Object numberObject = ((Measure) repeatInstruction.getValue())
-					.getValue();
+			Measure originalMeasure = (Measure) repeatInstruction.getValue();
+			Measure newMeasure;
+			if (context.getOptions().getFabricMeasurementUnit() != null) {
+				newMeasure = originalMeasure.to(context.getOptions().getFabricMeasurementUnit());
+			} else {
+				newMeasure = originalMeasure;
+			}
+			Object numberObject = newMeasure.getValue();
 			numberToPluralize = Double.valueOf(numberObject.toString());
-			args.add(repeatInstruction.getValue());
+			DecimalFormat format = new DecimalFormat();
+			format.setMaximumFractionDigits(1);
+			args.add(format.format(numberToPluralize) + " " + newMeasure.getUnit());
 			break;
 		}
 		case UNTIL_DESIRED_LENGTH: {
@@ -718,6 +751,8 @@ public class BasicTextRenderer implements Renderer {
 
 	public void setRenderingContext(RenderingContext context) {
 		this.context = context;
+		this.options = context.getOptions();
+		initialize();
 	}
 
 	public void beginInstructionGroup() {
@@ -738,7 +773,6 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public void endDirections() {
-		getWriterHelper().closeWriter();
 	}
 
 	// internal helper functions
@@ -808,10 +842,8 @@ public class BasicTextRenderer implements Renderer {
 	public void setWriter(Writer writer) {
 		if (writer != null) {
 			this.writerHelper = new WriterHelper(writer);
+			initialize();
 		}
-		this.headerHelper = new HeaderHelper(this.writerHelper);
-		this.operationSetHelper = new OperationSetHelper(this.writerHelper,
-				this.messageHelper);
 	}
 
 	protected MessageHelper getMessageHelper() {
@@ -857,6 +889,22 @@ public class BasicTextRenderer implements Renderer {
 		// returning null tells the controller that we don't want to superimpose
 		// a different Instruction than the one that we were given
 		return null;
+	}
+
+	protected void setWriterHelper(WriterHelper writerHelper) {
+		this.writerHelper = writerHelper;
+	}
+
+	protected void setHeaderHelper(HeaderHelper headerHelper) {
+		this.headerHelper = headerHelper;
+	}
+
+	protected void setMessageHelper(MessageHelper messageHelper) {
+		this.messageHelper = messageHelper;
+	}
+
+	protected void setOperationSetHelper(OperationSetHelper operationSetHelper) {
+		this.operationSetHelper = operationSetHelper;
 	}
 
 }
