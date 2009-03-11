@@ -1,5 +1,6 @@
 package com.knitml.core.model.directions.inline;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.knitml.core.common.EnumUtils;
@@ -19,6 +20,15 @@ public class Repeat implements InlineOperation, CompositeOperation {
 	protected Until until;
 	protected Integer value;
 	protected List<InlineOperation> operations;
+	
+	public Repeat() {
+	}
+	
+	public Repeat(Until until, Integer value) {
+		this.until = until;
+		this.value = value;
+		this.operations = new ArrayList<InlineOperation>();
+	}
 
 	public List<InlineOperation> getOperations() {
 		return operations;
