@@ -1,0 +1,66 @@
+pattern 'en' {
+    directives {
+    	instructionDefinitions {
+            inlineInstruction 'cross-2-over-2' [label:'2/2 LC']  { cross 2 inFrontOf 2, k4 }
+            inlineInstruction 'cross-2-behind-2'  [label:'2/2 RC']  { cross 2 behind 2, k4 }
+    	}
+    }
+	generalInformation {
+		name: 'Color Sampler Swatch'
+		description: 'A basic 2-color swatch sampler'
+		dimensions
+		gauge 'stockinette' {
+			stitchGauge:  5 stitchesPerInch
+			   rowGauge:  7 rowsPerInch
+		}
+		techniques {
+			technique: 'stranded knitting'
+			technique: 'cabling'
+		}
+		author {
+			firstName: 'Jonathan'
+			lastName:  'Whitall'
+		}
+		copyrightInfo
+	}
+	supplies {
+		yarns {
+			yarnType 'wool' [brand:'Brown Sheep',category:'Lamb\'s Pride',weight:'worsted']
+			yarnType 'cotton' [brand:'Cotton Classic',weight:'worsted']
+			yarn 'MC' [label:'Main Color',symbol:'MC',typeref:'wool']  { color 'red' }
+			yarn 'CC' [label:'Contrast Color',symbol:'CC',typeref:'cotton']  { color 'yellow' }
+		}
+		needles {
+			needleType 'size1' { size: US 1 }
+			needle 'needle1' [label:'Needle 1',typeref:'size1']
+		}
+		accessories
+	}
+	directions {
+		instructionGroup 'start' {
+			useNeedle 'needle1'
+			castOn 11 'long-tail'
+		}
+		instructionGroup 'knit-swatch' {
+			section {
+				row: k5 'MC', k1 'CC', k5 'MC'
+				row: k4 'MC', k3 'CC', k4 'MC'
+				row: k3 'MC', k5 'CC', k3 'MC'
+				row: k2 'MC', k7 'CC', k2 'MC'
+				row: k1 'MC', k9 'CC', k1 'MC'
+				row 'MC': k5, m1a, k6
+			}
+			section resetRowCount {
+				instruction 'cable-repeat' {
+					row [1,2,3,4,6,7,8,9] 'MC' { p to end }
+					row 5 'MC'  { p4, ref 'cross-2-over-2', p4 }
+					row 10 'MC' { p4, ref 'cross-2-behind-2', p4 }
+				}
+				repeat 'cable-repeat' 2 additionalTimes
+			}
+			section {
+				row 'MC' doNotAssignNumber: bindOff allStitches
+			}
+		}
+	}
+}
