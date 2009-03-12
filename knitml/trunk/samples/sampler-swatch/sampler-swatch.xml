@@ -1,4 +1,4 @@
-<pattern xmlns="http://www.knitml.com/schema/pattern" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.5.xsd" xml:lang="en">
+<pattern version="0.5" xmlns="http://www.knitml.com/schema/pattern" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.5.xsd" xml:lang="en">
   <directives>
     <instruction-definitions>
       <inline-instruction id="cross-2-over-2" label="2/2 LC">

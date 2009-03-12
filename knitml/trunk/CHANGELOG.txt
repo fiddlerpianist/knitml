@@ -18,8 +18,9 @@ knitml-pattern-renderer
 * Chart rendering
 * Internal refactoring of model (from visitor to event listener)
 
-Known Incompatibilities:
+Known Incompatibilities with previous release:
 * Instruction and inline-instruction elements defined under an instruction-definitions section must have the 'shape' attribute set
+* Pattern element must have 'version' attribute set corresponding to the schema version in use (this release: 0.5)
 
 Changes in version 0.4.1 (2008-12-04)
 -------------------------------------
