@@ -35,8 +35,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			startNewRow(); purl 15; purl 5;	endRow()
 		}
 		replay engine
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="knit-purl" label="Knit / Purl" shape="flat">
@@ -79,8 +78,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			startNewRow(); purl 5; knit 15;	endRow()
 		}
 		replay engine
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="knit-purl" label="Knit / Purl" shape="flat">
@@ -142,8 +140,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			endRow()
 		}
 		replay engine
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<inline-instruction id="k2p2-ribbing" label="k2p2 rib">
@@ -208,8 +205,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			endRow()
 		}
 		replay engine
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="garter-ribbing" label="garter rib" shape="flat">
@@ -272,8 +268,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			startNewRow(); knit 8; endRow()
 		}
 		replay engine
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="test-instruction" label="test instruction" shape="flat">
@@ -317,8 +312,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			startNewRow(); knit 8; endRow()
 		}
 		replay engine
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="test-instruction-target" label="test instruction target" shape="flat">

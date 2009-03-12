@@ -14,6 +14,7 @@ import org.junit.internal.runners.JUnit4ClassRunner;
 import org.junit.runner.RunWith;
 
 import com.knitml.core.model.Pattern;
+import com.knitml.core.model.Version;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
@@ -31,7 +32,7 @@ public abstract class AbstractKnittingContextTests {
 	protected KnittingEngine engine;
 	protected KnittingContext knittingContext;
 
-	private static final String PATTERN_START_TAG = "<pattern xmlns=\"http://www.knitml.com/schema/pattern\">";
+	protected static final String PATTERN_START_TAG = "<pattern xmlns=\"http://www.knitml.com/schema/pattern\" version=\"" + Version.getCurrentVersionId() + "\">";
 	private static final String DIRECTIONS_START_TAG = "<directions>";
 	private static final String INSTRUCTION_GROUP_START_TAG = "<instruction-group id=\"ig1\">";
 	private static final String PATTERN_END_TAG = "</pattern>";

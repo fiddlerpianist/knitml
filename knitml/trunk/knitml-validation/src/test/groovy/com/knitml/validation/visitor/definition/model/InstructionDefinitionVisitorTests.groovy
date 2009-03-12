@@ -22,8 +22,7 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 	
 	@Test
 	void examineAssignedRowNumbersInHeaderInstruction() {
-		def pattern = processXml ('''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		def pattern = processXml (PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="knit-purl" label="Knit / Purl Pattern" shape="flat">
@@ -44,8 +43,7 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 
 	@Test(expected=InvalidStructureException)
 	void useInvalidGlobalInstruction() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="knit-purl" shape="flat"/>
@@ -58,8 +56,7 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 
 	@Test
 	void useGlobalMergedInstruction() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="knit-purl" label="Knit / purl" shape="flat">
@@ -81,8 +78,7 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 
 	@Test(expected=InvalidStructureException)
 	void useInvalidGlobalMergedInstruction() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="knit-purl" label="Knit / purl" shape="flat">
@@ -104,8 +100,7 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 
 	@Test(expected=UnexpectedRowNumberException)
 	void useInvalidRowNumbersInHeaderInstruction() {
-		def pattern = processXml ('''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		def pattern = processXml (PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="knit-purl" label="Test Pattern" shape="flat">
@@ -121,8 +116,7 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 
 	@Test(expected=InvalidStructureException)
 	void instructionDefinitionWithNoShapeAttribute() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="knit-purl" label="Knit / purl">
@@ -137,8 +131,7 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 
 	@Test(expected=InvalidStructureException)
 	void mergedInstructionWithTwoDifferentShapes() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="knit-purl" label="Knit / purl" shape="flat">

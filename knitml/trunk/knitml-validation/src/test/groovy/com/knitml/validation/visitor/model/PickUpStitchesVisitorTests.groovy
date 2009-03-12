@@ -36,8 +36,7 @@ class PickUpStitchesVisitorTests extends AbstractKnittingContextTests {
 	
 	@Test
 	void inlinePickUpWithSpecifiedYarn() {
-		processXml '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 		<supplies>
 			<yarns>
 				<yarn-type id="lornas" brand="Lorna's Laces" category="Shepherd Sock" weight="fingering"/>

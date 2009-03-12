@@ -23,8 +23,7 @@ class UseNeedlesVisitorTests extends AbstractKnittingContextTests {
 	@Test
 	void useTwoNeedles() {
 		engine.with {
-			processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+			processXml PATTERN_START_TAG + '''
 				<supplies>
 					<yarns/>
 					<needles>
@@ -75,8 +74,7 @@ class UseNeedlesVisitorTests extends AbstractKnittingContextTests {
 	
 	@Test(expected=NoActiveNeedlesException)
 	void doNotSpecifyAnyNeedles() {
-			processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<supplies>
 					<yarns/>
 					<needles>
