@@ -26,6 +26,13 @@
           specified.</xsd:documentation>
         </xsd:annotation>
       </xsd:attribute>
+      <xsd:attribute name="version" type="xsd:string" use="required">
+        <xsd:annotation>
+          <xsd:documentation>The major / minor version of the KnitML Specification schema. Example:
+            0.5. Used for backward compatibility so that software can process older schemas and make
+            adjustments if necessary.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
     </xsd:complexType>
   </xsd:element>
 
