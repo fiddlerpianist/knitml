@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 import com.knitml.core.model.Pattern;
+import com.knitml.core.model.Version;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.listener.RenderingListenerAdapter;
@@ -39,6 +40,7 @@ public abstract class AbstractRenderingContextTests extends AbstractDependencyIn
 	// place to capture results from renderer
 	private StringWriter outputCapturer;
 	protected static final String LINE_SEPARATOR = System.getProperty("line.separator");
+	protected static final String PATTERN_START_TAG = "<pattern xmlns=\"http://www.knitml.com/schema/pattern\" version=\"" + Version.getCurrentVersionId() + "\">";
 
 	// knitting context variables
 	protected PatternEventListener listener;

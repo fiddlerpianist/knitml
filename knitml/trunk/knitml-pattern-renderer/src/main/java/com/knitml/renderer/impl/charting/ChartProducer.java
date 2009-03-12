@@ -40,6 +40,7 @@ import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
 import com.knitml.renderer.chart.translator.ChartElementTranslator;
 import com.knitml.renderer.chart.translator.ChartElementTranslatorRegistry;
+import com.knitml.renderer.chart.translator.NoSymbolFoundException;
 import com.knitml.renderer.chart.writer.ChartWriter;
 import com.knitml.renderer.chart.writer.ChartWriterFactory;
 import com.knitml.renderer.context.InstructionInfo;
@@ -147,7 +148,11 @@ class ChartProducer implements Renderer {
 		ChartElementTranslator translator = registry
 				.getChartElementTranslator(null);
 		ChartWriter writer = chartWriterFactory.createChartWriter(translator);
-		writer.writeChart(chart, this.writer);
+		try {
+			writer.writeChart(chart, this.writer);
+		} catch (NoSymbolFoundException ex) {
+			throw new CannotRenderChartException(ex);
+		}
 	}
 
 	public void beginInlineInstruction(InlineInstruction instruction) {

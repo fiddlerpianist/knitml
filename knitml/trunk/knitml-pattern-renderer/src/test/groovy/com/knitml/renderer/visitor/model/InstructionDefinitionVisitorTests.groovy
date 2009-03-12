@@ -21,8 +21,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 	
 	@Test
 	void inlineInstructionDefinition() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern" number="1">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<inline-instruction id="cross-2-over-2" label="2/2 LC">
@@ -38,8 +37,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 	
 	@Test
 	void instructionDefinition() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern" number="1">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="sunny-day" label="Sunny Day Stitch" shape="round">
@@ -61,8 +59,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 	
 	@Test
 	void instructionDefinitionWithReference() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern" number="1">
+		processXml PATTERN_START_TAG + '''
 				<directives>
 					<instruction-definitions>
 						<instruction id="sunny-day" label="Sunny Day Stitch" shape="round">
@@ -93,8 +90,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 	
 	@Test
 	void mergedInstructionDefinition() {
-		processXml '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 		  <directives>
 		    <instruction-definitions>
 		      <instruction id="left-side" label="Blah 1" shape="round">
@@ -131,8 +127,7 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 
 	@Test
 	void mergedInstructionDefinitionWithReference() {
-		processXml '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 		  <directives>
 		    <instruction-definitions>
 		      <instruction id="left-side" label="Blah 1" shape="round">

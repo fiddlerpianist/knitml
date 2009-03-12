@@ -4,5 +4,5 @@ import com.knitml.renderer.chart.ChartElement;
 
 public interface ChartElementTranslator {
 
-	String getSymbol(ChartElement element);
+	String getSymbol(ChartElement element) throws NoSymbolFoundException;
 }

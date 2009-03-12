@@ -28,7 +28,9 @@
 			</bean>
 		</property>
 		<property name="options">
-			<bean class="com.knitml.renderer.context.Options" scope="prototype"/>
+			<bean class="com.knitml.renderer.context.Options" scope="prototype">
+				<property name="globalChart" value="true"/>
+			</bean>
 		</property>
 		<property name="patternState">
 			<bean class="com.knitml.renderer.context.PatternState" scope="prototype"/>

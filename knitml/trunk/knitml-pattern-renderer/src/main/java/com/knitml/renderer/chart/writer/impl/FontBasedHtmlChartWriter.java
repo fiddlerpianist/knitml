@@ -7,14 +7,12 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.apache.commons.lang.NotImplementedException;
-import org.apache.commons.lang.StringUtils;
-
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
 import com.knitml.renderer.chart.translator.FontBasedChartElementTranslator;
+import com.knitml.renderer.chart.translator.NoSymbolFoundException;
 import com.knitml.renderer.chart.writer.ChartWriter;
 
 public class FontBasedHtmlChartWriter implements ChartWriter {
@@ -31,7 +29,7 @@ public class FontBasedHtmlChartWriter implements ChartWriter {
 		this.translator = translator;
 	}
 
-	public void writeChart(Chart chart, Writer writer) {
+	public void writeChart(Chart chart, Writer writer) throws NoSymbolFoundException {
 
 		List<List<ChartElement>> graph = chart.getGraph();
 		int currentLineNumber = chart.getStartingRowNumber() + graph.size() - 1;
@@ -61,10 +59,6 @@ public class FontBasedHtmlChartWriter implements ChartWriter {
 					ChartElement element = rowIt.previous();
 					elementsUsed.add(element);
 					String symbol = translator.getSymbol(element);
-					if (symbol == null) {
-						throw new NotImplementedException("The stitch "
-								+ element + " is undefined for this translator");
-					}
 					writer.write(symbol);
 				}
 				writer.write("</span>");

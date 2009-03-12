@@ -22,8 +22,7 @@ class UsingNeedleVisitorTests extends AbstractRenderingContextTests {
 	
 	@Test
 	void basicUsingNeedle() {
-		processXml '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 			<supplies>
 				<yarns/>
 				<needles>

@@ -13,6 +13,7 @@ import java.util.Map;
 
 import com.knitml.renderer.chart.ChartElement;
 import com.knitml.renderer.chart.translator.ChartElementTranslator;
+import com.knitml.renderer.chart.translator.NoSymbolFoundException;
 
 public class TextArtLaceTranslator implements ChartElementTranslator {
 
@@ -28,8 +29,12 @@ public class TextArtLaceTranslator implements ChartElementTranslator {
 		symbols.put(SL, "S");
 	}
 
-	public String getSymbol(ChartElement element) {
-		return symbols.get(element);
+	public String getSymbol(ChartElement element) throws NoSymbolFoundException {
+		String symbol = symbols.get(element);
+		if (symbol == null) {
+			throw new NoSymbolFoundException(this, element);
+		}
+		return symbol;
 	}
 
 }

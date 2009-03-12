@@ -17,8 +17,7 @@ class InformationVisitorTests extends AbstractRenderingContextTests {
 
 	@Test
 	void numberOfStitchesAtRowEnd() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directions>
 					<cast-on>5</cast-on>
 					<row xmlns="http://www.knitml.com/schema/pattern" number="1">

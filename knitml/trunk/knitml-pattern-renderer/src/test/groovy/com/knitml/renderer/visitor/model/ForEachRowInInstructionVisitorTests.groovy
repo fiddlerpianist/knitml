@@ -19,8 +19,7 @@ class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests 
 
 	@Test
 	void twoRowsFromLocalInstruction() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directions>
 					<instruction-group id="ig1">
 						<cast-on>1</cast-on>
@@ -46,8 +45,7 @@ class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests 
 
 	@Test
 	void twoRowsFromGlobalInstruction() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directions>
 					<instruction-group id="ig1">
 						<cast-on>1</cast-on>
@@ -74,8 +72,7 @@ class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests 
 	
 	@Test(expected=ValidationException)
 	void lookupInstructionOutOfScope() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directions>
 					<instruction-group id="ig1">
 						<cast-on>1</cast-on>

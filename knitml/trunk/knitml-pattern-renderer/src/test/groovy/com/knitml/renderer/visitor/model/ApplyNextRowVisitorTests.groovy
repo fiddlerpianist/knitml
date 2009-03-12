@@ -19,8 +19,7 @@ class ApplyNextRowVisitorTests extends AbstractRenderingContextTests {
 
 	@Test
 	void applyNextRowFromGlobalInstruction() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directions>
 					<instruction-group id="ig1">
 						<cast-on>1</cast-on>
@@ -42,8 +41,7 @@ class ApplyNextRowVisitorTests extends AbstractRenderingContextTests {
 
 	@Test(expected=ValidationException)
 	void applyNextRowFromLocalInstruction() {
-		processXml '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 				<directions>
 					<instruction-group id="ig1">
 						<cast-on>1</cast-on>

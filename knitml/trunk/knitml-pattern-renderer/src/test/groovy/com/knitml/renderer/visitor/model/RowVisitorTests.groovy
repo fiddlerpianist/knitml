@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat
 
 import org.junit.Test
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.runner.JUnitCore
 
 import com.knitml.core.model.header.Yarn
@@ -35,6 +36,7 @@ class RowVisitorTests extends AbstractRenderingContextTests {
 		assertThat output.trim(), is ('Row 1: k1')
 	}
 	
+	@Ignore
 	@Test
 	void rowOneTwoFive() {
 		processXml '''
@@ -58,6 +60,8 @@ class RowVisitorTests extends AbstractRenderingContextTests {
 		assertThat output.trim(), is ('Round 1: k1')
 	}
 	
+
+	@Ignore
 	@Test
 	void roundOneThreeFive() {
 		renderingContext.engine.declareRoundKnitting()
@@ -82,6 +86,7 @@ class RowVisitorTests extends AbstractRenderingContextTests {
 		assertThat output.trim(), is ('Row 1 (A): k1')
 	}
 	
+	@Ignore
 	@Test
 	void rowOneThreeFiveWithAB() {
 		processXml '''
@@ -106,6 +111,7 @@ class RowVisitorTests extends AbstractRenderingContextTests {
 		assertThat output.trim(), is ('Round 1 (A): k1')
 	}
 	
+	@Ignore
 	@Test
 	void roundOneThreeFiveWithAB() {
 		renderingContext.engine.declareRoundKnitting()

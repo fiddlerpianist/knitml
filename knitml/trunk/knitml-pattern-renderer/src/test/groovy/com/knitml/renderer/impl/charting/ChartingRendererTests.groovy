@@ -30,8 +30,7 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	}
 	@Test
 	public void flatChart() {
-		processXml '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 			<directives>
 				<instruction-definitions>
 					<instruction id="inst1" label="Stockinette Stitch" shape="flat"> 
@@ -51,8 +50,7 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 
 	@Test
 	public void roundChart() {
-		processXml '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 			<directives>
 				<instruction-definitions>
 					<instruction id="inst1" label="Stockinette Stitch" shape="round"> 
@@ -72,8 +70,7 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	
 	@Test
 	public void asymmetricFlatChart() {
-		processXml '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 			<directives>
 				<instruction-definitions>
 					<instruction id="inst1" label="2x2 Ribbing" shape="flat"> 
@@ -101,8 +98,7 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	@Test
 	public void laceWithEqualRows() {
 		// reminiscient of the nutkin2 sample
-		processXml '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
+		processXml PATTERN_START_TAG + '''
 			<directives>
 				<instruction-definitions>
 					<instruction id="nutkin2" label="Nutkin 2" shape="round"> 
