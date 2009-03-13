@@ -17,9 +17,7 @@ import org.junit.runner.RunWith
 
 import com.knitml.core.model.directions.block.Instruction
 import com.knitml.core.model.Pattern
-import com.knitml.renderer.context.RenderingContext
-import com.knitml.renderer.context.RenderingContextFactory
-import com.knitml.renderer.context.impl.DefaultRenderingContextFactory
+import com.knitml.renderer.Renderer
 
 @RunWith(JUnit4ClassRunner.class)
 class ChartingRendererTests extends AbstractRenderingContextTests {
@@ -45,7 +43,7 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</directives>
 		 </pattern>'''
 		 
-		 assertThat renderingContext.renderer.graph, is ([[K,K,K,K],[K,K,K,K]])
+		 assertThat renderer.graph, is ([[K,K,K,K],[K,K,K,K]])
 	}
 
 	@Test
@@ -65,7 +63,7 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</directives>
 		 </pattern>'''
 
-		 assertThat renderingContext.renderer.graph, is ([[K,K,K,K],[K,K,K,K]])
+		 assertThat renderer.graph, is ([[K,K,K,K],[K,K,K,K]])
 	}
 	
 	@Test
@@ -91,8 +89,8 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</directives>
 		 </pattern>'''
 
-		 assertThat renderingContext.renderer.graph, is ([[K,K,P,P,K,K,P,P],
-		                                                  [K,K,P,P,K,K,P,P]]);
+		 assertThat renderer.graph, is ([[K,K,P,P,K,K,P,P],
+		                                 [K,K,P,P,K,K,P,P]]);
 	}
 
 	@Test
@@ -131,7 +129,7 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</directives>
 		 </pattern>'''
 
-		 assertThat renderingContext.renderer.graph, is ([[P,P,YO,K,K,K,SSK,K,K,K,K,K,K,K,K,K2TOG,K,K,K,YO,P,P],
-		                                                  [P,P,K,YO,K,K,K,SSK,K,K,K,K,K,K,K2TOG,K,K,K,YO,K,P,P]]);
+		 assertThat renderer.graph, is ([[P,P,YO,K,K,K,SSK,K,K,K,K,K,K,K,K,K2TOG,K,K,K,YO,P,P],
+		                                 [P,P,K,YO,K,K,K,SSK,K,K,K,K,K,K,K2TOG,K,K,K,YO,K,P,P]]);
 	}
 }

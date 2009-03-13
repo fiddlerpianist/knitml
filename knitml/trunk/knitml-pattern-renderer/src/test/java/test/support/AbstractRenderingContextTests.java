@@ -18,13 +18,16 @@ import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 import com.knitml.core.model.Pattern;
 import com.knitml.core.model.Version;
+import com.knitml.renderer.Renderer;
+import com.knitml.renderer.RendererFactory;
 import com.knitml.renderer.common.RenderingException;
+import com.knitml.renderer.context.Options;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.listener.RenderingListenerAdapter;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.KnittingContextFactory;
-import com.knitml.validation.context.PatternEventListener;
 import com.knitml.validation.context.ListenerManager;
+import com.knitml.validation.context.PatternEventListener;
 import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
 import com.knitml.validation.context.impl.DefaultListenerManager;
 import com.knitml.validation.visitor.instruction.Visitor;
@@ -35,10 +38,15 @@ import com.knitml.validation.visitor.instruction.impl.DefaultVisitorFactory;
 public abstract class AbstractRenderingContextTests extends AbstractDependencyInjectionSpringContextTests {
 
 	// initialized from Spring context
-	protected RenderingContext renderingContext;
+	protected RendererFactory rendererFactory;
+	protected Options options;
 	
+	// created in setItUp()
+	protected RenderingContext renderingContext;
+	protected Renderer renderer;
 	// place to capture results from renderer
 	private StringWriter outputCapturer;
+	
 	protected static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	protected static final String PATTERN_START_TAG = "<pattern xmlns=\"http://www.knitml.com/schema/pattern\" version=\"" + Version.getCurrentVersionId() + "\">";
 
@@ -63,11 +71,11 @@ public abstract class AbstractRenderingContextTests extends AbstractDependencyIn
 		this.outputCapturer = new StringWriter(128);
 		setUp();
 		// use renderingContext provided by Spring
-		renderingContext.getRenderer().setWriter(this.outputCapturer);
-		renderingContext.getRenderer().setRenderingContext(renderingContext);
-		this.listener = new RenderingListenerAdapter(this.renderingContext);
+		this.renderingContext = new RenderingContext(options);
+		this.renderer = rendererFactory.createRenderer(renderingContext, outputCapturer);
+		this.listener = new RenderingListenerAdapter(renderer);
 		this.knittingContext = setUpKnittingContext(listener);
-		renderingContext.setKnittingContext(knittingContext);
+		this.renderingContext.setKnittingContext(knittingContext);
 		onSetItUp();
 	}
 	

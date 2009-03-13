@@ -3,10 +3,10 @@ package com.knitml.renderer.listener;
 import com.knitml.core.model.Pattern;
 import com.knitml.core.model.directions.CompositeOperation;
 import com.knitml.core.model.header.Directives;
-import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.event.EventFactory;
-import com.knitml.renderer.event.RenderingEvent;
-import com.knitml.renderer.event.impl.DefaultEventFactory;
+import com.knitml.renderer.Renderer;
+import com.knitml.renderer.event.EventHandler;
+import com.knitml.renderer.event.EventHandlerFactory;
+import com.knitml.renderer.event.impl.DefaultEventHandlerFactory;
 import com.knitml.renderer.event.impl.DefaultNameResolver;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.PatternEventListener;
@@ -17,12 +17,12 @@ import com.knitml.validation.context.PatternEventListener;
  */
 public class RenderingListenerAdapter implements PatternEventListener {
 
-	public RenderingListenerAdapter(RenderingContext renderingContext) {
-		this.renderingContext = renderingContext;
+	public RenderingListenerAdapter(Renderer renderer) {
+		this.renderer = renderer;
 	}
 
-	private EventFactory visitorFactory = new DefaultEventFactory();
-	private RenderingContext renderingContext;
+	private EventHandlerFactory eventHandlerFactory = new DefaultEventHandlerFactory();
+	private Renderer renderer;
 	private int currentDepth = 0;
 	private Integer ignoreBelowDepth;
 	private boolean withinDirectives = false;
@@ -36,19 +36,19 @@ public class RenderingListenerAdapter implements PatternEventListener {
 
 		if (object instanceof Pattern) {
 			// set the current knitting context onto the rendering context
-			renderingContext.setKnittingContext(knittingContext);
+			renderer.getRenderingContext().setKnittingContext(knittingContext);
 			currentDepth = 0;
 		}
 
-		RenderingEvent visitor = null;
+		EventHandler visitor = null;
 		if (withinDirectives) {
 			// use the special "definitions" package for children of directives
-			visitorFactory.pushNameResolver(new DefaultNameResolver(
+			eventHandlerFactory.pushNameResolver(new DefaultNameResolver(
 					"com.knitml.renderer.visitor.definition.model"));
-			visitor = visitorFactory.findVisitorFromClassName(object);
-			visitorFactory.popNameResolver();
+			visitor = eventHandlerFactory.findEventHandlerFromClassName(object);
+			eventHandlerFactory.popNameResolver();
 		} else {
-			visitor = visitorFactory.findVisitorFromClassName(object);
+			visitor = eventHandlerFactory.findEventHandlerFromClassName(object);
 		}
 		
 		if (object instanceof Directives) {
@@ -59,9 +59,9 @@ public class RenderingListenerAdapter implements PatternEventListener {
 
 		// if it's a CompositeOperation, add to the operation tree
 		if (object instanceof CompositeOperation) {
-			 renderingContext.getPatternState().getOperationTree().push((CompositeOperation)object);
+			renderer.getRenderingContext().getPatternState().getOperationTree().push((CompositeOperation)object);
 		}
-		boolean processChildren = visitor.begin(object, renderingContext);
+		boolean processChildren = visitor.begin(object, renderer);
 		if (!processChildren) {
 			this.ignoreBelowDepth = currentDepth;
 		}
@@ -87,21 +87,21 @@ public class RenderingListenerAdapter implements PatternEventListener {
 			withinDirectives = false;
 		}
 
-		RenderingEvent visitor = null;
+		EventHandler visitor = null;
 		if (withinDirectives) {
 			// use the special "definitions" package for children of directives
-			visitorFactory.pushNameResolver(new DefaultNameResolver(
+			eventHandlerFactory.pushNameResolver(new DefaultNameResolver(
 					"com.knitml.renderer.visitor.definition.model"));
-			visitor = visitorFactory.findVisitorFromClassName(object);
-			visitorFactory.popNameResolver();
+			visitor = eventHandlerFactory.findEventHandlerFromClassName(object);
+			eventHandlerFactory.popNameResolver();
 		} else {
-			visitor = visitorFactory.findVisitorFromClassName(object);
+			visitor = eventHandlerFactory.findEventHandlerFromClassName(object);
 		}
 
-		visitor.end(object, renderingContext);
+		visitor.end(object, renderer);
 		// if it's a CompositeOperation, add to the operation tree
 		if (object instanceof CompositeOperation) {
-			 renderingContext.getPatternState().getOperationTree().pop();
+			 renderer.getRenderingContext().getPatternState().getOperationTree().pop();
 		}
 	}
 
@@ -111,8 +111,8 @@ public class RenderingListenerAdapter implements PatternEventListener {
 		return false;
 	}
 
-	public void setVisitorFactory(EventFactory visitorFactory) {
-		this.visitorFactory = visitorFactory;
+	public void setEventHandlerFactory(EventHandlerFactory eventHandlerFactory) {
+		this.eventHandlerFactory = eventHandlerFactory;
 	}
 
 }

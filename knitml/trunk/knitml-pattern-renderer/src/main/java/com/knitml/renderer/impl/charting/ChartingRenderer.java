@@ -1,7 +1,6 @@
 package com.knitml.renderer.impl.charting;
 
 import java.io.StringWriter;
-import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +33,12 @@ import com.knitml.core.model.header.GeneralInformation;
 import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.Supplies;
 import com.knitml.core.model.header.Yarn;
+import com.knitml.renderer.Renderer;
 import com.knitml.renderer.chart.ChartElement;
 import com.knitml.renderer.chart.translator.ChartElementTranslatorRegistry;
 import com.knitml.renderer.chart.writer.ChartWriterFactory;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.Options;
-import com.knitml.renderer.context.Renderer;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.impl.charting.analyzer.Analysis;
 import com.knitml.renderer.impl.charting.analyzer.ChartingAnalyzer;
@@ -57,28 +56,25 @@ public class ChartingRenderer implements Renderer {
 	private ChartProducer chartProducer;
 	private Renderer delegate;
 
-	public ChartingRenderer(Renderer fallbackRenderer,
+	public ChartingRenderer(Renderer fallbackRenderer, RenderingContext renderingContext,
 			ChartWriterFactory chartWriterFactory,
 			ChartElementTranslatorRegistry registry) {
 		if (chartWriterFactory == null || fallbackRenderer == null) {
 			throw new IllegalArgumentException(
 					"The chartWriterFactory and fallbackRenderer parameters must be set");
 		}
+		
 		this.fallbackRenderer = fallbackRenderer;
-		// derive the delegate and the ChartProducer
+		// initially set the fallback renderer as the delegate
 		this.delegate = fallbackRenderer;
-		this.chartProducer = new ChartProducer(chartWriterFactory, registry);
-	}
-
-	public void setRenderingContext(RenderingContext renderingContext) {
+		
 		this.renderingContext = renderingContext;
-		chartProducer.setRenderingContext(renderingContext);
-		fallbackRenderer.setRenderingContext(renderingContext);
+		
+		// derive the charting analyzer
 		analyzer = new ChartingAnalyzer(renderingContext);
-	}
-
-	public void setWriter(Writer writer) {
-		fallbackRenderer.setWriter(writer);
+		// derive the chart producer
+		chartProducer = new ChartProducer(chartWriterFactory, registry);
+		chartProducer.setRenderingContext(renderingContext);
 	}
 
 	protected boolean isCharting() {
@@ -392,6 +388,10 @@ public class ChartingRenderer implements Renderer {
 
 	public void endPattern() {
 		delegate.endPattern();
+	}
+
+	public RenderingContext getRenderingContext() {
+		return this.renderingContext;
 	}
 
 }

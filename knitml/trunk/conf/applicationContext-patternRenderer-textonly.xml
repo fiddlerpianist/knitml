@@ -5,54 +5,19 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<description> This file defines the configuration for the pattern renderer. </description>
 
-	<bean id="renderingContext" class="com.knitml.renderer.context.RenderingContext"
-		scope="prototype">
-		<property name="renderer">
-			<bean class="com.knitml.renderer.impl.basic.BasicTextRenderer" scope="prototype" init-method="initialize">
-				<property name="messageSource" ref="messageSource"/>
-				<property name="locale" ref="locale"/>
-			</bean>
-		</property>
-		<property name="patternRepository">
-			<bean class="com.knitml.renderer.context.impl.DefaultPatternRepository"
-				scope="prototype" init-method="initialize">
-				<property name="locale" ref="locale"/>
-			</bean>
-		</property>
-		<property name="options">
-			<bean class="com.knitml.renderer.context.Options" scope="prototype"/>
-		</property>
-		<property name="patternState">
-			<bean class="com.knitml.renderer.context.PatternState" scope="prototype"/>
-		</property>
+	<bean id="rendererFactory" class="com.knitml.renderer.impl.basic.BasicTextRendererFactory"/>
+	
+	<bean id="options" class="com.knitml.renderer.context.Options" scope="prototype">
+		<property name="programMessageSource" ref="messageSource"/>
 	</bean>
-
+	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-		<!-- The message sources can be overridden by the entry
-			 in pattern-renderer-config.properties -->
 		<property name="basenames" value="custom-operations,com.knitml.renderer.impl.operations"/>
 	</bean>
 	
-	<!-- Uncomment this locale bean to tell the program to use the JVM default. -->
-	<bean id="locale" class="java.util.Locale" factory-method="getDefault"/>
-	<!-- Uncomment this locale bean to set a locale different from the JVM default.
-		Note that locale strings are a composite of the ISO 639 language code
-		and the ISO 3166 country codes. -->
-	<!--
-		<bean id="locale" class="java.util.Locale">
-		<description>
-		This sets the locale to es_ES, i.e. Spanish as spoken in
-		Spain. Resource bundle names are structured around different
-		locales. Consult the javadoc for more information about
-		resource bundles.
-		</description>
-		<constructor-arg value="es_ES" />
-		</bean>
-	-->
-
-	<bean id="configurer"
+	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
 		<property name="location" value="pattern-renderer-config.properties"/>
 	</bean>
-
+	
 </beans>

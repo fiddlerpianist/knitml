@@ -2,8 +2,11 @@ package com.knitml.renderer.impl.html;
 
 import java.io.Writer;
 
+import org.springframework.context.MessageSource;
+
 import com.knitml.core.model.Pattern;
 import com.knitml.renderer.context.InstructionInfo;
+import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.impl.basic.BasicTextRenderer;
 import com.knitml.renderer.impl.helpers.HeaderHelper;
 import com.knitml.renderer.impl.helpers.OperationSetHelper;
@@ -13,6 +16,18 @@ public class HtmlRenderer extends BasicTextRenderer {
 	private boolean closePreTagBeforePreCraftedInstructions = true;
 	private HtmlWriterHelper writerHelper;
 
+	public HtmlRenderer(RenderingContext context, Writer writer,
+			MessageSource messageSource) {
+		super(context, writer, messageSource);
+		if (writer != null) {
+			writerHelper = new HtmlWriterHelper(writer);
+			setWriterHelper(writerHelper);
+		}
+		setHeaderHelper(new HeaderHelper(writerHelper, getRenderingContext().getOptions()));
+		setOperationSetHelper(new OperationSetHelper(writerHelper,
+				getMessageHelper()));
+	}
+	
 	@Override
 	public void beginPattern(Pattern pattern) {
 		writerHelper.setPreformatted(false);
@@ -53,15 +68,4 @@ public class HtmlRenderer extends BasicTextRenderer {
 		}
 	}
 	
-	@Override
-	public void setWriter(Writer writer) {
-		if (writer != null) {
-			writerHelper = new HtmlWriterHelper(writer);
-			setWriterHelper(writerHelper);
-		}
-		setHeaderHelper(new HeaderHelper(writerHelper, this.context.getOptions()));
-		setOperationSetHelper(new OperationSetHelper(getWriterHelper(),
-				getMessageHelper()));
-	}
-
 }

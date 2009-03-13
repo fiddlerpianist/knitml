@@ -34,40 +34,26 @@ class PatternFullTransformationTests extends RunnerTests {
 	}
 	
 	protected void convertValidateAndRender(String patternName) {
-		Parameters options = new Parameters()
+		Parameters parameters = new Parameters()
 		patternResourceStream = new ClassPathResource(patternName + ".kel").inputStream
 		// convert
-		options.reader = new BufferedReader(new InputStreamReader(patternResourceStream))
-		options.checkSyntax = true
-		String xml = converter.convertToXml(options)
+		parameters.reader = new BufferedReader(new InputStreamReader(patternResourceStream))
+		parameters.checkSyntax = true
+		String xml = converter.convertToXml(parameters)
 		
 		// validate
-		options = new Parameters()
-		options.reader = new StringReader(xml)
-		Pattern pattern = validator.validate (options)
-
-		// revalidate
-		options = new Parameters()
-		options.pattern = pattern
-		pattern = validator.validate (options)
-
-		// render
-		options = new Parameters()
-		options.pattern = pattern
-		renderer.render options
+		parameters = new Parameters()
+		parameters.reader = new StringReader(xml)
+		renderer.render parameters
 	}
 
 	protected void validateAndRender(String patternName) {
-		Parameters options = new Parameters()
+		Parameters parameters = new Parameters()
 		def resource = new ClassPathResource(patternName + ".xml").inputStream
 		String xml = resource.text
-		options.reader = new StringReader(xml)
-		options.checkSyntax = true
-		Pattern pattern = validator.validate (options)
-		
-		options = new Parameters()
-		options.pattern = pattern
-		renderer.render options
+		parameters.reader = new StringReader(xml)
+		parameters.checkSyntax = true
+		renderer.render parameters
 	}
 	
 	@Test

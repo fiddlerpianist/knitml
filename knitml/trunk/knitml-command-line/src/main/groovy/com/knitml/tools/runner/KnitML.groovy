@@ -4,7 +4,7 @@ import org.apache.commons.lang.ArrayUtils
 
 if (args.length < 1) {
 	println '''Must specify command, which is one of:
-validate, render, validateAndRender, convert, convertAndValidate, convertValidateAndRender'''
+validate, render, convert, convertAndValidate, convertAndRender'''
 	System.exit(1)
 }
 
@@ -18,17 +18,15 @@ if (args.length < 2) {
 
 switch (command.toLowerCase()) {
 	case "render":
+	case "validateandrender":
+	case "validaterender":
 	case "r":
+	case "vr":
 		RenderPattern.main(argsToPass)
 		break
 	case "validate":
 	case "v":
 		ValidatePattern.main(argsToPass)
-		break
-	case "validateandrender":
-	case "validaterender":
-	case "vr":
-		ValidateAndRenderPattern.main(argsToPass)
 		break
 	case "convert":
 	case "c":
@@ -42,7 +40,10 @@ switch (command.toLowerCase()) {
 	case "convertvalidateandrender":
 	case "convertvalidaterender":
 	case "cvr":
-		ConvertValidateAndRenderPattern.main(argsToPass)
+	case "convertandrender":
+	case "convertrender":
+	case "cr":
+		ConvertAndRenderPattern.main(argsToPass)
 		break
 }
 

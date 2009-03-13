@@ -8,19 +8,23 @@ Changes in version 0.5.0 (????-??-??)
 General
 * New projects from refactoring effort:
   * knitml-knitting-engine: the knitting simulation component from knitml-validation
-  * knitml-el: the Knitting Expression Language (formlery in knitml-tools)
+  * knitml-el: the Knitting Expression Language (formerly in knitml-tools)
   * knitml-command-line: command line only utilities
 
 knitml-core
 * Added 'version' to pattern element (for compatibility tracking)
+* Added 'no-stitch' element to support charting
   
 knitml-pattern-renderer
 * Chart rendering
-* Internal refactoring of model (from visitor to event listener)
+* Internal refactoring of model (from visitor to event handler)
+* Removed Renderer <-> RenderingContext circular dependency 
+* RendererProgram is far simpler; all user preferences are within Options element
 
 Known Incompatibilities with previous release:
 * Instruction and inline-instruction elements defined under an instruction-definitions section must have the 'shape' attribute set
 * Pattern element must have 'version' attribute set corresponding to the schema version in use (this release: 0.5)
+* Pattern renderer configuration files (i.e. applicationContext-patternRenderer.xml) are completely incompatible with previous releases
 
 Changes in version 0.4.1 (2008-12-04)
 -------------------------------------

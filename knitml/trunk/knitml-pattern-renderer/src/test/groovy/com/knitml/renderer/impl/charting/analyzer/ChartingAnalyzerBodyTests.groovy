@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue
 import static org.junit.Assert.assertFalse
 import static com.knitml.core.model.directions.inline.Repeat.Until.TIMES
 import static test.support.JiBXUtils.parseXml
-
+import com.knitml.renderer.context.Optionsimport com.knitml.validation.context.impl.DefaultKnittingContextFactory
 import java.io.StringReader
 
 import org.junit.Before
@@ -19,9 +19,8 @@ import org.junit.runner.RunWith
 
 import com.knitml.core.model.directions.block.Instruction
 import com.knitml.core.model.Pattern
+import com.knitml.renderer.Renderer
 import com.knitml.renderer.context.RenderingContext
-import com.knitml.renderer.context.RenderingContextFactory
-import com.knitml.renderer.context.impl.DefaultRenderingContextFactory
 
 @RunWith(JUnit4ClassRunner.class)
 public class ChartingAnalyzerBodyTests {
@@ -31,8 +30,8 @@ public class ChartingAnalyzerBodyTests {
 	
 	@Before
 	public void setUp() {
-		RenderingContextFactory factory = new DefaultRenderingContextFactory()
-		context = factory.createRenderingContext()
+		context = new RenderingContext(new Options())
+		context.knittingContext = new DefaultKnittingContextFactory().createKnittingContext()
 		analyzer = new ChartingAnalyzer(context)
 	}
 	

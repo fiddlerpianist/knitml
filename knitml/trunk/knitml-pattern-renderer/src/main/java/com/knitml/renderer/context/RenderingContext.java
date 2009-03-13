@@ -5,42 +5,31 @@ import com.knitml.validation.context.KnittingContext;
 
 public class RenderingContext {
 
-	private PatternRepository patternRepository;
-	private Renderer renderer;
+	// fields with defaults
 	private Options options;
 	private PatternState patternState;
+	
+	// internally calculated fields created in constructor
+	private PatternRepository patternRepository;
+	// dependency set later when available
 	private KnittingContext knittingContext;
-
+	
+	public RenderingContext(Options options) {
+		this.options = options;
+		this.patternRepository = new PatternRepository(options);
+		this.patternState = new PatternState();
+	}
+	
 	public Options getOptions() {
 		return options;
-	}
-
-	public void setOptions(Options options) {
-		this.options = options;
 	}
 
 	public PatternState getPatternState() {
 		return patternState;
 	}
 
-	public void setPatternState(PatternState patternState) {
-		this.patternState = patternState;
-	}
-
 	public PatternRepository getPatternRepository() {
 		return patternRepository;
-	}
-
-	public void setPatternRepository(PatternRepository patternRepository) {
-		this.patternRepository = patternRepository;
-	}
-
-	public Renderer getRenderer() {
-		return renderer;
-	}
-
-	public void setRenderer(Renderer renderer) {
-		this.renderer = renderer;
 	}
 
 	public KnittingEngine getEngine() {
@@ -54,6 +43,4 @@ public class RenderingContext {
 	public void setKnittingContext(KnittingContext knittingContext) {
 		this.knittingContext = knittingContext;
 	}
-
-	
 }

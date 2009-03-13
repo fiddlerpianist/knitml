@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertNull
 import static org.junit.Assert.assertThat
 import static test.support.JiBXUtils.parseXml
-
+import com.knitml.renderer.context.Optionsimport com.knitml.validation.context.impl.DefaultKnittingContextFactory
 import java.io.StringReader
 
 import org.junit.Before
@@ -17,8 +17,7 @@ import org.junit.runner.RunWith
 import com.knitml.core.model.directions.inline.Repeat.Until
 import com.knitml.core.model.directions.block.Instruction
 import com.knitml.renderer.context.RenderingContext
-import com.knitml.renderer.context.RenderingContextFactory
-import com.knitml.renderer.context.impl.DefaultRenderingContextFactory
+import com.knitml.renderer.Renderer
 
 @RunWith(JUnit4ClassRunner.class)
 public class ChartingAnalyzerHeaderTests {
@@ -28,8 +27,8 @@ public class ChartingAnalyzerHeaderTests {
 	
 	@Before
 	public void setUp() {
-		RenderingContextFactory factory = new DefaultRenderingContextFactory()
-		context = factory.createRenderingContext()
+		context = new RenderingContext(new Options())
+		context.knittingContext = new DefaultKnittingContextFactory().createKnittingContext()
 		analyzer = new ChartingAnalyzer(context)
 	}
 

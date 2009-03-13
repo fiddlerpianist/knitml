@@ -9,17 +9,12 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.knitml.core.common.Parameters;
-import com.knitml.renderer.RendererProgram;
-import com.knitml.renderer.context.RenderingContextFactory;
-import com.knitml.renderer.context.impl.SpringRenderingContextFactory;
-import com.knitml.renderer.event.impl.DefaultEventFactory;
+import com.knitml.renderer.program.RendererProgram;
+import com.knitml.renderer.util.Configuration;
+import com.knitml.renderer.util.SpringConfigurationBuilder;
 import com.knitml.tools.runner.support.RunnerUtils;
-import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
-import com.knitml.validation.visitor.instruction.impl.SpringVisitorFactory;
 
 public class RenderPattern {
 
@@ -44,22 +39,17 @@ public class RenderPattern {
 		try {
 			// parse the command line arguments
 			CommandLine line = parser.parse(options, args);
-			ApplicationContext applicationContext = null;
 			String[] applicationContextFiles = line
 					.getOptionValues("applicationContextFiles");
 			if (applicationContextFiles == null) {
 				applicationContextFiles = new String[] { "applicationContext-patternRenderer.xml" };
 			}
-			applicationContext = new ClassPathXmlApplicationContext(
-					applicationContextFiles);
+			SpringConfigurationBuilder builder = new SpringConfigurationBuilder();
 			Parameters parameters = RunnerUtils.toParameters(line);
 
-			RenderingContextFactory contextFactory = new SpringRenderingContextFactory(
-					applicationContext);
-			RendererProgram renderer = new RendererProgram(contextFactory,
-					new DefaultEventFactory(),
-					new DefaultKnittingContextFactory(),
-					new SpringVisitorFactory());
+			Configuration configuration = builder.getConfiguration(applicationContextFiles);
+			RendererProgram renderer = new RendererProgram(configuration.getRendererFactory());
+			renderer.setOptions(configuration.getOptions());
 			renderer.render(parameters);
 		} catch (ParseException exp) {
 			// oops, something went wrong

@@ -3,7 +3,6 @@ package com.knitml.renderer.impl.helpers;
 import static com.knitml.core.common.EnumUtils.fromEnum;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import javax.measure.quantity.Length;
 import javax.measure.unit.Unit;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.tools.ant.taskdefs.Definer.Format;
 
 import com.knitml.core.common.NeedleStyle;
 import com.knitml.core.model.header.Author;

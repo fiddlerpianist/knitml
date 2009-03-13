@@ -7,7 +7,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.measure.Measure;
@@ -49,9 +48,8 @@ import com.knitml.core.model.header.GeneralInformation;
 import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.Supplies;
 import com.knitml.core.model.header.Yarn;
+import com.knitml.renderer.Renderer;
 import com.knitml.renderer.context.InstructionInfo;
-import com.knitml.renderer.context.Options;
-import com.knitml.renderer.context.Renderer;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.impl.helpers.HeaderHelper;
 import com.knitml.renderer.impl.helpers.MessageHelper;
@@ -66,26 +64,38 @@ import com.knitml.renderer.plural.impl.DefaultPluralRuleFactory;
 
 public class BasicTextRenderer implements Renderer {
 
-	protected RenderingContext context;
-	private Options options = new Options();
+	protected RenderingContext renderingContext;
 
-	// Helpers which help with rendering and breaking out the functionality
-	private WriterHelper writerHelper = new WriterHelper();
-	private HeaderHelper headerHelper;
-	private OperationSetHelper operationSetHelper = new OperationSetHelper(
-			writerHelper, null);
-	private Map<String, OperationSet> inlineInstructionStore = new LinkedHashMap<String, OperationSet>();
+	// Helpers which contribute to the rendering effort
+	private WriterHelper writerHelper = new WriterHelper(); // points to a NullWriter by default
 	private MessageHelper messageHelper;
+	private HeaderHelper headerHelper;
+	private OperationSetHelper operationSetHelper;
+
+	private Map<String, OperationSet> inlineInstructionStore = new LinkedHashMap<String, OperationSet>();
 	private PluralRuleFactory pluralRuleFactory = new DefaultPluralRuleFactory();
 
 	private int sectionCount = 0;
 
-	public void initialize() {
-		this.messageHelper = new MessageHelper(this.messageSource,
-				this.pluralRuleFactory, this.locale);
-		this.headerHelper = new HeaderHelper(this.writerHelper, this.options);
-		this.operationSetHelper = new OperationSetHelper(this.writerHelper,
-				this.messageHelper);
+	
+	public BasicTextRenderer(RenderingContext context, Writer writer, MessageSource messageSource) {
+		if (context == null) {
+			throw new IllegalArgumentException(
+					"A rendering context must be provided");
+		}
+		this.renderingContext = context;
+		if (writer != null) {
+			writerHelper = new WriterHelper(writer);
+		}
+		if (messageSource == null) {
+			throw new IllegalArgumentException(
+					"A message source must be provided");
+		}
+		messageHelper = new MessageHelper(messageSource, pluralRuleFactory,
+				context.getOptions().getLocale());
+		// both headerHelper and operationSetHelper have dependencies on writerHelper
+		headerHelper = new HeaderHelper(writerHelper, context.getOptions());
+		operationSetHelper = new OperationSetHelper(writerHelper, messageHelper);
 	}
 
 	// implemented operations
@@ -353,7 +363,7 @@ public class BasicTextRenderer implements Renderer {
 			return;
 		}
 
-		Yarn yarn = context.getPatternRepository().getYarn(knit.getYarnIdRef());
+		Yarn yarn = renderingContext.getPatternRepository().getYarn(knit.getYarnIdRef());
 		if (yarn != null) {
 			key.append(".with-yarn");
 			values.add(yarn.getSymbol());
@@ -544,8 +554,9 @@ public class BasicTextRenderer implements Renderer {
 			}
 			Measure originalMeasure = (Measure) repeatInstruction.getValue();
 			Measure newMeasure;
-			if (context.getOptions().getFabricMeasurementUnit() != null) {
-				newMeasure = originalMeasure.to(context.getOptions().getFabricMeasurementUnit());
+			if (renderingContext.getOptions().getFabricMeasurementUnit() != null) {
+				newMeasure = originalMeasure.to(renderingContext.getOptions()
+						.getFabricMeasurementUnit());
 			} else {
 				newMeasure = originalMeasure;
 			}
@@ -553,7 +564,8 @@ public class BasicTextRenderer implements Renderer {
 			numberToPluralize = Double.valueOf(numberObject.toString());
 			DecimalFormat format = new DecimalFormat();
 			format.setMaximumFractionDigits(1);
-			args.add(format.format(numberToPluralize) + " " + newMeasure.getUnit());
+			args.add(format.format(numberToPluralize) + " "
+					+ newMeasure.getUnit());
 			break;
 		}
 		case UNTIL_DESIRED_LENGTH: {
@@ -675,7 +687,7 @@ public class BasicTextRenderer implements Renderer {
 		int numberOfTimes = defaultToOne(pickUpStitches.getNumberOfTimes());
 		args.add(numberOfTimes);
 		if (pickUpStitches.getYarnIdRef() != null) {
-			Yarn yarn = this.context.getPatternRepository().getYarn(
+			Yarn yarn = this.renderingContext.getPatternRepository().getYarn(
 					pickUpStitches.getYarnIdRef());
 			key.append(".with-yarn");
 			args.add(yarn.getSymbol());
@@ -693,7 +705,7 @@ public class BasicTextRenderer implements Renderer {
 		List<Object> args = new ArrayList<Object>();
 		args.add(bindOff.getNumberOfStitches());
 		if (bindOff.getYarnIdRef() != null) {
-			Yarn yarn = this.context.getPatternRepository().getYarn(
+			Yarn yarn = this.renderingContext.getPatternRepository().getYarn(
 					bindOff.getYarnIdRef());
 			key.append(".with-yarn");
 			args.add(yarn.getSymbol());
@@ -712,7 +724,7 @@ public class BasicTextRenderer implements Renderer {
 		StringBuffer key = new StringBuffer("operation.bind-off-all");
 		List<Object> args = new ArrayList<Object>();
 		if (bindOff.getYarnIdRef() != null) {
-			Yarn yarn = this.context.getPatternRepository().getYarn(
+			Yarn yarn = this.renderingContext.getPatternRepository().getYarn(
 					bindOff.getYarnIdRef());
 			key.append(".with-yarn");
 			args.add(yarn.getSymbol());
@@ -747,12 +759,6 @@ public class BasicTextRenderer implements Renderer {
 
 	private int defaultToOne(Integer value) {
 		return value == null ? 1 : value.intValue();
-	}
-
-	public void setRenderingContext(RenderingContext context) {
-		this.context = context;
-		this.options = context.getOptions();
-		initialize();
 	}
 
 	public void beginInstructionGroup() {
@@ -790,7 +796,7 @@ public class BasicTextRenderer implements Renderer {
 	protected String getRowLabel(KnittingShape shape, List<Integer> rows,
 			String yarnId, Information information) {
 		StringBuffer result = new StringBuffer(getMessageHelper().getRowLabel(
-				shape, rows, yarnId, context));
+				shape, rows, yarnId, renderingContext));
 		if (information != null && information.getDetails() != null
 				&& information.getDetails().size() > 0) {
 			List<String> resolvedList = new ArrayList<String>(information
@@ -839,13 +845,6 @@ public class BasicTextRenderer implements Renderer {
 
 	// helper initialization and access
 
-	public void setWriter(Writer writer) {
-		if (writer != null) {
-			this.writerHelper = new WriterHelper(writer);
-			initialize();
-		}
-	}
-
 	protected MessageHelper getMessageHelper() {
 		return this.messageHelper;
 	}
@@ -860,19 +859,6 @@ public class BasicTextRenderer implements Renderer {
 
 	protected OperationSetHelper getOperationSetHelper() {
 		return operationSetHelper;
-	}
-
-	// two variables that can be set pre-initialization.
-	// They are passed along to the MessageHelper.
-	private MessageSource messageSource;
-	private Locale locale = Locale.getDefault();
-
-	public void setMessageSource(MessageSource messageSource) {
-		this.messageSource = messageSource;
-	}
-
-	public void setLocale(Locale locale) {
-		this.locale = locale;
 	}
 
 	public void setPluralRuleFactory(PluralRuleFactory pluralRuleFactory) {
@@ -907,4 +893,7 @@ public class BasicTextRenderer implements Renderer {
 		this.operationSetHelper = operationSetHelper;
 	}
 
+	public RenderingContext getRenderingContext() {
+		return renderingContext;
+	}
 }

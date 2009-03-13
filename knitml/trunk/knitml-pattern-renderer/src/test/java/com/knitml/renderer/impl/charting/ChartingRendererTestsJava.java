@@ -19,12 +19,12 @@ public class ChartingRendererTestsJava extends AbstractRenderingContextTests {
 	}
 
 	@Test
+	@SuppressWarnings("unchecked")
 	public void simpleInstruction() throws Exception {
 		processXml(
 				"<pattern xmlns='http://www.knitml.com/schema/pattern'><directives><instruction-definitions><instruction id='inst1' label='That' shape='flat'><row><knit>4</knit></row>"
 						+ "   	<row>       	<purl>4</purl>	</row> </instruction></instruction-definitions></directives></pattern>");
-		List<List<ChartElement>> chart = ((ChartingRenderer) renderingContext
-				.getRenderer()).getGraph();
+		List<List<ChartElement>> chart = ((ChartingRenderer) renderer).getGraph();
 	}
 
 }

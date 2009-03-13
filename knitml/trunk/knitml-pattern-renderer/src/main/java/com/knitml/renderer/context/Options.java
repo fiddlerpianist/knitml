@@ -1,10 +1,15 @@
 package com.knitml.renderer.context;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.measure.quantity.Length;
 import javax.measure.unit.Unit;
+
+import org.springframework.context.MessageSource;
+import org.springframework.core.io.FileSystemResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 
 import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.core.units.RowGauge;
@@ -20,14 +25,19 @@ import com.knitml.core.units.Units;
  */
 public class Options {
 
-	// global preferences... can be overridden by instruction-specific preferences
-	private boolean globalChart = false;
+	// global system preferences
+	private Locale locale = Locale.getDefault();
+	private ResourceLoader patternMessageResourceLoader = new FileSystemResourceLoader();
+	private MessageSource programMessageSource = null;
 	
+	// global rendering preferences
+	private boolean globalChart = false;
 	private boolean squareGauge = false;
 	private Unit<StitchGauge> stitchGaugeUnit;
 	private Unit<RowGauge> rowGaugeUnit;
 	private Unit<Length> fabricMeasurementUnit;
 
+	// Override global preferences for the particular instruction ID
 	private Map<String, InstructionOption> instructionOptions = new HashMap<String, InstructionOption>();
 	
 	public boolean isGlobalChart() {
@@ -106,6 +116,31 @@ public class Options {
 
 	public void setSquareGauge(boolean squareGauge) {
 		this.squareGauge = squareGauge;
+	}
+
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+
+	public ResourceLoader getPatternMessageResourceLoader() {
+		return patternMessageResourceLoader;
+	}
+
+	public void setPatternMessageResourceLoader(
+			ResourceLoader messageSourceResourceLoader) {
+		this.patternMessageResourceLoader = messageSourceResourceLoader;
+	}
+
+	public MessageSource getProgramMessageSource() {
+		return programMessageSource;
+	}
+
+	public void setProgramMessageSource(MessageSource programMessageSource) {
+		this.programMessageSource = programMessageSource;
 	}
 
 }

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import com.knitml.renderer.context.RenderingContext;
 import com.knitml.validation.context.KnittingContext;
 
 public class ApplicationContextTests extends RunnerTests {
@@ -25,17 +24,4 @@ public class ApplicationContextTests extends RunnerTests {
 				not(knittingContext2.getKnittingFactory()));
 	}
 
-	@Test
-	public void verifyCorrectScopeOfBeansInRendererContext() throws Exception {
-		RenderingContext context1 = renderingContextFactory.createRenderingContext();
-		RenderingContext context2 = renderingContextFactory.createRenderingContext();
-
-		// these are prototype beans
-		assertThat(context1, not(context2));
-		assertThat(context1.getOptions(), not(context2.getOptions()));
-		assertThat(context1.getPatternRepository(), not(context2
-				.getPatternRepository()));
-		assertThat(context1.getPatternState(), not(context2.getPatternState()));
-		assertThat(context1.getRenderer(), not(context2.getRenderer()));
-	}
 }

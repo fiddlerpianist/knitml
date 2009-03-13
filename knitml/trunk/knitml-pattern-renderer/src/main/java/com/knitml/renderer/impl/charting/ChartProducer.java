@@ -36,6 +36,7 @@ import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.Supplies;
 import com.knitml.core.model.header.Yarn;
 import com.knitml.engine.settings.Direction;
+import com.knitml.renderer.Renderer;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
 import com.knitml.renderer.chart.translator.ChartElementTranslator;
@@ -44,7 +45,6 @@ import com.knitml.renderer.chart.translator.NoSymbolFoundException;
 import com.knitml.renderer.chart.writer.ChartWriter;
 import com.knitml.renderer.chart.writer.ChartWriterFactory;
 import com.knitml.renderer.context.InstructionInfo;
-import com.knitml.renderer.context.Renderer;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.impl.charting.analyzer.Analysis;
 import com.knitml.renderer.impl.charting.analyzer.ChartingAnalyzer;
@@ -490,6 +490,10 @@ class ChartProducer implements Renderer {
 
 	public void endPattern() {
 		throw new NotImplementedException();
+	}
+
+	public RenderingContext getRenderingContext() {
+		return renderingContext;
 	}
 
 }

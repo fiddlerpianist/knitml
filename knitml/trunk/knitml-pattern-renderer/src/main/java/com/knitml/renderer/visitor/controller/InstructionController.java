@@ -5,53 +5,52 @@ import java.util.List;
 import com.knitml.core.model.directions.CompositeOperation;
 import com.knitml.core.model.directions.InlineOperation;
 import com.knitml.core.model.directions.Operation;
-import com.knitml.core.model.directions.block.ForEachRowInInstruction;
 import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.core.model.directions.block.Row;
 import com.knitml.core.model.directions.inline.InlineInstruction;
-import com.knitml.renderer.context.RenderingContext;
-import com.knitml.renderer.event.EventFactory;
-import com.knitml.renderer.event.RenderingEvent;
+import com.knitml.renderer.Renderer;
+import com.knitml.renderer.event.EventHandler;
+import com.knitml.renderer.event.EventHandlerFactory;
 
 public class InstructionController {
-	private EventFactory visitorFactory;
+	private EventHandlerFactory eventHandlerFactory;
 
-	public InstructionController(EventFactory visitorFactory) {
-		this.visitorFactory = visitorFactory;
+	public InstructionController(EventHandlerFactory eventHandlerFactory) {
+		this.eventHandlerFactory = eventHandlerFactory;
 	}
 
 	public void visitInstruction(Instruction instruction,
-			RenderingContext context) {
+			Renderer renderer) {
 		if (instruction.hasRows()) {
 			for (Row row : instruction.getRows()) {
-				visit(row, context);
+				visit(row, renderer);
 			}
 		} else {
-			visit(instruction.getForEachRowInInstruction(), context);
+			visit(instruction.getForEachRowInInstruction(), renderer);
 		}
 	}
 
 	public void visitInlineInstruction(InlineInstruction instruction,
-			RenderingContext context) {
+			Renderer renderer) {
 		List<InlineOperation> subOperations = instruction.getOperations();
 		for (Operation subOperation : subOperations) {
-			visit(subOperation, context);
+			visit(subOperation, renderer);
 		}
 	}
 
-	protected void visit(Operation operation, RenderingContext context) {
-		RenderingEvent visitor = visitorFactory
-				.findVisitorFromClassName(operation);
-		boolean result = visitor.begin(operation, context);
+	protected void visit(Operation operation, Renderer renderer) {
+		EventHandler eventHandler = eventHandlerFactory
+				.findEventHandlerFromClassName(operation);
+		boolean result = eventHandler.begin(operation, renderer);
 		if (result) {
 			if (operation instanceof CompositeOperation) {
 				List<? extends Operation> subOperations = ((CompositeOperation) operation)
 						.getOperations();
 				for (Operation subOperation : subOperations) {
-					visit(subOperation, context);
+					visit(subOperation, renderer);
 				}
 			}
 		}
-		visitor.end(operation, context);
+		eventHandler.end(operation, renderer);
 	}
 }
