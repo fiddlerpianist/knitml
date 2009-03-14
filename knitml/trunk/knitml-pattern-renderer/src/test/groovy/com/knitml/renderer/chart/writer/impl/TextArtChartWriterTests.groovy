@@ -8,7 +8,7 @@ import static com.knitml.renderer.chart.ChartElement.*
 import static com.knitml.core.common.KnittingShape.ROUND
 import com.knitml.renderer.chart.Chart
 import com.knitml.renderer.chart.writer.ChartWriter
-import com.knitml.renderer.chart.translator.impl.TextArtLaceTranslator
+import com.knitml.renderer.chart.symboladvisor.impl.TextArtSymbolAdvisor
 import org.hamcrest.text.StringContains
 import org.junit.Before
 import org.junit.Test
@@ -24,7 +24,7 @@ class TextArtChartWriterTests {
 
 	@Before
 	void setUp() {
-		chartWriter = new TextArtChartWriter(new TextArtLaceTranslator())
+		chartWriter = new TextArtChartWriter(new TextArtSymbolAdvisor())
 	}
 	
 	@Test

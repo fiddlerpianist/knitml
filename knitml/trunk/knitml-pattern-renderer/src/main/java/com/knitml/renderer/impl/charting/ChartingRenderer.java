@@ -35,7 +35,7 @@ import com.knitml.core.model.header.Supplies;
 import com.knitml.core.model.header.Yarn;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.translator.ChartElementTranslatorRegistry;
+import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisorRegistry;
 import com.knitml.renderer.chart.writer.ChartWriterFactory;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.Options;
@@ -58,7 +58,7 @@ public class ChartingRenderer implements Renderer {
 
 	public ChartingRenderer(Renderer fallbackRenderer, RenderingContext renderingContext,
 			ChartWriterFactory chartWriterFactory,
-			ChartElementTranslatorRegistry registry) {
+			ChartSymbolAdvisorRegistry registry) {
 		if (chartWriterFactory == null || fallbackRenderer == null) {
 			throw new IllegalArgumentException(
 					"The chartWriterFactory and fallbackRenderer parameters must be set");

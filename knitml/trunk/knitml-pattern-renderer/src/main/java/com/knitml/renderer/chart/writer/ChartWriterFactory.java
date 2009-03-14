@@ -1,9 +1,9 @@
 package com.knitml.renderer.chart.writer;
 
-import com.knitml.renderer.chart.translator.ChartElementTranslator;
+import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisor;
 
 public interface ChartWriterFactory {
 
-	ChartWriter createChartWriter(ChartElementTranslator translator);
+	ChartWriter createChartWriter(ChartSymbolAdvisor translator);
 	
 }

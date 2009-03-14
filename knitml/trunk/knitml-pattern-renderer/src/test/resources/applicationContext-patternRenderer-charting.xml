@@ -27,10 +27,10 @@
 	</bean>
 
 	<bean id="chartElementTranslatorRegistry"
-		class="com.knitml.renderer.chart.translator.impl.DefaultChartElementTranslatorRegistry">
+		class="com.knitml.renderer.chart.symboladvisor.impl.DefaultChartSymbolAdvisorRegistry">
 		<constructor-arg>
 			<list>
-				<bean class="com.knitml.renderer.chart.translator.impl.TextArtLaceTranslator"/>
+				<bean class="com.knitml.renderer.chart.symboladvisor.impl.TextArtSymbolAdvisor"/>
 			</list>
 		</constructor-arg>
 	</bean>

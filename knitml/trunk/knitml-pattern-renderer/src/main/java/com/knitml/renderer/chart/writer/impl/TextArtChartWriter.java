@@ -13,20 +13,20 @@ import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.translator.ChartElementTranslator;
-import com.knitml.renderer.chart.translator.NoSymbolFoundException;
+import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisor;
+import com.knitml.renderer.chart.symboladvisor.NoSymbolFoundException;
 import com.knitml.renderer.chart.writer.ChartWriter;
 
 public class TextArtChartWriter implements ChartWriter {
 
-	private ChartElementTranslator translator;
+	private ChartSymbolAdvisor translator;
 	private boolean writeLineNumbers = true;
 	private String suffix = ":";
 	private String rowDelimiter = "|";
 	private static final String LINE_BREAK = System
 			.getProperty("line.separator");
 
-	public TextArtChartWriter(ChartElementTranslator translator) {
+	public TextArtChartWriter(ChartSymbolAdvisor translator) {
 		super();
 		this.translator = translator;
 	}

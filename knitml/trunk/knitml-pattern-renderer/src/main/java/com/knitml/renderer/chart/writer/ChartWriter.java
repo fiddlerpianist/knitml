@@ -3,7 +3,7 @@ package com.knitml.renderer.chart.writer;
 import java.io.Writer;
 
 import com.knitml.renderer.chart.Chart;
-import com.knitml.renderer.chart.translator.NoSymbolFoundException;
+import com.knitml.renderer.chart.symboladvisor.NoSymbolFoundException;
 
 public interface ChartWriter {
 

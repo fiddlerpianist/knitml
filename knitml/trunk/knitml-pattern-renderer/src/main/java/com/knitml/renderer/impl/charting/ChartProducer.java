@@ -39,9 +39,9 @@ import com.knitml.engine.settings.Direction;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.translator.ChartElementTranslator;
-import com.knitml.renderer.chart.translator.ChartElementTranslatorRegistry;
-import com.knitml.renderer.chart.translator.NoSymbolFoundException;
+import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisor;
+import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisorRegistry;
+import com.knitml.renderer.chart.symboladvisor.NoSymbolFoundException;
 import com.knitml.renderer.chart.writer.ChartWriter;
 import com.knitml.renderer.chart.writer.ChartWriterFactory;
 import com.knitml.renderer.context.InstructionInfo;
@@ -64,7 +64,7 @@ class ChartProducer implements Renderer {
 
 	// fields which should be set before calling begin() methods
 	private ChartWriterFactory chartWriterFactory;
-	private ChartElementTranslatorRegistry registry;
+	private ChartSymbolAdvisorRegistry registry;
 	private Writer writer;
 	private Analysis analysis;
 
@@ -78,7 +78,7 @@ class ChartProducer implements Renderer {
 	private RenderingContext renderingContext;
 
 	public ChartProducer(ChartWriterFactory chartWriterFactory,
-			ChartElementTranslatorRegistry registry) {
+			ChartSymbolAdvisorRegistry registry) {
 		this.chartWriterFactory = chartWriterFactory;
 		this.registry = registry;
 	}
@@ -129,6 +129,7 @@ class ChartProducer implements Renderer {
 		chart = new Chart();
 		chart.setTitle(instructionInfo.getLabel());
 		chart.setShape(instructionInfo.getInstruction().getKnittingShape());
+		chart.setWidth(analysis.getMaxWidth());
 	}
 
 	public void endInstructionDefinition() {
@@ -142,11 +143,12 @@ class ChartProducer implements Renderer {
 		chart.setTitle("Work as follows");
 		// during directions, trust that the engine is right
 		chart.setShape(renderingContext.getEngine().getKnittingShape());
+		chart.setWidth(analysis.getMaxWidth());
 	}
 
 	public void endInstruction() {
 		// TODO pass an ID to use somehow
-		ChartElementTranslator translator = registry
+		ChartSymbolAdvisor translator = registry
 				.getChartElementTranslator(null);
 		ChartWriter writer = chartWriterFactory.createChartWriter(translator);
 		try {

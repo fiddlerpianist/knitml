@@ -1,0 +1,35 @@
+.ks-chart {
+    border-width: 0px;
+	padding: 0px;
+	border-style: solid;
+	border-color: gray;
+	background-color: white;
+}
+
+.ks-lhcol {
+    width: 1.25em;
+}
+
+.ks-bodycol {
+    width: 1em;
+}
+
+.ks-rhcol {
+    width: 1.25em;
+}
+
+.ks-cell {
+    border-width: 0px;
+	padding: 0px;
+	border-style: solid;
+	border-color: gray;
+	background-color: white;
+	vertical-align: middle;
+    font-family: KSymbolsW;
+    font-size: larger;
+}
+
+.ks-legend {
+    font-family: KSymbolsW;
+    font-size: larger;
+}

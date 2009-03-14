@@ -11,14 +11,14 @@ import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.translator.ChartElementTranslator;
-import com.knitml.renderer.chart.translator.NoSymbolFoundException;
+import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisor;
+import com.knitml.renderer.chart.symboladvisor.NoSymbolFoundException;
 import com.knitml.renderer.chart.writer.ChartWriter;
 import com.knitml.renderer.chart.writer.HtmlStylesheetProvider;
 
 public class FontBasedHtmlChartWriter implements ChartWriter {
 
-	private ChartElementTranslator translator;
+	private ChartSymbolAdvisor translator;
 	private boolean writeLineNumbers = true;
 	private String stylesheetClassPrefix = "";
 	private String suffix = ":";
@@ -26,7 +26,7 @@ public class FontBasedHtmlChartWriter implements ChartWriter {
 			.getProperty("line.separator");
 	private static final String LINE_BREAK = "<br />" + SYSTEM_LINE_BREAK;
 
-	public FontBasedHtmlChartWriter(ChartElementTranslator translator) {
+	public FontBasedHtmlChartWriter(ChartSymbolAdvisor translator) {
 		super();
 		this.translator = translator;
 		if (translator instanceof HtmlStylesheetProvider) {
@@ -53,6 +53,16 @@ public class FontBasedHtmlChartWriter implements ChartWriter {
 				writer.write(chart.getTitle());
 				writer.write("</caption>" + SYSTEM_LINE_BREAK);
 			}
+
+			writer.write("<colgroup class=\"");
+			writer.write(stylesheetClassPrefix + "lhcol\" />" + SYSTEM_LINE_BREAK);
+			writer.write("<colgroup class=\"");
+			writer.write(stylesheetClassPrefix + "bodycol\" ");
+			writer.write("span=\"" + chart.getWidth() + "\" ");
+			writer.write("/>" + SYSTEM_LINE_BREAK);
+			writer.write("<colgroup class=\"");
+			writer.write(stylesheetClassPrefix + "lhcol\" />" + SYSTEM_LINE_BREAK);
+			
 			writer.write("<tbody>" + SYSTEM_LINE_BREAK);
 			while (graphIt.hasPrevious()) {
 				List<ChartElement> row = graphIt.previous();
@@ -71,7 +81,7 @@ public class FontBasedHtmlChartWriter implements ChartWriter {
 
 					if (symbol.length() > 1) { // as in an Aire River cable that
 						// spans x number of characters
-						for (int i = 0; i < symbol.length(); i++) {
+						for (int i = symbol.length() - 1; i >= 0; i--) {
 							writer.write("<td class=\"" + stylesheetClassPrefix
 									+ "cell\">");
 							writer.write(String.valueOf(symbol.charAt(i)));

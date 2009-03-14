@@ -31,6 +31,7 @@ public class Chart {
 
 	private KnittingShape shape = KnittingShape.FLAT;
 	private int startingRowNumber = 1;
+	private int width;
 	private Side startingSide = Side.RIGHT;
 	private List<List<ChartElement>> graph;
 	private String title;
@@ -85,6 +86,14 @@ public class Chart {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
 	}
 
 }
