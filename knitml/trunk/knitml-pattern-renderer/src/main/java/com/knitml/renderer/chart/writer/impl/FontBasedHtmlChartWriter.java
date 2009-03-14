@@ -11,25 +11,33 @@ import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.translator.FontBasedChartElementTranslator;
+import com.knitml.renderer.chart.translator.ChartElementTranslator;
 import com.knitml.renderer.chart.translator.NoSymbolFoundException;
 import com.knitml.renderer.chart.writer.ChartWriter;
+import com.knitml.renderer.chart.writer.HtmlStylesheetProvider;
 
 public class FontBasedHtmlChartWriter implements ChartWriter {
 
-	private FontBasedChartElementTranslator translator;
+	private ChartElementTranslator translator;
 	private boolean writeLineNumbers = true;
+	private String stylesheetClassPrefix = "";
 	private String suffix = ":";
-	private String rowDelimiter = "";
-	private static final String LINE_BREAK = "<br />"
-			+ System.getProperty("line.separator");
+	private static final String SYSTEM_LINE_BREAK = System
+			.getProperty("line.separator");
+	private static final String LINE_BREAK = "<br />" + SYSTEM_LINE_BREAK;
 
-	public FontBasedHtmlChartWriter(FontBasedChartElementTranslator translator) {
+	public FontBasedHtmlChartWriter(ChartElementTranslator translator) {
 		super();
 		this.translator = translator;
+		if (translator instanceof HtmlStylesheetProvider) {
+			stylesheetClassPrefix = ((HtmlStylesheetProvider) translator)
+					.getStyleClassPrefix()
+					+ "-";
+		}
 	}
 
-	public void writeChart(Chart chart, Writer writer) throws NoSymbolFoundException {
+	public void writeChart(Chart chart, Writer writer)
+			throws NoSymbolFoundException {
 
 		List<List<ChartElement>> graph = chart.getGraph();
 		int currentLineNumber = chart.getStartingRowNumber() + graph.size() - 1;
@@ -38,51 +46,74 @@ public class FontBasedHtmlChartWriter implements ChartWriter {
 		ListIterator<List<ChartElement>> graphIt = graph.listIterator(graph
 				.size());
 		try {
-			writer.write("<p>" + LINE_BREAK);
+			writer.write("<table class=\"" + stylesheetClassPrefix + "chart\">"
+					+ SYSTEM_LINE_BREAK);
 			if (chart.getTitle() != null) {
+				writer.write("<caption>");
 				writer.write(chart.getTitle());
-				writer.write(suffix);
-				writer.write(LINE_BREAK);
+				writer.write("</caption>" + SYSTEM_LINE_BREAK);
 			}
+			writer.write("<tbody>" + SYSTEM_LINE_BREAK);
 			while (graphIt.hasPrevious()) {
 				List<ChartElement> row = graphIt.previous();
 				ListIterator<ChartElement> rowIt = row.listIterator(row.size());
 
-				if (renderLeftSideRowNumber(currentLineNumber, chart)) {
-					writer.write(String.valueOf(currentLineNumber));
-				}
-				writer.write(rowDelimiter);
-				
-				writer.write("<span style=\"font-family: KSymbolsW\">");
+				// left side row number column
+				writer.write("<tr><td>");
+				renderLeftSideRowNumber(currentLineNumber, chart, writer);
+				writer.write("</td>");
 
+				// each chart column
 				while (rowIt.hasPrevious()) {
 					ChartElement element = rowIt.previous();
 					elementsUsed.add(element);
 					String symbol = translator.getSymbol(element);
-					writer.write(symbol);
-				}
-				writer.write("</span>");
 
-				writer.write(rowDelimiter);
+					if (symbol.length() > 1) { // as in an Aire River cable that
+						// spans x number of characters
+						for (int i = 0; i < symbol.length(); i++) {
+							writer.write("<td class=\"" + stylesheetClassPrefix
+									+ "cell\">");
+							writer.write(String.valueOf(symbol.charAt(i)));
+							writer.write("</td>");
+						}
+					} else {
+						writer.write("<td class=\"" + stylesheetClassPrefix
+								+ "cell\"");
+						if (element.width() > 1) {
+							// as in a Knitter's Symbols font that is one
+							// character but 4x as wide
+							writer
+									.write(" colspan=\"" + element.width()
+											+ "\"");
+						}
+						writer.write(">");
+						writer.write(symbol);
+						writer.write("</td>");
+					}
+				}
+
+				writer.write("<td>");
 				if (renderRightSideRowNumber(currentLineNumber, chart)) {
 					writer.write(String.valueOf(currentLineNumber));
 				}
+				writer.write("</td></tr>");
 				currentLineNumber--;
-				writer.write(LINE_BREAK);
+				writer.write(SYSTEM_LINE_BREAK);
 			}
-			writer.write("Legend");
+			writer.write("</tbody></table>" + SYSTEM_LINE_BREAK);
+			writer.write("<p>Legend");
 			writer.write(LINE_BREAK);
 			for (ChartElement element : elementsUsed) {
 				// FIXME non-internationalized, not to mention ugly
-				writer.write("<span style=\"font-family: KSymbolsW\">");
+				writer.write("<span class=\"" + stylesheetClassPrefix
+						+ "legend\">");
 				writer.write(translator.getSymbol(element));
 				writer.write("</span>");
-				writer.write(suffix + " "
-						+ element.toString().toLowerCase());
+				writer.write(suffix + " " + element.toString().toLowerCase());
 				writer.write(LINE_BREAK);
 			}
 			writer.write("</p>");
-			writer.write(LINE_BREAK);
 
 		} catch (IOException ex) {
 			throw new RuntimeException("Could not write to writer", ex);
@@ -109,6 +140,13 @@ public class FontBasedHtmlChartWriter implements ChartWriter {
 			return true;
 		}
 		return false;
+	}
+
+	private void renderLeftSideRowNumber(int currentLineNumber, Chart chart,
+			Writer writer) throws IOException {
+		if (renderLeftSideRowNumber(currentLineNumber, chart)) {
+			writer.write(String.valueOf(currentLineNumber));
+		}
 	}
 
 	private boolean renderRightSideRowNumber(int currentLineNumber, Chart chart) {

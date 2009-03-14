@@ -1,5 +1,7 @@
 package com.knitml.renderer.context;
 
+import org.apache.commons.lang.NullArgumentException;
+
 import com.knitml.engine.KnittingEngine;
 import com.knitml.validation.context.KnittingContext;
 
@@ -15,6 +17,9 @@ public class RenderingContext {
 	private KnittingContext knittingContext;
 	
 	public RenderingContext(Options options) {
+		if (options == null) {
+			throw new NullArgumentException("options");
+		}
 		this.options = options;
 		this.patternRepository = new PatternRepository(options);
 		this.patternState = new PatternState();

@@ -1,10 +1,12 @@
 package com.knitml.renderer.impl.html;
 
 import java.io.Writer;
+import java.util.List;
 
 import org.springframework.context.MessageSource;
 
 import com.knitml.core.model.Pattern;
+import com.knitml.renderer.chart.writer.HtmlStylesheetProvider;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.impl.basic.BasicTextRenderer;
@@ -13,12 +15,14 @@ import com.knitml.renderer.impl.helpers.OperationSetHelper;
 
 public class HtmlRenderer extends BasicTextRenderer {
 
+	private List<HtmlStylesheetProvider> stylesheetProviders;
 	private boolean closePreTagBeforePreCraftedInstructions = true;
 	private HtmlWriterHelper writerHelper;
 
 	public HtmlRenderer(RenderingContext context, Writer writer,
-			MessageSource messageSource) {
+			MessageSource messageSource, List<HtmlStylesheetProvider> stylesheetProviders) {
 		super(context, writer, messageSource);
+		this.stylesheetProviders = stylesheetProviders;
 		if (writer != null) {
 			writerHelper = new HtmlWriterHelper(writer);
 			setWriterHelper(writerHelper);
@@ -33,7 +37,19 @@ public class HtmlRenderer extends BasicTextRenderer {
 		writerHelper.setPreformatted(false);
 		writerHelper.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
 		writerHelper.writeSystemNewLine();
-		writerHelper.write("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\"><head><title>KnitML Pattern</title></head><body>");
+		writerHelper.write("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\"><head><title>KnitML Pattern</title>");
+		writerHelper.writeSystemNewLine();
+		for (HtmlStylesheetProvider stylesheetProvider : stylesheetProviders) {
+			writerHelper.write("<style type=\"");
+			writerHelper.write(stylesheetProvider.getMimeType());
+			writerHelper.write("\">");
+			writerHelper.writeSystemNewLine();
+			writerHelper.write(stylesheetProvider.getStylesheet());
+			writerHelper.writeSystemNewLine();
+			writerHelper.write("</style>");
+			writerHelper.writeSystemNewLine();
+		}
+		writerHelper.write("</head><body>");
 		writerHelper.setPreformatted(true);
 	}
 

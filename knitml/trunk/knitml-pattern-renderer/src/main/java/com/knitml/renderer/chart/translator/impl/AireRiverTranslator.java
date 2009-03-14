@@ -14,19 +14,19 @@ import java.util.Map;
 import com.knitml.renderer.chart.ChartElement;
 import com.knitml.renderer.chart.translator.ChartElementTranslator;
 
-public class KnittersSymbolsWLaceTranslator extends
+public class AireRiverTranslator extends
 		AbstractHtmlStylesheetProvider implements ChartElementTranslator {
 
 	private static Map<ChartElement, String> symbols = new HashMap<ChartElement, String>();
 
 	static {
-		symbols.put(K, "a");
-		symbols.put(P, "P");
-		symbols.put(K2TOG, "/");
+		symbols.put(K, "g");
+		symbols.put(P, "h");
+		symbols.put(K2TOG, "|");
 		symbols.put(SSK, "\\");
-		symbols.put(YO, "o");
-		symbols.put(NS, "C");
-		symbols.put(SL, "S");
+		symbols.put(YO, "j");
+		symbols.put(NS, "z");
+		symbols.put(SL, ",");
 	}
 
 	public String getSymbol(ChartElement element) {
@@ -34,10 +34,10 @@ public class KnittersSymbolsWLaceTranslator extends
 	}
 
 	public String getStyleClassPrefix() {
-		return "ks";
+		return "ar";
 	}
 
 	protected String getRelativePathToCssFile() {
-		return "ks.css";
+		return "ar.css";
 	}
 }

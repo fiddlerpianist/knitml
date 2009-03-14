@@ -7,7 +7,7 @@ public class DefaultPluralRuleFactory implements PluralRuleFactory {
 
 	public PluralRule createPluralRule(int pluralRuleCode) {
 		try {
-			Class pluralClass = Class.forName(this.getClass().getPackage()
+			Class<?> pluralClass = Class.forName(this.getClass().getPackage()
 					.getName()
 					+ ".PluralRule" + pluralRuleCode);
 			return (PluralRule) pluralClass.newInstance();

@@ -8,22 +8,15 @@
 	
 	<bean id="rendererFactory" class="com.knitml.renderer.impl.charting.ChartingRendererFactory">
 		<constructor-arg>
-			<bean class="com.knitml.renderer.impl.html.HtmlRendererFactory"/>
+			<bean class="com.knitml.renderer.impl.html.HtmlRendererFactory">
+				<constructor-arg ref="arTranslator"/>
+			</bean>
 		</constructor-arg>
 		<constructor-arg>
 			<bean class="com.knitml.renderer.chart.writer.impl.FontBasedHtmlChartWriterFactory"/>
 		</constructor-arg>
-		<constructor-arg ref="chartElementTranslatorRegistry"/>
-	</bean>
-	
-	<bean id="chartElementTranslatorRegistry"
-		class="com.knitml.renderer.chart.translator.impl.DefaultChartElementTranslatorRegistry">
-		<constructor-arg>
-			<list>
-				<bean
-					class="com.knitml.renderer.chart.translator.impl.KnittersSymbolsWLaceTranslator"
-				/>
-			</list>
+		<constructor-arg type="java.util.List">
+			<ref bean="arTranslator"/>
 		</constructor-arg>
 	</bean>
 	
@@ -31,6 +24,9 @@
 		<property name="globalChart" value="true"/>
 		<property name="programMessageSource" ref="messageSource"/>
 	</bean>
+	
+	<bean id="arTranslator"
+		class="com.knitml.renderer.chart.translator.impl.AireRiverTranslator"/>
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames" value="custom-operations,com.knitml.renderer.impl.operations"/>

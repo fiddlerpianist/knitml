@@ -71,6 +71,7 @@ class ChartProducer implements Renderer {
 	private Direction direction = Direction.FORWARDS;
 	private Chart chart;
 	private List<ChartElement> currentRow;
+	@SuppressWarnings("unused")
 	private boolean condenseRepeats = true; // assume that we can until we can't
 	private Stack<RepeatSet> repeatSetStack = new Stack<RepeatSet>();
 
