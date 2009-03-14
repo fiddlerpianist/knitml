@@ -9,14 +9,14 @@
 	<bean id="rendererFactory" class="com.knitml.renderer.impl.charting.ChartingRendererFactory">
 		<constructor-arg>
 			<bean class="com.knitml.renderer.impl.html.HtmlRendererFactory">
-				<constructor-arg ref="arTranslator"/>
+				<constructor-arg ref="symbolAdvisor1"/>
 			</bean>
 		</constructor-arg>
 		<constructor-arg>
 			<bean class="com.knitml.renderer.chart.writer.impl.FontBasedHtmlChartWriterFactory"/>
 		</constructor-arg>
 		<constructor-arg type="java.util.List">
-			<ref bean="arTranslator"/>
+			<ref bean="symbolAdvisor1"/>
 		</constructor-arg>
 	</bean>
 
@@ -25,8 +25,8 @@
 		<property name="programMessageSource" ref="messageSource"/>
 	</bean>
 	
-	<bean id="arTranslator"
-		class="com.knitml.renderer.chart.translator.impl.AireRiverTranslator"/>
+	<bean id="symbolAdvisor1"
+		class="com.knitml.renderer.chart.symboladvisor.impl.AireRiverSymbolAdvisor"/>
 
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames" value="custom-operations,com.knitml.renderer.impl.operations"/>

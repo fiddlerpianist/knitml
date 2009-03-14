@@ -4,7 +4,8 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<description> This file defines the configuration for the pattern renderer.</description>
-
+	
+	
 	<bean id="rendererFactory" class="com.knitml.renderer.impl.charting.ChartingRendererFactory">
 		<constructor-arg>
 			<bean class="com.knitml.renderer.impl.basic.BasicTextRendererFactory"/>
@@ -12,17 +13,8 @@
 		<constructor-arg>
 			<bean class="com.knitml.renderer.chart.writer.impl.TextArtChartWriterFactory"/>
 		</constructor-arg>
-		<constructor-arg ref="chartElementTranslatorRegistry"/>
-	</bean>
-	
-	<bean id="chartElementTranslatorRegistry"
-		class="com.knitml.renderer.chart.translator.impl.DefaultChartElementTranslatorRegistry">
 		<constructor-arg>
-			<list>
-				<bean
-					class="com.knitml.renderer.chart.translator.impl.TextArtLaceTranslator"
-				/>
-			</list>
+			<ref bean="symbolAdvisor1"/>
 		</constructor-arg>
 	</bean>
 	
@@ -30,6 +22,9 @@
 		<property name="globalChart" value="true"/>
 		<property name="programMessageSource" ref="messageSource"/>
 	</bean>
+	
+	<bean id="symbolAdvisor1"
+		class="com.knitml.renderer.chart.symboladvisor.impl.TextArtSymbolAdvisor"/>
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames" value="custom-operations,com.knitml.renderer.impl.operations"/>
