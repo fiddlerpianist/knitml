@@ -29,8 +29,12 @@ public class RenderPattern {
 		Option output = new Option("output", true,
 				"File name to output the results");
 		output.setType("file");
+		Option configFiles = new Option("config", true,
+				"Spring application context file(s) used to configure the renderer");
+		output.setType("file");
 		options.addOption(checksyntax);
 		options.addOption(output);
+		options.addOption(configFiles);
 	}
 
 	public static void main(String[] args) {
@@ -40,15 +44,17 @@ public class RenderPattern {
 			// parse the command line arguments
 			CommandLine line = parser.parse(options, args);
 			String[] applicationContextFiles = line
-					.getOptionValues("applicationContextFiles");
+					.getOptionValues("config");
 			if (applicationContextFiles == null) {
 				applicationContextFiles = new String[] { "applicationContext-patternRenderer.xml" };
 			}
 			SpringConfigurationBuilder builder = new SpringConfigurationBuilder();
 			Parameters parameters = RunnerUtils.toParameters(line);
 
-			Configuration configuration = builder.getConfiguration(applicationContextFiles);
-			RendererProgram renderer = new RendererProgram(configuration.getRendererFactory());
+			Configuration configuration = builder
+					.getConfiguration(applicationContextFiles);
+			RendererProgram renderer = new RendererProgram(configuration
+					.getRendererFactory());
 			renderer.setOptions(configuration.getOptions());
 			renderer.render(parameters);
 		} catch (ParseException exp) {
