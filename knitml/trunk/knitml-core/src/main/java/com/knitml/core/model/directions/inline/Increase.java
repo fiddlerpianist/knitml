@@ -29,16 +29,19 @@ public class Increase implements DiscreteInlineOperation {
 	}
 
 	public int getAdvanceCount() {
-		switch (type) {
-		case KFB:
-		case PFB:
-		case MOSS:
-			// these increases use up an existing stitch 
-			return numberOfTimes == null ? 1 : numberOfTimes;
-		default:
-			// all other increases do not
-			return 0;
+		if (type != null) {
+			switch (type) {
+			case KFB:
+			case PFB:
+			case MOSS:
+				// these increases use up an existing stitch
+				return numberOfTimes == null ? 1 : numberOfTimes;
+			default:
+				// all other increases do not
+				return 0;
+			}
 		}
+		return 0;
 	}
 
 	public int getIncreaseCount() {

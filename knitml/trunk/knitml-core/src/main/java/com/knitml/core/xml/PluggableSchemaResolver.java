@@ -19,16 +19,15 @@ package com.knitml.core.xml;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.Assert;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 
 /**
  * {@link EntityResolver} implementation that attempts to resolve schema URLs into
@@ -62,7 +61,7 @@ public class PluggableSchemaResolver implements EntityResolver {
 	public static final String DEFAULT_SCHEMA_MAPPINGS_LOCATION = "META-INF/knitml.schemas";
 
 
-	private static final Log logger = LogFactory.getLog(PluggableSchemaResolver.class);
+	private static final Logger logger = LoggerFactory.getLogger(PluggableSchemaResolver.class);
 
 	private final ClassLoader classLoader;
 
