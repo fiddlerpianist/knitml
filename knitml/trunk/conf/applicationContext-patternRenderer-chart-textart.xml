@@ -11,10 +11,10 @@
 			<bean class="com.knitml.renderer.impl.basic.BasicTextRendererFactory"/>
 		</constructor-arg>
 		<constructor-arg>
-			<bean class="com.knitml.renderer.chart.writer.impl.TextArtChartWriterFactory"/>
+			<bean class="com.knitml.renderer.chart.writer.impl.TextChartWriterFactory"/>
 		</constructor-arg>
 		<constructor-arg>
-			<ref bean="symbolAdvisor1"/>
+			<ref bean="symbolProvider1"/>
 		</constructor-arg>
 	</bean>
 	
@@ -23,11 +23,11 @@
 		<property name="programMessageSource" ref="messageSource"/>
 	</bean>
 	
-	<bean id="symbolAdvisor1"
-		class="com.knitml.renderer.chart.symboladvisor.impl.TextArtSymbolAdvisor"/>
+	<bean id="symbolProvider1"
+		class="com.knitml.renderer.chart.symbol.impl.TextArtSymbolProvider"/>
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basenames" value="custom-operations,com.knitml.renderer.impl.operations"/>
+		<property name="basenames" value="custom-operations"/>
 	</bean>
 	
 	<bean id="propertyConfigurer"

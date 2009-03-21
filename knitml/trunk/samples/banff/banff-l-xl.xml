@@ -1,0 +1,893 @@
+<pattern xmlns="http://www.knitml.com/schema/pattern" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.5.xsd" version="0.5" xml:lang="en">
+  <directives>
+    <instruction-definitions>
+      <instruction id="ribbing-2x2" label="2x2 Rib" shape="flat">
+        <row>
+          <repeat value="2" until="before-end">
+            <knit>2</knit>
+            <purl>2</purl>
+          </repeat>
+          <knit>2</knit>
+        </row>
+        <row>
+          <repeat value="2" until="before-end">
+            <purl>2</purl>
+            <knit>2</knit>
+          </repeat>
+          <purl>2</purl>
+        </row>
+      </instruction>
+      <instruction id="decrease-rows" label="Decrease Rows" shape="flat">
+        <row>
+          <knit>2</knit>
+          <purl loop-to-work="trailing">1</purl>
+          <decrease type="k2tog" />
+          <repeat until="before-end" value="3">
+            <knit />
+          </repeat>
+          <purl loop-to-work="trailing">1</purl>
+          <knit>2</knit>
+        </row>
+        <row>
+          <purl>2</purl>
+          <knit loop-to-work="trailing">1</knit>
+          <decrease type="p2tog-tbl" />
+          <repeat until="before-end" value="3">
+            <purl />
+          </repeat>
+          <knit loop-to-work="trailing">1</knit>
+          <purl>2</purl>
+        </row>
+      </instruction>
+      <instruction id="stockinette" label="Two-Row Stockinette Stitch" shape="flat">
+        <row number="1" side="right">
+          <repeat until="end">
+            <knit />
+          </repeat>
+        </row>
+        <row number="2">
+          <repeat until="end">
+            <purl />
+          </repeat>
+        </row>
+      </instruction>
+    </instruction-definitions>
+  </directives>
+  <general-information>
+    <name>Banff</name>
+    <description>This pullover has been my standard, fall-winter-casual-wear sweater for three years. Knit it in a durable, classic yarn, and it will become your default sweater for cold weather, too - casual, cozy, easy to wear, and a cinch to knit up in bulky yarn.</description>
+    <dimensions>Chest: 57 in, Length 24 in</dimensions>
+    <gauge type="stockinette">
+      <stitch-gauge unit="st/in">3.5</stitch-gauge>
+      <row-gauge unit="row/in">5.25</row-gauge>
+    </gauge>
+    <author>
+      <first-name>Jenna</first-name>
+      <last-name>Wilson</last-name>
+    </author>
+  </general-information>
+  <supplies>
+    <yarns>
+      <yarn-type id="wool" brand="Tahki" category="Soho Bulky Tweed">
+        <ball-length unit="yd">110</ball-length>
+        <ball-weight unit="g">100</ball-weight>
+      </yarn-type>
+      <yarn id="main-color" typeref="wool">
+        <total-length unit="yd">990</total-length>
+        <total-weight unit="g">900</total-weight>
+        <color name="discontinued color" number="304" />
+      </yarn>
+    </yarns>
+    <needles>
+      <needle-type id="the-needle-type" type="circular">
+        <size unit="US">10</size>
+      </needle-type>
+      <needle id="the-needle" typeref="the-needle-type" />
+    </needles>
+    <accessories />
+  </supplies>
+  <directions>
+    <instruction-group id="back" label="Back">
+      <section>
+        <cast-on>98</cast-on>
+        <repeat-instruction ref="ribbing-2x2">
+          <until-measures unit="in">8</until-measures>
+        </repeat-instruction>
+      </section>
+      <section>
+        <row side="right" assign-row-number="false">
+          <repeat value="2" until="times">
+            <knit>24</knit>
+            <increase />
+            <knit>25</knit>
+            <increase />
+          </repeat>
+          <followup-information>
+            <number-of-stitches number="102" />
+          </followup-information>
+        </row>
+        <row assign-row-number="false">
+          <repeat until="end">
+            <purl />
+          </repeat>
+        </row>
+        <repeat-instruction ref="stockinette">
+          <additional-times>9</additional-times>
+        </repeat-instruction>
+        <information>
+          <message label="If you want the finished length to be longer, work extra rows at this point." />
+        </information>
+      </section>
+      <section>
+        <row assign-row-number="false">
+          <bind-off>7</bind-off>
+          <repeat until="end">
+            <knit />
+          </repeat>
+          <followup-information>
+            <number-of-stitches />
+          </followup-information>
+        </row>
+        <row assign-row-number="false">
+          <bind-off>7</bind-off>
+          <repeat until="end">
+            <purl />
+          </repeat>
+          <followup-information>
+            <number-of-stitches />
+          </followup-information>
+        </row>
+      </section>
+      <section>
+        <repeat-instruction ref="decrease-rows">
+          <additional-times>27</additional-times>
+        </repeat-instruction>
+        <information>
+          <number-of-stitches number="34" />
+        </information>
+      </section>
+    </instruction-group>
+    <instruction-group id="right-back-shoulder" label="Right Shoulder" reset-row-count="true">
+      <section>
+        <row side="right">
+          <knit>2</knit>
+          <purl loop-to-work="trailing">1</purl>
+          <decrease type="k2tog" />
+          <knit>7</knit>
+          <bind-off-all />
+        </row>
+        <row>
+          <purl>1</purl>
+          <decrease type="p2tog-tbl" />
+          <repeat until="end">
+            <purl />
+          </repeat>
+        </row>
+        <instruction id="rbs-rows3-4">
+          <row>
+            <knit>2</knit>
+            <purl loop-to-work="trailing">1</purl>
+            <decrease type="k2tog" />
+            <repeat until="end">
+              <knit />
+            </repeat>
+          </row>
+          <row>
+            <purl>1</purl>
+            <decrease type="p2tog-tbl" />
+            <repeat until="end">
+              <purl />
+            </repeat>
+          </row>
+        </instruction>
+        <repeat-instruction ref="rbs-rows3-4">
+          <additional-times>2</additional-times>
+        </repeat-instruction>
+        <information>
+          <number-of-stitches number="4" />
+        </information>
+      </section>
+      <section>
+        <row assign-row-number="false">
+          <decrease type="k2tog">2</decrease>
+        </row>
+        <row assign-row-number="false">
+          <bind-off-all />
+        </row>
+      </section>
+      <section>
+        <cast-on>22</cast-on>
+      </section>
+    </instruction-group>
+    <instruction-group id="left-back-shoulder" label="Left Shoulder" reset-row-count="true">
+      <section>
+        <row side="right">
+          <bind-off>10</bind-off>
+          <knit>1</knit>
+          <decrease type="k2tog" />
+          <repeat until="end">
+            <knit />
+          </repeat>
+        </row>
+        <row>
+          <purl>2</purl>
+          <knit loop-to-work="trailing">1</knit>
+          <decrease type="p2tog-tbl" />
+          <repeat until="end">
+            <purl />
+          </repeat>
+        </row>
+        <instruction id="lbs-rows3-4">
+          <row>
+            <knit>1</knit>
+            <decrease type="k2tog" />
+            <repeat until="end">
+              <knit />
+            </repeat>
+          </row>
+          <row>
+            <purl>2</purl>
+            <knit loop-to-work="trailing">1</knit>
+            <decrease type="p2tog-tbl" />
+            <repeat until="end">
+              <purl />
+            </repeat>
+          </row>
+        </instruction>
+        <repeat-instruction ref="lbs-rows3-4">
+          <additional-times>2</additional-times>
+        </repeat-instruction>
+        <information>
+          <number-of-stitches number="4" />
+        </information>
+      </section>
+      <section>
+        <row assign-row-number="false">
+          <decrease type="k2tog">2</decrease>
+        </row>
+        <row assign-row-number="false">
+          <bind-off-all />
+        </row>
+      </section>
+    </instruction-group>
+    <instruction-group id="front" label="Front" reset-row-count="true">
+      <section>
+        <cast-on>98</cast-on>
+        <repeat-instruction ref="ribbing-2x2">
+          <until-measures unit="in">8</until-measures>
+        </repeat-instruction>
+      </section>
+      <section>
+        <row side="right" assign-row-number="false">
+          <repeat value="2" until="times">
+            <knit>24</knit>
+            <increase />
+            <knit>25</knit>
+            <increase />
+          </repeat>
+          <followup-information>
+            <number-of-stitches number="102" />
+          </followup-information>
+        </row>
+        <row assign-row-number="false">
+          <repeat until="end">
+            <purl />
+          </repeat>
+        </row>
+        <repeat-instruction ref="stockinette">
+          <additional-times>9</additional-times>
+        </repeat-instruction>
+        <information>
+          <message label="If you want the finished length to be longer, work extra rows at this point." />
+        </information>
+      </section>
+      <section>
+        <row assign-row-number="false">
+          <bind-off>7</bind-off>
+          <repeat until="end">
+            <knit />
+          </repeat>
+          <followup-information>
+            <number-of-stitches />
+          </followup-information>
+        </row>
+        <row assign-row-number="false">
+          <bind-off>7</bind-off>
+          <repeat until="end">
+            <purl />
+          </repeat>
+          <followup-information>
+            <number-of-stitches />
+          </followup-information>
+        </row>
+      </section>
+      <section>
+        <repeat-instruction ref="decrease-rows">
+          <additional-times>21</additional-times>
+        </repeat-instruction>
+        <information>
+          <number-of-stitches number="46" />
+        </information>
+      </section>
+    </instruction-group>
+    <instruction-group id="left-front-shoulder" label="Left Shoulder" reset-row-count="true">
+      <section>
+        <row number="1" side="right">
+          <knit>2</knit>
+          <purl loop-to-work="trailing">1</purl>
+          <decrease type="k2tog" />
+          <knit>14</knit>
+          <bind-off-all />
+        </row>
+        <row number="2">
+          <bind-off>2</bind-off>
+          <repeat until="end">
+            <purl />
+          </repeat>
+        </row>
+        <instruction id="lfs-3-8">
+          <row number="3 5 7">
+            <knit>1</knit>
+            <decrease type="k2tog" />
+            <repeat until="end">
+              <knit />
+            </repeat>
+          </row>
+          <row number="4 6 8">
+            <purl>2</purl>
+            <knit loop-to-work="trailing">1</knit>
+            <decrease type="p2tog-tbl" />
+            <repeat until="end">
+              <purl />
+            </repeat>
+          </row>
+        </instruction>
+        <instruction id="lfs-9-10">
+          <row number="9">
+            <repeat until="end">
+              <knit />
+            </repeat>
+          </row>
+          <row number="10">
+            <purl>2</purl>
+            <knit loop-to-work="trailing">1</knit>
+            <decrease type="p2tog-tbl" />
+            <repeat until="end">
+              <purl />
+            </repeat>
+          </row>
+        </instruction>
+      </section>
+      <section>
+        <repeat-instruction ref="lfs-9-10">
+          <additional-times>5</additional-times>
+        </repeat-instruction>
+        <information>
+          <number-of-stitches number="4" />
+        </information>
+      </section>
+      <section>
+        <row assign-row-number="false">
+          <repeat value="2" until="times">
+            <decrease type="k2tog" />
+          </repeat>
+        </row>
+        <row assign-row-number="false">
+          <bind-off-all />
+        </row>
+      </section>
+    </instruction-group>
+    <instruction-group id="right-front-shoulder" label="Right Shoulder">
+      <section>
+        <cast-on>19</cast-on>
+        <row number="1" side="right">
+          <bind-off>2</bind-off>
+          <repeat until="end">
+            <knit />
+          </repeat>
+        </row>
+        <row number="2">
+          <purl>2</purl>
+          <knit loop-to-work="trailing">1</knit>
+          <decrease type="p2tog-tbl" />
+          <repeat until="end">
+            <purl />
+          </repeat>
+        </row>
+        <instruction id="rfs-3-8">
+          <row number="3 5 7">
+            <knit>1</knit>
+            <decrease type="k2tog" />
+            <repeat until="end">
+              <knit />
+            </repeat>
+          </row>
+          <row number="4 6 8">
+            <purl>2</purl>
+            <knit loop-to-work="trailing">1</knit>
+            <decrease type="p2tog-tbl" />
+            <repeat until="end">
+              <purl />
+            </repeat>
+          </row>
+        </instruction>
+        <instruction id="rfs-9-10">
+          <row number="9">
+            <repeat until="end">
+              <knit />
+            </repeat>
+          </row>
+          <row number="10">
+            <purl>2</purl>
+            <knit loop-to-work="trailing">1</knit>
+            <decrease type="p2tog-tbl" />
+            <repeat until="end">
+              <purl />
+            </repeat>
+          </row>
+        </instruction>
+      </section>
+      <section>
+        <repeat-instruction ref="rfs-9-10">
+          <additional-times>5</additional-times>
+        </repeat-instruction>
+        <information>
+          <number-of-stitches number="4" />
+        </information>
+      </section>
+      <section>
+        <row assign-row-number="false">
+          <repeat value="2" until="times">
+            <decrease type="k2tog" />
+          </repeat>
+        </row>
+        <row assign-row-number="false">
+          <bind-off-all />
+        </row>
+      </section>
+    </instruction-group>
+    <instruction-group id="sleeves" label="Sleeves [make 2]">
+      <section>
+        <cast-on>66</cast-on>
+        <repeat-instruction ref="ribbing-2x2">
+          <additional-times>8</additional-times>
+        </repeat-instruction>
+      </section>
+      <section>
+        <row number="1" side="right">
+          <knit>2</knit>
+          <repeat value="3" until="times">
+            <decrease type="p2tog" />
+            <knit>2</knit>
+            <purl>2</purl>
+            <knit>2</knit>
+          </repeat>
+          <repeat until="before-end" value="26">
+            <knit />
+          </repeat>
+          <repeat value="3" until="times">
+            <knit>2</knit>
+            <purl>2</purl>
+            <knit>2</knit>
+            <decrease type="p2tog-tbl" />
+          </repeat>
+          <knit>2</knit>
+          <followup-information>
+            <number-of-stitches number="60" />
+          </followup-information>
+        </row>
+      </section>
+      <section>
+        <information>
+          <message label="Work 7 more rows evenly in this modified ribbing patt across these sts, as follows:" />
+        </information>
+        <row number="2">
+          <purl>2</purl>
+          <repeat value="3" until="times">
+            <knit>1</knit>
+            <purl>2</purl>
+            <knit>2</knit>
+            <purl>2</purl>
+          </repeat>
+          <repeat until="before-end" value="23">
+            <purl />
+          </repeat>
+          <repeat value="3" until="times">
+            <purl>2</purl>
+            <knit>2</knit>
+            <purl>2</purl>
+            <knit>1</knit>
+          </repeat>
+          <purl>2</purl>
+        </row>
+        <instruction id="sleeve-first-repeat">
+          <row number="3">
+            <knit>2</knit>
+            <repeat value="3" until="times">
+              <purl>1</purl>
+              <knit>2</knit>
+              <purl>2</purl>
+              <knit>2</knit>
+            </repeat>
+            <repeat until="before-end" value="23">
+              <knit />
+            </repeat>
+            <repeat value="3" until="times">
+              <knit>2</knit>
+              <purl>2</purl>
+              <knit>2</knit>
+              <purl>1</purl>
+            </repeat>
+            <knit>2</knit>
+          </row>
+          <row number="4">
+            <purl>2</purl>
+            <repeat value="3" until="times">
+              <knit>1</knit>
+              <purl>2</purl>
+              <knit>2</knit>
+              <purl>2</purl>
+            </repeat>
+            <repeat until="before-end" value="23">
+              <purl />
+            </repeat>
+            <repeat value="3" until="times">
+              <purl>2</purl>
+              <knit>2</knit>
+              <purl>2</purl>
+              <knit>1</knit>
+            </repeat>
+            <purl>2</purl>
+          </row>
+        </instruction>
+        <repeat-instruction ref="sleeve-first-repeat">
+          <additional-times>2</additional-times>
+        </repeat-instruction>
+      </section>
+      <section>
+        <row side="right">
+          <knit>2</knit>
+          <repeat value="3" until="times">
+            <purl>1</purl>
+            <knit>2</knit>
+            <decrease type="p2tog" />
+            <knit>2</knit>
+          </repeat>
+          <repeat until="before-end" value="23">
+            <knit />
+          </repeat>
+          <repeat value="3" until="times">
+            <knit>2</knit>
+            <decrease type="p2tog-tbl" />
+            <knit>2</knit>
+            <purl>1</purl>
+          </repeat>
+          <knit>2</knit>
+          <followup-information>
+            <number-of-stitches number="54" />
+          </followup-information>
+        </row>
+      </section>
+      <section>
+        <information>
+          <message label="Work 7 more rows evenly in this modified ribbing patt across these sts, as follows:" />
+        </information>
+        <row>
+          <purl>2</purl>
+          <repeat value="6" until="times">
+            <knit>1</knit>
+            <purl>2</purl>
+          </repeat>
+          <repeat until="before-end" value="20">
+            <purl />
+          </repeat>
+          <repeat value="6" until="times">
+            <purl>2</purl>
+            <knit>1</knit>
+          </repeat>
+          <purl>2</purl>
+        </row>
+        <instruction id="sleeve-second-repeat">
+          <row>
+            <knit>2</knit>
+            <repeat value="6" until="times">
+              <purl>1</purl>
+              <knit>2</knit>
+            </repeat>
+            <repeat until="before-end" value="20">
+              <knit />
+            </repeat>
+            <repeat value="6" until="times">
+              <knit>2</knit>
+              <purl>1</purl>
+            </repeat>
+            <knit>2</knit>
+          </row>
+          <row>
+            <purl>2</purl>
+            <repeat value="6" until="times">
+              <knit>1</knit>
+              <purl>2</purl>
+            </repeat>
+            <repeat until="before-end" value="20">
+              <purl />
+            </repeat>
+            <repeat value="6" until="times">
+              <purl>2</purl>
+              <knit>1</knit>
+            </repeat>
+            <purl>2</purl>
+          </row>
+        </instruction>
+        <repeat-instruction ref="sleeve-second-repeat">
+          <additional-times>2</additional-times>
+        </repeat-instruction>
+      </section>
+      <section>
+        <row side="right">
+          <knit>2</knit>
+          <repeat value="3" until="times">
+            <purl>1</purl>
+            <knit>2</knit>
+            <increase type="m1p" />
+            <purl>1</purl>
+            <knit>2</knit>
+          </repeat>
+          <repeat until="before-end" value="20">
+            <knit />
+          </repeat>
+          <repeat value="3" until="times">
+            <knit>2</knit>
+            <purl>1</purl>
+            <increase type="m1p" />
+            <knit>2</knit>
+            <purl>1</purl>
+          </repeat>
+          <knit>2</knit>
+          <followup-information>
+            <number-of-stitches number="60" />
+          </followup-information>
+        </row>
+      </section>
+      <section>
+        <information>
+          <message label="Work 7 more rows evenly in this modified ribbing patt across these sts, as follows:" />
+        </information>
+        <row>
+          <purl>2</purl>
+          <repeat value="3" until="times">
+            <knit>1</knit>
+            <purl>2</purl>
+            <knit>2</knit>
+            <purl>2</purl>
+          </repeat>
+          <repeat until="before-end" value="23">
+            <purl />
+          </repeat>
+          <repeat value="3" until="times">
+            <purl>2</purl>
+            <knit>2</knit>
+            <purl>2</purl>
+            <knit>1</knit>
+          </repeat>
+          <purl>2</purl>
+        </row>
+        <instruction id="sleeve-third-repeat">
+          <row>
+            <knit>2</knit>
+            <repeat value="3" until="times">
+              <purl>1</purl>
+              <knit>2</knit>
+              <purl>2</purl>
+              <knit>2</knit>
+            </repeat>
+            <repeat until="before-end" value="23">
+              <knit />
+            </repeat>
+            <repeat value="3" until="times">
+              <knit>2</knit>
+              <purl>2</purl>
+              <knit>2</knit>
+              <purl>1</purl>
+            </repeat>
+            <knit>2</knit>
+          </row>
+          <row>
+            <purl>2</purl>
+            <repeat value="3" until="times">
+              <knit>1</knit>
+              <purl>2</purl>
+              <knit>2</knit>
+              <purl>2</purl>
+            </repeat>
+            <repeat until="before-end" value="23">
+              <purl />
+            </repeat>
+            <repeat value="3" until="times">
+              <purl>2</purl>
+              <knit>2</knit>
+              <purl>2</purl>
+              <knit>1</knit>
+            </repeat>
+            <purl>2</purl>
+          </row>
+        </instruction>
+        <repeat-instruction ref="sleeve-third-repeat">
+          <additional-times>2</additional-times>
+        </repeat-instruction>
+      </section>
+      <section>
+        <row side="right">
+          <knit>2</knit>
+          <repeat value="3" until="times">
+            <increase type="m1p" />
+            <purl>1</purl>
+            <knit>2</knit>
+            <purl>2</purl>
+            <knit>2</knit>
+          </repeat>
+          <repeat until="before-end" value="23">
+            <knit />
+          </repeat>
+          <repeat value="3" until="times">
+            <knit>2</knit>
+            <purl>2</purl>
+            <knit>2</knit>
+            <purl>1</purl>
+            <increase type="m1p" />
+          </repeat>
+          <knit>2</knit>
+          <followup-information>
+            <number-of-stitches number="66" />
+          </followup-information>
+        </row>
+        <row>
+          <purl>2</purl>
+          <repeat value="6" until="times">
+            <knit>2</knit>
+            <purl>2</purl>
+          </repeat>
+          <repeat until="before-end" value="26">
+            <knit />
+          </repeat>
+          <repeat value="6" until="times">
+            <purl>2</purl>
+            <knit>2</knit>
+          </repeat>
+          <purl>2</purl>
+          <followup-information>
+            <number-of-stitches number="66" />
+          </followup-information>
+        </row>
+      </section>
+      <section>
+        <row assign-row-number="false">
+          <repeat value="2" until="times">
+            <knit>8</knit>
+            <increase />
+            <knit>8</knit>
+            <increase />
+            <knit>8</knit>
+            <increase />
+            <knit>9</knit>
+            <increase />
+          </repeat>
+          <followup-information>
+            <number-of-stitches number="74" />
+          </followup-information>
+        </row>
+        <row assign-row-number="false">
+          <repeat until="end">
+            <purl />
+          </repeat>
+        </row>
+      </section>
+      <section>
+        <instruction id="sleeve-10-row-repeat">
+          <row number="1 3 5 7 9">
+            <repeat until="end">
+              <knit />
+            </repeat>
+          </row>
+          <row number="2 4 6 8">
+            <repeat until="end">
+              <purl />
+            </repeat>
+          </row>
+          <row number="10">
+            <increase />
+            <repeat until="end">
+              <purl />
+            </repeat>
+            <increase />
+          </row>
+        </instruction>
+        <repeat-instruction ref="sleeve-10-row-repeat">
+          <additional-times>3</additional-times>
+        </repeat-instruction>
+        <repeat-instruction ref="stockinette">
+          <additional-times>1</additional-times>
+        </repeat-instruction>
+      </section>
+      <section>
+        <row assign-row-number="false">
+          <bind-off>7</bind-off>
+          <repeat until="end">
+            <knit />
+          </repeat>
+        </row>
+        <row assign-row-number="false">
+          <bind-off>7</bind-off>
+          <repeat until="end">
+            <purl />
+          </repeat>
+          <followup-information>
+            <number-of-stitches number="68" />
+          </followup-information>
+        </row>
+      </section>
+      <section>
+        <repeat-instruction ref="decrease-rows">
+          <additional-times>30</additional-times>
+        </repeat-instruction>
+        <information>
+          <number-of-stitches number="8" />
+        </information>
+      </section>
+      <section>
+        <row side="right" assign-row-number="false">
+          <knit>2</knit>
+          <purl loop-to-work="trailing">1</purl>
+          <decrease type="k2tog" />
+          <purl loop-to-work="trailing">1</purl>
+          <knit>2</knit>
+        </row>
+      </section>
+      <section>
+        <row side="wrong" assign-row-number="false">
+          <purl>2</purl>
+          <knit loop-to-work="trailing">1</knit>
+          <decrease type="k2tog-tbl" />
+          <purl>2</purl>
+        </row>
+      </section>
+      <section>
+        <row assign-row-number="false">
+          <bind-off-all />
+        </row>
+      </section>
+    </instruction-group>
+    <instruction-group id="finishing" label="Finishing" reset-row-count="true">
+      <section>
+        <information>
+          <message label="Block pieces. Sew raglan edges of Sleeves to armhole edges of Front and Back. Sew underarm, sleeve, and side seams." />
+        </information>
+      </section>
+      <section>
+        <information>
+          <message label="Starting at seam along the neckline, pick up 72 sts for Collar as follows: pick up 4 sts along Sleeve; 15 sts along side Front neck; 8 sts along center Front neck; 15 sts along side Front neck; 4 sts along Sleeve; 8 sts along side Back neck; 10 sts along center Back neck; and 8 sts along side Back neck." />
+        </information>
+      </section>
+      <section>
+        <information>
+          <message label="Mark beginning of round. Working from RS of garment, [k2, p2] around all 72 sts for 8 rounds. " />
+        </information>
+      </section>
+      <section>
+        <information>
+          <message label="On next round, [k2, p2tog, k2, p2] 9 times. Work 5 more rounds even in this modified ribbing patt." />
+        </information>
+      </section>
+      <section>
+        <information>
+          <message label="On next round, [k2, p1, k2, p2tog] 9 times. Work 9 more rounds evenly in this modified ribbing patt." />
+        </information>
+      </section>
+      <section>
+        <information>
+          <message label="BO all sts loosely in patt. Weave in any loose ends, then go snuggle." />
+        </information>
+      </section>
+    </instruction-group>
+  </directions>
+</pattern>

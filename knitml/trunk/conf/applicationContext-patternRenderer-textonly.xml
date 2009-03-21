@@ -12,7 +12,7 @@
 	</bean>
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basenames" value="custom-operations,com.knitml.renderer.impl.operations"/>
+		<property name="basenames" value="custom-operations"/>
 	</bean>
 	
 	<bean id="propertyConfigurer"

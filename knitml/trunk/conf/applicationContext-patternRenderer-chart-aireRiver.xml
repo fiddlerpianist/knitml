@@ -13,7 +13,7 @@
 			</bean>
 		</constructor-arg>
 		<constructor-arg>
-			<bean class="com.knitml.renderer.chart.writer.impl.FontBasedHtmlChartWriterFactory"/>
+			<bean class="com.knitml.renderer.chart.writer.impl.HtmlChartWriterFactory"/>
 		</constructor-arg>
 		<constructor-arg type="java.util.List">
 			<ref bean="symbolAdvisor1"/>
@@ -26,10 +26,10 @@
 	</bean>
 	
 	<bean id="symbolAdvisor1"
-		class="com.knitml.renderer.chart.symboladvisor.impl.AireRiverSymbolAdvisor"/>
+		class="com.knitml.renderer.chart.advisor.impl.AireRiverSymbolAdvisor"/>
 
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basenames" value="custom-operations,com.knitml.renderer.impl.operations"/>
+		<property name="basenames" value="custom-operations"/>
 	</bean>
 
 	<bean id="propertyConfigurer"

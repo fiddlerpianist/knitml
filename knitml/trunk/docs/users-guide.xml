@@ -1382,8 +1382,8 @@ k 3 with 'y1'</programlisting>
             </row>
             <row>
               <entry>
-                <programlisting>k to 2 sts beforeEnd
-k to 2 beforeEnd
+                <programlisting>k to 2 sts before end
+k to 2 before end
 k 2 beforeEnd</programlisting>
               </entry>
               <entry>
@@ -2376,10 +2376,10 @@ state unworked</programlisting>
             <row xml:id="repeat-type">
               <entry morerows="2">Repeat</entry>
               <entry morerows="2">
-                <code>('to'?, <link xlink:href="#integer-type">Integer</link>?, <link
+                <code>('to'?, <link xlink:href="#integer-type">Integer</link>?, 'before'?, <link
                     xlink:href="#until-type">Until</link>)</code> in any order</entry>
               <entry>
-                <code>to 2 beforeEnd</code>
+                <code>to 2 before end</code>
               </entry>
             </row>
             <row>
@@ -2507,7 +2507,7 @@ state unworked</programlisting>
                 <code>('g' | 'grams' | 'oz' | 'ounces')</code>
               </entry>
               <entry>
-                <code>inch</code>
+                <code>grams</code>
               </entry>
             </row>
             <row xml:id="wise-type">

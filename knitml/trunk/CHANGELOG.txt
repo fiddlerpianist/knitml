@@ -14,12 +14,15 @@ General
 knitml-core
 * Added 'version' to pattern element (for compatibility tracking)
 * Added 'no-stitch' element to support charting
-  
+
 knitml-pattern-renderer
 * Chart rendering
 * Internal refactoring of model (from visitor to event handler)
 * Removed Renderer <-> RenderingContext circular dependency 
 * RendererProgram is far simpler; all user preferences are within Options element
+
+knitml-el
+* Added 'before' keyword so that phrases like '2 sts before end' flow more naturally
 
 Known Incompatibilities with previous release:
 * Instruction and inline-instruction elements defined under an instruction-definitions section must have the 'shape' attribute set
