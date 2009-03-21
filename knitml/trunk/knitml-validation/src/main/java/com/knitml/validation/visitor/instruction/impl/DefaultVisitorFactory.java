@@ -37,8 +37,8 @@ public class DefaultVisitorFactory implements VisitorFactory {
 			}
 			return visitor;
 		} catch (Exception ex) {
-			log.info("Could not find visitor class for [" + object + "]");
-			return new ExceptionThrowingVisitor();
+			log.error("Could not find visitor class for [" + object + "]");
+			return new ExceptionThrowingVisitor(ex);
 		}
 	}
 

@@ -34,11 +34,11 @@ public class SpringVisitorFactory implements VisitorFactory {
 			proxyFactory.addInterface(Visitor.class);
 			proxyFactory.addAdvice(advice);
 			proxyFactory.setTarget(target);
-			return (Visitor) proxyFactory.getProxy();
+			return (Visitor) proxyFactory.getProxy(this.getClass().getClassLoader());
 		} catch (Exception ex) {
 			log.info("Could not find visitor class for element named ["
 					+ instance.getClass() + "]");
-			return new ExceptionThrowingVisitor();
+			return new ExceptionThrowingVisitor(ex);
 		}
 	}
 
