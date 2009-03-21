@@ -22,6 +22,7 @@ import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
 import com.knitml.core.model.directions.inline.Knit;
+import com.knitml.core.model.directions.inline.NoStitch;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
@@ -93,6 +94,7 @@ public interface Renderer {
 	void renderDecrease(Decrease decrease);
 	void renderIncrease(Increase increase);
 	void renderSlip(Slip slip);
+	void renderNoStitch(NoStitch noStitch);
 	void renderCrossStitches(CrossStitches element);
 	void renderDesignateEndOfRow(KnittingShape currentKnittingShape);
 	void renderTurn();

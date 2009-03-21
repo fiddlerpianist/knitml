@@ -11,14 +11,15 @@ import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisor;
-import com.knitml.renderer.chart.symboladvisor.NoSymbolFoundException;
+import com.knitml.renderer.chart.advisor.ChartSymbolAdvisor;
+import com.knitml.renderer.chart.stylesheet.StylesheetProvider;
+import com.knitml.renderer.chart.symbol.NoSymbolFoundException;
+import com.knitml.renderer.chart.symbol.SymbolProvider;
 import com.knitml.renderer.chart.writer.ChartWriter;
-import com.knitml.renderer.chart.writer.HtmlStylesheetProvider;
 
-public class FontBasedHtmlChartWriter implements ChartWriter {
+public class HtmlChartWriter implements ChartWriter {
 
-	private ChartSymbolAdvisor translator;
+	private SymbolProvider symbolProvider;
 	private boolean writeLineNumbers = true;
 	private String stylesheetClassPrefix = "";
 	private String suffix = ":";
@@ -26,11 +27,11 @@ public class FontBasedHtmlChartWriter implements ChartWriter {
 			.getProperty("line.separator");
 	private static final String LINE_BREAK = "<br />" + SYSTEM_LINE_BREAK;
 
-	public FontBasedHtmlChartWriter(ChartSymbolAdvisor translator) {
+	public HtmlChartWriter(SymbolProvider symbolProvider) {
 		super();
-		this.translator = translator;
-		if (translator instanceof HtmlStylesheetProvider) {
-			stylesheetClassPrefix = ((HtmlStylesheetProvider) translator)
+		this.symbolProvider = symbolProvider;
+		if (symbolProvider instanceof StylesheetProvider) {
+			stylesheetClassPrefix = ((StylesheetProvider) symbolProvider)
 					.getStyleClassPrefix()
 					+ "-";
 		}
@@ -77,7 +78,7 @@ public class FontBasedHtmlChartWriter implements ChartWriter {
 				while (rowIt.hasPrevious()) {
 					ChartElement element = rowIt.previous();
 					elementsUsed.add(element);
-					String symbol = translator.getSymbol(element);
+					String symbol = symbolProvider.getSymbol(element);
 
 					if (symbol.length() > 1) { // as in an Aire River cable that
 						// spans x number of characters
@@ -118,7 +119,7 @@ public class FontBasedHtmlChartWriter implements ChartWriter {
 				// FIXME non-internationalized, not to mention ugly
 				writer.write("<span class=\"" + stylesheetClassPrefix
 						+ "legend\">");
-				writer.write(translator.getSymbol(element));
+				writer.write(symbolProvider.getSymbol(element));
 				writer.write("</span>");
 				writer.write(suffix + " " + element.toString().toLowerCase());
 				writer.write(LINE_BREAK);

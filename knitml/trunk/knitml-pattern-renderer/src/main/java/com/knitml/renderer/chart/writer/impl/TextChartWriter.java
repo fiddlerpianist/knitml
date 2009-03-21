@@ -13,22 +13,22 @@ import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisor;
-import com.knitml.renderer.chart.symboladvisor.NoSymbolFoundException;
+import com.knitml.renderer.chart.symbol.NoSymbolFoundException;
+import com.knitml.renderer.chart.symbol.SymbolProvider;
 import com.knitml.renderer.chart.writer.ChartWriter;
 
-public class TextArtChartWriter implements ChartWriter {
+public class TextChartWriter implements ChartWriter {
 
-	private ChartSymbolAdvisor translator;
+	private SymbolProvider symbolProvider;
 	private boolean writeLineNumbers = true;
 	private String suffix = ":";
 	private String rowDelimiter = "|";
 	private static final String LINE_BREAK = System
 			.getProperty("line.separator");
 
-	public TextArtChartWriter(ChartSymbolAdvisor translator) {
+	public TextChartWriter(SymbolProvider symbolProvider) {
 		super();
-		this.translator = translator;
+		this.symbolProvider = symbolProvider;
 	}
 
 	public void writeChart(Chart chart, Writer writer) throws NoSymbolFoundException {
@@ -67,7 +67,7 @@ public class TextArtChartWriter implements ChartWriter {
 				while (rowIt.hasPrevious()) {
 					ChartElement element = rowIt.previous();
 					elementsUsed.add(element);
-					String symbol = translator.getSymbol(element);
+					String symbol = symbolProvider.getSymbol(element);
 					writer.write(symbol);
 				}
 
@@ -84,7 +84,7 @@ public class TextArtChartWriter implements ChartWriter {
 			writer.write(LINE_BREAK);
 			for (ChartElement element : elementsUsed) {
 				// FIXME non-internationalized, not to mention ugly
-				writer.write(translator.getSymbol(element) + suffix + " "
+				writer.write(symbolProvider.getSymbol(element) + suffix + " "
 						+ element.toString().toLowerCase());
 				writer.write(LINE_BREAK);
 			}

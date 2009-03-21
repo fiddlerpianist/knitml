@@ -1,6 +1,6 @@
-package com.knitml.renderer.chart.writer;
+package com.knitml.renderer.chart.stylesheet;
 
-public interface HtmlStylesheetProvider {
+public interface StylesheetProvider {
 	
 	public String getMimeType();
 	public String getStylesheet();

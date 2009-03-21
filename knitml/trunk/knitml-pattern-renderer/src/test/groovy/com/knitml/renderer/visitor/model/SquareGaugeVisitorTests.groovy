@@ -40,8 +40,8 @@ class SquareGaugeVisitorTests extends AbstractRenderingContextTests {
 	}
 
 	@Test
-	void squareGaugeWithInchesRenderedWithImperial() {
-		renderingContext.options.useImperialUnits()
+	void squareGaugeWithInchesRenderedWithUsCustomary() {
+		renderingContext.options.useUsCustomaryUnits()
 		processXml '''
 		  <general-information xmlns="http://www.knitml.com/schema/pattern">
 		  <gauge>
@@ -78,8 +78,8 @@ class SquareGaugeVisitorTests extends AbstractRenderingContextTests {
 	}
 	
 	@Test
-	void squareGaugeWithCentimetersRenderedWithImperial() {
-		renderingContext.options.useImperialUnits()
+	void squareGaugeWithCentimetersRenderedWithUsCustomary() {
+		renderingContext.options.useUsCustomaryUnits()
 		processXml '''
 		  <general-information xmlns="http://www.knitml.com/schema/pattern">
 		  <gauge>

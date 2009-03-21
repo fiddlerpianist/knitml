@@ -22,25 +22,42 @@ public class InstructionHandler extends AbstractEventHandler {
 
 	public boolean begin(Object element, Renderer renderer)
 			throws RenderingException {
+		Object beforeVisitingEngineState = renderer.getRenderingContext()
+				.getEngine().save();
+		renderer.getRenderingContext().getPatternState().saveEngineState(
+				beforeVisitingEngineState);
 		return false;
 	}
 
 	public void end(Object element, Renderer renderer) {
 		RenderingContext context = renderer.getRenderingContext();
+		// retrieve the "before" and "after" visiting states of the knitting
+		// engine so that we have something to go back to
+		Object beforeVisitingEngineState = context.getPatternState()
+				.retrieveSavedEngineState();
+		Object afterVisitingEngineState = context.getEngine().save();
+		// start with the state before the instruction was sent through the
+		// engine
+		renderer.getRenderingContext().getEngine().restore(
+				beforeVisitingEngineState);
+
 		PatternRepository repository = context.getPatternRepository();
 		Instruction instruction = (Instruction) element;
 		String id = instruction.getId();
 		Instruction candidateInstruction = context.getKnittingContext()
 				.getPatternRepository()
 				.getBlockInstruction(instruction.getId());
-		Instruction instructionToUse = renderer.evaluateInstruction(candidateInstruction);
+
+		Instruction instructionToUse = renderer
+				.evaluateInstruction(candidateInstruction);
+
 		if (instructionToUse == null) {
 			instructionToUse = candidateInstruction;
 		}
 		InstructionInfo instructionInfo;
 		if (instructionToUse.hasLabelOrMessageKey()) {
-			instructionInfo = repository.addGlobalInstruction(instruction, ContextUtils
-					.deriveLabel(instruction, repository));
+			instructionInfo = repository.addGlobalInstruction(instruction,
+					ContextUtils.deriveLabel(instruction, repository));
 			log.info(
 					"Adding global instruction [{}] to the pattern repository",
 					id);
@@ -54,18 +71,26 @@ public class InstructionHandler extends AbstractEventHandler {
 			setLastExpressedRowNumber(instructionInfo.getRowRange()
 					.getMaximumInteger(), context);
 			// if setLastExpressedRowNumber resets the local instructions, this
-			// would also clear out the currently executing instruction. We don't want that to
+			// would also clear out the currently executing instruction. We
+			// don't want that to
 			// happen, so add it back in.
 			// FIXME this is really backwards; maybe we should redo this
 			if (repository.getInstruction(instruction.getId()) == null) {
-				repository.addLocalInstruction(instructionInfo.getInstruction());
+				repository
+						.addLocalInstruction(instructionInfo.getInstruction());
 			}
 		}
 		renderer.beginInstruction(instructionInfo);
-		InstructionController embeddedController = new InstructionController(getEventHandlerFactory());
+		InstructionController embeddedController = new InstructionController(
+				getEventHandlerFactory());
 		embeddedController.visitInstruction(instructionToUse, renderer);
 		context.getPatternState().clearCurrentInstructionInfo();
 		renderer.endInstruction();
+
+		// restore to the way things were (after engine processing but before
+		// this method was called)
+		renderer.getRenderingContext().getEngine().restore(
+				afterVisitingEngineState);
 	}
 
 }

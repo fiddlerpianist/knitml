@@ -12,24 +12,28 @@ public class InformationHandler extends AbstractEventHandler {
 
 	public boolean begin(Object element, Renderer renderer)
 			throws RenderingException {
+		// we can gather all of the information we need without getting the
+		// child events
+		return false;
+	}
+
+	public void end(Object element, Renderer renderer) {
 		RenderingContext context = renderer.getRenderingContext();
 		Information information = (Information) element;
 		renderer.beginInformation();
-		information.getDetails();
 		for (Object child : information.getDetails()) {
 			if (child instanceof Message) {
 				Message message = (Message) child;
-				String messageToRender = context.getPatternRepository().getPatternMessage(message.getMessageKey(), message.getLabel());
-				renderer.renderMessage(messageToRender);
+				String messageToRender = context.getPatternRepository()
+						.getPatternMessage(message.getMessageKey(),
+								message.getLabel());
+				if (messageToRender != null) {
+					renderer.renderMessage(messageToRender);
+				}
 			} else if (child instanceof NumberOfStitches) {
 				renderer.renderNumberOfStitchesInRow((NumberOfStitches) child);
 			}
 		}
-		// 
-		return false;
-	}
-	
-	public void end(Object element, Renderer renderer) {
 		renderer.endInformation();
 	}
 }

@@ -11,6 +11,7 @@ public class PatternState {
 	private InstructionInfo currentInstructionInfo;
 	// The last row that was hit whose row number was defined
 	private int lastExpressedRowNumber = 0;
+	private Object engineStateMemento;
 
 
 	public int getLastExpressedRowNumber() {
@@ -47,6 +48,14 @@ public class PatternState {
 
 	public void resetLastExpressedRowNumber() {
 		this.lastExpressedRowNumber = 0;
+	}
+
+	public void saveEngineState(Object memento) {
+		this.engineStateMemento = memento;
+	}
+
+	public Object retrieveSavedEngineState() {
+		return this.engineStateMemento;
 	}
 
 }

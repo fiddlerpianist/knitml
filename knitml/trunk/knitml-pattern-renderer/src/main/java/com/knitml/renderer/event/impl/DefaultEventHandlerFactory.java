@@ -36,7 +36,7 @@ public class DefaultEventHandlerFactory implements EventHandlerFactory {
 			}
 			return visitor;
 		} catch (Exception ex) {
-			log.info("Could not find visitor class for [" + object + "]");
+			log.info("Could not find event handler class for [" + object + "]");
 			return new ExceptionThrowingHandler();
 		}
 	}

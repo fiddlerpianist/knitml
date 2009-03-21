@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.RendererFactory;
-import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisor;
-import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisorRegistry;
-import com.knitml.renderer.chart.symboladvisor.impl.DefaultChartSymbolAdvisorRegistry;
+import com.knitml.renderer.chart.symbol.SymbolProvider;
+import com.knitml.renderer.chart.symbol.SymbolProviderRegistry;
+import com.knitml.renderer.chart.symbol.impl.DefaultSymbolProviderRegistry;
 import com.knitml.renderer.chart.writer.ChartWriterFactory;
 import com.knitml.renderer.context.RenderingContext;
 
@@ -15,19 +15,19 @@ public class ChartingRendererFactory implements RendererFactory {
 	
 	private RendererFactory fallbackRendererFactory;
 	private ChartWriterFactory chartWriterFactory;
-	private ChartSymbolAdvisorRegistry registry;
+	private SymbolProviderRegistry registry;
 
 	public ChartingRendererFactory(RendererFactory fallbackRendererFactory,
 			ChartWriterFactory chartWriterFactory,
-			List<ChartSymbolAdvisor> translators) {
+			List<SymbolProvider> symbolProviders) {
 		this.fallbackRendererFactory = fallbackRendererFactory;
 		this.chartWriterFactory = chartWriterFactory;
-		this.registry = new DefaultChartSymbolAdvisorRegistry(translators);
+		this.registry = new DefaultSymbolProviderRegistry(symbolProviders);
 	}
 
 	public ChartingRendererFactory(RendererFactory fallbackRendererFactory,
 			ChartWriterFactory chartWriterFactory,
-			ChartSymbolAdvisorRegistry registry) {
+			SymbolProviderRegistry registry) {
 		this.fallbackRendererFactory = fallbackRendererFactory;
 		this.chartWriterFactory = chartWriterFactory;
 		this.registry = registry;

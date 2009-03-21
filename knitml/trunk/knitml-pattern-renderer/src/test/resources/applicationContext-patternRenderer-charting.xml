@@ -21,16 +21,16 @@
 			<bean class="com.knitml.renderer.impl.basic.BasicTextRendererFactory"/>
 		</constructor-arg>
 		<constructor-arg>
-			<bean class="com.knitml.renderer.chart.writer.impl.TextArtChartWriterFactory"/>
+			<bean class="com.knitml.renderer.chart.writer.impl.TextChartWriterFactory"/>
 		</constructor-arg>
-		<constructor-arg ref="chartElementTranslatorRegistry"/>
+		<constructor-arg ref="symbolProviderRegistry"/>
 	</bean>
 
-	<bean id="chartElementTranslatorRegistry"
-		class="com.knitml.renderer.chart.symboladvisor.impl.DefaultChartSymbolAdvisorRegistry">
+	<bean id="symbolProviderRegistry"
+		class="com.knitml.renderer.chart.symbol.impl.DefaultSymbolProviderRegistry">
 		<constructor-arg>
 			<list>
-				<bean class="com.knitml.renderer.chart.symboladvisor.impl.TextArtSymbolAdvisor"/>
+				<bean class="com.knitml.renderer.chart.symbol.impl.TextArtSymbolProvider"/>
 			</list>
 		</constructor-arg>
 	</bean>

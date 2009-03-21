@@ -25,6 +25,7 @@ import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
 import com.knitml.core.model.directions.inline.Knit;
+import com.knitml.core.model.directions.inline.NoStitch;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
@@ -35,7 +36,7 @@ import com.knitml.core.model.header.Supplies;
 import com.knitml.core.model.header.Yarn;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisorRegistry;
+import com.knitml.renderer.chart.symbol.SymbolProviderRegistry;
 import com.knitml.renderer.chart.writer.ChartWriterFactory;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.Options;
@@ -58,7 +59,7 @@ public class ChartingRenderer implements Renderer {
 
 	public ChartingRenderer(Renderer fallbackRenderer, RenderingContext renderingContext,
 			ChartWriterFactory chartWriterFactory,
-			ChartSymbolAdvisorRegistry registry) {
+			SymbolProviderRegistry registry) {
 		if (chartWriterFactory == null || fallbackRenderer == null) {
 			throw new IllegalArgumentException(
 					"The chartWriterFactory and fallbackRenderer parameters must be set");
@@ -374,6 +375,10 @@ public class ChartingRenderer implements Renderer {
 		delegate.renderKnit(knit);
 	}
 
+	public void renderNoStitch(NoStitch noStitch) {
+		delegate.renderNoStitch(noStitch);
+	}
+	
 	public void renderPurl(Purl purl) {
 		delegate.renderPurl(purl);
 	}

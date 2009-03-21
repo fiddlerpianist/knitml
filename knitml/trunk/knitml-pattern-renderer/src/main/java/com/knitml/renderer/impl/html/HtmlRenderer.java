@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.context.MessageSource;
 
 import com.knitml.core.model.Pattern;
-import com.knitml.renderer.chart.writer.HtmlStylesheetProvider;
+import com.knitml.renderer.chart.stylesheet.StylesheetProvider;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.impl.basic.BasicTextRenderer;
@@ -15,12 +15,12 @@ import com.knitml.renderer.impl.helpers.OperationSetHelper;
 
 public class HtmlRenderer extends BasicTextRenderer {
 
-	private List<HtmlStylesheetProvider> stylesheetProviders;
+	private List<StylesheetProvider> stylesheetProviders;
 	private boolean closePreTagBeforePreCraftedInstructions = true;
 	private HtmlWriterHelper writerHelper;
 
 	public HtmlRenderer(RenderingContext context, Writer writer,
-			MessageSource messageSource, List<HtmlStylesheetProvider> stylesheetProviders) {
+			MessageSource messageSource, List<StylesheetProvider> stylesheetProviders) {
 		super(context, writer, messageSource);
 		this.stylesheetProviders = stylesheetProviders;
 		if (writer != null) {
@@ -39,7 +39,7 @@ public class HtmlRenderer extends BasicTextRenderer {
 		writerHelper.writeSystemNewLine();
 		writerHelper.write("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\"><head><title>KnitML Pattern</title>");
 		writerHelper.writeSystemNewLine();
-		for (HtmlStylesheetProvider stylesheetProvider : stylesheetProviders) {
+		for (StylesheetProvider stylesheetProvider : stylesheetProviders) {
 			writerHelper.write("<style type=\"");
 			writerHelper.write(stylesheetProvider.getMimeType());
 			writerHelper.write("\">");

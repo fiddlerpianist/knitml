@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.measure.quantity.Length;
 import javax.measure.unit.Unit;
 
-import org.springframework.context.MessageSource;
+import org.springframework.context.HierarchicalMessageSource;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 
@@ -28,7 +28,7 @@ public class Options {
 	// global system preferences
 	private Locale locale = Locale.getDefault();
 	private ResourceLoader patternMessageResourceLoader = new FileSystemResourceLoader();
-	private MessageSource programMessageSource = null;
+	private HierarchicalMessageSource programMessageSource = null;
 	
 	// global rendering preferences
 	private boolean globalChart = false;
@@ -80,7 +80,7 @@ public class Options {
 		this.fabricMeasurementUnit = Units.CENTIMETER;
 	}
 
-	public void useImperialUnits() {
+	public void useUsCustomaryUnits() {
 		this.stitchGaugeUnit = Units.STITCHES_PER_INCH;
 		this.rowGaugeUnit = Units.ROWS_PER_INCH;
 		this.fabricMeasurementUnit = Units.INCH;
@@ -135,11 +135,11 @@ public class Options {
 		this.patternMessageResourceLoader = messageSourceResourceLoader;
 	}
 
-	public MessageSource getProgramMessageSource() {
+	public HierarchicalMessageSource getProgramMessageSource() {
 		return programMessageSource;
 	}
 
-	public void setProgramMessageSource(MessageSource programMessageSource) {
+	public void setProgramMessageSource(HierarchicalMessageSource programMessageSource) {
 		this.programMessageSource = programMessageSource;
 	}
 

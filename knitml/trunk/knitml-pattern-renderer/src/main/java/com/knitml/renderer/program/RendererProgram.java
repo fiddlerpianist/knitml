@@ -52,7 +52,9 @@ public class RendererProgram {
 	}
 
 	public void setOptions(Options options) {
-		this.options = options;
+		if (options != null) {
+			this.options = options;
+		}
 	}
 
 	public Pattern render(Parameters parameters) throws SAXException,

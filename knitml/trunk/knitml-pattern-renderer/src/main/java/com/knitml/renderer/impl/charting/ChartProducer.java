@@ -4,6 +4,8 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections15.BidiMap;
+import org.apache.commons.collections15.bidimap.DualHashBidiMap;
 import org.apache.commons.lang.NotImplementedException;
 
 import com.knitml.core.common.KnittingShape;
@@ -27,6 +29,7 @@ import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
 import com.knitml.core.model.directions.inline.Knit;
+import com.knitml.core.model.directions.inline.NoStitch;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
@@ -39,9 +42,8 @@ import com.knitml.engine.settings.Direction;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisor;
-import com.knitml.renderer.chart.symboladvisor.ChartSymbolAdvisorRegistry;
-import com.knitml.renderer.chart.symboladvisor.NoSymbolFoundException;
+import com.knitml.renderer.chart.symbol.SymbolProvider;
+import com.knitml.renderer.chart.symbol.SymbolProviderRegistry;
 import com.knitml.renderer.chart.writer.ChartWriter;
 import com.knitml.renderer.chart.writer.ChartWriterFactory;
 import com.knitml.renderer.context.InstructionInfo;
@@ -62,9 +64,20 @@ import com.knitml.renderer.impl.charting.analyzer.RowInfo;
  */
 class ChartProducer implements Renderer {
 
+	private static BidiMap<ChartElement, ChartElement> symbolInverseMap = new DualHashBidiMap<ChartElement, ChartElement>();
+
+	static {
+		symbolInverseMap.put(ChartElement.P, ChartElement.K);
+		symbolInverseMap.put(ChartElement.P_TW, ChartElement.K_TW);
+		symbolInverseMap.put(ChartElement.P2TOG, ChartElement.K2TOG);
+		symbolInverseMap.put(ChartElement.P2TOG_TBL, ChartElement.K2TOG_TBL);
+		symbolInverseMap.put(ChartElement.SSP, ChartElement.SSK);
+		symbolInverseMap.put(ChartElement.SKP, ChartElement.SSP);
+	}
+
 	// fields which should be set before calling begin() methods
 	private ChartWriterFactory chartWriterFactory;
-	private ChartSymbolAdvisorRegistry registry;
+	private SymbolProviderRegistry registry;
 	private Writer writer;
 	private Analysis analysis;
 
@@ -78,7 +91,7 @@ class ChartProducer implements Renderer {
 	private RenderingContext renderingContext;
 
 	public ChartProducer(ChartWriterFactory chartWriterFactory,
-			ChartSymbolAdvisorRegistry registry) {
+			SymbolProviderRegistry registry) {
 		this.chartWriterFactory = chartWriterFactory;
 		this.registry = registry;
 	}
@@ -148,14 +161,9 @@ class ChartProducer implements Renderer {
 
 	public void endInstruction() {
 		// TODO pass an ID to use somehow
-		ChartSymbolAdvisor translator = registry
-				.getChartElementTranslator(null);
+		SymbolProvider translator = registry.getSymbolProvider(null);
 		ChartWriter writer = chartWriterFactory.createChartWriter(translator);
-		try {
-			writer.writeChart(chart, this.writer);
-		} catch (NoSymbolFoundException ex) {
-			throw new CannotRenderChartException(ex);
-		}
+		writer.writeChart(chart, this.writer);
 	}
 
 	public void beginInlineInstruction(InlineInstruction instruction) {
@@ -179,17 +187,14 @@ class ChartProducer implements Renderer {
 	}
 
 	protected ChartElement inverse(ChartElement point) {
-		if (point == ChartElement.K) {
-			return ChartElement.P;
-		} else if (point == ChartElement.P) {
-			return ChartElement.K;
-		} else if (point == ChartElement.K2TOG) {
-			return ChartElement.SSK;
-		} else if (point == ChartElement.SSK) {
-			return ChartElement.K2TOG;
-		} else {
-			return point;
+		ChartElement element = symbolInverseMap.get(point);
+		if (element == null) {
+			element = symbolInverseMap.inverseBidiMap().get(point);
 		}
+		if (element == null) {
+			element = point;
+		}
+		return element;
 	}
 
 	public void beginRow() {
@@ -253,7 +258,7 @@ class ChartProducer implements Renderer {
 				point = ChartElement.valueOf(decrease.getType().name());
 			} catch (IllegalArgumentException ex) {
 				throw new RuntimeException(
-						"This type of ChartElement is not defined yet (testing purposes only)",
+						"This type of ChartElement is not defined yet. If the pattern validates against the schema, please report this as a bug",
 						ex);
 			}
 		} else {
@@ -269,6 +274,14 @@ class ChartProducer implements Renderer {
 				.getNumberOfTimes();
 		for (int i = 0; i < times; i++) {
 			add(ChartElement.K);
+		}
+	}
+
+	public void renderNoStitch(NoStitch noStitch) {
+		int times = noStitch.getNumberOfStitches() == null ? 1 : noStitch
+				.getNumberOfStitches();
+		for (int i = 0; i < times; i++) {
+			add(ChartElement.NS);
 		}
 	}
 
@@ -305,7 +318,9 @@ class ChartProducer implements Renderer {
 		int times = increase.getNumberOfTimes() == null ? 1 : increase
 				.getNumberOfTimes();
 		ChartElement point = null;
-		if (increase.getType() != null) {
+		if (increase.getType() == null) {
+			point = ChartElement.M1;
+		} else {
 			switch (increase.getType()) {
 			case YO:
 				point = ChartElement.YO;
@@ -320,8 +335,8 @@ class ChartProducer implements Renderer {
 		}
 	}
 
-	public void renderInlineInstructionRef(
-			InlineInstructionRef instructionRef, String label) {
+	public void renderInlineInstructionRef(InlineInstructionRef instructionRef,
+			String label) {
 		// FIXME make this go
 		throw new NotImplementedException("But it will be soon!");
 	}
