@@ -43,8 +43,10 @@ class ConvertAndRenderPattern {
 		def checksyntax = new Option("checksyntax", false,"check the intermediate validated XML's syntax against the KnitML schema")
 		def output = new Option("output", true,"File name to output the results")
 		output.setType("file")
+		def configFiles = new Option("config", true,"Spring application context file(s) used to configure the renderer")
 		options.addOption(checksyntax)
 		options.addOption(output)
+		options.addOption(configFiles)
 	}
 	
 	static void main(args) {
@@ -70,16 +72,16 @@ class ConvertAndRenderPattern {
 		Parameters parameters = new Parameters()
 		parameters.reader = new StringReader(xml)
 		parameters.writer = RunnerUtils.getWriter(line)
-		String[] applicationContextFiles = line.getOptionValues("rendererContextFiles")
-		if (applicationContextFiles == null) {
-			applicationContextFiles = ["applicationContext-patternRenderer.xml"]
-		}
+			String[] applicationContextFiles = line.getOptionValues("config")
+			if (applicationContextFiles == null) {
+				applicationContextFiles = ["applicationContext-patternRenderer.xml"]
+			}
 
 		SpringConfigurationBuilder builder = new SpringConfigurationBuilder()
 
 		Configuration configuration = builder.getConfiguration(applicationContextFiles)
-		RendererProgram renderer = new RendererProgram(configuration.getRendererFactory())
-		renderer.setOptions(configuration.getOptions())
+		RendererProgram renderer = new RendererProgram(configuration.rendererFactory)
+		renderer.setOptions(configuration.options)
 		renderer.render(parameters)
 	}
 
