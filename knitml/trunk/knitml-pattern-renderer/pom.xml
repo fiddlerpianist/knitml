@@ -100,7 +100,8 @@
 						</Export-Package>
 						<Import-Package>
 							*,
-							org.springframework.beans.factory
+							org.springframework.beans.factory,
+							javax.measure.converter
 						</Import-Package>
 						<Bundle-SymbolicName>com.knitml.renderer</Bundle-SymbolicName>
 					</instructions>
