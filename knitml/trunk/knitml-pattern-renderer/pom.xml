@@ -88,9 +88,20 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Export-Package>com.knitml.renderer</Export-Package>
-						<Export-Package>com.knitml.renderer.context</Export-Package>
-						<Export-Package>com.knitml.renderer.impl.basic</Export-Package>
+						<Export-Package>
+							com.knitml.renderer,
+							com.knitml.renderer.context,
+							com.knitml.renderer.plural,
+							com.knitml.renderer.program,
+							com.knitml.renderer.util,
+							com.knitml.renderer.impl.*,
+							com.knitml.renderer.chart.*,
+							com.knitml.renderer.event.*
+						</Export-Package>
+						<Import-Package>
+							*,
+							org.springframework.beans.factory
+						</Import-Package>
 						<Bundle-SymbolicName>com.knitml.renderer</Bundle-SymbolicName>
 					</instructions>
 				</configuration>

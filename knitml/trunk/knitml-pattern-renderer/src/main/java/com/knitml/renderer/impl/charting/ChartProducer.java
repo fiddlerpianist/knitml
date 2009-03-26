@@ -2,6 +2,7 @@ package com.knitml.renderer.impl.charting;
 
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections15.BidiMap;
@@ -84,6 +85,9 @@ class ChartProducer implements Renderer {
 	private Direction direction = Direction.FORWARDS;
 	private Chart chart;
 	private List<ChartElement> currentRow;
+	private Iterator<RowInfo> rowInfoIterator;
+	private RowInfo currentRowInfo;
+
 	@SuppressWarnings("unused")
 	private boolean condenseRepeats = true; // assume that we can until we can't
 	private Stack<RepeatSet> repeatSetStack = new Stack<RepeatSet>();
@@ -143,6 +147,7 @@ class ChartProducer implements Renderer {
 		chart.setTitle(instructionInfo.getLabel());
 		chart.setShape(instructionInfo.getInstruction().getKnittingShape());
 		chart.setWidth(analysis.getMaxWidth());
+		this.rowInfoIterator = analysis.getRowInfos().iterator();
 	}
 
 	public void endInstructionDefinition() {
@@ -157,6 +162,7 @@ class ChartProducer implements Renderer {
 		// during directions, trust that the engine is right
 		chart.setShape(renderingContext.getEngine().getKnittingShape());
 		chart.setWidth(analysis.getMaxWidth());
+		this.rowInfoIterator = analysis.getRowInfos().iterator();
 	}
 
 	public void endInstruction() {
@@ -199,10 +205,17 @@ class ChartProducer implements Renderer {
 
 	public void beginRow() {
 		this.currentRow = new ArrayList<ChartElement>(analysis.getMaxWidth());
+		this.currentRowInfo = rowInfoIterator.next();
 		chart.addRow(currentRow);
 	}
 
 	public void endRow(Row row, KnittingShape doNotUseThisVariable) {
+		// pad whatever is left with no-stitch elements
+		for (int i = currentRowInfo.getRowWidth(); i < analysis.getMaxWidth(); i++) {
+			currentRow.add(ChartElement.NS);
+		}
+		
+		// release currentRow... it has already been added to the chart in beginRow()
 		currentRow = null;
 		if (chart.getShape() == KnittingShape.FLAT) {
 			if (direction == Direction.FORWARDS) {
