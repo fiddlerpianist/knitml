@@ -1,6 +1,7 @@
+// Here I shall place some comments
 Pattern 'en' {
-  Directives {
-	InstructionDefinitions {
+  Directives { // Comments after the brace: k2 p2 k1
+	InstructionDefinitions { 
        Instruction 'ribbing-2x2' withLabel '2x2 Rib' flat {
          Row: Repeat to 2 sts beforeEnd { k2, p2 }, k2
          Row: Repeat to 2 sts beforeEnd { p2, k2 }, p2
