@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-Version: 0.5.0.SNAPSHOT
+Bundle-Name: KnitML Pattern Renderer
+Bundle-Description: Basic pattern rendering for KnitML files
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.knitml.renderer
+

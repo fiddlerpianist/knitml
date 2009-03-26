@@ -1,0 +1,120 @@
+<pattern version="0.5" xmlns="http://www.knitml.com/schema/pattern" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.5.xsd" xml:lang="en">
+  <directives>
+    <instruction-definitions>
+      <inline-instruction id="cross-2-over-2" label="2/2 LC">
+        <cross-stitches first="2" next="2" type="front" />
+        <knit>4</knit>
+      </inline-instruction>
+      <inline-instruction id="cross-2-behind-2" label="2/2 RC">
+        <cross-stitches first="2" next="2" type="back" />
+        <knit>4</knit>
+      </inline-instruction>
+    </instruction-definitions>
+  </directives>
+  <general-information>
+    <name>Color Sampler Swatch</name>
+    <description>A basic 2-color swatch sampler</description>
+    <dimensions />
+    <gauge type="stockinette">
+      <stitch-gauge unit="st/in">5</stitch-gauge>
+      <row-gauge unit="row/in">7</row-gauge>
+    </gauge>
+    <techniques>
+      <technique>stranded knitting</technique>
+      <technique>cabling</technique>
+    </techniques>
+    <author>
+      <first-name>Jonathan</first-name>
+      <last-name>Whitall</last-name>
+    </author>
+    <copyright-info />
+  </general-information>
+  <supplies>
+    <yarns>
+      <yarn-type id="wool" brand="Brown Sheep" category="Lamb's Pride" weight="worsted" />
+      <yarn-type id="cotton" brand="Cotton Classic" weight="worsted" />
+      <yarn id="MC" label="Main Color" symbol="MC" typeref="wool">
+        <color name="red" />
+      </yarn>
+      <yarn id="CC" label="Contrast Color" symbol="CC" typeref="cotton">
+        <color name="yellow" />
+      </yarn>
+    </yarns>
+    <needles>
+      <needle-type id="size1">
+        <size unit="US">1</size>
+      </needle-type>
+      <needle id="needle1" label="Needle 1" typeref="size1" />
+    </needles>
+    <accessories />
+  </supplies>
+  <directions>
+    <instruction-group id="start">
+      <use-needles>
+        <needle ref="needle1" />
+      </use-needles>
+      <cast-on style="long-tail">11</cast-on>
+    </instruction-group>
+    <instruction-group id="knit-swatch">
+      <section>
+        <row>
+          <knit yarn-ref="MC">5</knit>
+          <knit yarn-ref="CC">1</knit>
+          <knit yarn-ref="MC">5</knit>
+        </row>
+        <row>
+          <knit yarn-ref="MC">4</knit>
+          <knit yarn-ref="CC">3</knit>
+          <knit yarn-ref="MC">4</knit>
+        </row>
+        <row>
+          <knit yarn-ref="MC">3</knit>
+          <knit yarn-ref="CC">5</knit>
+          <knit yarn-ref="MC">3</knit>
+        </row>
+        <row>
+          <knit yarn-ref="MC">2</knit>
+          <knit yarn-ref="CC">7</knit>
+          <knit yarn-ref="MC">2</knit>
+        </row>
+        <row>
+          <knit yarn-ref="MC">1</knit>
+          <knit yarn-ref="CC">9</knit>
+          <knit yarn-ref="MC">1</knit>
+        </row>
+        <row yarn-ref="MC">
+          <knit>5</knit>
+          <increase type="m1a" />
+          <knit>6</knit>
+        </row>
+      </section>
+      <section reset-row-count="true">
+        <instruction id="cable-repeat">
+          <row number="1 2 3 4 6 7 8 9" yarn-ref="MC">
+            <repeat until="end">
+              <purl />
+            </repeat>
+          </row>
+          <row number="5" yarn-ref="MC">
+            <purl>4</purl>
+            <inline-instruction-ref ref="cross-2-over-2" />
+            <purl>4</purl>
+          </row>
+          <row number="10" yarn-ref="MC">
+            <purl>4</purl>
+            <inline-instruction-ref ref="cross-2-behind-2" />
+            <purl>4</purl>
+          </row>
+        </instruction>
+        <repeat-instruction ref="cable-repeat">
+          <additional-times>2</additional-times>
+        </repeat-instruction>
+      </section>
+      <section>
+        <row yarn-ref="MC" assign-row-number="false">
+          <bind-off-all />
+        </row>
+      </section>
+    </instruction-group>
+  </directions>
+</pattern>
