@@ -8,6 +8,7 @@
 
 .ks-lhcol {
     width: 1.25em;
+    text-align: right;
 }
 
 .ks-bodycol {
@@ -16,6 +17,7 @@
 
 .ks-rhcol {
     width: 1.25em;
+    text-align: left;
 }
 
 .ks-cell {

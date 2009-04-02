@@ -9,6 +9,7 @@
 
 .txt-lhcol {
     width: 1.25em;
+    text-align: right;
 }
 
 .txt-bodycol {
@@ -17,6 +18,7 @@
 
 .txt-rhcol {
     width: 1.25em;
+    text-align: left;
 }
 
 .txt-cell {

@@ -58,10 +58,6 @@ public class HeaderHelper {
 	@SuppressWarnings("unchecked")
 	public void renderGeneralInformation(GeneralInformation generalInformation) {
 		writeLine(generalInformation.getPatternName());
-		String description = generalInformation.getDescription();
-		if (!StringUtils.isBlank(description)) {
-			writeLine(description);
-		}
 		Author author = generalInformation.getAuthor();
 		if (author != null) {
 			write("By ");
@@ -69,6 +65,14 @@ public class HeaderHelper {
 			write(" ");
 			write(author.getLastName());
 			writeNewLine();
+		}
+		String description = generalInformation.getDescription();
+		if (!StringUtils.isBlank(description)) {
+			writeLine(description);
+		}
+		String dimensions = generalInformation.getDimensions();
+		if (!StringUtils.isBlank(dimensions)) {
+			writeLine("Dimensions: " + dimensions);
 		}
 		String copyright = generalInformation.getCopyright();
 		if (!StringUtils.isBlank(copyright)) {

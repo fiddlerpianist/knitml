@@ -36,6 +36,7 @@ public class Options {
 	private Unit<StitchGauge> stitchGaugeUnit;
 	private Unit<RowGauge> rowGaugeUnit;
 	private Unit<Length> fabricMeasurementUnit;
+	private String[] fontNames;
 
 	// Override global preferences for the particular instruction ID
 	private Map<String, InstructionOption> instructionOptions = new HashMap<String, InstructionOption>();
@@ -141,6 +142,14 @@ public class Options {
 
 	public void setProgramMessageSource(HierarchicalMessageSource programMessageSource) {
 		this.programMessageSource = programMessageSource;
+	}
+
+	public String[] getFontNames() {
+		return fontNames;
+	}
+
+	public void setFontNames(String[] fontNames) {
+		this.fontNames = fontNames;
 	}
 
 }

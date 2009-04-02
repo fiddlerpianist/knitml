@@ -7,32 +7,43 @@ import com.knitml.renderer.impl.helpers.WriterHelper;
 public class HtmlWriterHelper extends WriterHelper {
 
 	private boolean preformatted = false;
-	
+	private boolean inDiv = false;
+
 	public HtmlWriterHelper(Writer writer) {
 		super(writer);
 	}
-	
+
 	public void writeSystemNewLine() {
-		super.writeNewLine();
+		super.write(LINE_SEPARATOR);
 	}
-	
+
 	@Override
 	public void writeIndent() {
 		if (!isPreformatted()) {
-			// FIXME this should be done with a div or something
-			write("&nbsp;&nbsp;&nbsp;&nbsp;");
+			log.trace("writeIndent (with div)");
+			double ems = 0.0;
+			for (int i = getIndent(); i > 0; i--) {
+				ems += 2.5d;
+			}
+			if (ems > 0.0) {
+				write("<div style=\"text-indent: " + ems + "em;\">");
+				this.inDiv = true;
+			}
 		} else {
 			super.writeIndent();
 		}
 	}
 
 	@Override
-	public void writeNewLine() {
+	protected String getNewLineCharacters() {
 		if (!isPreformatted()) {
-			write("<br />");
-		} else {
-			super.writeNewLine();
+			if (inDiv) {
+				this.inDiv = false;
+				return "</div>" + LINE_SEPARATOR;
+			}
+			return "<br />" + LINE_SEPARATOR;
 		}
+		return super.getNewLineCharacters();
 	}
 
 	public boolean isPreformatted() {

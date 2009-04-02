@@ -5,9 +5,11 @@ import static com.knitml.core.common.EnumUtils.fromEnum;
 import java.io.Writer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.measure.Measure;
 
@@ -78,6 +80,8 @@ public class BasicTextRenderer implements Renderer {
 
 	private int sectionCount = 0;
 
+	private Set<Row> rowsRenderedForCurrentInstruction = new HashSet<Row>();
+	private boolean withinInstruction = false;
 	
 	public BasicTextRenderer(RenderingContext context, Writer writer, MessageSource messageSource) {
 		if (context == null) {
@@ -163,9 +167,12 @@ public class BasicTextRenderer implements Renderer {
 					instructionInfo.getLabel()
 							+ getMessage("operation.group-end-punctuation"));
 		}
+		this.withinInstruction = true;
 	}
 
 	public void endInstructionDefinition() {
+		this.withinInstruction = false;
+		this.rowsRenderedForCurrentInstruction.clear();
 		writeNewLine();
 	}
 
@@ -195,6 +202,8 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public void endInstruction() {
+		this.withinInstruction = false;
+		this.rowsRenderedForCurrentInstruction.clear();
 	}
 
 	public void endInstructionGroup() {
@@ -418,6 +427,7 @@ public class BasicTextRenderer implements Renderer {
 		} else {
 			beginInstructionGroup(instructionInfo.getLabel());
 		}
+		this.withinInstruction = true;
 	}
 
 	public void beginRepeat(Repeat repeat) {
@@ -469,9 +479,6 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public void beginRow() {
-		if (!getWriterHelper().isBeginningOfParagraph()) {
-			writeNewLine();
-		}
 		OperationSet rowOperationSet = new OperationSet(Type.ROW);
 		// push this operation onto the stack
 		getOperationSetHelper().addNewOperationSet(rowOperationSet);
@@ -481,6 +488,7 @@ public class BasicTextRenderer implements Renderer {
 		// this was originally in beginRow, but we need to process
 		// AFTER the validator has had its way with the Row object,
 		// since it may be modifying row numbers, etc.
+
 		List<Integer> rowNumbers = new ArrayList<Integer>();
 		if (row.getNumbers() != null) {
 			for (Integer rowNumber : row.getNumbers()) {
@@ -514,9 +522,18 @@ public class BasicTextRenderer implements Renderer {
 		String rowHeader = getRowLabel(shape, rowNumbers, yarnId, information);
 		rowOperationSet.setHead(rowHeader);
 
-		getOperationSetHelper().renderCurrentOperationSet();
+		// only render the row if:
+		// 1) we are not within an instruction, OR
+		// 2) we are within an instruction but we haven't encountered this row before
+		if (!withinInstruction || !rowsRenderedForCurrentInstruction.contains(row)) {
+			if (!getWriterHelper().isBeginningOfParagraph()) {
+				writeNewLine();
+			}
+			getOperationSetHelper().renderCurrentOperationSet();
+			writeNewLine();
+			rowsRenderedForCurrentInstruction.add(row);
+		}
 		getOperationSetHelper().removeCurrentOperationSet();
-		writeNewLine();
 	}
 
 	public void renderRepeatInstruction(RepeatInstruction repeatInstruction,

@@ -11,7 +11,6 @@ import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.advisor.ChartSymbolAdvisor;
 import com.knitml.renderer.chart.stylesheet.StylesheetProvider;
 import com.knitml.renderer.chart.symbol.NoSymbolFoundException;
 import com.knitml.renderer.chart.symbol.SymbolProvider;
@@ -62,7 +61,7 @@ public class HtmlChartWriter implements ChartWriter {
 			writer.write("span=\"" + chart.getWidth() + "\" ");
 			writer.write("/>" + SYSTEM_LINE_BREAK);
 			writer.write("<colgroup class=\"");
-			writer.write(stylesheetClassPrefix + "lhcol\" />" + SYSTEM_LINE_BREAK);
+			writer.write(stylesheetClassPrefix + "rhcol\" />" + SYSTEM_LINE_BREAK);
 			
 			writer.write("<tbody>" + SYSTEM_LINE_BREAK);
 			while (graphIt.hasPrevious()) {
