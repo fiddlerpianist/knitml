@@ -22,6 +22,11 @@ class LanguageEHTests {
 		XMLUnit.ignoreComments = true
 	}
 	
+	@Test
+	void nada() {
+		
+	}
+	
 	static void main(args) {
 		JUnitCore.main(LanguageEHTests.name)
 	}
