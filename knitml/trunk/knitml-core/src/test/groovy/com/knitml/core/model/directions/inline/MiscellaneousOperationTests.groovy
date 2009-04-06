@@ -23,6 +23,7 @@ import com.knitml.core.common.Wise
 import com.knitml.core.common.LoopToWork
 import com.knitml.core.common.YarnPosition
 import com.knitml.core.common.CrossType
+import com.knitml.core.model.directions.inline.FromStitchHolder
 
 @RunWith(JUnit4ClassRunner)
 class MiscellaneousOperationTests {
@@ -278,6 +279,36 @@ class MiscellaneousOperationTests {
 		row.operations[1].with {
 			assertThat needle, is (needle2)
 			assertThat operations[0].numberOfTimes, is (10) 
+		}
+		marshalXmlAndCompare(pattern,xml)
+	}
+	
+	@Test
+	void fromStitchHolder() {
+		def xml = '''
+				<pattern xmlns="http://www.knitml.com/schema/pattern">
+				  <supplies>
+					<yarns/>
+					<needles/>
+					<accessories>
+						<stitch-holder id="stitch-holder-1" label="Stitch Holder A"/>
+					</accessories>
+				  </supplies>
+				  <directions>
+				  	<row>
+				  		<from-stitch-holder ref="stitch-holder-1">
+				  			<knit>5</knit>
+				  		</from-stitch-holder>
+				  	</row>
+				  </directions>
+				</pattern>'''
+		Pattern pattern = unmarshalXml(xml)
+		def stitchHolder = pattern.supplies.stitchHolders[0]
+		def row = pattern.directions.operations[0]
+		assertThat ((row.operations[0] instanceof FromStitchHolder), is (true))
+		row.operations[0].with {
+			assertThat stitchHolder, is (stitchHolder)
+			assertThat operations[0].numberOfTimes, is (5) 
 		}
 		marshalXmlAndCompare(pattern,xml)
 	}

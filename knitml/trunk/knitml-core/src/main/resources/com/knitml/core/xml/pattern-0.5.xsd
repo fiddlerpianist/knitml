@@ -380,6 +380,39 @@
             </xsd:restriction>
           </xsd:simpleType>
         </xsd:attribute>
+        <xsd:attribute name="direction" default="forward">
+          <xsd:annotation>
+            <xsd:documentation>A value of forward indicates that the stitch(es) is/are to be slipped
+              as if working forwards (from needle holding stitches to work to needle holding
+              stitches just worked). A value of reverse indicates that the stitch(es) are to be
+              slipped as if working in reverse (from needle holding stitches just worked to needle
+              holding stitches to work). </xsd:documentation>
+          </xsd:annotation>
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="forward"/>
+              <xsd:enumeration value="reverse"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="SlipToHolderType">
+    <xsd:annotation>
+      <xsd:documentation>Represents moving a series of stitches from the left needle to the
+        referenced stitch holder. The stitch holder acts like an inactive double-pointed
+      needle.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:short">
+        <xsd:attribute name="ref" type="idref-type">
+          <xsd:annotation>
+            <xsd:documentation>The reference ID of the stitch holder to use. It is invalid to slip
+              stitches onto a holder that is already holding stitches.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
       </xsd:extension>
     </xsd:simpleContent>
   </xsd:complexType>
@@ -495,6 +528,8 @@
       <xsd:element name="increase-into-next-stitch" type="IncreaseIntoNextStitchType"/>
       <xsd:element name="cross-stitches" type="CrossStitchesType"/>
       <xsd:element name="slip" type="SlipType" default="1"/>
+      <xsd:element name="slip-to-holder" type="SlipToHolderType"/>
+      <xsd:element name="from-stitch-holder" type="FromStitchHolderType"/>
       <xsd:element name="no-stitch" type="NoStitchType" default="1"/>
       <xsd:element name="turn" type="TurnType"/>
       <xsd:element name="place-marker" type="EmptyType"/>
@@ -869,6 +904,22 @@
     <xsd:attribute name="ref" type="idref-type">
       <xsd:annotation>
         <xsd:documentation>A reference to the needle to use.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:complexType name="FromStitchHolderType">
+    <xsd:annotation>
+      <xsd:documentation>Work the stitches specified by the child elements off of the stitch holder
+        specified.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:group ref="atomicInlineOperations"/>
+      <xsd:group ref="compositeInlineOperations"/>
+    </xsd:choice>
+    <xsd:attribute name="ref" type="idref-type">
+      <xsd:annotation>
+        <xsd:documentation>A reference to the stitch holder to use.</xsd:documentation>
       </xsd:annotation>
     </xsd:attribute>
   </xsd:complexType>

@@ -51,7 +51,10 @@
             <collection field="needles" type="java.util.ArrayList"
                 item-type="com.knitml.core.model.header.Needle"/>
         </structure>
-        <structure name="accessories"/>
+        <structure name="accessories">
+            <collection field="stitchHolders" type="java.util.ArrayList"
+                item-type="com.knitml.core.model.header.StitchHolder"/>
+        </structure>
     </mapping>
     <mapping name="yarn-type" class="com.knitml.core.model.header.YarnType" value-style="attribute">
         <value name="id" field="id" ident="def"/>
@@ -119,6 +122,11 @@
     <mapping name="needle" class="com.knitml.core.model.header.Needle" value-style="attribute" post-set="afterPropertiesSet">
         <value name="id" field="id" get-method="getId" ident="def"/>
         <value name="typeref" field="type" ident="ref"/>
+        <value name="message-key" field="messageKey" usage="optional"/>
+        <value name="label" field="label" usage="optional"/>
+    </mapping>
+    <mapping name="stitch-holder" class="com.knitml.core.model.header.StitchHolder" value-style="attribute">
+        <value name="id" field="id" get-method="getId" ident="def"/>
         <value name="message-key" field="messageKey" usage="optional"/>
         <value name="label" field="label" usage="optional"/>
     </mapping>

@@ -11,7 +11,7 @@ public class EnumUtils {
 		return T.valueOf(target, name.toUpperCase().replace('-', '_'));
 	}
 	
-	public static String fromEnum(Enum e) {
+	public static String fromEnum(Enum<?> e) {
 		if (e == null) {
 			return null;
 		}

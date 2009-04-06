@@ -22,6 +22,8 @@ import com.knitml.core.common.Side
 import com.knitml.core.common.Wise
 import com.knitml.core.common.LoopToWork
 import com.knitml.core.common.YarnPosition
+import com.knitml.core.common.SlipDirection
+import com.knitml.core.model.directions.inline.SlipToHolder
 
 @RunWith(JUnit4ClassRunner)
 class KnitPurlSlipTests {
@@ -105,7 +107,7 @@ class KnitPurlSlipTests {
 			  <directions>
 					<row>
 						<slip type="knitwise" yarn-position="front" />
-						<slip type="purlwise" yarn-position="back">5</slip>
+						<slip type="purlwise" yarn-position="back" direction="reverse">5</slip>
 					</row>
 				  </directions>
 			</pattern>'''
@@ -115,16 +117,45 @@ class KnitPurlSlipTests {
 			assertThat type, is (Wise.KNITWISE)
 			assertThat yarnPosition, is (YarnPosition.FRONT)
 			assertThat numberOfTimes, is (null)
+			assertThat direction, is (null)
 		}
 		element = pattern.directions.operations[0].operations[1]
 		element.with {
 			assertThat type, is (Wise.PURLWISE)
 			assertThat yarnPosition, is (YarnPosition.BACK)
 			assertThat numberOfTimes, is (5)
+			assertThat direction, is (SlipDirection.REVERSE)
 		}
 		marshalXmlAndCompare(pattern,xml)
 	}
 	
+	@Test
+	void slipToHolder() {
+		def xml = '''
+			<pattern xmlns="http://www.knitml.com/schema/pattern">
+			  <supplies>
+			    <yarns/>
+			    <needles/>
+                <accessories>
+              	  <stitch-holder id="stitch-holder-1" label="Stitch Holder 1"/>
+                </accessories>
+              </supplies>
+			  <directions>
+					<row>
+						<slip-to-holder ref="stitch-holder-1">25</slip-to-holder>
+					</row>
+				  </directions>
+			</pattern>'''
+		Pattern pattern = unmarshalXml(xml)
+		def element = pattern.directions.operations[0].operations[0]
+		assertThat element instanceof SlipToHolder, is (true)
+		element.with {
+			assertThat stitchHolder, is (pattern.supplies.stitchHolders[0])
+			assertThat numberOfStitches, is (25)
+		}
+		marshalXmlAndCompare(pattern,xml)
+	}
+
 	@Test
 	void noStitch() {
 		def xml = '''

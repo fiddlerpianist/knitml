@@ -209,6 +209,34 @@ class SuppliesTests {
 		marshalXmlAndCompare(pattern,xml)
 	}
 	
+	@Test
+	void stitchHolders() {
+		def xml = '''
+			<pattern xmlns="http://www.knitml.com/schema/pattern">
+			  <supplies>
+			    <yarns/>
+			    <needles/>
+                <accessories>
+              	  <stitch-holder id="stitch-holder-1" label="Stitch Holder 1" message-key="stitch-holder.stitch-holder-1"/>
+              	  <stitch-holder id="stitch-holder-2"/>
+                </accessories>
+              </supplies>
+			</pattern>'''
+		Pattern pattern = unmarshalXml(xml)
+		def stitchHolders = pattern.supplies.stitchHolders
+		stitchHolders[0].with {
+			assertThat id, is ('stitch-holder-1')
+			assertThat messageKey, is ('stitch-holder.stitch-holder-1')
+			assertThat label, is ('Stitch Holder 1')
+		}
+		stitchHolders[1].with {
+			assertThat id, is ('stitch-holder-2')
+			assertThat messageKey, is (null)
+			assertThat label, is (null)
+		}
+		marshalXmlAndCompare(pattern,xml)
+	}
+	
 	static void main(args) {
 		JUnitCore.main(SuppliesTests.name)
 	}

@@ -149,11 +149,12 @@
             <xsd:documentation>Accessories such as buttons, stitch holders, etc.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="holder" type="HolderType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="stitch-holder" type="StitchHolderType" minOccurs="0"
+                maxOccurs="unbounded"/>
             <xsd:element name="other" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
-    
+
     <xsd:complexType name="GeneralInformationType">
         <xsd:annotation>
             <xsd:documentation>General information about the pattern, such as the author, a
@@ -303,13 +304,15 @@
 
     <xsd:complexType name="NeedleType">
         <xsd:annotation>
-            <xsd:documentation>A particular needle whose 'typeref' attribute matches a previously defined needle-type element.</xsd:documentation>
+            <xsd:documentation>A particular needle whose 'typeref' attribute matches a previously
+                defined needle-type element.</xsd:documentation>
         </xsd:annotation>
         <xsd:attribute name="id" type="xsd:ID" use="required"/>
         <xsd:attribute name="typeref" type="xsd:IDREF" use="required"/>
         <xsd:attribute name="message-key" type="xsd:string">
             <xsd:annotation>
-                <xsd:documentation>The internationalization key which serves as the initial label for this needle.</xsd:documentation>
+                <xsd:documentation>The internationalization key which serves as the initial label
+                    for this needle.</xsd:documentation>
             </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="label" type="xsd:string"/>
@@ -335,7 +338,8 @@
             <xsd:element minOccurs="0" name="availability" type="AvailabilityType"/>
             <xsd:element minOccurs="0" name="thickness" type="ThicknessType">
                 <xsd:annotation>
-                    <xsd:documentation>Wraps per length unit are used to gauge yarn thickness.</xsd:documentation>
+                    <xsd:documentation>Wraps per length unit are used to gauge yarn
+                    thickness.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:all>
@@ -346,14 +350,16 @@
         <xsd:attribute name="catalog-id" type="xsd:string"/>
         <xsd:attribute name="weight" type="xsd:string">
             <xsd:annotation>
-                <xsd:documentation>Free form text. Examples include Fingering, sport, DK</xsd:documentation>
+                <xsd:documentation>Free form text. Examples include Fingering, sport,
+                DK</xsd:documentation>
             </xsd:annotation>
         </xsd:attribute>
     </xsd:complexType>
 
     <xsd:complexType name="YarnType">
         <xsd:annotation>
-            <xsd:documentation>A particular yarn whose 'typeref' attribute matches a previously defined yarn-type element.</xsd:documentation>
+            <xsd:documentation>A particular yarn whose 'typeref' attribute matches a previously
+                defined yarn-type element.</xsd:documentation>
         </xsd:annotation>
         <xsd:all>
             <xsd:element minOccurs="0" name="total-length" type="LengthType"/>
@@ -369,7 +375,8 @@
 
     <xsd:complexType name="ThicknessType">
         <xsd:annotation>
-            <xsd:documentation>Wraps per length unit are used to gauge yarn thickness.</xsd:documentation>
+            <xsd:documentation>Wraps per length unit are used to gauge yarn
+            thickness.</xsd:documentation>
         </xsd:annotation>
         <xsd:simpleContent>
             <xsd:extension base="xsd:integer">
@@ -385,17 +392,18 @@
         </xsd:simpleContent>
     </xsd:complexType>
 
-    <xsd:complexType name="HolderType">
+    <xsd:complexType name="StitchHolderType">
         <xsd:annotation>
             <xsd:documentation>A holder of live stitches.</xsd:documentation>
         </xsd:annotation>
         <xsd:attribute name="id" type="xsd:ID" use="required"/>
         <xsd:attribute name="message-key" type="xsd:string">
             <xsd:annotation>
-                <xsd:documentation>The internationalization key which serves as the label for this holder.</xsd:documentation>
+                <xsd:documentation>The internationalization key which serves as the label for this
+                    stitch holder.</xsd:documentation>
             </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="label" type="xsd:string"/>
     </xsd:complexType>
-    
+
 </xsd:schema>

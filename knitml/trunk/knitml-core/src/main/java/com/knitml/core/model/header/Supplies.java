@@ -9,6 +9,7 @@ public class Supplies {
 	protected List<Yarn> yarns = new ArrayList<Yarn>();
 	protected List<NeedleType> needleTypes = new ArrayList<NeedleType>();
 	protected List<Needle> needles = new ArrayList<Needle>();
+	protected List<StitchHolder> stitchHolders = new ArrayList<StitchHolder>();
 	
 	public List<YarnType> getYarnTypes() {
 		return yarnTypes;
@@ -21,6 +22,10 @@ public class Supplies {
 	}
 	public List<Needle> getNeedles() {
 		return needles;
+	}
+
+	public List<StitchHolder> getStitchHolders() {
+		return stitchHolders;
 	}
 	
 	protected void afterPropertiesSet() {
@@ -51,6 +56,9 @@ public class Supplies {
 		return yarns.size() > 0 || yarnTypes.size() > 0;
 	}
 	public boolean hasAccessories() {
-		return false;
+		return hasStitchHolders();
+	}
+	public boolean hasStitchHolders() {
+		return stitchHolders.size() > 0 || stitchHolders.size() > 0;
 	}
 }
