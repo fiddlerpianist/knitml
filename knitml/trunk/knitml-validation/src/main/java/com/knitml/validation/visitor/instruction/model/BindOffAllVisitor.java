@@ -16,11 +16,17 @@ public class BindOffAllVisitor extends AbstractPatternVisitor {
 		BindOffAll bindOffAll = (BindOffAll) element;
 		int numberOfIterations = context.getEngine()
 				.getStitchesRemainingInRow();
-		for (int i = 0; i < numberOfIterations; i++) {
-			performIterativeOperation(bindOffAll, context, i, numberOfIterations
-					- i);
+		if (numberOfIterations == 0) {
+			// if we have hit the end of the row, attempt to pass the previous stitch over
+			context.getEngine().passPreviousStitchOver();
+		} else {
+			// otherwise knit or purl, then bind each successive stitch off
+			for (int i = 0; i < numberOfIterations; i++) {
+				performIterativeOperation(bindOffAll, context, i,
+						numberOfIterations - i);
+			}
 		}
-		
+
 		// now fasten last stitch off
 		if (bindOffAll.isFastenOffLastStitch()) {
 			context.getEngine().reverseSlip();

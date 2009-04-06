@@ -44,6 +44,69 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 	    '''
 		assertThat engine.totalNumberOfStitchesInRow, is (20)
 	}
+
+	@Test
+	void knitReverseSlipKnit() {
+		processXml '''
+			<row>
+		  		<knit>10</knit>
+		  		<slip direction="reverse">10</slip>
+		  		<knit>20</knit>
+		  	</row>
+	    '''
+		assertThat engine.totalNumberOfStitchesInRow, is (20)
+	}
+	
+	@Test
+	void slipToHolder() {
+		processXml '''
+			<pattern xmlns="http://www.knitml.com/schema/pattern">
+			  <supplies>
+			    <yarns/>
+			    <needles/>
+                <accessories>
+              	  <stitch-holder id="sh1"/>
+                </accessories>
+              </supplies>
+			  <directions>
+                <row>
+		  		  <knit>10</knit>
+		  		  <slip-to-holder ref="sh1">10</slip-to-holder>
+		  	    </row>
+              </directions>
+          </pattern>
+	    '''
+		assertThat engine.totalNumberOfStitchesInRow, is (10)
+	}
+
+	@Test
+	void slipFromHolder() {
+		processXml '''
+			<pattern xmlns="http://www.knitml.com/schema/pattern">
+			  <supplies>
+			    <yarns/>
+			    <needles/>
+                <accessories>
+              	  <stitch-holder id="sh1"/>
+                </accessories>
+              </supplies>
+			  <directions>
+                <row>
+		  		  <knit>10</knit>
+		  		  <slip-to-holder ref="sh1">10</slip-to-holder>
+		  	    </row>
+                <row>
+		  		  <knit>10</knit>
+		  		  <from-holder ref="sh1">
+		  		    <knit>10</knit>
+		  		  </from-to-holder>
+		  	    </row>
+              </directions>
+          </pattern>
+	    '''
+		assertThat engine.totalNumberOfStitchesInRow, is (20)
+	}
+	
 	
 	@Test
 	void knitNoStitchKnit() {

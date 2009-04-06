@@ -30,7 +30,7 @@ public class DecreaseVisitor extends AbstractPatternVisitor {
 		KnittingEngine engine = context.getEngine();
 		DecreaseType type = decrease.getType();
 		if (type != null && type.equals(DecreaseType.SSK)) {
-			engine.slip(new Slip(2, Wise.KNITWISE, null));
+			engine.slip(new Slip(2, Wise.KNITWISE, null, null));
 			engine.reverseSlip();
 			engine.reverseSlip();
 			engine.knitTwoTogether(true);
