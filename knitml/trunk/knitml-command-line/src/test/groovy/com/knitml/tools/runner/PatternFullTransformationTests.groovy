@@ -57,11 +57,6 @@ class PatternFullTransformationTests extends RunnerTests {
 	}
 	
 	@Test
-	void basicSock() {
-		convertValidateAndRender 'basic-sock'
-	}
-
-	@Test
 	void samplerSwatch() {
 		convertValidateAndRender 'sampler-swatch'
 	}
@@ -69,6 +64,11 @@ class PatternFullTransformationTests extends RunnerTests {
 	@Test
 	void nutkin2() {
 		convertValidateAndRender 'nutkin2'
+	}
+
+	@Test
+	void banff() {
+		convertValidateAndRender 'banff'
 	}
 
 	static void main(args) {
