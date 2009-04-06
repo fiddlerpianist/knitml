@@ -33,6 +33,7 @@ public class MergedInstructionHandler extends AbstractEventHandler {
 		return false;
 	}
 
+	@Override
 	public void end(Object element, Renderer renderer) {
 		MergedInstruction mergedInstructionDefinition = (MergedInstruction) element;
 		RenderingContext context = renderer.getRenderingContext();

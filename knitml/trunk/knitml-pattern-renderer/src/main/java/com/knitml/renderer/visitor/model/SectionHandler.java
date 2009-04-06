@@ -26,6 +26,7 @@ public class SectionHandler extends AbstractEventHandler {
 		return true;
 	}
 
+	@Override
 	public void end(Object element, Renderer renderer) {
 		renderer.endSection();
 	}

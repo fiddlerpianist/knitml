@@ -21,6 +21,7 @@ import org.springframework.context.MessageSource;
 import com.knitml.core.common.EnumUtils;
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.LoopToWork;
+import com.knitml.core.common.SlipDirection;
 import com.knitml.core.common.StitchesOnNeedle;
 import com.knitml.core.common.ValidationException;
 import com.knitml.core.model.Pattern;
@@ -391,14 +392,17 @@ public class BasicTextRenderer implements Renderer {
 	public void renderSlip(Slip slip) {
 		int numberToWork = defaultToOne(slip.getNumberOfTimes());
 		StringBuffer key = new StringBuffer("operation.slip");
-		// i.e. "operation.slip-knitwise" or "operation.slip-purlwise"
+		// e.g. "operation.slip-knitwise" or "operation.slip-purlwise"
 		if (slip.getType() != null) {
 			key.append("-").append(fromEnum(slip.getType()));
 		}
-		// i.e. "operation.slip.yarn-in-back" or
+		// e.g. "operation.slip.yarn-in-back" or
 		// "operation.slip.yarn-in-front"
 		if (slip.getYarnPosition() != null) {
 			key.append(".yarn-in-").append(fromEnum(slip.getYarnPosition()));
+		}
+		if (slip.getDirection() == SlipDirection.REVERSE) {
+			key.append(".reverse");
 		}
 		getOperationSetHelper().writeOperation(
 				getMessageHelper().getPluralizedMessage(key.toString(),

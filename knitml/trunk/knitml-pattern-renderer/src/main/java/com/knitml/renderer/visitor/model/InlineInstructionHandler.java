@@ -28,6 +28,7 @@ public class InlineInstructionHandler extends AbstractEventHandler {
 		return true;
 	}
 
+	@Override
 	public void end(Object element, Renderer renderer) {
 		renderer.endInlineInstruction((InlineInstruction)element);
 	}

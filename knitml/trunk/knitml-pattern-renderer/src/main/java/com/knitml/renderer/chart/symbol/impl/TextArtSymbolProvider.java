@@ -24,6 +24,7 @@ import static com.knitml.renderer.chart.ChartElement.YO;
 
 public class TextArtSymbolProvider extends AbstractSymbolProvider {
 
+	@Override
 	protected void initializeSymbols() {
 		symbols.put(K, "-");
 		symbols.put(P, "=");

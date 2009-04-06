@@ -25,6 +25,7 @@ public class UsingNeedleHandler extends AbstractEventHandler {
 		return true;
 	}
 	
+	@Override
 	public void end(Object element, Renderer renderer) {
 		renderer.endUsingNeedle();
 	}

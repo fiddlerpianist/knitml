@@ -11,6 +11,7 @@ import static com.knitml.renderer.chart.ChartElement.YO;
 public class AireRiverSymbolProvider extends
 		AbstractSymbolProvider {
 
+	@Override
 	protected void initializeSymbols() {
 		symbols.put(K, "-"); // note that this is a blank space, not the | symbol
 		symbols.put(P, "h");

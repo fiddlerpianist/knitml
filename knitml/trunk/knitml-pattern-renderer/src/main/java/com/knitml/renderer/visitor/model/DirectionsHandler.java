@@ -22,6 +22,7 @@ public class DirectionsHandler extends AbstractEventHandler {
 		return true;
 	}
 
+	@Override
 	public void end(Object element, Renderer renderer)
 	throws RenderingException {
 		renderer.endDirections();

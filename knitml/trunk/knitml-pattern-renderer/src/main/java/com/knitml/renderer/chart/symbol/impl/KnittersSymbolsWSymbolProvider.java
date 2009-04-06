@@ -11,6 +11,7 @@ import static com.knitml.renderer.chart.ChartElement.YO;
 public class KnittersSymbolsWSymbolProvider extends
 		AbstractSymbolProvider {
 
+	@Override
 	protected void initializeSymbols() {
 		symbols.put(K, "a");
 		symbols.put(P, "P");

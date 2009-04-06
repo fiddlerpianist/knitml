@@ -35,7 +35,34 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 		processXml '<slip xmlns="http://www.knitml.com/schema/pattern">3</slip>', Slip
 		assertThat output, is ('sl 3')
 	}
-	
+
+	@Test
+	void reverseSlip() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		renderingContext.engine.knit 1
+		processXml '<slip xmlns="http://www.knitml.com/schema/pattern" direction="reverse"/>', Slip
+		assertThat output, is ('sl 1 from RH to LH needle')
+	}
+
+	@Test
+	void reverseSlip1() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		renderingContext.engine.knit 1
+		processXml '<slip xmlns="http://www.knitml.com/schema/pattern" direction="reverse">1</slip>', Slip
+		assertThat output, is ('sl 1 from RH to LH needle')
+	}
+
+	@Test
+	void reverseSlip3() {
+		renderingContext.engine.castOn 3
+		renderingContext.engine.startNewRow()
+		renderingContext.engine.knit 3
+		processXml '<slip xmlns="http://www.knitml.com/schema/pattern" direction="reverse">3</slip>', Slip
+		assertThat output, is ('sl 3 from RH to LH needle')
+	}
+
 	@Test
 	void slipKnitwise() {
 		renderingContext.engine.castOn 1

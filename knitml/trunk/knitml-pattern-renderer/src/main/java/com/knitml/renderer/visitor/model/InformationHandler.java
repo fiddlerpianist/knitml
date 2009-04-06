@@ -17,6 +17,7 @@ public class InformationHandler extends AbstractEventHandler {
 		return false;
 	}
 
+	@Override
 	public void end(Object element, Renderer renderer) {
 		RenderingContext context = renderer.getRenderingContext();
 		Information information = (Information) element;

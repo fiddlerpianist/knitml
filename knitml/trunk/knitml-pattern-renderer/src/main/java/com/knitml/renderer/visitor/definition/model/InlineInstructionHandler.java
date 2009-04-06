@@ -22,6 +22,7 @@ public class InlineInstructionHandler extends AbstractEventHandler {
 		return false;
 	}
 
+	@Override
 	public void end(Object element, Renderer renderer)
 			throws RenderingException {
 		RenderingContext context = renderer.getRenderingContext();

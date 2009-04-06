@@ -29,6 +29,7 @@ public class InstructionHandler extends AbstractEventHandler {
 		return false;
 	}
 
+	@Override
 	public void end(Object element, Renderer renderer) {
 		RenderingContext context = renderer.getRenderingContext();
 		// retrieve the "before" and "after" visiting states of the knitting

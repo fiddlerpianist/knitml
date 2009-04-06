@@ -29,6 +29,7 @@ public class RowHandler extends AbstractEventHandler {
 		return true;
 	}
 
+	@Override
 	public void end(Object element, Renderer renderer)
 			throws RenderingException {
 		RenderingContext context = renderer.getRenderingContext();
