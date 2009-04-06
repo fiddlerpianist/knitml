@@ -74,12 +74,14 @@ public class DefaultNeedle implements Needle {
 
 	public void restore(Object mementoObj) {
 		if (!(mementoObj instanceof DefaultNeedleMemento)) {
-			throw new IllegalArgumentException("Type to restore must be of type DefaultNeedleMemento");
+			throw new IllegalArgumentException(
+					"Type to restore must be of type DefaultNeedleMemento");
 		}
 		DefaultNeedleMemento memento = (DefaultNeedleMemento) mementoObj;
 		this.direction = memento.getDirection();
 		this.stitches = memento.getStitches();
-		this.stitchCursor = this.stitches.listIterator(memento.getNextStitchIndex());
+		this.stitchCursor = this.stitches.listIterator(memento
+				.getNextStitchIndex());
 		this.markers = memento.getMarkers();
 		this.gaps = memento.getGaps();
 		this.lastStitchIndexReturned = memento.getLastStitchIndexReturned();
@@ -91,8 +93,8 @@ public class DefaultNeedle implements Needle {
 				this.markers);
 		SortedMap<Integer, Marker> gapsCopy = new TreeMap<Integer, Marker>(
 				this.gaps);
-		Object memento = new DefaultNeedleMemento(this.direction,
-				stitchesCopy, stitchCursor.nextIndex(), markersCopy, gapsCopy,
+		Object memento = new DefaultNeedleMemento(this.direction, stitchesCopy,
+				stitchCursor.nextIndex(), markersCopy, gapsCopy,
 				this.lastStitchIndexReturned);
 		return memento;
 	}
@@ -626,11 +628,14 @@ public class DefaultNeedle implements Needle {
 	 * com.knitml.validation.validation.engine.model.Needle#addStitchesToBeginning
 	 * (java.util.List)
 	 */
-	public void addStitchesToBeginning(List<Stitch> stitchesToAdd)
-			throws NeedlesInWrongDirectionException {
-		assertForwardsDirection();
-		stitches.addAll(0, stitchesToAdd);
-		stitchCursor = stitches.listIterator();
+	public void addStitchesToBeginning(List<Stitch> stitchesToAdd) {
+		if (getDirection() == Direction.FORWARDS) {
+			stitches.addAll(0, stitchesToAdd);
+		} else {
+			stitches.addAll(stitchesToAdd);
+		}
+		// reset the list iterator for the stitches
+		startAtBeginning();
 	}
 
 	/*
@@ -640,11 +645,14 @@ public class DefaultNeedle implements Needle {
 	 * com.knitml.validation.validation.engine.model.Needle#addStitchesToEnd
 	 * (java.util.List)
 	 */
-	public void addStitchesToEnd(List<Stitch> stitchesToAdd)
-			throws NeedlesInWrongDirectionException {
-		assertForwardsDirection();
-		stitches.addAll(stitchesToAdd);
-		stitchCursor = stitches.listIterator();
+	public void addStitchesToEnd(List<Stitch> stitchesToAdd) {
+		if (getDirection() == Direction.FORWARDS) {
+			stitches.addAll(stitchesToAdd);
+		} else {
+			stitches.addAll(0, stitchesToAdd);
+		}
+		// reset the list iterator for the stitches
+		startAtEnd();
 	}
 
 	/*

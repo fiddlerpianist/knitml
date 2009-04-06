@@ -768,4 +768,50 @@ public abstract class FlatNeedleTests {
 		assertThat(needle.isEndOfNeedle(), is (true));
 	}
 	
+	@Test
+	public void addStitchesToBeginning() throws Exception {
+		List<Stitch> startingStitchesOnNeedle = new ArrayList<Stitch>(needle.getStitches());
+		List<Stitch> stitchesToAdd = new ArrayList<Stitch>();
+		Stitch firstStitch = new DefaultStitch("AA");
+		stitchesToAdd.add(firstStitch);
+		stitchesToAdd.add(new DefaultStitch("BB"));
+		stitchesToAdd.add(new DefaultStitch("CC"));
+		stitchesToAdd.add(new DefaultStitch("DD"));
+		
+		// perform the operation on the needle
+		needle.addStitchesToBeginning(stitchesToAdd);
+		List<Stitch> expectedStitchesOnNeedle = new ArrayList<Stitch>();
+		expectedStitchesOnNeedle.addAll(stitchesToAdd);
+		expectedStitchesOnNeedle.addAll(startingStitchesOnNeedle);
+		assertEquals(expectedStitchesOnNeedle, needle.getStitches());
+		
+		// make sure the stitch cursor is set to return the first stitch (i.e. "AA")
+		needle.startAtBeginning();
+		assertEquals(firstStitch, needle.peekAtNextStitch());
+	}	
+
+	@Test
+	public void addStitchesToEnd() throws Exception {
+		List<Stitch> startingStitchesOnNeedle = new ArrayList<Stitch>(needle.getStitches());
+		List<Stitch> stitchesToAdd = new ArrayList<Stitch>();
+		Stitch firstStitch = new DefaultStitch("K");
+		stitchesToAdd.add(firstStitch);
+		stitchesToAdd.add(new DefaultStitch("L"));
+		stitchesToAdd.add(new DefaultStitch("M"));
+		stitchesToAdd.add(new DefaultStitch("N"));
+		
+		// perform the operation on the needle
+		needle.addStitchesToEnd(stitchesToAdd);
+		List<Stitch> expectedStitchesOnNeedle = new ArrayList<Stitch>();
+		expectedStitchesOnNeedle.addAll(startingStitchesOnNeedle);
+		expectedStitchesOnNeedle.addAll(stitchesToAdd);
+		assertEquals(expectedStitchesOnNeedle, needle.getStitches());
+		
+		// make sure the stitch cursor is set to return the first stitch (i.e. "AA")
+		needle.startAtBeginning();
+		knit(10);
+		assertEquals(firstStitch, needle.peekAtNextStitch());
+	}	
+	
+	
 }

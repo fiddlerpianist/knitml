@@ -114,11 +114,9 @@ public interface Needle extends Restorable {
 	void purlTwoTogether() throws NotEnoughStitchesException,
 			CannotWorkThroughMarkerException;
 
-	void addStitchesToBeginning(List<Stitch> stitchesToAdd)
-			throws NeedlesInWrongDirectionException;
+	void addStitchesToBeginning(List<Stitch> stitchesToAdd);
 
-	void addStitchesToEnd(List<Stitch> stitchesToAdd)
-			throws NeedlesInWrongDirectionException;
+	void addStitchesToEnd(List<Stitch> stitchesToAdd);
 
 	/**
 	 * Returns the current view of stitches on the needle. The view is adjusted
