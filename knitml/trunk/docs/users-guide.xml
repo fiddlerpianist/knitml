@@ -1159,6 +1159,25 @@ Next Row: Bind off all stitches</programlisting>
               </entry>
             </row>
             <row>
+              <entry>fromHolder</entry>
+              <entry>ref as <link xlink:href="#idref-type">IDREF</link>
+              </entry>
+              <entry>Work the enclosed stitches from the specified stitch holder</entry>
+              <entry>
+                <programlisting>fromHolder 'sh1'{
+  p2, k to end
+}</programlisting>
+              </entry>
+              <entry>
+                <programlisting>&lt;from-stitch-holder ref="sh1">
+  &lt;purl>2&lt;/purl>
+  &lt;repeat until="end">
+    &lt;knit/>
+  &lt;/repeat>
+&lt;/from-stitch-holder></programlisting>
+              </entry>
+            </row>
+            <row>
               <entry>gauge</entry>
               <entry>type as <link xlink:href="#string-type">String</link> (optional)</entry>
               <entry>A gauge element</entry>
@@ -1347,7 +1366,7 @@ Next Row: Bind off all stitches</programlisting>
               <entry morerows="4">
                 <para>number as <link xlink:href="#integer-type">Integer</link>, yarnRef as <link
                     xlink:href="#idref-type">IDREF</link>, loopToWork as LoopToWork, repeatSpec as
-                  Repeat</para>
+                  Repeat, holderSpec as <link xlink:href="#holder-type">Holder</link></para>
                 <para>(all parameters optional)</para>
               </entry>
               <entry morerows="4">Knit specified number of stitches</entry>
@@ -1930,19 +1949,49 @@ k3 tbl</programlisting>
               </entry>
             </row>
             <row>
-              <entry>sl</entry>
-              <entry>
-                <para>number as <link xlink:href="#integer-type">Integer</link>, xmlAttributes as
-                    <link xlink:href="#map-type">Map</link>
-                </para>
+              <entry morerows="4">sl</entry>
+              <entry morerows="4">
+                <para><emphasis>next</emphasis>, number as <link xlink:href="#integer-type"
+                  >Integer</link>, stitches as <link xlink:href="#stitch-type">Stitch</link>, wise
+                  as <link xlink:href="#wise-type">Wise</link>, <emphasis>reverse |
+                  inReverse</emphasis>, position as <link xlink:href="#yarn-position-type"
+                    >YarnPosition</link>, xmlAttributes as <link xlink:href="#map-type">Map</link></para>
                 <para>(all parameters optional)</para>
               </entry>
-              <entry>Slip the specified number of stitches</entry>
+              <entry morerows="4">Slip the specified number of stitches</entry>
               <entry>
                 <code>sl 5</code>
               </entry>
               <entry>
                 <code>&lt;slip>5&lt;/slip></code>
+              </entry>
+            </row>
+            <row>
+              <entry><code>sl 5 sts knitwise</code></entry>
+              <entry>
+                <programlisting>&lt;slip type="knitwise">5
+&lt;/slip></programlisting>
+              </entry>
+            </row>
+            <row>
+              <entry><code>sl next 5 sts to holder 'h1'</code></entry>
+              <entry>
+                <programlisting>&lt;slip-to-holder ref="h1">5
+&lt;/slip-to-holder></programlisting>
+              </entry>
+            </row>
+            <row>
+              <entry><code>sl 5 inReverse</code></entry>
+              <entry>
+                <programlisting>&lt;slip direction="reverse">5
+&lt;/slip></programlisting>
+              </entry>
+            </row>
+            <row>
+              <entry><code>sl 5 wyib</code></entry>
+              <entry>
+                <programlisting>&lt;slip yarn-position="back">5
+&lt;/slip></programlisting>
               </entry>
             </row>
             <row>
@@ -2035,6 +2084,30 @@ state unworked</programlisting>
               <entry>
                 <programlisting>&lt;stitch-gauge unit="st/in">3.5
 &lt;/stitch-gauge></programlisting>
+              </entry>
+            </row>
+            <row>
+              <entry morerows="1">stitchHolder</entry>
+              <entry morerows="1">
+                <para>id as <link xlink:href="#id-type">ID</link>, <emphasis>withKey</emphasis>,
+                    <emphasis>withLabel</emphasis>, label as <link xlink:href="#string-type"
+                  >String</link></para>
+                <para>(all parameters except id optional)</para>
+              </entry>
+              <entry morerows="1">A stitch holder used in the pattern.</entry>
+              <entry>
+                <code>stitchHolder 'sh1'</code>
+              </entry>
+              <entry>
+                <programlisting>&lt;stitch-holder id="sh1"/></programlisting>
+              </entry>
+            </row>
+            <row>
+              <entry><code>stitchHolder 'sh1' withKey  withLabel "Stitch Holder 1"</code></entry>
+              <entry>
+                <programlisting>&lt;stitch-holder id="sh1"
+  message-key="stitch-holder.sh1"
+  label="Stitch Holder 1"/></programlisting>
               </entry>
             </row>
             <row>
@@ -2302,6 +2375,16 @@ state unworked</programlisting>
                 <code>1.5</code>
               </entry>
             </row>
+            <row xml:id="holder-type">
+              <entry morerows="1">Holder</entry>
+              <entry morerows="1"><code>('to' | 'from') 'holder' holderId</code></entry>
+              <entry>
+                <code>from holder 'stitch-holder-1'</code>
+              </entry>
+            </row>
+            <row>
+              <entry><code>to holder 'stitch-holder-1'</code></entry>
+            </row>
             <row xml:id="id-type">
               <entry>ID</entry>
               <entry>Same as XML Schema's ID data type</entry>
@@ -2526,6 +2609,15 @@ state unworked</programlisting>
               </entry>
               <entry>
                 <code>withKey</code>
+              </entry>
+            </row>
+            <row xml:id="yarn-position-type">
+              <entry>YarnPosition</entry>
+              <entry>
+                <code>('wyif' | 'wyib')</code>
+              </entry>
+              <entry>
+                <code>wyif</code>
               </entry>
             </row>
           </tbody>

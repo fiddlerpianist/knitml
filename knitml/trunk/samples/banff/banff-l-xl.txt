@@ -1,0 +1,46 @@
+Banff
+By Jenna Wilson
+This pullover has been my standard, fall-winter-casual-wear sweater for three years. Knit it in a durable, classic yarn, and it will become your default sweater for cold weather, too - casual, cozy, easy to wear, and a cinch to knit up in bulky yarn.
+Dimensions: Chest: 57 in, Length 24 in
+
+Stitch Gauge: 3.5 st/in
+Row Gauge: 5.2 row/in
+
+Yarn:
+    900 g (990 yd) of Tahki Soho Bulky Tweed in discontinued color (304)
+
+Needles:
+    1 circular needle size 10 US (6 mm)
+
+2x2 Rib:
+Row 1: *k2, p2, repeat from * to 2 sts before end, k2
+Row 2: *p2, k2, repeat from * to 2 sts before end, p2
+
+Decrease Rows:
+Row 1: k2, p1tbl, k2tog, k to 3 sts before end, p1tbl, k2
+Row 2: p2, k1tbl, p2tog tbl, p to 3 sts before end, k1tbl, p2
+
+Two-Row Stockinette Stitch:
+Row 1 [RS]: Knit
+Row 2: Purl
+
+Directions
+----------
+Back
+----
+Cast on 98 stitches. Repeat 2x2 Rib for 8 in.
+
+Next row [RS]: *k24, M1, k25, M1, repeat from * 2 times. 102 stitches in row.
+Next row: Purl
+Repeat Two-Row Stockinette Stitch 9 additional times.
+If you want the finished length to be longer, work extra rows at this point.
+
+Next row: bind off 7 stitches, k to end. 95 stitches in row.
+Next row: bind off 7 stitches, p to end. 88 stitches in row.
+
+Repeat Decrease Rows 27 additional times.
+34 stitches in row.
+
+Right Shoulder
+--------------
+

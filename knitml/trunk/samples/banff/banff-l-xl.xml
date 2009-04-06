@@ -68,23 +68,26 @@
   </general-information>
   <supplies>
     <yarns>
-      <yarn-type id="wool" brand="Tahki" category="Soho Bulky Tweed">
+      <yarn-type id="yarn-type-1" brand="Tahki" category="Soho Bulky Tweed">
         <ball-length unit="yd">110</ball-length>
         <ball-weight unit="g">100</ball-weight>
       </yarn-type>
-      <yarn id="main-color" typeref="wool">
+      <yarn id="main-color" typeref="yarn-type-1">
         <total-length unit="yd">990</total-length>
         <total-weight unit="g">900</total-weight>
         <color name="discontinued color" number="304" />
       </yarn>
     </yarns>
     <needles>
-      <needle-type id="the-needle-type" type="circular">
+      <needle-type id="needle-type-1" type="circular">
         <size unit="US">10</size>
       </needle-type>
-      <needle id="the-needle" typeref="the-needle-type" />
+      <needle id="the-needle" typeref="needle-type-1" />
     </needles>
-    <accessories />
+    <accessories>
+      <stitch-holder id="st-holder-1" />
+      <stitch-holder id="st-holder-2" />
+    </accessories>
   </supplies>
   <directions>
     <instruction-group id="back" label="Back">
@@ -154,7 +157,7 @@
           <purl loop-to-work="trailing">1</purl>
           <decrease type="k2tog" />
           <knit>7</knit>
-          <bind-off-all />
+          <slip-to-holder ref="st-holder-1">22</slip-to-holder>
         </row>
         <row>
           <purl>1</purl>
@@ -190,24 +193,26 @@
       <section>
         <row assign-row-number="false">
           <decrease type="k2tog">2</decrease>
-        </row>
-        <row assign-row-number="false">
           <bind-off-all />
         </row>
       </section>
       <section>
-        <cast-on>22</cast-on>
+        <information>
+          <message label="Join yarn at right-hand neck." />
+        </information>
       </section>
     </instruction-group>
     <instruction-group id="left-back-shoulder" label="Left Shoulder" reset-row-count="true">
       <section>
         <row side="right">
-          <bind-off>10</bind-off>
-          <knit>1</knit>
-          <decrease type="k2tog" />
-          <repeat until="end">
-            <knit />
-          </repeat>
+          <from-stitch-holder ref="st-holder-1">
+            <bind-off>10</bind-off>
+            <knit>1</knit>
+            <decrease type="k2tog" />
+            <repeat until="end">
+              <knit />
+            </repeat>
+          </from-stitch-holder>
         </row>
         <row>
           <purl>2</purl>
@@ -244,8 +249,6 @@
       <section>
         <row assign-row-number="false">
           <decrease type="k2tog">2</decrease>
-        </row>
-        <row assign-row-number="false">
           <bind-off-all />
         </row>
       </section>
@@ -317,7 +320,8 @@
           <purl loop-to-work="trailing">1</purl>
           <decrease type="k2tog" />
           <knit>14</knit>
-          <bind-off-all />
+          <slip-to-holder ref="st-holder-1">8</slip-to-holder>
+          <slip-to-holder ref="st-holder-2">19</slip-to-holder>
         </row>
         <row number="2">
           <bind-off>2</bind-off>
@@ -327,15 +331,15 @@
         </row>
         <instruction id="lfs-3-8">
           <row number="3 5 7">
-            <knit>1</knit>
+            <knit>2</knit>
+            <purl loop-to-work="trailing">1</purl>
             <decrease type="k2tog" />
             <repeat until="end">
               <knit />
             </repeat>
           </row>
           <row number="4 6 8">
-            <purl>2</purl>
-            <knit loop-to-work="trailing">1</knit>
+            <purl>1</purl>
             <decrease type="p2tog-tbl" />
             <repeat until="end">
               <purl />
@@ -344,14 +348,14 @@
         </instruction>
         <instruction id="lfs-9-10">
           <row number="9">
+            <knit>2</knit>
+            <purl loop-to-work="trailing">1</purl>
+            <decrease type="k2tog" />
             <repeat until="end">
               <knit />
             </repeat>
           </row>
           <row number="10">
-            <purl>2</purl>
-            <knit loop-to-work="trailing">1</knit>
-            <decrease type="p2tog-tbl" />
             <repeat until="end">
               <purl />
             </repeat>
@@ -368,23 +372,25 @@
       </section>
       <section>
         <row assign-row-number="false">
-          <repeat value="2" until="times">
-            <decrease type="k2tog" />
-          </repeat>
-        </row>
-        <row assign-row-number="false">
+          <decrease type="k2tog">2</decrease>
           <bind-off-all />
         </row>
       </section>
     </instruction-group>
     <instruction-group id="right-front-shoulder" label="Right Shoulder">
       <section>
-        <cast-on>19</cast-on>
+        <information>
+          <message label="Keep center 8 sts of Front on holder. Join yarn after the last st on holder with RS facing." />
+        </information>
+      </section>
+      <section>
         <row number="1" side="right">
-          <bind-off>2</bind-off>
-          <repeat until="end">
-            <knit />
-          </repeat>
+          <from-stitch-holder ref="st-holder-2">
+            <bind-off>2</bind-off>
+            <repeat until="end">
+              <knit />
+            </repeat>
+          </from-stitch-holder>
         </row>
         <row number="2">
           <purl>2</purl>
@@ -865,28 +871,80 @@
       </section>
       <section>
         <information>
-          <message label="Starting at seam along the neckline, pick up 72 sts for Collar as follows: pick up 4 sts along Sleeve; 15 sts along side Front neck; 8 sts along center Front neck; 15 sts along side Front neck; 4 sts along Sleeve; 8 sts along side Back neck; 10 sts along center Back neck; and 8 sts along side Back neck." />
+          <message label="You will be picking up for the collar." />
+        </information>
+        <pick-up-stitches>72</pick-up-stitches>
+        <information>
+          <message label="Details: starting at seam along the neckline, pick up 4 sts along Sleeve; 15 sts along side Front neck; 8 sts along center Front neck; 15 sts along side Front neck; 4 sts along Sleeve; 8 sts along side Back neck; 10 sts along center Back neck; and 8 sts along side Back neck." />
         </information>
       </section>
       <section>
-        <information>
-          <message label="Mark beginning of round. Working from RS of garment, [k2, p2] around all 72 sts for 8 rounds. " />
-        </information>
+        <join-in-round />
+        <instruction id="collar-round-1">
+          <row number="1" side="right" type="round">
+            <repeat until="end">
+              <knit>2</knit>
+              <purl>2</purl>
+            </repeat>
+          </row>
+        </instruction>
+        <repeat-instruction ref="collar-round-1">
+          <additional-times>7</additional-times>
+        </repeat-instruction>
       </section>
       <section>
-        <information>
-          <message label="On next round, [k2, p2tog, k2, p2] 9 times. Work 5 more rounds even in this modified ribbing patt." />
-        </information>
+        <row number="1" type="round">
+          <repeat value="9" until="times">
+            <knit>2</knit>
+            <decrease type="p2tog" />
+            <knit>2</knit>
+            <purl>2</purl>
+          </repeat>
+        </row>
+        <instruction id="collar-ribbing-1">
+          <row number="2" type="round">
+            <repeat value="9" until="times">
+              <knit>2</knit>
+              <purl>1</purl>
+              <knit>2</knit>
+              <purl>2</purl>
+            </repeat>
+          </row>
+        </instruction>
+        <repeat-instruction ref="collar-ribbing-1">
+          <additional-times>5</additional-times>
+        </repeat-instruction>
       </section>
       <section>
-        <information>
-          <message label="On next round, [k2, p1, k2, p2tog] 9 times. Work 9 more rounds evenly in this modified ribbing patt." />
-        </information>
+        <row number="1" type="round">
+          <repeat value="9" until="times">
+            <knit>2</knit>
+            <purl>1</purl>
+            <knit>2</knit>
+            <decrease type="p2tog" />
+          </repeat>
+        </row>
+        <instruction id="collar-ribbing-2">
+          <row number="2" type="round">
+            <repeat value="9" until="times">
+              <knit>2</knit>
+              <purl>1</purl>
+              <knit>2</knit>
+              <purl>1</purl>
+            </repeat>
+          </row>
+        </instruction>
+        <repeat-instruction ref="collar-ribbing-2">
+          <additional-times>9</additional-times>
+        </repeat-instruction>
       </section>
       <section>
-        <information>
-          <message label="BO all sts loosely in patt. Weave in any loose ends, then go snuggle." />
-        </information>
+        <row assign-row-number="false" type="round">
+          <bind-off-all />
+          <followup-information>
+            <message label="Perform BO loosely in pattern. Weave in any loose ends, then go snuggle." />
+          </followup-information>
+        </row>
       </section>
     </instruction-group>
   </directions>
