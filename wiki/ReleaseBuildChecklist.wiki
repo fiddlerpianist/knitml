@@ -1,27 +1,32 @@
-#summary Pre and Post Release Build Checklist for KnitML Core Tools
+#summary Pre and Post Release Build Checklist
 
 = Introduction =
 
-This is only intended for release builders of the KnitML Core Tools.
+This is only intended for release builders of the KnitML Core Tools distribution.
 
 = Details =
 
 Pre-release:
+  * create new versions / milestones in Bugzilla and change defaults
   * generate user's guides from Docbook
-  * generate XML Schema documentation documents
+  * generate XML Schema documentation files
   * upload latest schemas to web site
   * upload latest samples to web site
   * upload latest docs to web site
-  * "mvn release prepare"
+  * update CHANGELOG.txt for this release
+  * svn commit all changes
+  * mvn release prepare
   * grab distribution files on local workstation
-  * "mvn release perform"
+  * mvn release perform
   * unzip / rezip distribution
-  * upload executable to sourceforge
+  * upload distribution to SourceForge
 
 Post-release:
+  * Blog post
+  * Ravelry post
   * Create new schemas for next target version
   * Upload new schemas to web site
-  * Change EL project to use next version number
-  * Change Core project to use next version number
+  * Change EL project schema object to use next version number
+  * Change Core project schema object to use next version number
   * Update schema number in Eclipse tools
   * Add entry to knitml.schemas
