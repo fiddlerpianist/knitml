@@ -1,0 +1,312 @@
+Pattern "en" {
+  Directives {
+	InstructionDefinitions {
+       Instruction 'ribbing-2x2' withLabel "2x2 Rib" flat {
+         Row: Repeat to 2 sts before end { k2, p2 }, k2
+         Row: Repeat to 2 sts before end { p2, k2 }, p2
+       }
+       Instruction 'decrease-rows' withLabel "Decrease Rows" flat {
+         Row: k2, p1 tbl, k2tog, k to 3 sts before end, p1 tbl, k2
+         Row: p2, k1 tbl, p2tog tbl, p to 3 sts before end, k1 tbl, p2
+       }
+       Instruction 'stockinette' withLabel "Two-Row Stockinette Stitch" flat {
+         Row 1 rightSide: k to end
+         Row 2: p to end
+       }
+    }
+  }
+  GeneralInformation {
+    Name: "Banff"
+    Description: "This pullover has been my standard, fall-winter-casual-wear sweater for three years. Knit it in a durable, classic yarn, and it will become your default sweater for cold weather, too - casual, cozy, easy to wear, and a cinch to knit up in bulky yarn."
+    Dimensions: "Chest: 57 in, Length 24 in"
+    Gauge 'stockinette' {
+      StitchGauge: 3.5 stitchesPerInch
+      RowGauge: 5.25 rowsPerInch
+    }
+	Author {
+	  FirstName: "Jenna"
+	  LastName:  "Wilson"
+	}
+  }
+  
+  Supplies {
+    Yarns {
+	  YarnType 'yarn-type-1' [brand:"Tahki",category:"Soho Bulky Tweed"] {
+		BallLength: 110 yd
+		BallWeight: 100 g
+	  }
+	  Yarn 'main-color' [typeref:'yarn-type-1'] {
+	    TotalLength: 990 yd
+	    TotalWeight: 900 g
+	    Color "discontinued color" [number:304]
+	  }
+	}
+    Needles {
+      NeedleType 'needle-type-1' circular { size: 10 US }
+      Needle 'the-needle' [typeref:'needle-type-1']
+    }
+    Accessories {
+      StitchHolder 'st-holder-1' withLabel "holder 1"
+      StitchHolder 'st-holder-2' withLabel "holder 2"
+    }
+  }
+  Directions {
+    InstructionGroup 'back' withLabel "Back" {
+       Section { CastOn 98 sts, Repeat 'ribbing-2x2' until measures 8 in }
+       Section {
+         NextRow rightSide: Repeat 2 times { k24, m1, k25, m1 }, state 102 sts
+         NextRow: p to end
+         Repeat 'stockinette' 9 additionalTimes
+         InformationalMessage withLabel "If you want the finished length to be longer, work extra rows at this point."
+       }
+       Section {
+         NextRow: BindOff 7 sts, k to end, state sts
+         NextRow: BindOff 7 sts, p to end, state sts
+       }
+       Section {
+         Repeat 'decrease-rows' 27 additionalTimes
+         State 34 sts
+       }
+    }
+    InstructionGroup 'right-back-shoulder' withLabel "Right Shoulder" resetRowCount {
+       Section {
+         Row rightSide: k2, p1 tbl, k2tog, k7, sl 22 sts to holder 'st-holder-1'
+         Row: p1, p2tog tbl, p to end
+         Instruction 'rbs-rows3-4' {
+           Row: k2, p1 tbl, k2tog, k to end
+           Row: p1, p2tog tbl, p to end 
+         }
+         Repeat 'rbs-rows3-4' 2 additionalTimes
+         State 4 sts remain
+       }
+       Section {
+         NextRow: k2tog twice
+         NextRow wrongSide: sl2, bindOff all sts
+       }
+    }
+    InstructionGroup 'left-back-shoulder' withLabel "Left Shoulder" resetRowCount {
+       Section {
+       	 InformationalMessage withLabel "Join yarn at right-hand neck. In next row, work stitches directly from holder."
+       }
+       Section {
+         Row rightSide: fromHolder 'st-holder-1' { bindOff 10 sts, k1, k2tog, k to end }
+		 Row: P2, k1 tbl, p2tog tbl, p to end
+         Instruction 'lbs-rows3-4' {
+		   Row: K1, k2tog, k to end
+		   Row: P2, k1 tbl, p2tog tbl, p to end
+		 }
+         Repeat 'lbs-rows3-4' 2 additionalTimes
+         State 4 sts remain
+       }
+       Section {
+         NextRow: k2tog twice
+         NextRow wrongSide: sl2, bindOff all sts
+       }
+    }
+    InstructionGroup 'front' withLabel "Front" resetRowCount {
+       Section { CastOn 98 sts, Repeat 'ribbing-2x2' until measures 8 in }
+       Section {
+         NextRow rightSide: Repeat 2 times { k24, m1, k25, m1 }, state 102 sts
+         NextRow: p to end
+         Repeat 'stockinette' 9 additionalTimes
+         InformationalMessage withLabel "If you want the finished length to be longer, work extra rows at this point."
+       }
+       Section {
+         NextRow: BindOff 7 sts, k to end, state sts
+         NextRow: BindOff 7 sts, p to end, state sts
+       }
+       Section {
+         Repeat 'decrease-rows' 21 additionalTimes
+         State 46 sts
+       }
+    }
+    InstructionGroup 'left-front-shoulder' withLabel "Left Shoulder" resetRowCount {
+       Section {
+         Row 1 rightSide: k2, p1 tbl, k2tog, k14, sl 8 sts to holder 'st-holder-1', sl 19 sts to holder 'st-holder-2'
+		 Row 2: BO 2 sts, p to end 
+         Instruction 'lfs-3-8' {
+		   Row [3,5,7]: K2, p1 tbl, k2tog, k to end
+		   Row [4,6,8]: P1, p2tog tbl, p to end
+		 }
+		 Instruction 'lfs-9-10' {
+		   Row 9: k2, p1 tbl, k2tog, k to end
+		   Row 10: p to end
+		 }
+	   }
+	   Section {
+         Repeat 'lfs-9-10' 5 additionalTimes
+         State 4 sts remain
+       }
+       Section {
+         NextRow: k2tog twice
+         NextRow wrongSide: sl2, bindOff all sts
+       }
+    }
+    InstructionGroup 'right-front-shoulder' withLabel "Right Shoulder" {
+       Section {
+         InformationalMessage withLabel "Join yarn after the last st on holder 1 with RS facing."
+       }
+       Section {
+         Row 1 rightSide: fromHolder 'st-holder-2' { BO 2 sts, k to end } 
+         Row 2: p2, k1 tbl, p2tog tbl, p to end 
+         Instruction 'rfs-3-8' {
+           Row [3,5,7]: K1, k2tog, k to end
+           Row [4,6,8]: P2, k1 tbl, p2tog tbl, p to end
+         }
+         Instruction 'rfs-9-10' {
+           Row 9: k to end
+           Row 10: p2, k1 tbl, p2tog tbl, p to end
+         }
+       }
+	   Section {
+         Repeat 'rfs-9-10' 5 additionalTimes
+         State 4 sts inRow
+       }
+       Section {
+         NextRow: repeat 2 times { k2tog }
+         NextRow: bindOff all sts
+       }
+    }
+    InstructionGroup 'sleeves' withLabel "Sleeves [make 2]" {
+       Section { CastOn 66 sts, Repeat 'ribbing-2x2' 8 additionalTimes }
+       Section {
+         Row 1 rightSide {
+           k2, repeat 3 times { p2tog, k2, p2, k2 }, k to 26 sts before end,
+           repeat 3 times { k2, p2, k2, p2tog tbl }, k2,
+           state 60 sts
+         }
+       }
+       Section {
+         InformationalMessage withLabel "Work 7 more rows evenly in this modified ribbing patt across these sts, as follows:"
+         Row 2 {
+           p2, repeat 3 times { k1, p2, k2, p2 }, p to 23 sts before end,
+           repeat 3 times { p2, k2, p2, k1 }, p2 
+         }
+         Instruction 'sleeve-first-repeat' {
+           Row 3 {
+             k2, repeat 3 times { p1, k2, p2, k2 }, k to 23 sts before end,
+             repeat 3 times { k2, p2, k2, p1 }, k2 
+           }
+           Row 4 {
+             p2, repeat 3 times { k1, p2, k2, p2 }, p to 23 sts before end,
+             repeat 3 times { p2, k2, p2, k1 }, p2 
+           }
+         }
+         Repeat 'sleeve-first-repeat' 2 additionalTimes
+       }
+       Section {
+         Row rightSide {
+           k2, repeat 3 times { p1, k2, p2tog, k2 }, k to 23 sts before end,
+           repeat 3 times { k2, p2tog tbl, k2, p1 }, k2
+           state 54 sts 
+         }
+       }
+       Section {
+         InformationalMessage withLabel "Work 7 more rows evenly in this modified ribbing patt across these sts, as follows:"
+         Row {
+           p2, repeat 6 times { k1, p2 }, p to 20 sts before end,
+           repeat 6 times { p2, k1 }, p2
+         }
+         Instruction 'sleeve-second-repeat' {
+           Row {
+             k2, repeat 6 times { p1, k2 }, k to 20 sts before end,
+             repeat 6 times { k2, p1 }, k2
+           }
+           Row {
+             p2, repeat 6 times { k1, p2 }, p to 20 sts before end,
+             repeat 6 times { p2, k1 }, p2
+           }
+         }
+         Repeat 'sleeve-second-repeat' 2 additionalTimes
+       }
+       Section {
+         Row rightSide {
+           k2, repeat 3 times { p1, k2, m1p, p1, k2 }, k to 20 sts before end, 
+           repeat 3 times { k2, p1, m1p, k2, p1 }, k2
+           state 60 sts
+         }
+       }
+       Section {
+         InformationalMessage withLabel "Work 7 more rows evenly in this modified ribbing patt across these sts, as follows:"
+         Row {
+           p2, repeat 3 times { k1, p2, k2, p2 }, p to 23 sts before end,
+           repeat 3 times { p2, k2, p2, k1 }, p2 
+         }
+         Instruction 'sleeve-third-repeat' {
+           Row {
+             k2, repeat 3 times { p1, k2, p2, k2 }, k to 23 sts before end,
+             repeat 3 times { k2, p2, k2, p1 }, k2 
+           }
+           Row {
+             p2, repeat 3 times { k1, p2, k2, p2 }, p to 23 sts before end,
+             repeat 3 times { p2, k2, p2, k1 }, p2 
+           }
+         }
+         Repeat 'sleeve-third-repeat' 2 additionalTimes
+       }
+       Section {
+         Row rightSide {
+           k2, repeat 3 times { m1p, p1, k2, p2, k2 }, k to 23 sts before end, 
+           repeat 3 times { k2, p2, k2, p1, m1p }, k2, state 66 sts
+         }
+         Row {
+           p2, repeat 6 times { k2, p2 }, k to 26 sts before end, 
+           repeat 6 times { p2, k2 }, p2, state 66 sts
+         }
+       }
+       Section {
+         NextRow: Repeat 2 times {k8, m1, k8, m1, k8, m1, k9, m1 }, state 74 sts
+         NextRow: p to end 
+ } 
+ Section { Instruction 'sleeve-10-row-repeat' { 
+ Row [1,3,5,7,9]: k to end 
+ Row [2,4,6,8]: p to end 
+ Row 10: m1, p to end, m1 
+ } 
+ Repeat 'sleeve-10-row-repeat' 3 additionalTimes 
+ Repeat 'stockinette' 1 additionalTimes 
+
+       }
+       Section {
+         NextRow: BO 7, k to end
+         NextRow: BO 7, p to end, state 68 sts
+       }
+       Section { Repeat 'decrease-rows' 30 additionalTimes, state 8 sts }
+       Section { NextRow rightSide: k2, p1 tbl, k2tog, p1 tbl, k2 }
+       Section { NextRow wrongSide: p2, k1 tbl, k2tog tbl, p2 }
+       Section { NextRow: BO all sts }
+    }
+    InstructionGroup 'finishing' withLabel "Finishing" resetRowCount {
+       Section { InformationalMessage withLabel "Block pieces. Sew raglan edges of Sleeves to armhole edges of Front and Back. Sew underarm, sleeve, and side seams." }
+       Section { 
+         InformationalMessage withLabel "You will be picking up for the collar."
+         pickUp 72 sts 
+         InformationalMessage withLabel "Details: starting at seam along the neckline, pick up 4 sts along Sleeve; 15 sts along side Front neck; 8 sts along center Front neck; 15 sts along side Front neck; 4 sts along Sleeve; 8 sts along side Back neck; 10 sts along center Back neck; and 8 sts along side Back neck."
+       }
+       Section {
+         joinInRound
+         Instruction 'collar-round-1' {
+         	Round 1 rightSide: repeat to end { k2, p2 }
+         }
+         Repeat 'collar-round-1' 7 additionalTimes
+       }
+       Section {
+         Round 1: Repeat 9 times { k2, p2tog, k2, p2 }
+         Instruction 'collar-ribbing-1' {
+           Round 2: Repeat 9 times { k2, p1, k2, p2 }
+         }
+         Repeat 'collar-ribbing-1' 5 additionalTimes
+       }
+       Section {
+         Round 1: Repeat 9 times { k2, p1, k2, p2tog }
+         Instruction 'collar-ribbing-2' {
+           Round 2: Repeat 9 times { k2, p1, k2, p1 }
+         }
+         Repeat 'collar-ribbing-2' 9 additionalTimes
+       }
+       Section {
+         NextRound: BO all sts, informationalMessage withLabel "Perform BO loosely in pattern. Weave in any loose ends, then go snuggle."
+       }
+    }
+  }
+}

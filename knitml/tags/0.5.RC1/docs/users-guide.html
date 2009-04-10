@@ -1,0 +1,1266 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>The KnitML User's Guide</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.73.2"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e2"></a>The KnitML User's Guide</h1></div><div><div class="author"><h3 class="author">Jonathan Whitall</h3><code class="email">&lt;<a class="email" href="mailto:fiddlerpianist@gmail.com">fiddlerpianist@gmail.com</a>&gt;</code></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="part"><a href="#d0e11">I. Getting Started</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e14">1. Introduction</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e56">2. Installing and Running KnitML</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></dd></dl></dd><dt><span class="part"><a href="#d0e243">II. Writing KnitML Patterns</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e246">3. The Knitting Expression Language</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e249">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e430">Writing a Simple Pattern</a></span></dt><dt><span class="sect1"><a href="#d0e556">Improving the Pattern</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e611">4. The XML Pattern</a></span></dt><dt><span class="chapter"><a href="#internationalization">5. Internationalization</a></span></dt></dl></dd><dt><span class="part"><a href="#d0e621">III. Customizing and Extending KnitML</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e624">6. Customizing the Pattern Renderer</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e627">Overview</a></span></dt><dt><span class="sect1"><a href="#personalizing-patterns">Personalizing Patterns</a></span></dt><dt><span class="sect1"><a href="#adding-support-for-a-new-language">Adding Support for a New Language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#d0e755">Configuring your Environment</a></span></dt><dt><span class="sect2"><a href="#d0e789">Handling Plurals</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d0e874">7. Integrating with APIs</a></span></dt></dl></dd><dt><span class="appendix"><a href="#d0e879">A. The Specification</a></span></dt><dt><span class="appendix"><a href="#d0e887">B. Knitting Expression Language Reference</a></span></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>B.1. <a href="#el-function-table">Defined Expression Language Functions</a></dt><dt>B.2. <a href="#custom-function-example-table">Custom Function Examples</a></dt><dt>B.3. <a href="#d0e2902">Expression Language Data Types</a></dt></dl></div><div class="part" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e11"></a>Part&nbsp;I.&nbsp;Getting Started</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#d0e14">1. Introduction</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e56">2. Installing and Running KnitML</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></dd></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e14"></a>Chapter&nbsp;1.&nbsp;Introduction</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e17"></a>Overview</h2></div></div></div><p>The KnitML project's goal is to define and promote the adoption of a standard content
+          model for knitting patterns. By developing a community-supported specification and
+          providing basic rendering and transformation tools, the project aims to make KnitML easy
+          to use and valuable to the knitter.</p><p>Knitting patterns are algorithms as much as they are documents. Consequently, it is
+          important that a computer to be able to understand the algorithm so that it can make
+          decisions. At the same time, a pattern must be able to be rendered into a published
+          pattern in human-readable form. A KnitML pattern, therefore, is a formalization of the
+          algorithm required to produce a knitted object, composed in a way that can still be
+          rendered as a comprehensible published pattern.</p><p>The tools provided by the KnitML Project are meant to show the value of KnitML to the
+          knitting community by demonstrating the advantages to standardizing on a content model.
+          They are by no means exhaustive. Independent efforts to write software which understands
+          KnitML patterns (such as the Knitter project) are already underway. </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e26"></a>Pattern Formats</h2></div></div></div><p>KnitML patterns are expressed primarily using a technology called XML (Extensible
+          Markup Language). XML is an international standard for expressing custom document markup.
+          KnitML provides validation rules to an XML parser (in the form of a schema) which ensures
+          that the knitting pattern follows the expected syntax. If you use an XML authoring tool to
+          develop KnitML patterns, the software's suggestions and completion tools will help you
+          more quickly gain an understanding of the XML syntax.</p><p>XML is well suited to serve as an interchange format for
+          software, though it is not without its disadvantages. For one, it's not a particularly
+          compact syntax, nor does it flow, read, or even resemble a traditional knitting pattern.
+          While XML is a language that is human readable, it is not intended to be directly edited
+          by humans. Ideally, a KnitML authoring tool would do this and make pattern designers'
+          lives easier.</p><p>The Knitting Expression Language, or KnittingEL, attempts
+          to provide a far easier way to express a KnitML pattern. A KnittingEL pattern uses
+          familiar knitting pattern language constructs and is more free form in nature. As a
+          result, it looks more like a published knitting pattern than its XML counterpart.
+          KnittingEL is not intended to be a software interchange format; it is a pattern authoring
+          tool only. Patterns written in KnittingEL are converted to XML before passed to supporting
+          software (such as the validator and the pattern renderer).</p><p>While we encourage all patterns to be developed in KnittingEL, tooling support is
+          limited to basic text editing. Because of this, it's pretty easy to create KEL files that
+          will produce invalid XML files. XML tooling is far more extensive and will better be able
+          to guide the pattern designer to create a valid pattern.</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e37"></a>Known Limitations</h2></div></div></div><div class="itemizedlist"><ul type="disc"><li><p>You cannot currently express seaming knitted edges together</p></li><li><p>Provisional cast ons are not yet supported</p></li><li><p>Support for picking up stitches is somewhat limited (because edges cannot be
+              expressed)</p></li><li><p>n-sized decreases are not yet supported (where n is more than a double
+            decrease)</p></li><li><p>repeats are completely literal (there is no way to express a soft repeat)</p></li></ul></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e56"></a>Chapter&nbsp;2.&nbsp;Installing and Running KnitML</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e59"></a>Installation</h2></div></div></div><p>KnitML requires Java 1.5 (or higher) to run. If you do not have Java 1.5 installed,
+          please visit the Sun website to download it (http://java.sun.com).</p><p>To set up your machine to run the <code class="code">knitml</code> executable, you must:</p><div class="orderedlist"><ol type="1"><li><p>Set the <code class="code">JAVA_HOME</code> environment variable to the root directory of your
+              Java installation (for example <code class="code">C:\Program Files\Java\jre1.5.0_11</code>)</p></li><li><p>Set the <code class="code">KNITML_HOME</code> environment variable to the root directory of
+              where you unzipped the KnitML distribution (for example C:\Program
+            Files\knitml-0.4).</p></li><li><p>For Windows, set the <code class="code">KNITML_HOME/bin</code> directory in your PATH
+              environment variable so that the <code class="code">knitml</code> command can be run from any
+              directory. (The actual value will be <code class="code">%KNITML_HOME%/bin</code> appended to the
+              end of the PATH variable.)</p></li></ol></div><p>For Windows XP, you can set environment variables from the Start menu. Select
+          Settings, then Control Panel, then System. Select the Advanced tab, then press the
+          Environment Variables button, highlight the System Variable (or User Variable) with the
+          name you want, click Edit, add or append the desired value, then click OK twice.
+        (Whew!)</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e99"></a>Project Layout</h2></div></div></div><p>The <code class="code">samples</code> directory contains several different patterns to showcase the
+          both XML and KnittingEL patterns: </p><div class="itemizedlist"><ul type="disc"><li><p>A simple square (for use with the tutorial in this document)</p></li><li><p>A sampler swatch (includes color work and cables)</p></li><li><p>A basic sock</p></li><li><p>A sock based from the Nutkin pattern (called Nutkin2)</p></li></ul></div><p>The <code class="code">conf</code> directory contains files which configure the way KnitML runs. It
+          includes logging configuration as well as several files which configure the validator and
+          pattern renderer. The conf directory is added to the classpath when a <code class="code">knitml</code>
+          command is executed.</p><p>The pattern renderer uses a set of property files (called a resource bundle) built
+          into the module that allow rendering in different languages. Currently, KnitML provides
+          support for both English and Spanish rendering. This will expand as people contribute more
+          languages. If you would like to add support for a new language, see <a class="xref" href="#adding-support-for-a-new-language" title="Adding Support for a New Language">the section called &#8220;Adding Support for a New Language&#8221;</a>.</p><p>You can use your own property file to further customize how a pattern will look when
+          it is rendered. See <a class="xref" href="#personalizing-patterns" title="Personalizing Patterns">the section called &#8220;Personalizing Patterns&#8221;</a> for guidance.</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e136"></a>Processing XML files</h2></div></div></div><p>To process a KnitML file in XML format, first change to the directory where your XML
+          file is located, then run one of the following commands:</p><div class="itemizedlist"><ul type="disc"><li><pre class="programlisting">knitml validate &lt;xml-filename&gt;
+                [-output &lt;validated-filename&gt;]
+                [-checksyntax]</pre><p>Creates a validated XML file from an unvalidated XML file</p></li><li><pre class="programlisting">knitml render &lt;xml-filename&gt;
+              [-output &lt;pattern-filename&gt;]
+              [-checksyntax]</pre><p>Renders a pattern from a validated XML file</p></li><li><pre class="programlisting">knitml validateAndRender &lt;xml-filename&gt;
+                         [-output &lt;pattern-filename&gt;]
+                         [-checksyntax]</pre><p>Renders a pattern from an unvalidated XML file</p></li></ul></div><p>If the <code class="code">-output</code> option is not specified, the result will be sent to the
+          screen (i.e. "standard out"). The <code class="code">-checksyntax</code> option performs XML schema
+          validation against the provided file. You do not need to be connected to the Internet to
+          check the syntax, as the software is configured to resolve the XML schemas provided with
+          the KnitML core JAR file.</p><p>You can also use the following shortcuts: <code class="code">r</code> for <code class="code">render</code>,
+            <code class="code">v</code> for <code class="code">validate</code>, <code class="code">vr</code> for
+          <code class="code">validateAndRender</code>.</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e185"></a>Processing KEL files</h2></div></div></div><p>To process a KnitML file in KEL format, first change to the directory where the KEL
+          file is located, then run the appropriate KnitML command:</p><div class="itemizedlist"><ul type="disc"><li><p>
+              <code class="code">knitml convert &lt;knittingEL-filename&gt; [-output &lt;knitml-filename&gt;]
+                [-checksyntax]</code>
+            </p><p>Converts a KEL file to an unvalidated XML file</p></li><li><p>
+              <code class="code">knitml convertAndValidate &lt;knittingEL-filename&gt; [-output
+                &lt;validated-knitml-filename&gt;] [-checksyntax]</code>
+            </p><p>Converts a KEL file to a validated XML file</p></li><li><p>
+              <code class="code">knitml convertValidateAndRender &lt;knittingEL-filename&gt; [-output
+                &lt;pattern-filename&gt;] [-checksyntax]</code>
+            </p><p>Converts a KEL file directly to a rendered pattern</p></li></ul></div><p>
+          <code class="code">-output</code> and <code class="code">-checksyntax</code> behave as described in the previous
+          section.</p><p>You can also use the following shortcuts: <code class="code">c</code> for <code class="code">convert</code>,
+            <code class="code">cv</code> for <code class="code">convertAndValidate</code>, <code class="code">cvr</code> for
+            <code class="code">convertValidateAndRender</code>.</p></div></div></div><div class="part" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e243"></a>Part&nbsp;II.&nbsp;Writing KnitML Patterns</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#d0e246">3. The Knitting Expression Language</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e249">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e430">Writing a Simple Pattern</a></span></dt><dt><span class="sect1"><a href="#d0e556">Improving the Pattern</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e611">4. The XML Pattern</a></span></dt><dt><span class="chapter"><a href="#internationalization">5. Internationalization</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e246"></a>Chapter&nbsp;3.&nbsp;The Knitting Expression Language</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e249">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e430">Writing a Simple Pattern</a></span></dt><dt><span class="sect1"><a href="#d0e556">Improving the Pattern</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e249"></a>Overview</h2></div></div></div><p>The Knitting Expression Language (formerly known as GroovyKnit) is based on the Groovy
+          programming language and GroovyMarkup architecture
+            (<code class="uri">http://groovy.codehaus.org/GroovyMarkup</code>). Elements are specified by name,
+          and sub-elements go between curly braces following the name. So this in KnittingEL:</p><pre class="programlisting">pattern {
+  generalInformation
+}</pre><p>looks like this in XML:</p><pre class="programlisting">&lt;pattern&gt;
+  &lt;general-information/&gt;
+&lt;/pattern&gt;</pre><p>
+          <code class="code">generalInformation</code> in KnittingEL became <code class="code">general-information</code> in
+          XML because <code class="code">generalInformation</code> is a defined KnittingEL function that acts as
+          an intermediary to the XML format to increase readability. In this case, it simply
+          transforms its name to <code class="code">general-information</code>, as you cannot use dashed names in
+          KnittingEL without quoting them. So while you could also do the following to achieve the
+          same result, it's not quite as readable.</p><p>
+          </p><pre class="programlisting">pattern {
+  'general-information'
+}</pre><p>
+        </p><p>See <a class="xref" href="#el-function-table" title="Table&nbsp;B.1.&nbsp;Defined Expression Language Functions">Table&nbsp;B.1, &#8220;Defined Expression Language Functions&#8221;</a> for a complete list of KnittingEL
+          functions.</p><p>You have the option to capitalize the first letter of any and all KnittingEL
+          functions. So the following would produce the same XML:</p><p>
+          </p><pre class="programlisting">Pattern {
+  GeneralInformation
+}</pre><p>
+        </p><p>In many cases, this is more readable.</p><p>To specify an XML element's value as text, simply include it as a parameter. This:</p><pre class="programlisting">row {
+  knit (3)
+}</pre><p>Becomes:</p><p>
+          </p><pre class="programlisting">&lt;row&gt;
+  &lt;knit&gt;3&lt;/knit&gt;
+&lt;/row&gt;</pre><p>
+        </p><p>Note that any of the samples below will produce the same XML as above (this is not an
+          exhaustive list of possibilities):</p><p>
+          </p><pre class="programlisting">row {
+  knit 3
+}
+
+Row {
+  Knit 3
+}
+
+row { knit 3 }
+
+row { k 3 }
+
+row { k3 }
+
+Row: k3</pre><p>
+        </p><p>The first three examples show that line placement inside of curly braces isn't
+          crucial, as long as the method name and its arguments (which occur before the curly
+          braces) are on the same line<sup>[<a name="d0e315" href="#ftn.d0e315" class="footnote">1</a>]</sup>. The last three examples use k as a shorthand for knit. <code class="code">k</code> is a
+          defined KnittingEL function which expands to the <code class="code">knit</code> element. The KnittingEL
+          parser is smart enough to recognize that, since <code class="code">k3</code> ends with a number, the
+          number belongs as an argument to the <code class="code">k</code> method rather than part of the method
+          name.</p><p>To express several knitting operations in a row, you can write them in any of the
+          following ways:</p><pre class="programlisting">row {
+  knit 3
+  purl 3
+}
+
+row { knit 3, purl 3 }
+
+row ( k3, p3 }
+
+row: k3, p3
+
+Row: k3, p3</pre><p>And
+          you'll get this:</p><p>
+          </p><pre class="programlisting">&lt;row&gt;
+  &lt;knit&gt;3&lt;/knit&gt;
+  &lt;purl&gt;3&lt;/purl&gt;
+&lt;/row&gt;</pre><p>
+        </p><p>Note that you can use the <code class="code">:</code> syntax to define a row instead of the brace
+          notation, in which case the entire row must be defined on the same line. If you have a
+          more complex row to define that needs to be split into multiple lines, use the
+          <code class="code">{}</code>s  instead.</p><p>You can use the : syntax for any of the following functions: <code class="code">row</code>,
+            <code class="code">round</code>, <code class="code">nextRow</code>, <code class="code">nextRound</code>, <code class="code">shortRow</code>.
+          The <code class="code">:</code> syntax used with other functions exists for language purposes only and
+          is simply ignored (producing the same effect as if it were omitted).</p><p>KnittingEL also defines shorthands for common operations. Here are a few:</p><div class="informaltable"><table border="0"><colgroup><col><col></colgroup><thead><tr><th>KnittingEL</th><th>XML</th></tr></thead><tbody><tr><td>
+                  <pre class="programlisting">row { k to end }</pre>
+                </td><td>
+                  <pre class="programlisting">&lt;row&gt;
+  &lt;repeat until="end"&gt;
+    &lt;knit/&gt;
+  &lt;/repeat&gt;
+&lt;/row&gt;                </pre>
+                </td></tr><tr><td>
+                  <pre class="programlisting">round { k5 }</pre>
+                </td><td>
+                  <pre class="programlisting">&lt;row type="round"&gt;
+  &lt;knit&gt;5&lt;/knit&gt;</pre>
+                </td></tr><tr><td>
+                  <pre class="programlisting">shortRow { k5, turn }</pre>
+                </td><td>
+                  <pre class="programlisting">&lt;row short="true"&gt;
+  &lt;knit&gt;5&lt;/knit&gt;
+  &lt;turn/&gt;
+&lt;/row&gt;</pre>
+                </td></tr></tbody></table></div><p>An element's attributes appear before the curly braces in a series of name/value pairs
+          in a bracket (called a Map):</p><p>
+          </p><pre class="programlisting">yarnType [brand:'Cotton Classic', weight:'worsted'] { ... }</pre><p>
+        </p><p>It's very common for an element to have an ID attribute, so there is often a function
+          shorthand. For example, the following three lines are equivalent:</p><p>
+          </p><pre class="programlisting">yarnType 'my-yarn' [brand:'Cotton Classic', weight:'worsted']
+yarnType [id:'my-yarn', brand:'Cotton Classic', weight:'worsted']
+&lt;yarn-type id="my-yarn" brand="Cotton Classic" weight="worsted"/&gt;</pre><p>
+        </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e430"></a>Writing a Simple Pattern</h2></div></div></div><p>For this example, we will compose the KnitML pattern using the KnittingEL syntax. The
+          pattern is for a simple 4x4 in square knitted in stockinette stitch.</p><p>Create a file name <code class="code">simple-square.kel</code>. We will start by defining the
+            <code class="code">pattern</code> element, the root element for all KnitML patterns. Since we're not
+          internationalizing this pattern, we'll specify that it was written in <code class="code">'en'</code>
+          (the ISO-639 Language Code for English).</p><pre class="programlisting">Pattern 'en' {}</pre><p>Next, we'll add some header information about the pattern to a
+            <code class="code">generalInformation</code> element within the <code class="code">pattern</code>
+          element.</p><pre class="programlisting">Pattern 'en' {
+  GeneralInformation {}
+}</pre><p>Let's give the pattern a name. Name, description, author, etc. go under
+            <code class="code">generalInformation</code>. Anything that should be interpreted as a literal value
+          (for instance, a string of text) should be in single quotes.</p><p>
+          </p><pre class="programlisting">Pattern 'en' {
+  GeneralInformation {
+    Name: 'Simple Square'
+    Description: 'A simple square'
+    Dimensions: '4 in by 4 in'
+  }
+}</pre><p>
+        </p><p>Gauge also goes here. We'll indicate that the gauge swatch should be knit in
+          stockinette at 6 stitches to the inch and 6 rows to the inch.</p><pre class="programlisting">Pattern 'en' {
+  GeneralInformation {
+    Name: 'Simple Square'
+    Description: 'A simple square'
+    Dimensions: '4 in by 4 in'
+    Gauge 'stockinette' {
+      StitchGauge: 6 stitchesPerInch
+      RowGauge: 6 rowsPerInch
+    }
+  }
+}</pre><p>The
+          colon after the function name is optional. It increases readability in this case<sup>[<a name="d0e474" href="#ftn.d0e474" class="footnote">2</a>]</sup>.</p><p>Let's move on to the next section. We also need some supplies to knit this pattern.
+          Generally a knitter needs needles and yarn, and needs to know what type of each the
+          pattern calls for. In this case, we're not particularly picky about the yarn (as long as
+          it is plausible for obtaining gauge). The only thing we are going to specify is that the
+          weight should be worsted. Likewise, we are going to specify using a size US 4 circular
+          needle of any length.</p><pre class="programlisting">Pattern 'en' {
+  GeneralInformation { ... }
+  Supplies {
+    Yarns {
+      YarnType 'the-yarn' [weight:'worsted']
+    }
+    Needles {
+      needleType 'size-4' circular { size: 4 US }
+      needle 'the-needle' [typeref:'size-4']
+    }
+  }
+}</pre><p>First
+          we added a <code class="code">yarns</code> sub-element to the supplies element. This is where the yarns
+          that will be used in the pattern are defined. Both yarn types (e.g. brand, weight, etc.)
+          and yarn colors of a specific type may appear. In this case, we are only using one type of
+          yarn (with an identifier of 'worsted-weight-yarn' so that we can refer to it later in the
+          pattern if need be). As we don't care about color, there are no <code class="code">yarn</code> elements
+          to define.</p><p>Similarly, we have a needles element where all of the needles that will be used in the
+          pattern are defined. Both needle types (e.g. DPN, circular, and other attributes) and
+          number of needles of a particular needle type must be defined. Here we define one needle
+          type we're identifying as 'size-4'. It's a circular needle ('circular') and its size is US
+          4. We also define that we need one needle of type 'size-4' and we're going to call that
+          needle 'the-needle' (since this project only uses one needle).</p><p>Now we will add directions.</p><pre class="programlisting">Pattern 'en' {
+  ...
+  Directions {}
+}</pre><p>Since our gauge
+          is 6 stitches to the inch and we want to knit a 4-inch square, the first thing to do is to
+          cast on 24 stitches (6 times 4). You can specify a cast-on method if desired. In this
+          case, we'll specify that the knitter should use the long-tail cast on.</p><p>
+          </p><pre class="programlisting">Pattern 'en' {
+  ...
+  Directions {
+    CastOn 24 'long-tail'
+  }
+}</pre><p>
+        </p><p>Stockinette stitch is a two-row repeat when knitting flat. The first row is all knit,
+          and the second is all purled.</p><pre class="programlisting">Pattern 'en' {
+  ...
+  Directions {
+    CastOn 24 'long-tail'
+    Row 1: k to end
+    Row 2: p to end
+  }
+}</pre><p>Since
+          the project's dimensions should be 4 inches tall as well as wide, we don't want to have to
+          write out 22 more rows of the same two rows. So we will declare rows 1 and 2 to be an
+          instruction, give that instruction an identifier ('stockinette-st'), and then repeat it a
+          certain number of times. In this case, we will repeat the two stockinette rows until the
+          project measures 4 inches. KnitML also calculates row numbers for you if not provided, so
+          we will remove them.</p><pre class="programlisting">Pattern 'en' {
+  ...
+  Directions {
+    CastOn 24 'long-tail'
+    Instruction 'stockinette-st' {
+      Row: k to end
+      Row: p to end
+    }
+    Repeat 'stockinette-st' until measures 4 in
+  }
+}</pre><p>
+          <code class="code">until measures</code> are keywords which inform the KnittingEL processor to
+          construct the particular XML form when an instruction is repeated to a measurement. There
+          are various other keywords in the KnittingEL. See the appendix for a list of them.</p><p>Now that we've reached 4 inches, we will finish the project by binding off all
+          stitches.</p><pre class="programlisting">Pattern 'en' {
+  ...
+  Directions {
+    CastOn 24 'long-tail'
+    Instruction 'stockinette-repeat' {
+      Row: k to end
+      Row: p to end
+    }
+    Repeat 'stockinette-st' until measures 4 in
+    Row: BindOff all sts
+  }
+}
+</pre><p>That's
+          all there is to it! The complete pattern looks like this:</p><pre class="programlisting">Pattern 'en' {
+  GeneralInformation {
+    Name: 'Simple Square'
+    Description: 'A simple square'
+    Dimensions: '4 in by 4 in'
+    Gauge 'stockinette' {
+      StitchGauge: 6 stitchesPerInch
+      RowGauge: 6 rowsPerInch
+    }
+  }
+  Supplies {
+    Yarns {
+      YarnType 'the-yarn' [weight:'worsted']
+    }
+    Needles {
+      NeedleType 'size-4' circular { size: 4 US }
+      Needle 'the-needle' [typeref:'size-4']
+    }
+  }
+  Directions {
+    CastOn 24 'long-tail'
+    Instruction 'stockinette-st' {
+      Row: k to end
+      Row: p to end
+    }
+    Repeat 'stockinette-st' until measures 4 in
+    Row: BindOff all sts
+  }
+}
+</pre><p>If
+          you run this through the basic text rendering program, you'll get this:</p><p>
+          </p><pre class="programlisting">Simple Square
+A simple square
+
+Stitch Gauge: 6 st/in
+Row Gauge: 6 row/in
+
+Yarn:
+    worsted weight
+
+Needles:
+    1 circular needle size 4 US (3.5 mm)
+
+Directions
+----------
+Using the long-tail method, cast on 24 stitches.
+Row 1: Knit
+Row 2: Purl
+Repeat rows 1-2 for 4 in.
+Row 25: Bind off all stitches</pre><p>
+        </p><p>This may not appear to be worth all of the trouble, but keep a few things in mind.
+          First of all, the pattern has been "test knit." This means If there were too many or two
+          few stitches for any given row, the validator would raise an error. This can be very
+          helpful because it can catch certain kinds of errata immediately. The validator also fills
+          in missing information as it's being knit. Notice that all of the rows have been assigned numbers.<sup>[<a name="d0e536" href="#ftn.d0e536" class="footnote">3</a>]</sup></p><p>Second, note that our needle size was automatically converted to metric. There are
+          various options on the pattern renderer that will allow you to use the system of units
+          most familiar to you, regardless of what the original pattern was written in. (Note that
+          the pattern renderer does not currently support these options, but it will in a future
+          release.)</p><p>Here is the gauge specification in metric:</p><pre class="programlisting">Simple Square
+A simple square
+
+Stitch Gauge: 2.4 st/cm
+Row Gauge: 2.4 row/cm
+...</pre><p>Also
+          note that, even though we specified that the pattern is written in English, this pattern
+          can (for the most part) be rendered in another language very easily. Simply setting the
+          renderer to use Spanish (using pattern conventions from Spain) produces this result:</p><p>
+          </p><pre class="programlisting">...
+Instrucciones
+-------------
+Usando el montado doble, monta 24 puntos.
+Hilera 1: Todo del derecho
+Hilera 2: Todo del reves
+Repite hileras 1-2 hasta que la pieza mida 4 in.
+...</pre><p>
+        </p><p>Note that the header information (i.e. the parts of the pattern written in English)
+          would always be written in English unless you internationalized them. See <a class="xref" href="#internationalization" title="Chapter&nbsp;5.&nbsp;Internationalization">Chapter&nbsp;5, <i>Internationalization</i></a> for more information.</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e556"></a>Improving the Pattern</h2></div></div></div><p>Our simple square pattern renders fine. There are, however, a couple of quirks that we
+          can eliminate. The first is that there are not line breaks where you would expect them to
+          be in a traditional pattern. You can fix this by adding section elements to break the
+          pattern up into logical paragraphs.</p><pre class="programlisting">Pattern 'en' {
+...
+    Section {
+      CastOn 24 'long-tail'
+    }
+    Section {
+      Instruction 'stockinette-st' {
+        Row: k to end
+        Row: p to end
+      }
+      Repeat 'stockinette-st' until measures 4 in
+    }
+    Section {
+      Row: BindOff all sts
+    }
+  }
+}</pre><p>The
+          renderer will produce:</p><pre class="programlisting">...
+Directions
+----------
+Using the long-tail method, cast on 24 stitches.
+
+Row 1: Knit
+Row 2: Purl
+Repeat rows 1-2 for 4 in.
+
+Row 25: Bind off all stitches</pre><p>Here's
+          another thought. A pattern designer may want to define more than one instruction group in
+          the pattern. Think about knitting a sock, for instance. There are separate instructions
+          for knitting the cuff, leg, heel flap, heel turn, gusset, foot, and toe. Being able to add
+          headers to each instruction group would be very useful.</p><p>You can add instruction groups in the directions and label them.</p><pre class="programlisting">pattern 'en' {
+...
+    <span class="emphasis"><em>InstructionGroup [label:'Cast On'] {</em></span>
+      CastOn 24 'long-tail'
+<span class="emphasis"><em>    }
+    InstructionGroup [label:'Make the Square'] {
+</em></span>      Instruction 'stockinette-st' {
+        Row: k to end
+        Row: p to end
+      }
+      Repeat 'stockinette-st' until measures 4 in
+<span class="emphasis"><em>    }
+    InstructionGroup [label:'Finish It Off!'] {
+</em></span>      Row: bindOff all sts
+<span class="emphasis"><em>    }
+</em></span>...
+}</pre><p>This
+          would look like:</p><pre class="programlisting">Directions
+----------
+Cast On
+-------
+Using the long-tail method, cast on 24 stitches.
+
+Make The Square
+---------------
+Row 1: Knit
+Row 2: Purl
+Repeat rows 1-2 for 4 in.
+
+Finish It Off!
+--------------
+Row 25: bind off all stitches</pre><p>Another quirk is that you probably would not see the bind off row expressed as Row 25.
+          To reset the row count for this instruction group, add the keyword
+          <code class="code">resetRowCount</code> to the definition:</p><pre class="programlisting">Pattern 'en' {
+...
+    InstructionGroup [label:'Finish It Off!'] resetRowCount {
+      Row: BindOff all sts
+    }
+...
+}</pre><p>This
+          will produce:</p><pre class="programlisting">Finish It Off!
+--------------
+Row 1: Bind off all stitches</pre><p>Alternatively,
+          you may not want the row numbered at all, in which case you can do this:</p><pre class="programlisting">Pattern 'en' {
+...
+    InstructionGroup [label:'Finish It Off!'] {
+      NextRow: BindOff all sts
+    }
+...
+}</pre><p>and
+          you will get:</p><p>
+          </p><pre class="programlisting">...
+Finish It Off!
+--------------
+Next Row: Bind off all stitches</pre><p>
+        </p></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.d0e315" href="#d0e315" class="para">1</a>] </sup>Even parameters can be on a different line if parentheses are explicitly
+              specified. Map arguments delineated by [] can also be split across lines. However, a
+              row which uses the colon syntax must be completely defined on the same line.</p></div><div class="footnote"><p><sup>[<a name="ftn.d0e474" href="#d0e474" class="para">2</a>] </sup>Note that using a colon here has a slightly different implication than using it
+              with the <code class="code">row</code> family of functions, as was previously discussed.</p></div><div class="footnote"><p><sup>[<a name="ftn.d0e536" href="#d0e536" class="para">3</a>] </sup>Also note that the bind off row is labeled as Row 25. That's because the pattern's
+              row gauge is set to 6 rows per inch, and the repeat was done for 4 inches. That would
+              make the next row knit row 25.</p></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e611"></a>Chapter&nbsp;4.&nbsp;The XML Pattern</h2></div></div></div><p>TODO</p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="internationalization"></a>Chapter&nbsp;5.&nbsp;Internationalization</h2></div></div></div><p>TODO</p></div></div><div class="part" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e621"></a>Part&nbsp;III.&nbsp;Customizing and Extending KnitML</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#d0e624">6. Customizing the Pattern Renderer</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e627">Overview</a></span></dt><dt><span class="sect1"><a href="#personalizing-patterns">Personalizing Patterns</a></span></dt><dt><span class="sect1"><a href="#adding-support-for-a-new-language">Adding Support for a New Language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#d0e755">Configuring your Environment</a></span></dt><dt><span class="sect2"><a href="#d0e789">Handling Plurals</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d0e874">7. Integrating with APIs</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e624"></a>Chapter&nbsp;6.&nbsp;Customizing the Pattern Renderer</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e627">Overview</a></span></dt><dt><span class="sect1"><a href="#personalizing-patterns">Personalizing Patterns</a></span></dt><dt><span class="sect1"><a href="#adding-support-for-a-new-language">Adding Support for a New Language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#d0e755">Configuring your Environment</a></span></dt><dt><span class="sect2"><a href="#d0e789">Handling Plurals</a></span></dt></dl></dd></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e627"></a>Overview</h2></div></div></div><p>The <code class="code">operations</code> resource bundle used to render patterns is embedded in the
+            <code class="code">knitml-pattern-renderer.jar</code> file. For your reference, the master resource
+          bundle file has been copied to <code class="code">KNITML_HOME/conf/local-operations.properties</code>.
+          If you open it, you will see a list of name / value pairs, each separated by an equals
+          sign and delineated by line. Each entry constitutes a phrase in a knitting pattern, with
+          parameters supplied to it by the renderer and referenced by <code class="code">{0}</code> (for the
+          first parameter), <code class="code">{1}</code> (for the second parameter), etc. You will base any
+          customizations you make to the renderer on this file.</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="personalizing-patterns"></a>Personalizing Patterns</h2></div></div></div><p>As knitters are a diverse group of individuals, knitters often use different notations
+          and conventions to express the same technique. Sometimes terms vary regionally differ, and
+          other times the techniques vary slightly but produce the same result.</p><p>Knitting a stitch so that it is twisted is a good example of a technique which can be
+          described using different terms. Most knitters know this technique by the term "knitting
+          through the back loop." This term, however, assumes that the mount of the stitch being
+          worked is not reversed. While that generally is true if you are a western knitter, it is
+          not necessarily true if you are a combination knitter. In combination knitting, if the
+          same stitch in the previous row had been purled, the mount of that stitch would be
+          reversed. If that is true, the back loop would <span class="emphasis"><em>not</em></span> be the loop to
+          knit to create a twisted stitch; it would be the front loop. It is more accurate to
+          describe the loop to knit as the "trailing" loop instead of the "back" loop<sup>[<a name="d0e657" href="#ftn.d0e657" class="footnote">4</a>]</sup>.</p><p>Another example is the yarn-over increase. Most commonly this is known by the
+          abbreviation <code class="code">yo</code> but can also be represented by <code class="code">yfon</code> (yarn
+          forward and over needle), <code class="code">yfrn</code> (yarn forward and 'round needle),
+          <code class="code">yon</code> (yarn over needle), and <code class="code">yrn</code> (yarn 'round needle).</p><p>You can instruct the renderer to use your favorite terms for knitting techniques
+          instead of the defaults. Open the <code class="code">custom-operations.properties</code> file in the
+            <code class="code">KNITML_HOME/conf</code> directory and copy over the entries you want to customize
+          from <code class="code">local-operations.properties</code>. A few samples are included in the comments
+          (including the yarn-over customizations described above). To use one of them, simply
+          remove the beginning <code class="code">#</code> sign (which designates a comment) from the line you
+          want to use.</p><p>Let's suppose a pattern I've rendered looks like this:</p><p>
+          </p><pre class="programlisting">Row 1: k12, yo, k1</pre><p>
+        </p><p>To make the yarn-over increase look like <code class="code">yrn</code> (yarn 'round needle), I
+          would open up <code class="code">custom-operations.properties</code> and edit this line:</p><p>
+          </p><pre class="programlisting">#operation.increase.yo=yrn</pre><p>
+        </p><p>and make it look like this:</p><p>
+          </p><pre class="programlisting">operation.increase.yo=yrn</pre><p>
+        </p><p>Now my pattern would render like this:</p><p>
+          </p><pre class="programlisting">Row 1: k12, yrn, k1</pre><p>
+        </p><p>To change the way knits render, I could add this line:</p><p>
+          </p><pre class="programlisting">operation.knit.$$$=k {0} st;k {0} sts</pre><p>
+        </p><p>and it would look like this<sup>[<a name="d0e738" href="#ftn.d0e738" class="footnote">5</a>]</sup>:</p><p>
+          </p><pre class="programlisting">Row 1: k 12 sts, yrn, k 1 st</pre><p>
+        </p><p>There are several more examples of personalizations in the
+            <code class="code">custom-operations.properties</code> file.</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="adding-support-for-a-new-language"></a>Adding Support for a New Language</h2></div></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e755"></a>Configuring your Environment</h3></div></div></div><p>To add a new language to the renderer, copy
+              <code class="code">KNITML_HOME/conf/local-operations.properties</code> to a file named
+              <code class="code">operations.properties</code> in the same directory. Next, tell the pattern
+            renderer to use the local <code class="code">operations</code> resource bundle rather than the one
+            that's bundled with the pattern renderer. Do this by opening the
+              <code class="code">pattern-renderer-config.properties</code> file in the
+            <code class="code">KNITML_HOME/conf</code> directory and removing the <code class="code">#</code> sign in front of
+            the <code class="code">messageSource.basename</code> property.</p><p>Next, open the <code class="code">operations.properties</code> file you just created and
+            translate the values (to the right of the equal signs) to the target language. The name
+            of each entry aims to be fairly intuitive. Ine the case of more complex entries, a
+            comment (a line starting with <code class="code">#</code>) appears above the entry.</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e789"></a>Handling Plurals</h3></div></div></div><p>In short, every language has a set of plural forms. Many western languages use one
+            form for the number 1, and a second form for everything else. This is by no means
+            universal. Chinese, for instance, has only one plural form, while Scottish Gaelic has
+            three and Irish has five! While there is no standard for dealing with this issue,
+            Mozilla has developed a very practical approach to solving the problem, therefore we
+            will adopt the same strategy here. Consult <a class="link" href="https://developer.mozilla.org/en/Localization_and_Plurals">Localization
+              and Plurals</a> to determine your language's plural rule number.<sup>[<a name="d0e797" href="#ftn.d0e797" class="footnote">6</a>]</sup>. Once you have determined the plural rule number to use, set the number as
+            the value of the <code class="code">knitml.pattern-renderer.plural-rule</code> property at the top of
+            the file. </p><p>Each entry in the <code class="code">operations</code> file that ends with <code class="code">.$$$</code>
+            indicates that the value should be pluralized. Each plural form is specified between
+            semi-colons. To write your language's plural forms, you can either write the phrase in a
+            way which does not require a specialized form for the instance of the number, or you can
+            write it in a way which requires explicit pluralized forms. In the case of the former,
+            you only need to specify one value and that form will be used regardless of the plural
+            form of the number. In the case of the latter, the first form occurs before the first
+            semi-colon, the second form immediately after the first colon, the third form
+            immediately after the second colon, etc.</p><p>For example, to localize the <code class="code">operation.stitch.word</code> property, in English
+            I could set the value either to <code class="code">stitches: {0}</code> (no specific plural form) or
+              <code class="code">{0} stitch;{0} stitches</code> (plural form specific to the number).</p><p>It gets a bit trickier when there are two plural forms in the same phrase. Take the
+              <code class="code">operation.cross-stitches.front</code> property, for instance. The phrase looks
+            something like "cross next X stitches over Y stitches." Because the pluralization for
+            each number can vary, there are four different plural forms of this phrase in English
+            (nine in Scottish Gaelic, twenty-five in Irish). Since each number specifies an
+            individual plural form, the entry in the property file is broken into two property
+            names: <code class="code">operation.cross-stitches.front.$$0</code> (tied to the pluralization of the
+            first parameter) and <code class="code">operation.cross-stitches.front.$$1</code> (tied to the
+            pluralization of the second parameter). In the property file, it looks like this:</p><p>
+            </p><pre class="programlisting">...front.$$0=cross next stitch;cross next {0} stitches
+...front.$$1= over {1} stitch; over {1} stitches</pre><p>
+          </p><p>The renderer concatenates both values together, using the <code class="code">$$0</code> entry,
+            then the <code class="code">$$1</code> entry. If you want to specify a different order of
+            concatenation, you can do that with a <code class="code">$$order</code> parameter as follows:</p><p>
+            </p><pre class="programlisting">...front.$$0= cross next stitch; cross next {0} stitches
+...front.$$1=Over {1} stitch,;Over {1} stitches,
+...front.$$order=10</pre><p>
+          </p><p>This specifies that the <code class="code">$$1</code> entry renders first, then the
+            <code class="code">$$0</code>, so it will render something like <code class="code">Over 1 stitch, cross next 2
+              stitches</code>.</p><p>A <code class="code">$$order</code> value of <code class="code">01</code> in this case is the same as the
+            default behavior (which is what happens if you do not provide the property).</p></div></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.d0e657" href="#d0e657" class="para">4</a>] </sup>In fact, the associated entries in the <code class="code">operations.properties</code> file
+              that render a twisted knit stitch are tagged "through-trailing-loop" and are described
+              as such in the XML form. This is because it is more accurate, not because it is a more
+              common term.</p></div><div class="footnote"><p><sup>[<a name="ftn.d0e738" href="#d0e738" class="para">5</a>] </sup>Plurals are covered in the next section of this chapter.</p></div><div class="footnote"><p><sup>[<a name="ftn.d0e797" href="#d0e797" class="para">6</a>] </sup>Most Western languages use plural rule #1. French uses either rule #1 or rule
+                #2, depending on the region.</p></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e874"></a>Chapter&nbsp;7.&nbsp;Integrating with APIs</h2></div></div></div><p>This chapter will discuss writing your own software to integrate with KnitML's public
+        APIs. This chapter will primarily be intended for programmers wishing to integrate their own
+        knitting application with KnitML interfaces. A separate programmer's guide may be written
+        instead.</p></div></div><div class="appendix" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e879"></a>Appendix&nbsp;A.&nbsp;The Specification</h2></div></div></div><p>This section will detail the KnitML specification. For now, behavior is described fairly
+      accurately in the <a class="link" href="schema/pattern-0.4.xsd.html">XML Schema</a>.</p></div><div class="appendix" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e887"></a>Appendix&nbsp;B.&nbsp;Knitting Expression Language Reference</h2></div></div></div><p>
+      </p><div class="table"><a name="el-function-table"></a><p class="title"><b>Table&nbsp;B.1.&nbsp;Defined Expression Language Functions</b></p><div class="table-contents"><table summary="Defined Expression Language Functions" width="100%" border="1"><colgroup><col align="left"><col align="left"><col align="left"><col align="left"><col align="left"></colgroup><thead><tr><th align="left">Function</th><th align="left">Parameters</th><th align="left">Description</th><th align="left">Example</th><th align="left">XML Equivalent</th></tr></thead><tbody><tr><td align="left">applyNextRow</td><td align="left">ref as <a class="link" href="#idref-type">IDREF</a>
+              </td><td align="left">Use the next row for the given block instruction</td><td align="left">
+                <code class="code">applyNextRow 'my'</code>
+              </td><td align="left">
+                <code class="code">&lt;apply-next-row instruction-ref="my"/&gt;</code>
+              </td></tr><tr><td align="left">arrangeStitches</td><td align="left">needleSpec as <a class="link" href="#map-entry-type">MapEntry</a><a class="link" href="#dot-notation-explanation">...</a>
+              </td><td align="left">Arrange the stitches on the needles as specified, starting with the working
+                stitch.</td><td align="left">
+                <code class="code">arrangeStitches 'n1':10 'n2':12</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;arrange-stitches-on-needles&gt;
+  &lt;needle ref="n1"&gt;10&lt;/needle&gt;
+  &lt;needle ref="n2"&gt;12&lt;/needle&gt;
+&lt;/arrange-stitches-on-needles&gt;</pre>
+              </td></tr><tr><td align="left">ballWeight</td><td align="left">number as <a class="link" href="#decimal-type">Decimal</a>, weight as <a class="link" href="#weight-unit-type">WeightUnit</a>
+              </td><td align="left">The weight of a single ball of yarn. The colon is optional.</td><td align="left">
+                <code class="code">ballWeight: 50 g</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;ball-weight unit="g"&gt;50
+&lt;/ball-weight&gt;</pre>
+              </td></tr><tr><td rowspan="2" align="left">bindOff</td><td rowspan="2" align="left">
+                <p>
+                  <span class="emphasis"><em>(allStitches|all)</em></span> or number as <a class="link" href="#integer-type">Integer</a>, stitches as <a class="link" href="#stitch-type">Stitch</a> (optional), yarnRef as <a class="link" href="#idref-type">IDREF</a> (optional), wise as <a class="link" href="#wise-type">Wise</a> (optional)</p>
+              </td><td rowspan="2" align="left">Bind off either all of the stitches in the row / on the needle, or
+                the specified number. Use the specified yarn and wise, if provided.</td><td align="left">
+                <code class="code">bindOff 10 sts 'y1' purlwise</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;bind-off yarn-ref="y1"
+          type="purlwise"&gt;10
+&lt;/bind-off&gt;</pre>
+              </td></tr><tr><td align="left">
+                <code class="code">bindOff all sts knitwise</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;bind-off-all type="knitwise"/&gt;</pre>
+              </td></tr><tr><td align="left">castOn</td><td align="left">number as <a class="link" href="#integer-type">Integer</a>
+              </td><td align="left">Cast the number of stitches onto the current needle</td><td align="left">
+                <code class="code">castOn 35</code>
+              </td><td align="left">
+                <code class="code">&lt;cast-on&gt;35&lt;/cast-on&gt;</code>
+              </td></tr><tr><td align="left">co</td><td align="left">(same as castOn)</td><td align="left">alias for castOn</td><td align="left">
+                <code class="code">co 35</code>
+              </td><td align="left">
+                <code class="code">&lt;cast-on&gt;35&lt;/cast-on&gt;</code>
+              </td></tr><tr><td align="left">color</td><td align="left">
+                <p>name as <a class="link" href="#string-type">String</a>, xmlAttributes as <a class="link" href="#map-type">Map</a>
+                </p>
+                <p>(all parameters optional)</p>
+              </td><td align="left">The color of the yarn.</td><td align="left">
+                <code class="code">color 'yellow' [number:127]</code>
+              </td><td align="left">
+                <code class="code">&lt;color name="yellow" number="127"/&gt;</code>
+              </td></tr><tr><td align="left">copyrightInfo</td><td align="left">(none)</td><td align="left">Copyright information about this pattern. Not currently defined.</td><td align="left">
+                <code class="code">copyrightInfo {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;copyright-info&gt; ... &lt;/copyright-info&gt;</code>
+              </td></tr><tr><td rowspan="2" align="left">cross</td><td rowspan="2" align="left">first as <a class="link" href="#integer-type">Integer</a>,
+                crossSpec as <a class="link" href="#cross-type">Cross</a>, next as <a class="link" href="#integer-type">Integer</a>
+              </td><td rowspan="2" align="left">Cross number of stitches specified by 'first' with number of
+                stitches specified by 'next' using the crossSpec</td><td align="left">
+                <code class="code">cross 2 inFrontOf 2</code>
+              </td><td align="left">
+                <code class="code">&lt;cross-stitches first="2" next"2" type="front" /&gt;</code>
+              </td></tr><tr><td align="left">
+                <code class="code">cross 2 behind 2</code>
+              </td><td align="left">
+                <code class="code">&lt;cross-stitches first="2" next"2" type="back" /&gt;</code>
+              </td></tr><tr><td align="left">crossStitches</td><td align="left">(same as cross)</td><td align="left">alias for cross</td><td align="left">
+                <code class="code">crossStitches 2 behind 2</code>
+              </td><td align="left">
+                <code class="code">&lt;cross-stitches first="2" next"2" type="back" /&gt;</code>
+              </td></tr><tr><td align="left">declareFlatKnitting</td><td align="left">
+                <span class="emphasis"><em>with</em></span>, side as <a class="link" href="#side-type">Side</a>,
+                  <span class="emphasis"><em>next</em></span> (all parameters optional except side)</td><td align="left">Start knitting flat. The next row facing is specified by the side parameter.</td><td align="left">
+                <code class="code">declareFlatKnitting with rightSide next</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;declare-flat-knitting
+  next-row-side="right"/&gt;</pre>
+              </td></tr><tr><td align="left">declareRoundKnitting</td><td align="left">(none)</td><td align="left">Start knitting in the round.</td><td align="left">
+                <code class="code">declareRoundKnitting</code>
+              </td><td align="left">
+                <code class="code">&lt;declare-round-knitting/&gt;</code>
+              </td></tr><tr><td align="left">designateEndOfRow</td><td align="left">(none)</td><td align="left">Signal that the last stitch worked is now the last stitch in the row.</td><td align="left">
+                <code class="code">designateEndOfRow</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;designate-end-of-row/&gt;</pre>
+              </td></tr><tr><td align="left">directions</td><td align="left">(none)</td><td align="left">The pattern directions</td><td align="left">
+                <code class="code">directions {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;directions&gt;...&lt;/directions&gt;</code>
+              </td></tr><tr><td align="left">directives</td><td align="left">(none)</td><td align="left">The pattern directives </td><td align="left">
+                <code class="code">directives {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;directives&gt;...&lt;/directives&gt;</code>
+              </td></tr><tr><td align="left">firstName</td><td align="left">name as <a class="link" href="#string-type">String</a>
+              </td><td align="left">The pattern designer's first name. Falls within the <code class="code">author</code>
+                element. The colon is optional.</td><td align="left">
+                <code class="code">firstName: 'Jonathan'</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;first-name&gt;Jonathan&lt;/first-name&gt;</pre>
+              </td></tr><tr><td align="left">forEachRowInInstruction</td><td align="left">ref as <a class="link" href="#idref-type">IDREF</a>
+              </td><td align="left">Apply the contained operations for every row in a given block instruction</td><td align="left">
+                <code class="code">forEachRowInInstruction 'my' {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;for-each-row-in-instruction ref="my"&gt; ...
+                  &lt;/for-each-row-in-instruction&gt;</code>
+              </td></tr><tr><td align="left">gauge</td><td align="left">type as <a class="link" href="#string-type">String</a> (optional)</td><td align="left">A gauge element</td><td align="left">
+                <code class="code">gauge 'stockinette' {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;gauge type="stockinette"&gt; ... &lt;/gauge&gt;</code>
+              </td></tr><tr><td align="left">generalInformation</td><td align="left">languageCode as <a class="link" href="#string-type">String</a> (optional)</td><td align="left">The general information section written in the specified ISO language code</td><td align="left">
+                <code class="code">generalInformation 'en' {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;general-information xml:lang="en"&gt; ... &lt;/general-information&gt;</code>
+              </td></tr><tr><td align="left">graftTogether</td><td align="left">needles as <a class="link" href="#idref-type">IDREF</a><a class="link" href="#dot-notation-explanation">...</a>
+              </td><td align="left">Graft together all of the needles specified by the parameters</td><td align="left">
+                <code class="code">graftTogether 'n1' 'n2'</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;graft-together&gt;
+  &lt;needle ref="n1"/&gt;
+  &lt;needle ref="n2"/&gt;
+&lt;/graft-together&gt;</pre>
+              </td></tr><tr><td rowspan="2" align="left">inform</td><td rowspan="2" align="left">stitchNumber as <a class="link" href="#integer-type">Integer</a>,
+                stitches as <a class="link" href="#stitch-type">Stitch</a>,
+                <span class="emphasis"><em>leftOnNeedles</em></span> (optional) </td><td rowspan="2" align="left">Renders the number of stitches on the needles. Functionality may
+                be expanded in the future.</td><td align="left">
+                <code class="code">inform 20 sts leftOnNeedles</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;information&gt;
+  &lt;number-of-stitches
+    number="20"
+    inform="true"/&gt;
+&lt;/information&gt;</pre>
+              </td></tr><tr><td align="left">
+                <code class="code">inform 20</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;information&gt;
+  &lt;number-of-stitches
+    number="20"
+    inform="true"/&gt;
+&lt;/information&gt;</pre>
+              </td></tr><tr><td align="left">informationalMessage</td><td align="left">messageKey as <a class="link" href="#string-type">String</a>
+              </td><td align="left">Provide textual information about the related part of the pattern</td><td align="left">
+                <code class="code">informationalMessage 'message.how-to-do-short-rows'</code>
+              </td><td align="left">
+                <code class="code">&lt;information&gt;&lt;message message-key = "message.how-to-do-short-rows"&gt; ...
+                  &lt;/message&gt; &lt;/information&gt;</code>
+              </td></tr><tr><td align="left">inlineInstruction</td><td align="left">
+                <p>id as <a class="link" href="#id-type">ID</a>, <span class="emphasis"><em>withKey</em></span>,
+                    <span class="emphasis"><em>withLabel</em></span>, label as <a class="link" href="#string-type">String</a>, xmlAttributes as <a class="link" href="#map-type">Map</a>
+                </p>
+                <p>(all parameters except id optional)</p>
+              </td><td align="left">Define an inline instruction</td><td align="left">
+                <code class="code">inlineInstruction 'my' withKey withLabel 'Just do it' {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;inline-instruction id="my" message-key="inline-instruction.my" label="Just
+                  do it"&gt; ... &lt;/inline-instruction&gt;</code>
+              </td></tr><tr><td align="left">inlineInstructionRef</td><td align="left">ref as <a class="link" href="#idref-type">IDREF</a>
+              </td><td align="left">A reference to an inline instruction</td><td align="left">
+                <code class="code">inlineInstructionRef 'my'</code>
+              </td><td align="left">
+                <code class="code">&lt;inline-instruction-ref ref="my"/&gt;</code>
+              </td></tr><tr><td align="left">instruction</td><td align="left">
+                <p>id as <a class="link" href="#id-type">ID</a>, <span class="emphasis"><em>withKey</em></span>,
+                    <span class="emphasis"><em>withLabel</em></span>, label as <a class="link" href="#string-type">String</a>, xmlAttributes as <a class="link" href="#map-type">Map</a>
+                </p>
+                <p>(all parameters except id optional)</p>
+              </td><td align="left">Define a block instruction</td><td align="left">
+                <code class="code">instruction 'my' withKey withLabel 'Just do it' {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;instruction id="my" message-key="instruction.my" label="Just do it"&gt; ...
+                  &lt;/instruction&gt;</code>
+              </td></tr><tr><td align="left">instructionDefinitions</td><td align="left">(none)</td><td align="left">Global instruction definitions defined in the header. Can be block
+                instructions, inline instructions, or merged instructions. Will appear in the legend
+                before the directions.</td><td align="left">
+                <code class="code">instructionDefinitions {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;instruction-definitions&gt; ... &lt;/instruction-definitions&gt;</code>
+              </td></tr><tr><td align="left">instructionGroup</td><td align="left">
+                <p>id as <a class="link" href="#id-type">ID</a>, <span class="emphasis"><em>withKey</em></span>,
+                    <span class="emphasis"><em>withLabel</em></span>, label as <a class="link" href="#string-type">String</a>, xmlAttributes as <a class="link" href="#map-type">Map</a>
+                </p>
+                <p>(all parameters except id optional)</p>
+              </td><td align="left">Define a group of block operations</td><td align="left">
+                <code class="code">instructionGroup 'start' withKey withLabel 'Start Pattern' {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;instruction-group id="my" message-key="instruction-group.start"
+                  label="Start Pattern"&gt; ... &lt;/instruction-group&gt;</code>
+              </td></tr><tr><td align="left">instructionRef</td><td align="left">ref as <a class="link" href="#idref-type">IDREF</a>
+              </td><td align="left">A reference to a block instruction</td><td align="left">
+                <code class="code">instructionRef 'my'</code>
+              </td><td align="left">
+                <code class="code">&lt;instruction-ref ref="my"/&gt;</code>
+              </td></tr><tr><td align="left">joinInRound</td><td align="left">(none)</td><td align="left">Join active stitches in the round.</td><td align="left">
+                <code class="code">joinInRound</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;join-in-round/&gt;</pre>
+              </td></tr><tr><td rowspan="4" align="left">k</td><td rowspan="4" align="left">
+                <p>number as <a class="link" href="#integer-type">Integer</a>, yarnRef as <a class="link" href="#idref-type">IDREF</a>, repeatSpec as Repeat</p>
+                <p>(all parameters optional)</p>
+              </td><td rowspan="4" align="left">Knit specified number of stitches</td><td align="left">
+                <pre class="programlisting">k10
+k 10</pre>
+              </td><td align="left">
+                <code class="code">&lt;knit&gt;10&lt;/knit&gt;</code>
+              </td></tr><tr><td align="left">
+                <pre class="programlisting">k to end
+k end</pre>
+              </td><td align="left">
+                <pre class="programlisting">&lt;repeat until="end"&gt;
+  &lt;knit/&gt;
+&lt;/repeat&gt;</pre>
+              </td></tr><tr><td align="left">
+                <pre class="programlisting">k 3 'y1'
+k3 'y1'
+k 3 with 'y1'</pre>
+              </td><td align="left">
+                <code class="code">&lt;knit yarn-ref="y1"&gt;3&lt;/knit&gt;</code>
+              </td></tr><tr><td align="left">
+                <pre class="programlisting">k to 2 sts beforeEnd
+k to 2 beforeEnd
+k 2 beforeEnd</pre>
+              </td><td align="left">
+                <pre class="programlisting">&lt;repeat until="before-end"
+        value="2"&gt;
+  &lt;knit/&gt;
+&lt;/repeat&gt;</pre>
+              </td></tr><tr><td align="left">k2tog</td><td align="left">(none)</td><td align="left">Knit next two stitches together</td><td align="left">
+                <code class="code">k2tog</code>
+              </td><td align="left">
+                <code class="code">&lt;decrease type="k2tog"/&gt;</code>
+              </td></tr><tr><td align="left">kfb</td><td align="left">(none)</td><td align="left">Knit to the front and back of the next stitch.</td><td align="left">
+                <code class="code">kfb</code>
+              </td><td align="left">
+                <code class="code">&lt;increase type="kfb"/&gt;</code>
+              </td></tr><tr><td align="left">knit</td><td align="left">(same as k)</td><td align="left">alias for k</td><td align="left">
+                <code class="code">knit 10</code>
+              </td><td align="left">
+                <code class="code">&lt;knit&gt;10&lt;/knit&gt;</code>
+              </td></tr><tr><td rowspan="2" align="left">labelNeedle</td><td rowspan="2" align="left">id as <a class="link" href="#id-type">ID</a>, with as <a class="link" href="#with-type">With</a>, newLabel as <a class="link" href="#string-type">String</a>
+              </td><td rowspan="2" align="left">labels a new needle with the newLabel parameter as either a
+                message key (if keyword is 'withKey') or a literal value (if keyword is 'withLabel')</td><td align="left">
+                <code class="code">labelNeedle 'n1' withKey 'needle.new-label'</code>
+              </td><td align="left">
+                <code class="code">&lt;label-needle ref="n1" message-key = "needle.new-label"/&gt;</code>
+              </td></tr><tr><td align="left">
+                <code class="code">labelNeedle 'n1' withLabel 'Instep Needle'</code>
+              </td><td align="left">
+                <code class="code">&lt;label-needle ref="n1" label = "Instep Needle"/&gt;</code>
+              </td></tr><tr><td align="left">lastName</td><td align="left">name as <a class="link" href="#string-type">String</a>
+              </td><td align="left">The pattern designer's last name. Falls within the <code class="code">author</code> element.
+                The colon is optional.</td><td align="left">
+                <code class="code">lastName: 'Whitall'</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;last-name&gt;Whitall&lt;/last-name&gt;</pre>
+              </td></tr><tr><td align="left">length</td><td align="left">number as <a class="link" href="#decimal-type">Decimal</a>, weight as <a class="link" href="#length-unit-type">LengthUnit</a>
+              </td><td align="left">The length of a needle. Usually only given for circular needles. The colon is
+                optional.</td><td align="left">
+                <code class="code">length: 32 in</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;length unit="in"&gt;32
+&lt;/length&gt;</pre>
+              </td></tr><tr><td align="left">M1</td><td align="left">(none)</td><td align="left">Make 1. This does not specify a technique for increasing.</td><td align="left">
+                <code class="code">M1</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;increase/&gt;</pre>
+              </td></tr><tr><td align="left">m1a</td><td align="left">(none)</td><td align="left">Make 1 away</td><td align="left">
+                <code class="code">m1a</code>
+              </td><td align="left">
+                <code class="code">&lt;increase type="m1a"/&gt;</code>
+              </td></tr><tr><td align="left">mergedInstruction</td><td align="left">
+                <p>id as <a class="link" href="#id-type">ID</a>, <span class="emphasis"><em>withKey</em></span>,
+                    <span class="emphasis"><em>withLabel</em></span>, label as <a class="link" href="#string-type">String</a>, xmlAttributes as <a class="link" href="#map-type">Map</a>
+                </p>
+                <p>(all parameters except id optional)</p>
+              </td><td align="left">Merge two existing instructions together (see Nutkin2 for a better example)</td><td align="left">
+                <code class="code">mergedInstruction 'my' withKey withLabel 'Just do it' ['merge-point':'row',
+                  type:'physical'] {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;merged-instruction id="my" message-key="merged-instruction.my" label="Just
+                  do it" merge-point="row" type="physical"&gt; ... &lt;/merged-instruction&gt;</code>
+              </td></tr><tr><td align="left">messageSource</td><td align="left">source as <a class="link" href="#idref-type">IDREF</a>
+              </td><td align="left">Use the specified ID as a localized message source for the pattern</td><td align="left">
+                <code class="code">messageSource 'msgs'</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;message-sources&gt;
+  &lt;message-source&gt;msgs
+  &lt;/message-source&gt;
+&lt;/message-sources&gt;</pre>
+              </td></tr><tr><td align="left">messageSources</td><td align="left">sources as <a class="link" href="#idref-type">IDREF</a><a class="link" href="#dot-notation-explanation">...</a>
+              </td><td align="left">Use the specified IDs as internationalized message sources for the pattern.</td><td align="left">
+                <code class="code">messageSources 'header-msgs' 'body-msgs'</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;message-sources&gt;
+  &lt;message-source&gt;header-msgs
+  &lt;/message-source&gt;
+  &lt;message-source&gt;body-msgs
+  &lt;/message-source&gt;
+&lt;/message-sources&gt;</pre>
+              </td></tr><tr><td align="left">needle</td><td align="left">
+                <p>id as <a class="link" href="#id-type">ID</a>, <span class="emphasis"><em>withKey</em></span>,
+                    <span class="emphasis"><em>withLabel</em></span>, label as <a class="link" href="#string-type">String</a>, xmlAttributes as <a class="link" href="#map-type">Map</a>
+                </p>
+                <p>(all parameters except id and typeref optional)</p>
+              </td><td align="left">A needle used in the pattern.</td><td align="left">
+                <code class="code">needle 'needle1' withKey withLabel 'Needle 1' [typeref:'size1'] {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;needle id="needle1" message-key="needle.needle1" label="Needle 1"
+                  typeref="size1"&gt; ... &lt;/needle&gt;</code>
+              </td></tr><tr><td align="left">needleType</td><td align="left">id as <a class="link" href="#id-type">ID</a>, needleStyle as <a class="link" href="#needle-type-type">NeedleType</a> (optional), xmlAttributes as
+                  <a class="link" href="#map-type">Map</a> (optional)</td><td align="left">Define a type of needle for use in the pattern.</td><td align="left">
+                <code class="code">needleType 'size1' circ [brand:'Addi Turbo']</code>
+              </td><td align="left">
+                <code class="code">&lt;needle-type id="size1" type="circular" brand="Addi Turbo"&gt; ...
+                  &lt;/needle-type&gt;</code>
+              </td></tr><tr><td align="left">nextRound</td><td align="left">(same as row)</td><td align="left">call row() with supplied parameters, adding ['assign-row-number':false] and
+                [type:'round'] to the xmlAttributes parameter</td><td align="left">
+                <code class="code">nextRound {...}</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;row assign-row-number="false"
+     type="round"&gt;
+...&lt;/row&gt;</pre>
+              </td></tr><tr><td align="left">nextRow</td><td align="left">(same as row)</td><td align="left">call row() with supplied parameters, adding ['assign-row-number':false] to the
+                xmlAttributes parameter</td><td align="left">
+                <code class="code">nextRow {...}</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;row assign-row-number="false"&gt;
+...&lt;/row&gt;</pre>
+              </td></tr><tr><td align="left">p</td><td align="left">
+                <p>number as <a class="link" href="#integer-type">Integer</a>, yarnRef as <a class="link" href="#idref-type">IDREF</a>, repeatSpec as <a class="link" href="#repeat-type">Repeat</a>
+                </p>
+                <p>(all parameters optional)</p>
+              </td><td align="left">Works the same as 'k' except that the XML element name is <code class="code">purl</code>
+              </td><td align="left">
+                <code class="code">p to end</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;repeat until="end"&gt;
+  &lt;purl/&gt;
+&lt;/repeat&gt;</pre>
+              </td></tr><tr><td align="left">p2tog</td><td align="left">(none)</td><td align="left">Purl next two stitches together</td><td align="left">
+                <code class="code">p2tog</code>
+              </td><td align="left">
+                <code class="code">&lt;decrease type="p2tog"/&gt;</code>
+              </td></tr><tr><td align="left">pattern</td><td align="left">languageCode as <a class="link" href="#string-type">String</a> (optional)</td><td align="left">The pattern written in the specified ISO language code</td><td align="left">
+                <code class="code">pattern 'en' {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;pattern xml:lang="en"&gt; ... &lt;/pattern&gt;</code>
+              </td></tr><tr><td rowspan="2" align="left">pickUp</td><td rowspan="2" align="left">
+                <p>number as <a class="link" href="#integer-type">Integer</a>, stitches as <a class="link" href="#stitch-type">Stitch</a>, yarnRef as <a class="link" href="#idref-type">IDREF</a>, wise as <a class="link" href="#wise-type">Wise</a>
+                </p>
+                <p>(all parameters except number optional)</p>
+              </td><td rowspan="2" align="left">Pick up the specified number of stitches. If wise is not
+                specified, defaults to knitwise.</td><td align="left">
+                <code class="code">pickUp 10 sts 'y1' purlwise</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;pick-up-stitches type="purlwise"
+                  yarn-ref="y1"&gt;
+10&lt;/pick-up-stitches&gt;
+  </pre>
+              </td></tr><tr><td align="left">
+                <code class="code">pickUp 20</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;pick-up-stitches&gt;
+20&lt;/pick-up-stitches&gt;</pre>
+              </td></tr><tr><td align="left">placeMarker</td><td align="left">(same as pm)</td><td align="left">alias for pm</td><td align="left">
+                <code class="code">placeMarker</code>
+              </td><td align="left">
+                <code class="code">&lt;place-marker/&gt;</code>
+              </td></tr><tr><td align="left">pm</td><td align="left">(none)</td><td align="left">Place a marker at the working place in the pattern.</td><td align="left">
+                <code class="code">pm</code>
+              </td><td align="left">
+                <code class="code">&lt;place-marker/&gt;</code>
+              </td></tr><tr><td align="left">purl</td><td align="left">(same as p)</td><td align="left">alias for p</td><td align="left">
+                <code class="code">purl 10</code>
+              </td><td align="left">
+                <code class="code">&lt;purl&gt;10&lt;/purl&gt;</code>
+              </td></tr><tr><td align="left">ref</td><td align="left">ref as <a class="link" href="#idref-type">IDREF</a>
+              </td><td align="left">alias for inlineInstructionRef</td><td align="left">
+                <code class="code">ref 'my'</code>
+              </td><td align="left">
+                <code class="code">&lt;inline-instruction-ref ref="my"/&gt;</code>
+              </td></tr><tr><td align="left">removeMarker</td><td align="left">(none)</td><td align="left">Remove the marker at the working place in the pattern.</td><td align="left">
+                <code class="code">removeMarker</code>
+              </td><td align="left">
+                <code class="code">&lt;remove-marker/&gt;</code>
+              </td></tr><tr><td align="left">repeat</td><td align="left">repeatSpec as <a class="link" href="#repeat-type">Repeat</a>, xmlAttributes as
+                  <a class="link" href="#map-type">Map</a>
+              </td><td align="left">Repeat the enclosed inline instructions as many times as specified</td><td align="left">
+                <code class="code">repeat 3 times {...}</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;repeat until="times"
+        value="3"&gt; ...
+&lt;/repeat&gt;</pre>
+              </td></tr><tr><td rowspan="3" align="left">repeatInstruction / repeat</td><td rowspan="3" align="left">ref as <a class="link" href="#idref-type">IDREF</a>, repeatSpec as
+                  <a class="link" href="#repeat-inst-type">RepeatInst</a>, xmlAttributes as <a class="link" href="#map-type">Map</a>
+              </td><td rowspan="3" align="left">Repeat the referenced instruction as many times as specified</td><td align="left">
+                <code class="code">repeat 'inst1' until 20 sts remain</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;repeat-instruction ref="inst1"&gt;
+  &lt;until-stitches-remain&gt;20
+  &lt;/until-stitches-remain&gt;
+&lt;/repeat-instruction&gt;</pre>
+              </td></tr><tr><td align="left">
+                <code class="code">repeat 'inst1' until measures 4 in</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;repeat-instruction ref="inst1"&gt;
+  &lt;until-measures unit="in"&gt;4
+  &lt;/until-measures&gt;
+&lt;/repeat-instruction&gt;</pre>
+              </td></tr><tr><td align="left">
+                <code class="code">repeat 'inst1' 8 additionalTimes</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;repeat-instruction ref="inst1"&gt;
+  &lt;additional-times&gt;8
+  &lt;/additional-times&gt;
+&lt;/repeat-instruction&gt;</pre>
+              </td></tr><tr><td align="left">round</td><td align="left">(same as row)</td><td align="left">call row() with supplied parameters, adding [type:'round'] to the xmlAttributes
+                parameter</td><td align="left">
+                <code class="code">round {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;row type="round"&gt;...&lt;/row&gt;</code>
+              </td></tr><tr><td rowspan="5" align="left">row</td><td rowspan="5" align="left">
+                <p>yarnRef as <a class="link" href="#idref-type">IDREF</a>, number as <a class="link" href="#integer-type">Integer</a>, numbers as List&lt;Integer&gt;,
+                    <span class="emphasis"><em>informSide</em></span>, <span class="emphasis"><em>doNotAssignNumber</em></span>,
+                  xmlAttributes as <a class="link" href="#map-type">Map</a>
+                </p>
+                <p>(all parameters optional)</p>
+              </td><td rowspan="5" align="left">A row in the pattern</td><td align="left">
+                <code class="code">row 'y1' 1 {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;row yarn-ref="y1" number="1"&gt;...&lt;/row&gt;</code>
+              </td></tr><tr><td align="left">
+                <code class="code">row [1,3,5] {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;row number="1 3 5"&gt;...&lt;/row&gt;</code>
+              </td></tr><tr><td align="left">
+                <code class="code">row doNotAssignNumber {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;row assign-row-number="false"&gt;...&lt;/row&gt;</code>
+              </td></tr><tr><td align="left">
+                <code class="code">row informSide {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;row inform-side="true"&gt;...&lt;/row&gt;</code>
+              </td></tr><tr><td align="left">
+                <code class="code">row [type:'flat', resetRowCount:true] {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;row type="flat" reset-row-count="true"&gt;...&lt;/row&gt;</code>
+              </td></tr><tr><td align="left">rowGauge</td><td align="left">number as <a class="link" href="#decimal-type">Decimal</a>, gauge as <a class="link" href="#row-gauge-unit-type">RowGaugeUnit</a>
+              </td><td align="left">The number of rows (vertically) per unit of measurement. The colon is optional.</td><td align="left">
+                <code class="code">rowGauge: 3.5 rowsPerInch</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;row-gauge unit="row/in"&gt;3.5
+                  &lt;/row-gauge&gt;</pre>
+              </td></tr><tr><td align="left">section</td><td align="left">
+                <span class="emphasis"><em>resetRowCount</em></span> (optional)</td><td align="left">A logical grouping of operations in a pattern. Can be interpreted as a
+                paragraph. The resetRowCount parameter sets the next row back to row 1.</td><td align="left">
+                <code class="code">section resetRowCount {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;section reset-row-count="true"&gt; ... &lt;/section&gt;</code>
+              </td></tr><tr><td align="left">shortRow</td><td align="left">(same as row)</td><td align="left">call row() with supplied parameters, adding <code class="code">[short:true]</code> to the
+                xmlAttributes parameter</td><td align="left">
+                <code class="code">shortRow 1 {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;row short="true" number="1"&gt;...&lt;/row&gt;</code>
+              </td></tr><tr><td rowspan="2" align="left">size</td><td rowspan="2" align="left">number as <a class="link" href="#decimal-type">Decimal</a> or <a class="link" href="#string-type">String</a>, size as <a class="link" href="#needle-size-type">NeedleSize</a>
+              </td><td rowspan="2" align="left">The size (i.e. thickness) of the needle.</td><td align="left">
+                <code class="code">size 3.0 mm</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;size unit="mm"&gt;3.0
+&lt;/size&gt;</pre>
+              </td></tr><tr><td align="left">
+                <code class="code">size '00' US</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;size unit="US"&gt;00
+&lt;/size&gt;</pre>
+              </td></tr><tr><td align="left">sl</td><td align="left">
+                <p>number as <a class="link" href="#integer-type">Integer</a>, xmlAttributes as
+                    <a class="link" href="#map-type">Map</a>
+                </p>
+                <p>(all parameters optional)</p>
+              </td><td align="left">Slip the specified number of stitches</td><td align="left">
+                <code class="code">sl 5</code>
+              </td><td align="left">
+                <code class="code">&lt;slip&gt;5&lt;/slip&gt;</code>
+              </td></tr><tr><td align="left">ssk</td><td align="left">(none)</td><td align="left">Slip-slip-knit</td><td align="left">
+                <code class="code">ssk</code>
+              </td><td align="left">
+                <code class="code">&lt;decrease type="ssk"/&gt;</code>
+              </td></tr><tr><td align="left">stitchGauge</td><td align="left">number as <a class="link" href="#decimal-type">Decimal</a>, gauge as <a class="link" href="#stitch-gauge-unit-type">StitchGaugeUnit</a>
+              </td><td align="left">The number of stitches (horizontally) per unit of measurement. The colon is
+                optional.</td><td align="left">
+                <code class="code">stitchGauge: 3.5 stitchesPerInch</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;stitch-gauge unit="st/in"&gt;3.5
+&lt;/stitch-gauge&gt;</pre>
+              </td></tr><tr><td align="left">thickness</td><td align="left">number as <a class="link" href="#decimal-type">Decimal</a>, thickness as <a class="link" href="#thickness-unit-type">ThicknessUnit</a>
+              </td><td align="left">The thickness of the yarn (wraps per unit of measurement). The colon is
+                optional.</td><td align="left">
+                <code class="code">thickness: 16 wrapsPerInch</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;thickness unit="wrap/in"&gt;
+16&lt;/thickness&gt;</pre>
+              </td></tr><tr><td align="left">totalLength</td><td align="left">number as <a class="link" href="#decimal-type">Decimal</a>, weight as <a class="link" href="#length-unit-type">LengthUnit</a>
+              </td><td align="left">The length of yarn required to complete the project. The colon is optional.</td><td align="left">
+                <code class="code">totalLength: 500 yd</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;total-length unit="g"&gt;50
+&lt;/total-length&gt;</pre>
+              </td></tr><tr><td align="left">totalWeight</td><td align="left">number as <a class="link" href="#decimal-type">Decimal</a>, weight as <a class="link" href="#weight-unit-type">WeightUnit</a>
+              </td><td align="left">The weight of yarn required to complete the project. The colon is optional.</td><td align="left">
+                <code class="code">totalWeight: 50 g</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;total-weight unit="g"&gt;50
+&lt;/total-weight&gt;</pre>
+              </td></tr><tr><td align="left">useNeedle</td><td align="left">
+                <span class="emphasis"><em>quietly</em></span> (optional), needle as <a class="link" href="#idref-type">IDREF</a>
+              </td><td align="left">Use the specified needle for knitting. "Quietly" indicates that this is a
+                directive for the computer, not something that should be rendererd in a pattern.</td><td align="left">
+                <code class="code">useNeedle 'n1' quietly</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;use-needles silent="true"&gt;
+  &lt;needle ref="n1"/&gt;
+&lt;/use-needles&gt;</pre>
+              </td></tr><tr><td align="left">useNeedles</td><td align="left">
+                <span class="emphasis"><em>quietly</em></span> (optional), needles as <a class="link" href="#idref-type">IDREF</a><a class="link" href="#dot-notation-explanation">...</a>
+              </td><td align="left">Use the specified needles for knitting.</td><td align="left">
+                <code class="code">useNeedles 'n1' 'n2'</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;use-needles silent="true"&gt;
+  &lt;needle ref="n1"/&gt;
+  &lt;needle ref="n2"/&gt;
+&lt;/use-needles&gt;</pre>
+              </td></tr><tr><td align="left">usingNeedle</td><td align="left">ref as <a class="link" href="#idref-type">IDREF</a>
+              </td><td align="left">Using the specified needle, perform child operations</td><td align="left">
+                <code class="code">usingNeedle 'needle1' {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;using-needle ref="needle1"&gt; ... &lt;/using-needle&gt;</code>
+              </td></tr><tr><td align="left">yarn</td><td align="left">
+                <p>id as <a class="link" href="#id-type">ID</a>, <span class="emphasis"><em>withKey</em></span>,
+                    <span class="emphasis"><em>withLabel</em></span>, label as <a class="link" href="#string-type">String</a>, xmlAttributes as <a class="link" href="#map-type">Map</a>
+                </p>
+                <p>(all parameters except id optional)</p>
+              </td><td align="left">A yarn used in the pattern. The xmlAttributes parameter must have a typeref
+                attribute referring to a previously declared yarnType.</td><td align="left">
+                <code class="code">yarn 'y1' withKey withLabel 'Main Color' [symbol:'MC', typeref:'wool']
+                {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;yarn id="y1" message-key="yarn.MC" label="Main Color" symbol="MC"
+                  typeref="wool"&gt; ... &lt;/yarn&gt;</code>
+              </td></tr><tr><td align="left">yarnType</td><td align="left">id as <a class="link" href="#id-type">ID</a>, xmlAttributes as <a class="link" href="#map-type">Map</a>
+              </td><td align="left">Define a type of yarn for use in the pattern.</td><td align="left">
+                <code class="code">yarnType 'wool' [brand:'Lorna\'s Laces', weight:'fingering'] {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;yarn-type id="wool" brand="Lorna's Laces"
+                  weight="fingering"/&gt;...&lt;/yarn-type&gt;</code>
+              </td></tr><tr><td align="left">yo</td><td align="left">(none)</td><td align="left">Yarn over</td><td align="left">
+                <code class="code">yo</code>
+              </td><td align="left">
+                <code class="code">&lt;increase type="yo"/&gt;</code>
+              </td></tr></tbody></table></div></div><p><br class="table-break">
+    </p><p><a name="dot-notation-explanation"></a>The ... notation indicates that there may be any number
+      of individual parameters with this name and type.</p><p>Whether or not the function is defined in <a class="xref" href="#el-function-table" title="Table&nbsp;B.1.&nbsp;Defined Expression Language Functions">Table&nbsp;B.1, &#8220;Defined Expression Language Functions&#8221;</a>, you can
+      use the following syntax to define any XML element:</p><p>
+      </p><pre class="programlisting"><span class="emphasis"><em>elementName</em></span> [<span class="emphasis"><em>attr1</em></span>:'<span class="emphasis"><em>attr1value</em></span>',<span class="emphasis"><em>attr2</em></span>:'<span class="emphasis"><em>attr2value</em></span>'...] { <span class="emphasis"><em>body</em></span> }</pre><p>
+    </p><p>When an element or attribute name has a hyphen in it (such as
+      <code class="code">instruction-group</code>), it must be in single quotes for the processor to interpret it
+      correctly.</p><p>The following table shows a few examples of custom functions:</p><p>
+      </p><div class="table"><a name="custom-function-example-table"></a><p class="title"><b>Table&nbsp;B.2.&nbsp;Custom Function Examples</b></p><div class="table-contents"><table summary="Custom Function Examples" border="1"><colgroup><col><col></colgroup><thead><tr><th>KnittingEL</th><th>XML</th></tr></thead><tbody><tr><td>
+                <pre class="programlisting">author {
+  'first-name' Jonathan
+  'last-name' Whitall
+}</pre>
+              </td><td>
+                <pre class="programlisting">&lt;author&gt;
+  &lt;first-name&gt;Jonathan&lt;/first-name&gt;
+  &lt;last-name&gt;Whitall&lt;/last-name&gt;
+&lt;/author&gt;</pre>
+              </td></tr><tr><td>
+                <pre class="programlisting">instruction [id:'my','message-key':'instruction.my'] {
+   k1, p1
+}</pre>
+              </td><td>
+                <pre class="programlisting">&lt;instruction id="my"
+             message-key="instruction.my"&gt;
+  &lt;knit&gt;1&lt;/knit&gt;
+  &lt;purl&gt;1&lt;/purl&gt;
+&lt;/instruction&gt;                </pre>
+              </td></tr><tr><td>
+                <pre class="programlisting">increase [type:'moss']</pre>
+              </td><td>
+                <pre class="programlisting">&lt;increase type="moss"/&gt;</pre>
+              </td></tr><tr><td>
+                <pre class="programlisting">slip5</pre>
+              </td><td>
+                <pre class="programlisting">&lt;slip&gt;5&lt;/slip&gt;</pre>
+              </td></tr><tr><td>
+                <pre class="programlisting">'slip5'</pre>
+                <p>(not valid KnitML)</p>
+              </td><td>
+                <pre class="programlisting">&lt;slip5/&gt;</pre>
+              </td></tr><tr><td>
+                <pre class="programlisting">tree [age:'150',size:'big'] {
+  name: 'Old Faithful'
+}</pre>
+                <p>(not valid KnitML)</p>
+              </td><td>
+                <pre class="programlisting">&lt;tree age="150" size="big"&gt;
+  &lt;name&gt;Old Faithful&lt;/name&gt;
+&lt;/tree&gt;</pre>
+              </td></tr></tbody></table></div></div><p><br class="table-break">
+    </p><p>Use the pre-defined functions whenever possible, but there may be times when you need
+      maximum flexibility to express the resulting XML.</p><p>
+      </p><div class="table"><a name="d0e2902"></a><p class="title"><b>Table&nbsp;B.3.&nbsp;Expression Language Data Types</b></p><div class="table-contents"><table summary="Expression Language Data Types" border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Type</th><th>Form</th><th>Example</th></tr></thead><tbody><tr><td><a name="cross-type"></a>Cross</td><td>
+                <code class="code">('inFrontOf' | 'behind')</code>
+              </td><td>
+                <code class="code">inFrontOf</code>
+              </td></tr><tr><td><a name="decimal-type"></a>Decimal</td><td>Same as XML Schema's decimal data type</td><td>
+                <code class="code">1.5</code>
+              </td></tr><tr><td><a name="id-type"></a>ID</td><td>Same as XML Schema's ID data type</td><td>
+                <code class="code">'make-cuff'</code>
+              </td></tr><tr><td><a name="idref-type"></a>IDREF</td><td>Same as XML Schema's IDREF data type</td><td>
+                <code class="code">'make-cuff'</code>
+              </td></tr><tr><td><a name="integer-type"></a>Integer</td><td>Same as XML Schema's short data type</td><td>
+                <code class="code">3</code>
+              </td></tr><tr><td><a name="length-unit-type"></a>LengthUnit</td><td>
+                <code class="code">('in' | 'inch' | 'ins' | 'inches' | 'cm' | 'centimeters' | 'mm' |
+                  'millimeters' | 'm' | 'meters' | 'yd' | 'yards')</code>
+              </td><td>
+                <code class="code">inch</code>
+              </td></tr><tr><td><a name="map-type"></a>Map</td><td>Grouping of name / value pairs; always translates to a list of attributes for
+                the target element. Each name is taken literally and need not be in quotes (unless
+                there is a hyphen in the name).</td><td>
+                <code class="code">[id:'needle1', typeref:'needle-type1', 'message-key':'needle.needle1']</code>
+              </td></tr><tr><td><a name="map-entry-type"></a>MapEntry</td><td>A name / value pair. The name is taken literally and need not be in quotes
+                (unless there is a hyphen in the name).</td><td>
+                <code class="code">needle1:36</code>
+              </td></tr><tr><td><a name="needle-size-type"></a>NeedleSize</td><td>
+                <code class="code">('US' | 'mm')</code>
+              </td><td>
+                <code class="code">US</code>
+              </td></tr><tr><td><a name="needle-type-type"></a>NeedleType</td><td>
+                <code class="code">('circ' | 'circular' | 'straight' | 'dpn')</code>
+              </td><td>
+                <code class="code">circ</code>
+              </td></tr><tr><td rowspan="3"><a name="repeat-type"></a>Repeat</td><td rowspan="3">
+                <code class="code">('to'?, <a class="link" href="#integer-type">Integer</a>?, <a class="link" href="#until-type">Until</a>)</code> in any order</td><td>
+                <code class="code">to 2 beforeEnd</code>
+              </td></tr><tr><td>
+                <code class="code">to end</code>
+              </td></tr><tr><td>
+                <code class="code">8 times</code>
+              </td></tr><tr><td rowspan="4"><a name="repeat-inst-type"></a>RepeatInst</td><td rowspan="4">
+                <code class="code">('until'?, <a class="link" href="#until-inst-type">UntilInst</a>, (<a class="link" href="#decimal-type">Decimal</a> | <a class="link" href="#integer-type">Integer</a>)?, <a class="link" href="#stitch-type">Stitch</a>?, <a class="link" href="#length-unit-type">LengthUnit</a>?)</code> in any order</td><td>
+                <code class="code">until measures 4.5 in</code>
+              </td></tr><tr><td>
+                <code class="code">until 20 stitches remain</code>
+              </td></tr><tr><td>
+                <code class="code">until 1 st remains</code>
+              </td></tr><tr><td>
+                <code class="code">8 additionalTimes</code>
+              </td></tr><tr><td><a name="row-gauge-unit-type"></a>RowGaugeUnit</td><td>
+                <code class="code">('rowsPerInch' | 'rowsPerCentimeter')</code>
+              </td><td>
+                <code class="code">rowsPerInch</code>
+              </td></tr><tr><td><a name="side-type"></a>Side</td><td>
+                <code class="code">('right' | 'wrong')</code>
+              </td><td>
+                <code class="code">wrong</code>
+              </td></tr><tr><td><a name="stitch-type"></a>Stitch</td><td>
+                <code class="code">('st' | 'sts' | 'stitch' | 'stitches')</code>
+              </td><td>
+                <code class="code">sts</code>
+              </td></tr><tr><td><a name="stitch-gauge-unit-type"></a>StitchGaugeUnit</td><td>
+                <code class="code">('stitchesPerInch' | 'stitchesPerCentimeter')</code>
+              </td><td>
+                <code class="code">stitchesPerCentimeter</code>
+              </td></tr><tr><td><a name="string-type"></a>String</td><td>Same as XML Schema's string data type</td><td>
+                <code class="code">'hello'</code>
+              </td></tr><tr><td><a name="thickness-unit-type"></a>ThicknessUnit</td><td>
+                <code class="code">('wrapsPerInch' | 'wrapsPerCentimeter')</code>
+              </td><td>
+                <code class="code">wrapsPerInch</code>
+              </td></tr><tr><td><a name="until-type"></a>Until</td><td>
+                <code class="code">('end' | 'beforeEnd' | 'beforeGap' | 'marker' | 'beforeMarker' |
+                'times')</code>
+              </td><td>
+                <code class="code">marker</code>
+              </td></tr><tr><td><a name="until-inst-type"></a>UntilInst</td><td>
+                <code class="code">('measures' | 'desiredLength' | 'remain' | 'remains' |
+                'additionalTimes')</code>
+              </td><td>
+                <code class="code">desiredLength</code>
+              </td></tr><tr><td><a name="weight-unit-type"></a>WeightUnit</td><td>
+                <code class="code">('g' | 'grams' | 'oz' | 'ounces')</code>
+              </td><td>
+                <code class="code">inch</code>
+              </td></tr><tr><td><a name="wise-type"></a>Wise</td><td>
+                <code class="code">('knitwise' | 'purlwise')</code>
+              </td><td>
+                <code class="code">purlwise</code>
+              </td></tr><tr><td><a name="with-type"></a>With</td><td>
+                <code class="code">('withKey' | 'withLabel')</code>
+              </td><td>
+                <code class="code">withKey</code>
+              </td></tr></tbody></table></div></div><p><br class="table-break">
+    </p></div></div></body></html>
