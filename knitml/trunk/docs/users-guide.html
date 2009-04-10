@@ -1,6 +1,6 @@
 <html><head>
       <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-   <title>The KnitML User's Guide</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.73.2"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e2"></a>The KnitML User's Guide</h1></div><div><div class="author"><h3 class="author">Jonathan Whitall</h3><code class="email">&lt;<a class="email" href="mailto:fiddlerpianist@gmail.com">fiddlerpianist@gmail.com</a>&gt;</code></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="part"><a href="#d0e11">I. Getting Started</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e14">1. Introduction</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e56">2. Installing and Running KnitML</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></dd></dl></dd><dt><span class="part"><a href="#d0e243">II. Writing KnitML Patterns</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e246">3. The Knitting Expression Language</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e249">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e430">Writing a Simple Pattern</a></span></dt><dt><span class="sect1"><a href="#d0e556">Improving the Pattern</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e611">4. The XML Pattern</a></span></dt><dt><span class="chapter"><a href="#internationalization">5. Internationalization</a></span></dt></dl></dd><dt><span class="part"><a href="#d0e621">III. Customizing and Extending KnitML</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e624">6. Customizing the Pattern Renderer</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e627">Overview</a></span></dt><dt><span class="sect1"><a href="#personalizing-patterns">Personalizing Patterns</a></span></dt><dt><span class="sect1"><a href="#adding-support-for-a-new-language">Adding Support for a New Language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#d0e755">Configuring your Environment</a></span></dt><dt><span class="sect2"><a href="#d0e789">Handling Plurals</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d0e874">7. Integrating with APIs</a></span></dt></dl></dd><dt><span class="appendix"><a href="#d0e879">A. The Specification</a></span></dt><dt><span class="appendix"><a href="#d0e887">B. Knitting Expression Language Reference</a></span></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>B.1. <a href="#el-function-table">Defined Expression Language Functions</a></dt><dt>B.2. <a href="#custom-function-example-table">Custom Function Examples</a></dt><dt>B.3. <a href="#d0e2902">Expression Language Data Types</a></dt></dl></div><div class="part" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e11"></a>Part&nbsp;I.&nbsp;Getting Started</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#d0e14">1. Introduction</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e56">2. Installing and Running KnitML</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></dd></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e14"></a>Chapter&nbsp;1.&nbsp;Introduction</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e17"></a>Overview</h2></div></div></div><p>The KnitML project's goal is to define and promote the adoption of a standard content
+   <title>The KnitML User's Guide</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.73.2"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e2"></a>The KnitML User's Guide</h1></div><div><div class="author"><h3 class="author">Jonathan Whitall</h3><code class="email">&lt;<a class="email" href="mailto:fiddlerpianist@gmail.com">fiddlerpianist@gmail.com</a>&gt;</code></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="part"><a href="#d0e11">I. Getting Started</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e14">1. Introduction</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e56">2. Installing and Running KnitML</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></dd></dl></dd><dt><span class="part"><a href="#d0e243">II. Writing KnitML Patterns</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e246">3. The Knitting Expression Language</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e249">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e430">Writing a Simple Pattern</a></span></dt><dt><span class="sect1"><a href="#d0e556">Improving the Pattern</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e611">4. The XML Pattern</a></span></dt><dt><span class="chapter"><a href="#internationalization">5. Internationalization</a></span></dt></dl></dd><dt><span class="part"><a href="#d0e621">III. Customizing and Extending KnitML</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e624">6. Customizing the Pattern Renderer</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e627">Overview</a></span></dt><dt><span class="sect1"><a href="#personalizing-patterns">Personalizing Patterns</a></span></dt><dt><span class="sect1"><a href="#adding-support-for-a-new-language">Adding Support for a New Language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#d0e755">Configuring your Environment</a></span></dt><dt><span class="sect2"><a href="#d0e789">Handling Plurals</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d0e874">7. Integrating with APIs</a></span></dt></dl></dd><dt><span class="appendix"><a href="#d0e879">A. The Specification</a></span></dt><dt><span class="appendix"><a href="#d0e887">B. Knitting Expression Language Reference</a></span></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>B.1. <a href="#el-function-table">Defined Expression Language Functions</a></dt><dt>B.2. <a href="#custom-function-example-table">Custom Function Examples</a></dt><dt>B.3. <a href="#d0e3140">Expression Language Data Types</a></dt></dl></div><div class="part" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e11"></a>Part&nbsp;I.&nbsp;Getting Started</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#d0e14">1. Introduction</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e56">2. Installing and Running KnitML</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></dd></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e14"></a>Chapter&nbsp;1.&nbsp;Introduction</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e17"></a>Overview</h2></div></div></div><p>The KnitML project's goal is to define and promote the adoption of a standard content
           model for knitting patterns. By developing a community-supported specification and
           providing basic rendering and transformation tools, the project aims to make KnitML easy
           to use and valuable to the knitter.</p><p>Knitting patterns are algorithms as much as they are documents. Consequently, it is
@@ -151,7 +151,7 @@ Row: k3, p3</pre><p>And
         </p><p>Note that you can use the <code class="code">:</code> syntax to define a row instead of the brace
           notation, in which case the entire row must be defined on the same line. If you have a
           more complex row to define that needs to be split into multiple lines, use the
-          <code class="code">{}</code>s  instead.</p><p>You can use the : syntax for any of the following functions: <code class="code">row</code>,
+          <code class="code">{}</code>s instead.</p><p>You can use the : syntax for any of the following functions: <code class="code">row</code>,
             <code class="code">round</code>, <code class="code">nextRow</code>, <code class="code">nextRound</code>, <code class="code">shortRow</code>.
           The <code class="code">:</code> syntax used with other functions exists for language purposes only and
           is simply ignored (producing the same effect as if it were omitted).</p><p>KnittingEL also defines shorthands for common operations. Here are a few:</p><div class="informaltable"><table border="0"><colgroup><col><col></colgroup><thead><tr><th>KnittingEL</th><th>XML</th></tr></thead><tbody><tr><td>
@@ -581,10 +581,12 @@ Next Row: Bind off all stitches</pre><p>
 &lt;/ball-weight&gt;</pre>
               </td></tr><tr><td rowspan="2" align="left">bindOff</td><td rowspan="2" align="left">
                 <p>
-                  <span class="emphasis"><em>(allStitches|all)</em></span> or number as <a class="link" href="#integer-type">Integer</a>, stitches as <a class="link" href="#stitch-type">Stitch</a> (optional), yarnRef as <a class="link" href="#idref-type">IDREF</a> (optional), wise as <a class="link" href="#wise-type">Wise</a> (optional)</p>
+                  <span class="emphasis"><em>(allStitches|all)</em></span> or number as <a class="link" href="#integer-type">Integer</a>, stitches as <a class="link" href="#stitch-type">Stitch</a> (optional), <span class="emphasis"><em>with</em></span>
+                  (optional), yarnRef as <a class="link" href="#idref-type">IDREF</a> (optional),
+                  wise as <a class="link" href="#wise-type">Wise</a> (optional)</p>
               </td><td rowspan="2" align="left">Bind off either all of the stitches in the row / on the needle, or
                 the specified number. Use the specified yarn and wise, if provided.</td><td align="left">
-                <code class="code">bindOff 10 sts 'y1' purlwise</code>
+                <code class="code">bindOff 10 sts with 'y1' purlwise</code>
               </td><td align="left">
                 <pre class="programlisting">&lt;bind-off yarn-ref="y1"
           type="purlwise"&gt;10
@@ -593,12 +595,23 @@ Next Row: Bind off all stitches</pre><p>
                 <code class="code">bindOff all sts knitwise</code>
               </td><td align="left">
                 <pre class="programlisting">&lt;bind-off-all type="knitwise"/&gt;</pre>
-              </td></tr><tr><td align="left">castOn</td><td align="left">number as <a class="link" href="#integer-type">Integer</a>
-              </td><td align="left">Cast the number of stitches onto the current needle</td><td align="left">
-                <code class="code">castOn 35</code>
+              </td></tr><tr><td align="left">bo / BO</td><td align="left">(same as bindOff)</td><td align="left">alias for bindOff</td><td align="left"><code class="code">bo 20</code></td><td align="left">
+                <pre class="programlisting">&lt;bind-off&gt;
+20&lt;/bind-off&gt;</pre>
+              </td></tr><tr><td rowspan="2" align="left">castOn</td><td rowspan="2" align="left">number as <a class="link" href="#integer-type">Integer</a>, style
+                as <a class="link" href="#string-type">String</a>, <span class="emphasis"><em>countAsRow</em></span>,
+                stitches as <a class="link" href="#stitch-type">Stitch</a> xmlAttributes as <a class="link" href="#map-type">Map</a> (all parameters optional in any order)</td><td rowspan="2" align="left">Cast the number of stitches onto the current needle. If
+                  <span class="emphasis"><em>countAsRow</em></span> is specified, the cast on will be treated as a row
+                (e.g. if it's the first row in a flat pattern, the next row in the pattern will be
+                the wrong side).</td><td align="left">
+                <code class="code">castOn 35 sts</code>
               </td><td align="left">
                 <code class="code">&lt;cast-on&gt;35&lt;/cast-on&gt;</code>
-              </td></tr><tr><td align="left">co</td><td align="left">(same as castOn)</td><td align="left">alias for castOn</td><td align="left">
+              </td></tr><tr><td align="left"><code class="code">castOn 35 countAsRow</code></td><td align="left">
+                <pre class="programlisting">&lt;cast-on
+  count-as-row="false"&gt;
+35&lt;/cast-on&gt;</pre>
+              </td></tr><tr><td align="left">co / CO</td><td align="left">(same as castOn)</td><td align="left">alias for castOn</td><td align="left">
                 <code class="code">co 35</code>
               </td><td align="left">
                 <code class="code">&lt;cast-on&gt;35&lt;/cast-on&gt;</code>
@@ -664,6 +677,18 @@ Next Row: Bind off all stitches</pre><p>
               </td><td align="left">
                 <code class="code">&lt;for-each-row-in-instruction ref="my"&gt; ...
                   &lt;/for-each-row-in-instruction&gt;</code>
+              </td></tr><tr><td align="left">fromHolder</td><td align="left">ref as <a class="link" href="#idref-type">IDREF</a>
+              </td><td align="left">Work the enclosed stitches from the specified stitch holder</td><td align="left">
+                <pre class="programlisting">fromHolder 'sh1'{
+  p2, k to end
+}</pre>
+              </td><td align="left">
+                <pre class="programlisting">&lt;from-stitch-holder ref="sh1"&gt;
+  &lt;purl&gt;2&lt;/purl&gt;
+  &lt;repeat until="end"&gt;
+    &lt;knit/&gt;
+  &lt;/repeat&gt;
+&lt;/from-stitch-holder&gt;</pre>
               </td></tr><tr><td align="left">gauge</td><td align="left">type as <a class="link" href="#string-type">String</a> (optional)</td><td align="left">A gauge element</td><td align="left">
                 <code class="code">gauge 'stockinette' {...}</code>
               </td><td align="left">
@@ -681,8 +706,7 @@ Next Row: Bind off all stitches</pre><p>
   &lt;needle ref="n2"/&gt;
 &lt;/graft-together&gt;</pre>
               </td></tr><tr><td rowspan="2" align="left">inform</td><td rowspan="2" align="left">stitchNumber as <a class="link" href="#integer-type">Integer</a>,
-                stitches as <a class="link" href="#stitch-type">Stitch</a>,
-                <span class="emphasis"><em>leftOnNeedles</em></span> (optional) </td><td rowspan="2" align="left">Renders the number of stitches on the needles. Functionality may
+                stitches as <a class="link" href="#stitch-type">Stitch</a>, stateDescription as <a class="link" href="#state-description-type">StateDescription</a> (optional) </td><td rowspan="2" align="left">Renders the number of stitches on the needles. Functionality may
                 be expanded in the future.</td><td align="left">
                 <code class="code">inform 20 sts leftOnNeedles</code>
               </td><td align="left">
@@ -722,14 +746,15 @@ Next Row: Bind off all stitches</pre><p>
                 <code class="code">&lt;inline-instruction-ref ref="my"/&gt;</code>
               </td></tr><tr><td align="left">instruction</td><td align="left">
                 <p>id as <a class="link" href="#id-type">ID</a>, <span class="emphasis"><em>withKey</em></span>,
-                    <span class="emphasis"><em>withLabel</em></span>, label as <a class="link" href="#string-type">String</a>, xmlAttributes as <a class="link" href="#map-type">Map</a>
+                    <span class="emphasis"><em>withLabel</em></span>, label as <a class="link" href="#string-type">String</a>, shape as <a class="link" href="#shape-type">Shape</a>,
+                  xmlAttributes as <a class="link" href="#map-type">Map</a>
                 </p>
                 <p>(all parameters except id optional)</p>
               </td><td align="left">Define a block instruction</td><td align="left">
-                <code class="code">instruction 'my' withKey withLabel 'Just do it' {...}</code>
+                <code class="code">instruction 'my' withKey withLabel 'Just do it' round {...}</code>
               </td><td align="left">
-                <code class="code">&lt;instruction id="my" message-key="instruction.my" label="Just do it"&gt; ...
-                  &lt;/instruction&gt;</code>
+                <code class="code">&lt;instruction id="my" message-key="instruction.my" label="Just do it"
+                  shape="round"&gt; ... &lt;/instruction&gt;</code>
               </td></tr><tr><td align="left">instructionDefinitions</td><td align="left">(none)</td><td align="left">Global instruction definitions defined in the header. Can be block
                 instructions, inline instructions, or merged instructions. Will appear in the legend
                 before the directions.</td><td align="left">
@@ -755,10 +780,11 @@ Next Row: Bind off all stitches</pre><p>
                 <code class="code">joinInRound</code>
               </td><td align="left">
                 <pre class="programlisting">&lt;join-in-round/&gt;</pre>
-              </td></tr><tr><td rowspan="4" align="left">k</td><td rowspan="4" align="left">
-                <p>number as <a class="link" href="#integer-type">Integer</a>, yarnRef as <a class="link" href="#idref-type">IDREF</a>, repeatSpec as Repeat</p>
+              </td></tr><tr><td rowspan="5" align="left">k</td><td rowspan="5" align="left">
+                <p>number as <a class="link" href="#integer-type">Integer</a>, yarnRef as <a class="link" href="#idref-type">IDREF</a>, loopToWork as LoopToWork, repeatSpec as
+                  Repeat, holderSpec as <a class="link" href="#holder-type">Holder</a></p>
                 <p>(all parameters optional)</p>
-              </td><td rowspan="4" align="left">Knit specified number of stitches</td><td align="left">
+              </td><td rowspan="5" align="left">Knit specified number of stitches</td><td align="left">
                 <pre class="programlisting">k10
 k 10</pre>
               </td><td align="left">
@@ -777,14 +803,20 @@ k 3 with 'y1'</pre>
               </td><td align="left">
                 <code class="code">&lt;knit yarn-ref="y1"&gt;3&lt;/knit&gt;</code>
               </td></tr><tr><td align="left">
-                <pre class="programlisting">k to 2 sts beforeEnd
-k to 2 beforeEnd
+                <pre class="programlisting">k to 2 sts before end
+k to 2 before end
 k 2 beforeEnd</pre>
               </td><td align="left">
                 <pre class="programlisting">&lt;repeat until="before-end"
         value="2"&gt;
   &lt;knit/&gt;
 &lt;/repeat&gt;</pre>
+              </td></tr><tr><td align="left">
+                <pre class="programlisting">k 3 tbl
+k3 tbl</pre>
+              </td><td align="left">
+                <pre class="programlisting">&lt;knit loop-to-work="trailing"&gt;
+3&lt;/knit&gt;</pre>
               </td></tr><tr><td align="left">k2tog</td><td align="left">(none)</td><td align="left">Knit next two stitches together</td><td align="left">
                 <code class="code">k2tog</code>
               </td><td align="left">
@@ -910,7 +942,8 @@ k 2 beforeEnd</pre>
                 </p>
                 <p>(all parameters except number optional)</p>
               </td><td rowspan="2" align="left">Pick up the specified number of stitches. If wise is not
-                specified, defaults to knitwise.</td><td align="left">
+                specified, defaults to knitwise. Renders as <code class="code">inline-pickup-stitches</code> if
+                within a row.</td><td align="left">
                 <code class="code">pickUp 10 sts 'y1' purlwise</code>
               </td><td align="left">
                 <pre class="programlisting">&lt;pick-up-stitches type="purlwise"
@@ -1033,19 +1066,77 @@ k 2 beforeEnd</pre>
               </td><td align="left">
                 <pre class="programlisting">&lt;size unit="US"&gt;00
 &lt;/size&gt;</pre>
-              </td></tr><tr><td align="left">sl</td><td align="left">
-                <p>number as <a class="link" href="#integer-type">Integer</a>, xmlAttributes as
-                    <a class="link" href="#map-type">Map</a>
-                </p>
+              </td></tr><tr><td rowspan="5" align="left">sl</td><td rowspan="5" align="left">
+                <p><span class="emphasis"><em>next</em></span>, number as <a class="link" href="#integer-type">Integer</a>, stitches as <a class="link" href="#stitch-type">Stitch</a>, wise
+                  as <a class="link" href="#wise-type">Wise</a>, <span class="emphasis"><em>reverse |
+                  inReverse</em></span>, position as <a class="link" href="#yarn-position-type">YarnPosition</a>, xmlAttributes as <a class="link" href="#map-type">Map</a></p>
                 <p>(all parameters optional)</p>
-              </td><td align="left">Slip the specified number of stitches</td><td align="left">
+              </td><td rowspan="5" align="left">Slip the specified number of stitches</td><td align="left">
                 <code class="code">sl 5</code>
               </td><td align="left">
                 <code class="code">&lt;slip&gt;5&lt;/slip&gt;</code>
+              </td></tr><tr><td align="left"><code class="code">sl 5 sts knitwise</code></td><td align="left">
+                <pre class="programlisting">&lt;slip type="knitwise"&gt;5
+&lt;/slip&gt;</pre>
+              </td></tr><tr><td align="left"><code class="code">sl next 5 sts to holder 'h1'</code></td><td align="left">
+                <pre class="programlisting">&lt;slip-to-stitch-holder ref="h1"&gt;5
+&lt;/slip-to-stitch-holder&gt;</pre>
+              </td></tr><tr><td align="left"><code class="code">sl 5 inReverse</code></td><td align="left">
+                <pre class="programlisting">&lt;slip direction="reverse"&gt;5
+&lt;/slip&gt;</pre>
+              </td></tr><tr><td align="left"><code class="code">sl 5 wyib</code></td><td align="left">
+                <pre class="programlisting">&lt;slip yarn-position="back"&gt;5
+&lt;/slip&gt;</pre>
               </td></tr><tr><td align="left">ssk</td><td align="left">(none)</td><td align="left">Slip-slip-knit</td><td align="left">
                 <code class="code">ssk</code>
               </td><td align="left">
                 <code class="code">&lt;decrease type="ssk"/&gt;</code>
+              </td></tr><tr><td rowspan="4" align="left">state</td><td rowspan="4" align="left">stitchNumber as <a class="link" href="#integer-type">Integer</a>,
+                stitches as <a class="link" href="#stitch-type">Stitch</a>, stateDescription as <a class="link" href="#state-description-type">StateDescription...</a> (all parameters
+                optional in any order) </td><td rowspan="4" align="left">State the number of stitches left in the row, or state the number
+                of stitches which have yet to be worked for this row. If a number is specified, the
+                validator asserts that this number matches reality. Can be used at the end of a row
+                definition, in which case the element name will be
+                <code class="code">&lt;followup-information&gt;</code> instead of <code class="code">&lt;information&gt;</code>.</td><td align="left">
+                <pre class="programlisting">state 10 sts rem
+state 10 sts remain
+state 10 sts remaining
+state 10 sts left
+state 10 sts inRow
+state 10 sts onNeedles
+state 10 sts left onNeedles
+state 10 sts</pre>
+              </td><td align="left">
+                <pre class="programlisting">&lt;information&gt;
+  &lt;number-of-stitches
+     number="10"/&gt;
+&lt;/information&gt;</pre>
+              </td></tr><tr><td align="left">
+                <pre class="programlisting">state sts rem
+state rem sts
+state remaining sts
+state sts</pre>
+              </td><td align="left">
+                <pre class="programlisting">&lt;information&gt;
+  &lt;number-of-stitches/&gt;
+&lt;/information&gt;</pre>
+              </td></tr><tr><td align="left">
+                <pre class="programlisting">state 10 unworked sts
+state 10 sts unworked
+state 10 unworked</pre>
+              </td><td align="left">
+                <pre class="programlisting">&lt;information&gt;
+  &lt;number-of-unworked-stitches
+     number="10"/&gt;
+&lt;/information&gt;</pre>
+              </td></tr><tr><td align="left">
+                <pre class="programlisting">state unworked sts
+state sts unworked
+state unworked</pre>
+              </td><td align="left">
+                <pre class="programlisting">&lt;information&gt;
+  &lt;number-of-unworked-stitches/&gt;
+&lt;/information&gt;</pre>
               </td></tr><tr><td align="left">stitchGauge</td><td align="left">number as <a class="link" href="#decimal-type">Decimal</a>, gauge as <a class="link" href="#stitch-gauge-unit-type">StitchGaugeUnit</a>
               </td><td align="left">The number of stitches (horizontally) per unit of measurement. The colon is
                 optional.</td><td align="left">
@@ -1053,6 +1144,18 @@ k 2 beforeEnd</pre>
               </td><td align="left">
                 <pre class="programlisting">&lt;stitch-gauge unit="st/in"&gt;3.5
 &lt;/stitch-gauge&gt;</pre>
+              </td></tr><tr><td rowspan="2" align="left">stitchHolder</td><td rowspan="2" align="left">
+                <p>id as <a class="link" href="#id-type">ID</a>, <span class="emphasis"><em>withKey</em></span>,
+                    <span class="emphasis"><em>withLabel</em></span>, label as <a class="link" href="#string-type">String</a></p>
+                <p>(all parameters except id optional)</p>
+              </td><td rowspan="2" align="left">A stitch holder used in the pattern.</td><td align="left">
+                <code class="code">stitchHolder 'sh1'</code>
+              </td><td align="left">
+                <pre class="programlisting">&lt;stitch-holder id="sh1"/&gt;</pre>
+              </td></tr><tr><td align="left"><code class="code">stitchHolder 'sh1' withKey  withLabel "Stitch Holder 1"</code></td><td align="left">
+                <pre class="programlisting">&lt;stitch-holder id="sh1"
+  message-key="stitch-holder.sh1"
+  label="Stitch Holder 1"/&gt;</pre>
               </td></tr><tr><td align="left">thickness</td><td align="left">number as <a class="link" href="#decimal-type">Decimal</a>, thickness as <a class="link" href="#thickness-unit-type">ThicknessUnit</a>
               </td><td align="left">The thickness of the yarn (wraps per unit of measurement). The colon is
                 optional.</td><td align="left">
@@ -1170,13 +1273,15 @@ k 2 beforeEnd</pre>
               </td></tr></tbody></table></div></div><p><br class="table-break">
     </p><p>Use the pre-defined functions whenever possible, but there may be times when you need
       maximum flexibility to express the resulting XML.</p><p>
-      </p><div class="table"><a name="d0e2902"></a><p class="title"><b>Table&nbsp;B.3.&nbsp;Expression Language Data Types</b></p><div class="table-contents"><table summary="Expression Language Data Types" border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Type</th><th>Form</th><th>Example</th></tr></thead><tbody><tr><td><a name="cross-type"></a>Cross</td><td>
+      </p><div class="table"><a name="d0e3140"></a><p class="title"><b>Table&nbsp;B.3.&nbsp;Expression Language Data Types</b></p><div class="table-contents"><table summary="Expression Language Data Types" border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Type</th><th>Form</th><th>Example</th></tr></thead><tbody><tr><td><a name="cross-type"></a>Cross</td><td>
                 <code class="code">('inFrontOf' | 'behind')</code>
               </td><td>
                 <code class="code">inFrontOf</code>
               </td></tr><tr><td><a name="decimal-type"></a>Decimal</td><td>Same as XML Schema's decimal data type</td><td>
                 <code class="code">1.5</code>
-              </td></tr><tr><td><a name="id-type"></a>ID</td><td>Same as XML Schema's ID data type</td><td>
+              </td></tr><tr><td rowspan="2"><a name="holder-type"></a>Holder</td><td rowspan="2"><code class="code">('to' | 'from') 'holder' holderId</code></td><td>
+                <code class="code">from holder 'stitch-holder-1'</code>
+              </td></tr><tr><td><code class="code">to holder 'stitch-holder-1'</code></td></tr><tr><td><a name="id-type"></a>ID</td><td>Same as XML Schema's ID data type</td><td>
                 <code class="code">'make-cuff'</code>
               </td></tr><tr><td><a name="idref-type"></a>IDREF</td><td>Same as XML Schema's IDREF data type</td><td>
                 <code class="code">'make-cuff'</code>
@@ -1187,7 +1292,7 @@ k 2 beforeEnd</pre>
                   'millimeters' | 'm' | 'meters' | 'yd' | 'yards')</code>
               </td><td>
                 <code class="code">inch</code>
-              </td></tr><tr><td><a name="map-type"></a>Map</td><td>Grouping of name / value pairs; always translates to a list of attributes for
+              </td></tr><tr><td>LoopToWork</td><td><code class="code">('tbl')</code></td><td><code class="code">tbl</code></td></tr><tr><td><a name="map-type"></a>Map</td><td>Grouping of name / value pairs; always translates to a list of attributes for
                 the target element. Each name is taken literally and need not be in quotes (unless
                 there is a hyphen in the name).</td><td>
                 <code class="code">[id:'needle1', typeref:'needle-type1', 'message-key':'needle.needle1']</code>
@@ -1203,8 +1308,8 @@ k 2 beforeEnd</pre>
               </td><td>
                 <code class="code">circ</code>
               </td></tr><tr><td rowspan="3"><a name="repeat-type"></a>Repeat</td><td rowspan="3">
-                <code class="code">('to'?, <a class="link" href="#integer-type">Integer</a>?, <a class="link" href="#until-type">Until</a>)</code> in any order</td><td>
-                <code class="code">to 2 beforeEnd</code>
+                <code class="code">('to'?, <a class="link" href="#integer-type">Integer</a>?, 'before'?, <a class="link" href="#until-type">Until</a>)</code> in any order</td><td>
+                <code class="code">to 2 before end</code>
               </td></tr><tr><td>
                 <code class="code">to end</code>
               </td></tr><tr><td>
@@ -1226,7 +1331,8 @@ k 2 beforeEnd</pre>
                 <code class="code">('right' | 'wrong')</code>
               </td><td>
                 <code class="code">wrong</code>
-              </td></tr><tr><td><a name="stitch-type"></a>Stitch</td><td>
+              </td></tr><tr><td><a name="shape-type"></a>Shape</td><td><code class="code">('flat' | 'round')</code></td><td><code class="code">round</code></td></tr><tr><td><a name="state-description-type"></a>StateDescription</td><td><code class="code">('rem' | 'remain' | 'remaining' | 'inRow' | 'onNeedle' | 'onNeedles' |
+                  'left' | 'unworked')</code></td><td><code class="code">remaining</code></td></tr><tr><td><a name="stitch-type"></a>Stitch</td><td>
                 <code class="code">('st' | 'sts' | 'stitch' | 'stitches')</code>
               </td><td>
                 <code class="code">sts</code>
@@ -1253,7 +1359,7 @@ k 2 beforeEnd</pre>
               </td></tr><tr><td><a name="weight-unit-type"></a>WeightUnit</td><td>
                 <code class="code">('g' | 'grams' | 'oz' | 'ounces')</code>
               </td><td>
-                <code class="code">inch</code>
+                <code class="code">grams</code>
               </td></tr><tr><td><a name="wise-type"></a>Wise</td><td>
                 <code class="code">('knitwise' | 'purlwise')</code>
               </td><td>
@@ -1262,5 +1368,9 @@ k 2 beforeEnd</pre>
                 <code class="code">('withKey' | 'withLabel')</code>
               </td><td>
                 <code class="code">withKey</code>
+              </td></tr><tr><td><a name="yarn-position-type"></a>YarnPosition</td><td>
+                <code class="code">('wyif' | 'wyib')</code>
+              </td><td>
+                <code class="code">wyif</code>
               </td></tr></tbody></table></div></div><p><br class="table-break">
     </p></div></div></body></html>
