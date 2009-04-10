@@ -85,8 +85,8 @@
       <needle id="the-needle" typeref="needle-type-1" />
     </needles>
     <accessories>
-      <stitch-holder id="st-holder-1" />
-      <stitch-holder id="st-holder-2" />
+      <stitch-holder id="st-holder-1" label="holder 1" />
+      <stitch-holder id="st-holder-2" label="holder 2" />
     </accessories>
   </supplies>
   <directions>
@@ -157,7 +157,7 @@
           <purl loop-to-work="trailing">1</purl>
           <decrease type="k2tog" />
           <knit>7</knit>
-          <slip-to-holder ref="st-holder-1">22</slip-to-holder>
+          <slip-to-stitch-holder ref="st-holder-1">22</slip-to-stitch-holder>
         </row>
         <row>
           <purl>1</purl>
@@ -193,16 +193,19 @@
       <section>
         <row assign-row-number="false">
           <decrease type="k2tog">2</decrease>
+        </row>
+        <row side="wrong" assign-row-number="false">
+          <slip>2</slip>
           <bind-off-all />
         </row>
       </section>
-      <section>
-        <information>
-          <message label="Join yarn at right-hand neck." />
-        </information>
-      </section>
     </instruction-group>
     <instruction-group id="left-back-shoulder" label="Left Shoulder" reset-row-count="true">
+      <section>
+        <information>
+          <message label="Join yarn at right-hand neck. In next row, work stitches directly from holder." />
+        </information>
+      </section>
       <section>
         <row side="right">
           <from-stitch-holder ref="st-holder-1">
@@ -249,6 +252,9 @@
       <section>
         <row assign-row-number="false">
           <decrease type="k2tog">2</decrease>
+        </row>
+        <row side="wrong" assign-row-number="false">
+          <slip>2</slip>
           <bind-off-all />
         </row>
       </section>
@@ -320,8 +326,8 @@
           <purl loop-to-work="trailing">1</purl>
           <decrease type="k2tog" />
           <knit>14</knit>
-          <slip-to-holder ref="st-holder-1">8</slip-to-holder>
-          <slip-to-holder ref="st-holder-2">19</slip-to-holder>
+          <slip-to-stitch-holder ref="st-holder-1">8</slip-to-stitch-holder>
+          <slip-to-stitch-holder ref="st-holder-2">19</slip-to-stitch-holder>
         </row>
         <row number="2">
           <bind-off>2</bind-off>
@@ -373,6 +379,9 @@
       <section>
         <row assign-row-number="false">
           <decrease type="k2tog">2</decrease>
+        </row>
+        <row side="wrong" assign-row-number="false">
+          <slip>2</slip>
           <bind-off-all />
         </row>
       </section>
@@ -380,7 +389,7 @@
     <instruction-group id="right-front-shoulder" label="Right Shoulder">
       <section>
         <information>
-          <message label="Keep center 8 sts of Front on holder. Join yarn after the last st on holder with RS facing." />
+          <message label="Join yarn after the last st on holder 1 with RS facing." />
         </information>
       </section>
       <section>

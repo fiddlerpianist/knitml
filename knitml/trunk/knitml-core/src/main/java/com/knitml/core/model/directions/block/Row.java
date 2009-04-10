@@ -5,6 +5,7 @@ import static org.apache.commons.lang.ArrayUtils.toPrimitive;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.math.Range;
 
 import com.knitml.core.common.KnittingShape;
@@ -155,7 +156,7 @@ public class Row implements BlockOperation, CompositeOperation {
 			sb.append("Row ");
 		}
 		if (getNumbers() != null) {
-			sb.append(String.valueOf(getNumbers()));
+			sb.append(ArrayUtils.toString(getNumbers()));
 			sb.append(" ");
 		}
 		if (getSide() != null) {

@@ -13,6 +13,6 @@ public class FlatRowBackwardsTests extends FlatRowTests {
 
 	@Override
 	public void onSetUp() throws KnittingEngineException {
-		knitter.startNewRow();
+		engine.startNewRow();
 	}
 }

@@ -2,7 +2,6 @@ package com.knitml.renderer.chart.symbol.impl;
 
 import java.util.List;
 
-import com.knitml.renderer.chart.advisor.ChartSymbolAdvisor;
 import com.knitml.renderer.chart.symbol.SymbolProvider;
 import com.knitml.renderer.chart.symbol.SymbolProviderRegistry;
 

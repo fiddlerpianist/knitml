@@ -7,6 +7,8 @@ import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
 import static org.easymock.EasyMock.*
+import static com.knitml.engine.settings.Direction.FORWARDS
+import static com.knitml.engine.settings.Direction.BACKWARDS
 
 import org.junit.Test
 import org.junit.runner.JUnitCore
@@ -183,6 +185,7 @@ public class RowVisitorTests extends AbstractKnittingContextTests {
 		knittingContext.engine = createNiceMock(KnittingEngine)
 		engine = knittingContext.engine
 		engine.with {
+			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
 			startNewRow()
 			knit 20
 			endRow()
@@ -220,6 +223,45 @@ public class RowVisitorTests extends AbstractKnittingContextTests {
 				<purl>20</purl>
 			</row>
 		'''
+	}
+	
+	@Test(expected=InvalidStructureException)
+	void zeroStitchesInRowAtStartWithNoSideSpecified() {
+		// when there are 0 stitches in a row, the side of the next row must be specified
+		processXml '''
+			<row>
+				<bind-off-all/>
+			</row>
+			<row>
+				<inline-pick-up-stitches>20</inline-pick-up-stitches>
+			</row>
+		'''
+	}
+
+	@Test
+	void zeroStitchesInRowAtStartWithRightSideSpecified() {
+		processXml '''
+			<row>
+				<bind-off-all/>
+			</row>
+			<row side="right">
+				<inline-pick-up-stitches>20</inline-pick-up-stitches>
+			</row>
+		'''
+		assertThat engine.direction, is (FORWARDS)
+	}
+
+	@Test
+	void zeroStitchesInRowAtStartWithWrongSideSpecified() {
+		processXml '''
+			<row>
+				<bind-off-all/>
+			</row>
+			<row side="wrong">
+				<inline-pick-up-stitches>20</inline-pick-up-stitches>
+			</row>
+		'''
+		assertThat engine.direction, is (BACKWARDS)
 	}
 	
 	static void main(args) {

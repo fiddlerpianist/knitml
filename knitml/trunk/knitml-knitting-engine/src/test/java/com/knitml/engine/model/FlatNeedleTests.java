@@ -585,55 +585,6 @@ public abstract class FlatNeedleTests {
 	}
 
 	@Test
-	public void knitToDifferentMarkersWorkIntoNextStitch() throws Exception {
-		// place marker between stitch 2 and 3
-		knit(2);
-		needle.placeMarker(new DefaultMarker());
-		knit(5);
-		// place marker between stitch 7 and 8
-		needle.placeMarker(new DefaultMarker());
-		knit(3);
-
-		// level the playing field
-		nextRow();
-		knit(10);
-
-		nextRow();
-		needle.workIntoNextStitch(2);
-		knit(1);
-		// slip marker
-		needle.workIntoNextStitch(2);
-		knit(2);
-		needle.workIntoNextStitch(2);
-		knit(1);
-		// slip marker
-		needle.workIntoNextStitch(2);
-		knit(2);
-
-		// level the playing field
-		nextRow();
-		knit(14);
-
-		nextRow();
-		knit(3);
-		assertEquals(0, needle.getStitchesToNextMarker());
-		assertEquals(11, needle.getStitchesRemaining());
-		knit(7);
-		assertEquals(0, needle.getStitchesToNextMarker());
-		assertEquals(4, needle.getStitchesRemaining());
-		knit(4);
-		assertEquals(0, needle.getStitchesRemaining());
-
-	}
-	
-	@Test
-	public void increaseIntoNextStitch() throws Exception {
-		needle.workIntoNextStitch(4);
-		assertEquals(9, needle.getStitchesRemaining());
-		assertEquals(13, needle.getTotalStitches());
-	}
-	
-	@Test
 	public void knitToGap() throws Exception {
 		knit(8);
 		needle.turn();

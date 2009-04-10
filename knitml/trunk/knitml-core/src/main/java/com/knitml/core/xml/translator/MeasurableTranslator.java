@@ -28,7 +28,7 @@ public class MeasurableTranslator implements IMarshaller, IUnmarshaller,
 	static {
 		// statically load KnittingMeasure class
 		@SuppressWarnings("unused")
-		Unit unit = Units.WRAPS_PER_INCH;
+		Unit<?> unit = Units.WRAPS_PER_INCH;
 	}
 
 	public MeasurableTranslator() {
@@ -65,7 +65,7 @@ public class MeasurableTranslator implements IMarshaller, IUnmarshaller,
 			throw new JiBXException("Invalid object type for marshaller");
 		}
 		MarshallingContext ctx = (MarshallingContext) ictx;
-		Measure measure = (Measure)obj;
+		Measure<?,?> measure = (Measure<?,?>)obj;
 		
 		ctx.startTagAttributes(this.index, this.name);
 		ctx.attribute(this.index, "unit", measure.getUnit().toString());
@@ -103,7 +103,7 @@ public class MeasurableTranslator implements IMarshaller, IUnmarshaller,
 		String unitString = ctx.attributeText(null, "unit");
 		Unit<?> unit = null;
 		try {
-			unit = (Unit) (UnitFormat.getInstance()
+			unit = (Unit<?>) (UnitFormat.getInstance()
 					.parseObject(unitString));
 		} catch (ParseException ex) {
 			throw new JiBXException("Unable to parse unit element", ex);

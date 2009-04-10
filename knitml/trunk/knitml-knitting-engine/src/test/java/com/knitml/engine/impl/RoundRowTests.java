@@ -17,50 +17,50 @@ public class RoundRowTests extends FlatRowTests {
 
 	@Override
 	protected void onSetUp() throws Exception {
-		knitter.declareRoundKnitting();
-		knitter.startNewRow();
+		engine.declareRoundKnitting();
+		engine.startNewRow();
 	}
 
 	@Test
 	public void knitForTwoRounds() throws Exception {
 		knit(40);
-		knitter.startNewRow();
+		engine.startNewRow();
 		knit(40);
-		knitter.startNewRow();
+		engine.startNewRow();
 	}
 
 	@Test
 	public void checkNumberOfStitchesInRow() throws Exception {
-		assertEquals(40, knitter.getTotalNumberOfStitchesInRow());
-		assertEquals(40, knitter.getStitchesRemainingInRow());
+		assertEquals(40, engine.getTotalNumberOfStitchesInRow());
+		assertEquals(40, engine.getStitchesRemainingInRow());
 	}
 
 	@Test
 	public void checkMarkerPlacement() throws Exception {
 		knit(5);
-		knitter.placeMarker();
+		engine.placeMarker();
 		knit(35);
-		knitter.startNewRow();
-		while (knitter.getStitchesToNextMarker() > 0) {
-			knitter.knit();
+		engine.startNewRow();
+		while (engine.getStitchesToNextMarker() > 0) {
+			engine.knit();
 		}
-		assertEquals(35, knitter.getStitchesRemainingInRow());
+		assertEquals(35, engine.getStitchesRemainingInRow());
 	}
 
 	@Test
 	public void switchToFlatKnittingTemporarily() throws Exception {
 		knit(5);
-		knitter.placeMarker();
+		engine.placeMarker();
 		knit(35);
-		knitter.endRow();
-		knitter.declareFlatKnitting(Direction.FORWARDS);
-		knitter.startNewRow();
+		engine.endRow();
+		engine.declareFlatKnitting(Direction.FORWARDS);
+		engine.startNewRow();
 		knit(40);
-		knitter.startNewRow(); // now we're knitting on the wrong side
-		while (knitter.getStitchesToNextMarker() > 0) {
-			knitter.knit();
+		engine.startNewRow(); // now we're knitting on the wrong side
+		while (engine.getStitchesToNextMarker() > 0) {
+			engine.knit();
 		}
-		assertEquals(5, knitter.getStitchesRemainingInRow());
+		assertEquals(5, engine.getStitchesRemainingInRow());
 	}
 
 }

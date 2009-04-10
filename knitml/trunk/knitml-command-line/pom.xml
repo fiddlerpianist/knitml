@@ -73,6 +73,13 @@
       <!-- Defining these has the potential of breaking the build
            if the samples are altered in any way -->
       <testResource>
+        <directory>../samples/banff</directory>
+        <includes>
+          <include>banff-l-xl.kel</include>
+          <include>banff-l-xl.xml</include>
+        </includes>
+      </testResource>
+      <testResource>
         <directory>../samples/basic-sock</directory>
         <includes>
           <include>basic-sock.kel</include>

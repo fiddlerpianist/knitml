@@ -12,8 +12,9 @@ public class PickUpStitches implements BlockOperation {
 	public PickUpStitches() {
 	}
 	
-	public PickUpStitches(Integer numberOfTimes, Wise type) {
+	public PickUpStitches(Integer numberOfTimes, String yarnIdRef, Wise type) {
 		this.numberOfTimes = numberOfTimes;
+		this.yarnIdRef = yarnIdRef;
 		this.type = type;
 	}
 

@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.runner.JUnitCore
 import org.springframework.core.io.ClassPathResource;
 
@@ -62,13 +63,18 @@ class PatternFullTransformationTests extends RunnerTests {
 	}
 	
 	@Test
+	void basicSock() {
+		convertValidateAndRender 'basic-sock'
+	}
+	
+	@Test
 	void nutkin2() {
 		convertValidateAndRender 'nutkin2'
 	}
 
 	@Test
 	void banff() {
-		convertValidateAndRender 'banff'
+		convertValidateAndRender 'banff-l-xl'
 	}
 
 	static void main(args) {

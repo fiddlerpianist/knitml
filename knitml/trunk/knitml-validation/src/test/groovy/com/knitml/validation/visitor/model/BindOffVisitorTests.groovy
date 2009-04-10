@@ -48,10 +48,41 @@ class BindOffVisitorTests extends AbstractKnittingContextTests {
 	}
 	
 	@Test
-	public void bindOff30() {
+	public void bindOffAllAtEnd() {
 		processXml '''
 			<row>
-				<bind-off>30</bind-off>
+				<bind-off-all fasten-off-last-stitch="false"/>
+			</row>
+		'''
+		assertTrue engine.betweenRows
+		assertThat engine.totalNumberOfStitchesInRow, is (1)
+	}
+	
+	@Test
+	public void bindOffAllWithTwoStitchesLeft() {
+		processXml '''
+			<row>
+				<bind-off>28</bind-off>
+				<knit>2</knit>
+			</row>
+			<row>
+				<bind-off-all/>
+			</row>
+		'''
+		assertTrue engine.betweenRows
+		assertThat engine.totalNumberOfStitchesInRow, is (0)
+	}
+
+	@Test
+	public void bindOffAllWithTwoStitchesLeftAtEnd() {
+		processXml '''
+			<row>
+				<bind-off>28</bind-off>
+				<knit>2</knit>
+			</row>
+			<row>
+				<slip>2</slip>
+				<bind-off-all/>
 			</row>
 		'''
 		assertTrue engine.betweenRows

@@ -15,8 +15,6 @@ import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.NotEndOfRowException;
 import com.knitml.engine.common.NotEnoughStitchesException;
 import com.knitml.engine.common.StitchesAlreadyOnNeedleException;
-import com.knitml.engine.impl.DefaultKnittingEngine;
-import com.knitml.engine.impl.DefaultKnittingFactory;
 
 /**
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)
@@ -24,14 +22,14 @@ import com.knitml.engine.impl.DefaultKnittingFactory;
  */
 public abstract class FlatRowTests {
 
-	protected DefaultKnittingEngine knitter;
+	protected DefaultKnittingEngine engine;
 
 	protected void knit(int numberOfStitches) throws KnittingEngineException {
-		knitter.knit(numberOfStitches);
+		engine.knit(numberOfStitches);
 	}
 
 	protected void purl(int numberOfStitches) throws KnittingEngineException {
-		knitter.purl(numberOfStitches);
+		engine.purl(numberOfStitches);
 	}
 
 	/**
@@ -42,8 +40,8 @@ public abstract class FlatRowTests {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		knitter = new DefaultKnittingEngine(new DefaultKnittingFactory());
-		knitter.castOn(40);
+		engine = new DefaultKnittingEngine(new DefaultKnittingFactory());
+		engine.castOn(40);
 		onSetUp();
 	}
 
@@ -52,9 +50,9 @@ public abstract class FlatRowTests {
 	@Test
 	public void knitToEndOfRow() throws Exception {
 		knit(40);
-		assertEquals(40, knitter.getTotalNumberOfStitchesInRow());
-		assertTrue(knitter.isEndOfRow());
-		knitter.endRow();
+		assertEquals(40, engine.getTotalNumberOfStitchesInRow());
+		assertTrue(engine.isEndOfRow());
+		engine.endRow();
 	}
 
 	@Test(expected = NotEnoughStitchesException.class)
@@ -69,7 +67,7 @@ public abstract class FlatRowTests {
 	 */
 	@Test
 	public void checkBeginningOfRow() throws Exception {
-		assertTrue(knitter.isBeginningOfRow());
+		assertTrue(engine.isBeginningOfRow());
 	}
 
 	/**
@@ -81,7 +79,7 @@ public abstract class FlatRowTests {
 	@Test
 	public void checkNotBeginningOfRow() throws Exception {
 		knit(1);
-		assertFalse(knitter.isBeginningOfRow());
+		assertFalse(engine.isBeginningOfRow());
 	}
 
 	/**
@@ -93,10 +91,10 @@ public abstract class FlatRowTests {
 	@Test
 	public void verifyEndOfRow() throws Exception {
 		knit(40);
-		assertEquals(0, knitter.getStitchesRemainingInRow());
-		assertEquals(40, knitter.getTotalNumberOfStitchesInRow());
-		assertTrue(knitter.isEndOfRow());
-		knitter.endRow();
+		assertEquals(0, engine.getStitchesRemainingInRow());
+		assertEquals(40, engine.getTotalNumberOfStitchesInRow());
+		assertTrue(engine.isEndOfRow());
+		engine.endRow();
 	}
 
 	/**
@@ -108,7 +106,7 @@ public abstract class FlatRowTests {
 	@Test(expected = NotEndOfRowException.class)
 	public void misAssertEndOfRow() throws Exception {
 		knit(30);
-		knitter.endRow();
+		engine.endRow();
 	}
 
 	/**
@@ -119,7 +117,7 @@ public abstract class FlatRowTests {
 	@Test(expected = NotEndOfRowException.class)
 	public void misStartNewRow() throws Exception {
 		knit(30);
-		knitter.startNewRow();
+		engine.startNewRow();
 	}
 
 	/**
@@ -131,13 +129,13 @@ public abstract class FlatRowTests {
 	@Test
 	public void knitAndTurn() throws Exception {
 		knit(35);
-		assertEquals(5, knitter.getStitchesRemainingInRow());
-		knitter.turn();
+		assertEquals(5, engine.getStitchesRemainingInRow());
+		engine.turn();
 		knit(28);
-		assertEquals(7, knitter.getStitchesRemainingInRow());
-		knitter.turn();
+		assertEquals(7, engine.getStitchesRemainingInRow());
+		engine.turn();
 		knit(33);
-		knitter.endRow();
+		engine.endRow();
 	}
 
 	/**
@@ -150,12 +148,12 @@ public abstract class FlatRowTests {
 	@Test
 	public void placeMarker() throws Exception {
 		knit(21);
-		knitter.placeMarker();
+		engine.placeMarker();
 		knit(19);
-		knitter.startNewRow();
+		engine.startNewRow();
 		knit(40);
-		knitter.startNewRow();
-		assertEquals(21, knitter.getStitchesToNextMarker());
+		engine.startNewRow();
+		assertEquals(21, engine.getStitchesToNextMarker());
 	}
 
 	/**
@@ -167,118 +165,117 @@ public abstract class FlatRowTests {
 	@Test
 	public void slipAroundTheRow() throws Exception {
 		for (int i = 0; i < 30; i++) {
-			knitter.slip();
+			engine.slip();
 		}
-		assertEquals(10, knitter.getStitchesRemainingInRow());
+		assertEquals(10, engine.getStitchesRemainingInRow());
 
 		for (int i = 0; i < 30; i++) {
-			knitter.reverseSlip();
+			engine.reverseSlip();
 		}
-		assertEquals(40, knitter.getStitchesRemainingInRow());
+		assertEquals(40, engine.getStitchesRemainingInRow());
 	}
 
 	@Test(expected=NotEnoughStitchesException.class)
 	public void slipBackTooFar() throws Exception {
-		knitter.slip();
-		knitter.reverseSlip();
-		knitter.reverseSlip();
+		engine.slip();
+		engine.reverseSlip();
+		engine.reverseSlip();
 	}
 	
 	@Test
 	public void identifyPlaceInRow() throws Exception {
-		assertTrue(knitter.isBeginningOfRow());
-		assertFalse(knitter.isEndOfRow());
+		assertTrue(engine.isBeginningOfRow());
+		assertFalse(engine.isEndOfRow());
 		knit(5);
-		assertFalse(knitter.isBeginningOfRow());
-		assertFalse(knitter.isEndOfRow());
+		assertFalse(engine.isBeginningOfRow());
+		assertFalse(engine.isEndOfRow());
 		knit(35);
-		assertFalse(knitter.isBeginningOfRow());
-		assertTrue(knitter.isEndOfRow());
+		assertFalse(engine.isBeginningOfRow());
+		assertTrue(engine.isEndOfRow());
 	}
 	
 	@Test
 	public void examineRowCount() throws Exception {
-		assertEquals(1, knitter.getCurrentRowNumber());
+		assertEquals(1, engine.getCurrentRowNumber());
 		knit(40);
-		knitter.startNewRow();
-		assertEquals(2, knitter.getCurrentRowNumber());
+		engine.startNewRow();
+		assertEquals(2, engine.getCurrentRowNumber());
 		knit(40);
-		knitter.resetRowNumber();
-		assertEquals(0, knitter.getCurrentRowNumber());
-		knitter.startNewRow();
-		assertEquals(1, knitter.getCurrentRowNumber());
+		engine.resetRowNumber();
+		assertEquals(0, engine.getCurrentRowNumber());
+		engine.startNewRow();
+		assertEquals(1, engine.getCurrentRowNumber());
 	}	
 	
 	public void resetRowNumberInMiddleOfRow() throws Exception {
 		knit(20);
-		knitter.resetRowNumber();
+		engine.resetRowNumber();
 	}
 	
 	@Test
 	public void getStitchesRemainingOnCurrentNeedle() throws Exception {
 		knit(20);
-		assertEquals(20, knitter.getStitchesRemainingOnCurrentNeedle());
+		assertEquals(20, engine.getStitchesRemainingOnCurrentNeedle());
 	}
 	
 	@Test
 	public void getTotalNumberOfStitchesOnCurrentNeedle() throws Exception {
-		assertEquals(40, knitter.getTotalNumberOfStitchesOnCurrentNeedle());
-		assertEquals(40, knitter.getTotalNumberOfStitchesInRow());
+		assertEquals(40, engine.getTotalNumberOfStitchesOnCurrentNeedle());
+		assertEquals(40, engine.getTotalNumberOfStitchesInRow());
 	}
 	
 	@Test(expected=StitchesAlreadyOnNeedleException.class)
 	public void castOnInMiddleOfRow() throws Exception {
 		knit(25);
-		knitter.castOn(5);
+		engine.castOn(5);
 	}
 	
 	@Test
 	public void knitAndPurlTwoTogether() throws Exception {
-		knitter.knit();
-		knitter.knitTwoTogether();
-		knitter.knit();
-		knitter.knitTwoTogether();
-		assertEquals(34, knitter.getStitchesRemainingInRow());
-		assertEquals(38, knitter.getTotalNumberOfStitchesInRow());
+		engine.knit();
+		engine.knitTwoTogether();
+		engine.knit();
+		engine.knitTwoTogether();
+		assertEquals(34, engine.getStitchesRemainingInRow());
+		assertEquals(38, engine.getTotalNumberOfStitchesInRow());
 		knit(34);
 		
-		knitter.startNewRow();
-		knitter.purl();
-		knitter.purlTwoTogether();
-		knitter.purl();
-		knitter.purlTwoTogether();
-		assertEquals(32, knitter.getStitchesRemainingInRow());
-		assertEquals(36, knitter.getTotalNumberOfStitchesInRow());
+		engine.startNewRow();
+		engine.purl();
+		engine.purlTwoTogether();
+		engine.purl();
+		engine.purlTwoTogether();
+		assertEquals(32, engine.getStitchesRemainingInRow());
+		assertEquals(36, engine.getTotalNumberOfStitchesInRow());
 	}
 
 	@Test
 	public void lacePattern() throws Exception {
-		knitter.knit();
-		knitter.knitTwoTogether();
-		knitter.knit();
-		knitter.increase(new Increase(1));
-		assertEquals(36, knitter.getStitchesRemainingInRow());
-		assertEquals(40, knitter.getTotalNumberOfStitchesInRow());
+		engine.knit();
+		engine.knitTwoTogether();
+		engine.knit();
+		engine.increase(new Increase(1));
+		assertEquals(36, engine.getStitchesRemainingInRow());
+		assertEquals(40, engine.getTotalNumberOfStitchesInRow());
 		knit(36);
 		
-		knitter.startNewRow();
-		knitter.purlTwoTogether();
-		knitter.purlTwoTogether();
-		knitter.increase(new Increase(2));
-		assertEquals(36, knitter.getStitchesRemainingInRow());
-		assertEquals(40, knitter.getTotalNumberOfStitchesInRow());
+		engine.startNewRow();
+		engine.purlTwoTogether();
+		engine.purlTwoTogether();
+		engine.increase(new Increase(2));
+		assertEquals(36, engine.getStitchesRemainingInRow());
+		assertEquals(40, engine.getTotalNumberOfStitchesInRow());
 		knit(36);
 	}
 	
 	@Test
 	public void bindOffAllStitchesInRow() throws Exception {
 		knit(1);
-		int numberToBindOff = knitter.getStitchesRemainingInRow() - 1;
+		int numberToBindOff = engine.getStitchesRemainingInRow() - 1;
 		for (int i = 0; i < numberToBindOff; i++) {
 			knit(1);
-			knitter.passPreviousStitchOver();
+			engine.passPreviousStitchOver();
 		}
 	}
-
 
 }

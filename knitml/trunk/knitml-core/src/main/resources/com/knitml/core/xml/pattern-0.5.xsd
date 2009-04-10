@@ -399,7 +399,7 @@
     </xsd:simpleContent>
   </xsd:complexType>
 
-  <xsd:complexType name="SlipToHolderType">
+  <xsd:complexType name="SlipToStitchHolderType">
     <xsd:annotation>
       <xsd:documentation>Represents moving a series of stitches from the left needle to the
         referenced stitch holder. The stitch holder acts like an inactive double-pointed
@@ -528,7 +528,7 @@
       <xsd:element name="increase-into-next-stitch" type="IncreaseIntoNextStitchType"/>
       <xsd:element name="cross-stitches" type="CrossStitchesType"/>
       <xsd:element name="slip" type="SlipType" default="1"/>
-      <xsd:element name="slip-to-holder" type="SlipToHolderType"/>
+      <xsd:element name="slip-to-stitch-holder" type="SlipToStitchHolderType"/>
       <xsd:element name="from-stitch-holder" type="FromStitchHolderType"/>
       <xsd:element name="no-stitch" type="NoStitchType" default="1"/>
       <xsd:element name="turn" type="TurnType"/>

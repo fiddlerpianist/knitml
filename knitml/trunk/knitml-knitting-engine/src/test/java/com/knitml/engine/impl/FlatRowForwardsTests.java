@@ -11,23 +11,23 @@ public class FlatRowForwardsTests extends FlatRowTests {
 
 	@Override
 	public void onSetUp() throws KnittingEngineException {
-		knitter.startNewRow();
+		engine.startNewRow();
 		knit(40);
-		knitter.startNewRow();
+		engine.startNewRow();
 	}
 
 	@Test
 	@Override
 	public void examineRowCount() throws Exception {
-		assertEquals(2, knitter.getCurrentRowNumber());
+		assertEquals(2, engine.getCurrentRowNumber());
 		knit(40);
-		knitter.startNewRow();
-		assertEquals(3, knitter.getCurrentRowNumber());
+		engine.startNewRow();
+		assertEquals(3, engine.getCurrentRowNumber());
 		knit(40);
-		knitter.resetRowNumber();
-		assertEquals(0, knitter.getCurrentRowNumber());
-		knitter.startNewRow();
-		assertEquals(1, knitter.getCurrentRowNumber());
+		engine.resetRowNumber();
+		assertEquals(0, engine.getCurrentRowNumber());
+		engine.startNewRow();
+		assertEquals(1, engine.getCurrentRowNumber());
 	}	
 
 

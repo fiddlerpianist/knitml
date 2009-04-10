@@ -1,5 +1,10 @@
 package com.knitml.validation.visitor.instruction.model;
 
+import static com.knitml.core.common.Side.RIGHT;
+import static com.knitml.core.common.Side.WRONG;
+import static com.knitml.engine.settings.Direction.BACKWARDS;
+import static com.knitml.engine.settings.Direction.FORWARDS;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,6 +12,7 @@ import com.knitml.core.common.EnumUtils;
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
 import com.knitml.core.model.directions.block.Row;
+import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.NotEndOfRowException;
 import com.knitml.engine.common.UnexpectedRowNumberException;
@@ -50,15 +56,30 @@ public class RowVisitor extends AbstractPatternVisitor {
 			context.getEngine().incrementCurrentRowNumber();
 		}
 
+		if (context.getEngine().getTotalNumberOfStitchesInRow() == 0) {
+			// We are starting with no stitches on the needles.
+			// When this is the case, we need to be told which side to start on
+			if (row.getSide() == null) {
+				throw new InvalidStructureException(
+						"When there are no stitches in the row, the row's side attribute must be specified");
+			}
+			Side side = row.getSide();
+			KnittingEngine engine = context.getEngine();
+			if ((side == RIGHT && engine.getDirection() == BACKWARDS)
+					|| (side == WRONG && engine.getDirection() == FORWARDS)) {
+				context.getEngine().turn();
+			}
+		}
+
 		// if the row isn't in the middle of a replay and the pattern asks the
 		// validator to fill in the side of work, provide that information here
 		if (!(context.getPatternState().isReplayMode())) {
 			if (row.isInformSide()) {
 				Direction direction = context.getEngine().getDirection();
-				if (direction == Direction.FORWARDS) {
-					row.setSide(Side.RIGHT);
+				if (direction == FORWARDS) {
+					row.setSide(RIGHT);
 				} else {
-					row.setSide(Side.WRONG);
+					row.setSide(WRONG);
 				}
 				row.setInformSide(false);
 			} else if (row.getSide() != null) {
@@ -66,8 +87,8 @@ public class RowVisitor extends AbstractPatternVisitor {
 				// currently knitting
 				Side expectedSide = row.getSide();
 				Direction direction = context.getEngine().getDirection();
-				Side actualSide = direction == Direction.FORWARDS ? Side.RIGHT
-						: Side.WRONG;
+				Side actualSide = direction == Direction.FORWARDS ? RIGHT
+						: WRONG;
 				if (actualSide != expectedSide) {
 					throw new KnittingEngineException("Expected "
 							+ expectedSide + " side of knitting but was "

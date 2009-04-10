@@ -28,6 +28,7 @@ import com.knitml.core.model.Pattern;
 import com.knitml.core.model.directions.block.CastOn;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
 import com.knitml.core.model.directions.block.Instruction;
+import com.knitml.core.model.directions.block.PickUpStitches;
 import com.knitml.core.model.directions.block.RepeatInstruction;
 import com.knitml.core.model.directions.block.Row;
 import com.knitml.core.model.directions.block.Section;
@@ -39,6 +40,7 @@ import com.knitml.core.model.directions.inline.BindOff;
 import com.knitml.core.model.directions.inline.BindOffAll;
 import com.knitml.core.model.directions.inline.CrossStitches;
 import com.knitml.core.model.directions.inline.Decrease;
+import com.knitml.core.model.directions.inline.FromStitchHolder;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
@@ -48,13 +50,16 @@ import com.knitml.core.model.directions.inline.NoStitch;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
+import com.knitml.core.model.directions.inline.SlipToStitchHolder;
 import com.knitml.core.model.header.GeneralInformation;
 import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.Supplies;
 import com.knitml.core.model.header.Yarn;
 import com.knitml.renderer.Renderer;
+import com.knitml.renderer.context.ContextUtils;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.RenderingContext;
+import com.knitml.renderer.impl.helpers.FromStitchHolderOperationSet;
 import com.knitml.renderer.impl.helpers.HeaderHelper;
 import com.knitml.renderer.impl.helpers.MessageHelper;
 import com.knitml.renderer.impl.helpers.OperationSet;
@@ -71,7 +76,9 @@ public class BasicTextRenderer implements Renderer {
 	protected RenderingContext renderingContext;
 
 	// Helpers which contribute to the rendering effort
-	private WriterHelper writerHelper = new WriterHelper(); // points to a NullWriter by default
+	private WriterHelper writerHelper = new WriterHelper(); // points to a
+	// NullWriter by
+	// default
 	private MessageHelper messageHelper;
 	private HeaderHelper headerHelper;
 	private OperationSetHelper operationSetHelper;
@@ -83,8 +90,9 @@ public class BasicTextRenderer implements Renderer {
 
 	private Set<Row> rowsRenderedForCurrentInstruction = new HashSet<Row>();
 	private boolean withinInstruction = false;
-	
-	public BasicTextRenderer(RenderingContext context, Writer writer, MessageSource messageSource) {
+
+	public BasicTextRenderer(RenderingContext context, Writer writer,
+			MessageSource messageSource) {
 		if (context == null) {
 			throw new IllegalArgumentException(
 					"A rendering context must be provided");
@@ -99,7 +107,8 @@ public class BasicTextRenderer implements Renderer {
 		}
 		messageHelper = new MessageHelper(messageSource, pluralRuleFactory,
 				context.getOptions().getLocale());
-		// both headerHelper and operationSetHelper have dependencies on writerHelper
+		// both headerHelper and operationSetHelper have dependencies on
+		// writerHelper
 		headerHelper = new HeaderHelper(writerHelper, context.getOptions());
 		operationSetHelper = new OperationSetHelper(writerHelper, messageHelper);
 	}
@@ -124,6 +133,7 @@ public class BasicTextRenderer implements Renderer {
 	public void renderSupplies(Supplies supplies) {
 		getHeaderHelper().renderYarns(supplies);
 		getHeaderHelper().renderNeedles(supplies);
+		getHeaderHelper().renderAccessories(supplies);
 	}
 
 	public void beginInstructionDefinitions() {
@@ -374,7 +384,8 @@ public class BasicTextRenderer implements Renderer {
 			return;
 		}
 
-		Yarn yarn = renderingContext.getPatternRepository().getYarn(knit.getYarnIdRef());
+		Yarn yarn = renderingContext.getPatternRepository().getYarn(
+				knit.getYarnIdRef());
 		if (yarn != null) {
 			key.append(".with-yarn");
 			values.add(yarn.getSymbol());
@@ -411,7 +422,7 @@ public class BasicTextRenderer implements Renderer {
 
 	public void renderNoStitch(NoStitch noStitch) {
 	}
-	
+
 	public void renderCrossStitches(CrossStitches crossStitches) {
 		StringBuffer key = new StringBuffer("operation.cross-stitches.");
 		key.append(EnumUtils.fromEnum(crossStitches.getType()));
@@ -442,6 +453,7 @@ public class BasicTextRenderer implements Renderer {
 					"Cannot issue a repeat without being inside a row or operation");
 		}
 		OperationSet repeatOperationSet = new RepeatOperationSet();
+		// add this repeat to the row's operation set
 		currentOperationSet.addOperationSet(repeatOperationSet);
 		// add the repeat InstructionSet to the beginning of the stack. All
 		// operations will peek at this object when writing operations
@@ -528,8 +540,10 @@ public class BasicTextRenderer implements Renderer {
 
 		// only render the row if:
 		// 1) we are not within an instruction, OR
-		// 2) we are within an instruction but we haven't encountered this row before
-		if (!withinInstruction || !rowsRenderedForCurrentInstruction.contains(row)) {
+		// 2) we are within an instruction but we haven't encountered this row
+		// before
+		if (!withinInstruction
+				|| !rowsRenderedForCurrentInstruction.contains(row)) {
 			if (!getWriterHelper().isBeginningOfParagraph()) {
 				writeNewLine();
 			}
@@ -657,6 +671,23 @@ public class BasicTextRenderer implements Renderer {
 		}
 	}
 
+	public void renderSlipToStitchHolder(SlipToStitchHolder spec) {
+		String label = ContextUtils.deriveLabel(spec.getStitchHolder(),
+				getRenderingContext().getPatternRepository());
+		String message;
+		if (StringUtils.isBlank(label)) {
+			String messageKey = "operation.slip-to-stitch-holder";
+			message = getMessageHelper().getPluralizedMessage(messageKey,
+					spec.getNumberOfStitches());
+		} else {
+			String messageKey = "operation.slip-to-stitch-holder.with-label";
+			message = getMessageHelper().getPluralizedMessage(messageKey,
+					spec.getNumberOfStitches(), spec.getNumberOfStitches(),
+					label);
+		}
+		getOperationSetHelper().writeOperation(message);
+	}
+
 	public void beginInformation() {
 	}
 
@@ -664,7 +695,11 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public void renderMessage(String messageToRender) {
-		getWriterHelper().writeSentence(messageToRender, false);
+		if (getOperationSetHelper().isWithinOperationSet()) {
+			getOperationSetHelper().getCurrentOperationSet().setTail(messageToRender);
+		} else {
+			getWriterHelper().writeSentence(messageToRender, false);
+		}
 	}
 
 	public void renderDesignateEndOfRow(KnittingShape currentKnittingShape) {
@@ -696,6 +731,43 @@ public class BasicTextRenderer implements Renderer {
 		}
 	}
 
+	public void beginFromStitchHolder(FromStitchHolder fromStitchHolder) {
+
+		OperationSet fromStitchHolderOperationSet = new FromStitchHolderOperationSet();
+		OperationSet currentOperationSet = getOperationSetHelper()
+				.getCurrentOperationSet();
+		if (currentOperationSet == null) {
+			throw new IllegalStateException(
+					"Cannot issue a from-stitch-holder without being inside a row");
+		}
+		// add this operation to the current operation set
+		currentOperationSet.addOperationSet(fromStitchHolderOperationSet);
+		// now push this down the stack so that the operation set is used for
+		// capturing operations
+		getOperationSetHelper()
+				.addNewOperationSet(fromStitchHolderOperationSet);
+	}
+
+	public void endFromStitchHolder(FromStitchHolder fromStitchHolder) {
+		String label = ContextUtils.deriveLabel(fromStitchHolder
+				.getStitchHolder(), getRenderingContext()
+				.getPatternRepository());
+		// remove the current repeat from the stack (so that new operation sets
+		// aren't added to it)
+		OperationSet operationSet = getOperationSetHelper()
+				.removeCurrentOperationSet();
+
+		if (operationSet == null) {
+			throw new IllegalStateException(
+					"Must have a current operation set for endFromStitchHolder to work");
+		}
+		if (!(operationSet instanceof FromStitchHolderOperationSet)) {
+			throw new IllegalStateException(
+					"The working operation set must be a FromStitchHolder type of operation set");
+		}
+		((FromStitchHolderOperationSet)operationSet).setLabel(label);
+	}
+
 	public void renderDeclareFlatKnitting(DeclareFlatKnitting spec) {
 		getWriterHelper()
 				.writeSentence(getMessage("operation.knit-flat"), true);
@@ -707,6 +779,16 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public void renderPickUpStitches(InlinePickUpStitches pickUpStitches) {
+		doRenderPickUpStitches(new PickUpStitches(pickUpStitches
+				.getNumberOfTimes(), pickUpStitches.getYarnIdRef(),
+				pickUpStitches.getType()), false);
+	}
+
+	public void renderPickUpStitches(PickUpStitches pickUpStitches) {
+		doRenderPickUpStitches(pickUpStitches, true);
+	}
+
+	protected void doRenderPickUpStitches(PickUpStitches pickUpStitches, boolean writeSentenceByDefault) {
 		StringBuffer key = new StringBuffer("operation.pick-up-stitches");
 		List<Object> args = new ArrayList<Object>();
 		int numberOfTimes = defaultToOne(pickUpStitches.getNumberOfTimes());
@@ -722,9 +804,9 @@ public class BasicTextRenderer implements Renderer {
 		}
 		getOperationSetHelper().writeOperation(
 				getMessageHelper().getPluralizedMessageNoVarargs(
-						key.toString(), numberOfTimes, args.toArray()));
+						key.toString(), numberOfTimes, args.toArray()), writeSentenceByDefault);
 	}
-
+	
 	public void renderBindOff(BindOff bindOff) {
 		StringBuffer key = new StringBuffer("operation.bind-off");
 		List<Object> args = new ArrayList<Object>();
@@ -868,7 +950,7 @@ public class BasicTextRenderer implements Renderer {
 		return getMessageHelper().buildList(objects, false);
 	}
 
-	// helper initialization and access
+	// helper initialization and access / unimportant methods
 
 	protected MessageHelper getMessageHelper() {
 		return this.messageHelper;

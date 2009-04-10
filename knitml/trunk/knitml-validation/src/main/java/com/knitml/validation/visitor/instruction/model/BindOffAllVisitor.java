@@ -1,11 +1,7 @@
 package com.knitml.validation.visitor.instruction.model;
 
-import static com.knitml.core.common.Wise.PURLWISE;
-
 import com.knitml.core.model.directions.inline.BindOffAll;
-import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.common.KnittingEngineException;
-import com.knitml.engine.common.NotEnoughStitchesException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
@@ -13,39 +9,7 @@ public class BindOffAllVisitor extends AbstractPatternVisitor {
 
 	public void visit(Object element, KnittingContext context)
 			throws KnittingEngineException {
-		BindOffAll bindOffAll = (BindOffAll) element;
-		int numberOfIterations = context.getEngine()
-				.getStitchesRemainingInRow();
-		if (numberOfIterations == 0) {
-			// if we have hit the end of the row, attempt to pass the previous stitch over
-			context.getEngine().passPreviousStitchOver();
-		} else {
-			// otherwise knit or purl, then bind each successive stitch off
-			for (int i = 0; i < numberOfIterations; i++) {
-				performIterativeOperation(bindOffAll, context, i,
-						numberOfIterations - i);
-			}
-		}
-
-		// now fasten last stitch off
-		if (bindOffAll.isFastenOffLastStitch()) {
-			context.getEngine().reverseSlip();
-			context.getEngine().fastenOff(1);
-		}
-	}
-
-	protected void performIterativeOperation(BindOffAll bindOff,
-			KnittingContext context, int numberPerformed,
-			int numberLeftToPerform) throws NotEnoughStitchesException {
-		KnittingEngine engine = context.getEngine();
-		if (bindOff.getType() == PURLWISE) {
-			engine.purl();
-		} else {
-			engine.knit();
-		}
-		if (numberPerformed > 0) {
-			engine.passPreviousStitchOver();
-		}
+		context.getEngine().bindOffAll((BindOffAll) element);
 	}
 
 }

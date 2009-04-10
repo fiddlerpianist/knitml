@@ -16,8 +16,6 @@ import com.knitml.engine.KnittingFactory;
 import com.knitml.engine.Needle;
 import com.knitml.engine.common.NotBetweenRowsException;
 import com.knitml.engine.common.WrongNeedleTypeException;
-import com.knitml.engine.impl.DefaultKnittingEngine;
-import com.knitml.engine.impl.DefaultKnittingFactory;
 
 /**
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)

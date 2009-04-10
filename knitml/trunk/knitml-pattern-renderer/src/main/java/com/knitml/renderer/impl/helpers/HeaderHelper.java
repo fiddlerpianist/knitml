@@ -391,6 +391,21 @@ public class HeaderHelper {
 		return (tokens.size() > originalNumberOfTokens);
 	}
 
+	public void renderAccessories(Supplies supplies) {
+		if (!supplies.hasAccessories()) {
+			return;
+		}
+		writeLine("Accessories:");
+		getWriterHelper().incrementIndent();
+		if (supplies.getStitchHolders().size() > 0) {
+			int n = supplies.getStitchHolders().size();
+			// TODO internationalize
+			writeLine(n + (n == 1 ? " stitch holder" : " stitch holders"));
+		}
+		getWriterHelper().decrementIndent();
+		writeNewLine();
+	}
+	
 	private void delimitAndFlushTokens(List<String> tokens) {
 		writeLine(StringUtils.join(tokens.toArray(), " "));
 		tokens.clear();

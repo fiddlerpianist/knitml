@@ -117,7 +117,7 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 //	}
 
 	private Instruction performPhysicalMerge(MergedInstruction mergedInstruction,
-			PatternRepository repository) throws ValidationException {
+			PatternRepository repository) throws ValidationException, InvalidStructureException {
 		KnittingShape mergedInstructionShape = null;
 		
 		List<InstructionRef> instructionRefs = mergedInstruction

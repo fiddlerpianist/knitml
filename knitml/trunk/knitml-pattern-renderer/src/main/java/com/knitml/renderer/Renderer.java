@@ -8,6 +8,7 @@ import com.knitml.core.model.Pattern;
 import com.knitml.core.model.directions.block.CastOn;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
 import com.knitml.core.model.directions.block.Instruction;
+import com.knitml.core.model.directions.block.PickUpStitches;
 import com.knitml.core.model.directions.block.RepeatInstruction;
 import com.knitml.core.model.directions.block.Row;
 import com.knitml.core.model.directions.block.Section;
@@ -17,6 +18,7 @@ import com.knitml.core.model.directions.inline.BindOff;
 import com.knitml.core.model.directions.inline.BindOffAll;
 import com.knitml.core.model.directions.inline.CrossStitches;
 import com.knitml.core.model.directions.inline.Decrease;
+import com.knitml.core.model.directions.inline.FromStitchHolder;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
@@ -26,6 +28,7 @@ import com.knitml.core.model.directions.inline.NoStitch;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
+import com.knitml.core.model.directions.inline.SlipToStitchHolder;
 import com.knitml.core.model.header.GeneralInformation;
 import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.Supplies;
@@ -73,10 +76,10 @@ public interface Renderer {
 	void endInstruction();
 	
 	void renderInlineInstructionRef(InlineInstructionRef instructionRef, String label);
-
 	void renderRepeatInstruction(RepeatInstruction repeatInstruction, InstructionInfo instructionInfo);
 	void renderUseNeedles(List<Needle> needles);
 	void renderCastOn(CastOn castOn);
+	void renderPickUpStitches(PickUpStitches pickUpStitches);
 	void renderUsingNeedlesCastOn(List<Needle> needles,
 			CastOn castOn);
 	void renderJoinInRound();
@@ -105,9 +108,14 @@ public interface Renderer {
 	void renderBindOff(BindOff bindOff);
 	void renderBindOffAll(BindOffAll bindOff);
 	void renderApplyNextRow(ApplyNextRow applyNextRow, String label);
+	void renderSlipToStitchHolder(SlipToStitchHolder operation);
 
+	// composite inline events
 	void beginRepeat(Repeat repeat);
 	void endRepeat(Repeat.Until until, Integer value);
+
+	void beginFromStitchHolder(FromStitchHolder fromStitchHolder);
+	void endFromStitchHolder(FromStitchHolder fromStitchHolder);
 
 	void beginUsingNeedle(Needle needle);
 	void endUsingNeedle();

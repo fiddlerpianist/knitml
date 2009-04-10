@@ -18,6 +18,7 @@ import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 import com.knitml.core.model.Pattern;
 import com.knitml.core.model.Version;
+import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.RendererFactory;
 import com.knitml.renderer.common.RenderingException;
@@ -111,18 +112,18 @@ public abstract class AbstractRenderingContextTests extends AbstractDependencyIn
 		return (C) uctx.unmarshalDocument(new StringReader(xml));
 	}
 
-	protected void visitDocument(Object object) throws RenderingException {
+	protected void visitDocument(Object object) throws RenderingException, KnittingEngineException {
 		Visitor visitor = visitorFactory.findVisitorFromClassName(object);
 		listener.begin(object, knittingContext);
 		visitor.visit(object, knittingContext);
 		listener.end(object, knittingContext);
 	}
 
-	protected Pattern processXml(String xml) throws JiBXException, RenderingException {
+	protected Pattern processXml(String xml) throws JiBXException, RenderingException, KnittingEngineException {
 		return processXml(xml, Pattern.class);
 	}
 	
-	protected <C> C processXml(String xml, Class<C> rootClass) throws JiBXException, RenderingException {
+	protected <C> C processXml(String xml, Class<C> rootClass) throws JiBXException, RenderingException, KnittingEngineException {
 		C object = parseXml(xml, rootClass);
 		visitDocument(object);
 		return object;

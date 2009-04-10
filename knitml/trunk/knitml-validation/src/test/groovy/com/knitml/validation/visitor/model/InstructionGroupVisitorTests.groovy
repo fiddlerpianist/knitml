@@ -28,6 +28,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 		engine = knittingContext.engine
 		engine.with {
 			expect (knittingShape) . andStubReturn (KnittingShape.FLAT)
+			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
 			expect (currentRowNumber) . andStubReturn (1)
 			startNewRow(); knit 5; knit 15; endRow()
 			startNewRow(); purl 15; purl 5;	endRow()
@@ -71,6 +72,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 		engine = knittingContext.engine
 		engine.with {
 			expect (knittingShape) . andStubReturn (KnittingShape.FLAT)
+			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
 			expect (currentRowNumber) . andStubReturn (1)
 			startNewRow(); knit 5; purl 15; endRow()
 			startNewRow(); purl 5; knit 15;	endRow()
@@ -120,6 +122,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 		castOnSpec.numberOfStitches = 8
 		engine.with {
 			expect (knittingShape) . andStubReturn (KnittingShape.FLAT)
+			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
 			expect (currentRowNumber) . andStubReturn 1
 			castOn castOnSpec
 			startNewRow()

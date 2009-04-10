@@ -1,6 +1,8 @@
 package com.knitml.renderer.impl.helpers;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -30,12 +32,19 @@ public class OperationSetHelper {
 	}
 
 	public void writeOperation(String operationString) {
+		writeOperation(operationString, false);
+	}
+	public void writeOperation(String operationString, boolean writeSentenceIfNoOperatioNSet) {
 		// if there is an object on the stack, write to that
 		if (!operationSetStack.empty() && !StringUtils.isBlank(operationString)) {
 			OperationSet currentInstructionSet = operationSetStack.peek();
 			currentInstructionSet.addOperationString(operationString);
 		} else {
-			getWriterHelper().write(operationString);
+			if (writeSentenceIfNoOperatioNSet) {
+				getWriterHelper().writeSentence(operationString, true);
+			} else {
+				getWriterHelper().write(operationString);
+			}
 		}
 	}
 
@@ -121,10 +130,11 @@ public class OperationSetHelper {
 					getWriterHelper().writeNewLine();
 					getWriterHelper().incrementIndent();
 					getWriterHelper().writeIndent();
-					renderOperationSet((OperationSet) operation,
-							potentiallySimple);
+					renderOperationSet(nestedOperationSet, potentiallySimple);
 					getWriterHelper().decrementIndent();
 					useComma = false;
+				} else if (nestedOperationSet.getType() == Type.FROM_STITCH_HOLDER) {
+					renderFromStitchHolderOperationSet((FromStitchHolderOperationSet) nestedOperationSet);
 				}
 			} else if (operation instanceof SimpleInstruction) {
 				SimpleInstruction simpleInstruction = (SimpleInstruction) operation;
@@ -160,12 +170,12 @@ public class OperationSetHelper {
 						getMessage("operation.list-item-separator") + " ");
 			}
 		}
-		if (operationSet.getTail() != null) {
-			getWriterHelper()
-					.write(
-							". "
-									+ StringUtils.capitalize(operationSet
-											.getTail()) + ".");
+		String tail = operationSet.getTail();
+		if (tail != null) {
+			getWriterHelper().write(". " + StringUtils.capitalize(tail));
+			if (!tail.endsWith(".")) {
+				getWriterHelper().write(".");
+			}
 		}
 		return potentiallySimple;
 	}
@@ -196,6 +206,31 @@ public class OperationSetHelper {
 			getWriterHelper().write(repeatInstructionSet.getUntilInstruction());
 		}
 		return simple;
+	}
+
+	private void renderFromStitchHolderOperationSet(
+			FromStitchHolderOperationSet operationSet) {
+		getWriterHelper().startWritingToSegment("temp");
+		renderOperationSet(operationSet, false);
+		getWriterHelper().stopWritingToSegment("temp");
+		String fromStitchHolderOperations = getWriterHelper()
+				.getSegment("temp");
+		StringBuffer messageKey = new StringBuffer(
+				"operation.from-stitch-holder");
+		List<String> values = new ArrayList<String>();
+		values.add(fromStitchHolderOperations);
+		if (operationSet.size() == 1) {
+			messageKey.append(".single");
+		} else {
+			messageKey.append(".multiple");
+		}
+		if (!StringUtils.isBlank(operationSet.getLabel())) {
+			messageKey.append(".with-label");
+			values.add(operationSet.getLabel());
+		}
+		String message = getMessageHelper().getMessageNoVarargs(
+				messageKey.toString(), values.toArray());
+		getWriterHelper().write(message);
 	}
 
 }

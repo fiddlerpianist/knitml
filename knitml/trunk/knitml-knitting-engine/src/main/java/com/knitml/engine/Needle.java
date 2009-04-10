@@ -50,8 +50,6 @@ public interface Needle extends Restorable {
 
 	void increase(int numberOfStitches);
 
-	void workIntoNextStitch(int numberToWork) throws NotEnoughStitchesException;
-
 	/**
 	 * <p>
 	 * Casts the specified number of stitches onto this needle. If the cast on
@@ -118,6 +116,8 @@ public interface Needle extends Restorable {
 
 	void addStitchesToEnd(List<Stitch> stitchesToAdd);
 
+	void addStitch(Stitch stitchToAdd);
+	
 	/**
 	 * Returns the current view of stitches on the needle. The view is adjusted
 	 * for either forwards or backwards needle direction, so that the sequence

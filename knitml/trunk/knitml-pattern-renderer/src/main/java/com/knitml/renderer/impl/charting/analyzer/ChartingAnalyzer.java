@@ -15,6 +15,7 @@ import com.knitml.core.model.directions.block.Row;
 import com.knitml.core.model.directions.inline.ApplyNextRow;
 import com.knitml.core.model.directions.inline.BindOffAll;
 import com.knitml.core.model.directions.inline.DesignateEndOfRow;
+import com.knitml.core.model.directions.inline.FromStitchHolder;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.InlineCastOn;
 import com.knitml.core.model.directions.inline.InlineInstruction;
@@ -22,6 +23,7 @@ import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.NoStitch;
 import com.knitml.core.model.directions.inline.PlaceMarker;
 import com.knitml.core.model.directions.inline.Repeat;
+import com.knitml.core.model.directions.inline.SlipToStitchHolder;
 import com.knitml.core.model.directions.inline.Turn;
 import com.knitml.core.model.directions.inline.UsingNeedle;
 import com.knitml.core.model.directions.inline.Repeat.Until;
@@ -358,6 +360,17 @@ public class ChartingAnalyzer {
 		return null;
 	}
 
+
+	protected InlineOperation handle(SlipToStitchHolder object) {
+		log.info("Cannot chart SlipToHolder objects");
+		return null;
+	}
+
+	protected InlineOperation handle(FromStitchHolder object) {
+		log.info("Cannot chart FromStitchHolder objects");
+		return null;
+	}
+	
 	protected InlineOperation handle(UsingNeedle object) {
 		// List<InlineOperation> newOperations = new
 		// ArrayList<InlineOperation>();

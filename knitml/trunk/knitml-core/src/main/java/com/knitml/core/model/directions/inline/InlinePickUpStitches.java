@@ -12,8 +12,9 @@ public class InlinePickUpStitches implements DiscreteInlineOperation {
 	public InlinePickUpStitches() {
 	}
 	
-	public InlinePickUpStitches(Integer numberOfTimes, Wise type) {
+	public InlinePickUpStitches(Integer numberOfTimes, String yarnIdRef, Wise type) {
 		this.numberOfTimes = numberOfTimes;
+		this.yarnIdRef = yarnIdRef;
 		this.type = type;
 	}
 

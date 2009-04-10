@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.knitml.core.model.header.Needle;
+import com.knitml.core.model.header.StitchHolder;
 import com.knitml.core.model.header.Supplies;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
@@ -17,7 +18,7 @@ public class SuppliesVisitor extends AbstractPatternVisitor {
 		
 		Supplies supplies = (Supplies) element;
 		List<Needle> needles = supplies.getNeedles();
-		if (needles != null) {
+		if (supplies.hasNeedles()) {
 			// First, remove the "default" needle since we are defining needles
 			context.getEngine().useNeedles(new ArrayList<com.knitml.engine.Needle>());
 			
@@ -35,6 +36,11 @@ public class SuppliesVisitor extends AbstractPatternVisitor {
 				context.setNeedlesInUse(engineNeedlesAsList);
 			}
 
+		}
+		if (supplies.hasAccessories()) {
+			for (StitchHolder stitchHolder : supplies.getStitchHolders()) {
+				visitChild(stitchHolder, context);
+			}
 		}
 	}
 

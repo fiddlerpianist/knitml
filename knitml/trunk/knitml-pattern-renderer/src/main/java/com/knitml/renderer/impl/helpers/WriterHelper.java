@@ -58,6 +58,14 @@ public class WriterHelper {
 		currentBuffer = null;
 	}
 
+	public String getSegment(String id) {
+		StringBuffer buffer = namedBuffers.get(id);
+		if (buffer == null) {
+			throw new IllegalStateException("Cannot find segment " + id);
+		}
+		return buffer.toString();
+	}
+
 	public void writeSegmentToWriter(String id) {
 		StringBuffer buffer = namedBuffers.get(id);
 		if (currentBuffer != null) {
@@ -93,7 +101,7 @@ public class WriterHelper {
 		this.beginningOfSentence = true;
 		this.beginningOfParagraph = true;
 	}
-	
+
 	protected String getNewLineCharacters() {
 		return LINE_SEPARATOR;
 	}
@@ -105,7 +113,7 @@ public class WriterHelper {
 		} else {
 			try {
 				writer.write(string);
-				writer.flush();
+				// writer.flush();
 			} catch (IOException ex) {
 				throw new RuntimeException(ex);
 			}

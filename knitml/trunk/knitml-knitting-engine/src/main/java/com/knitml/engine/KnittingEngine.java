@@ -20,6 +20,8 @@ import java.util.List;
 
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.model.directions.block.CastOn;
+import com.knitml.core.model.directions.inline.BindOff;
+import com.knitml.core.model.directions.inline.BindOffAll;
 import com.knitml.core.model.directions.inline.CrossStitches;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
@@ -33,6 +35,7 @@ import com.knitml.engine.common.NeedlesInWrongDirectionException;
 import com.knitml.engine.common.NoActiveNeedlesException;
 import com.knitml.engine.common.NoGapFoundException;
 import com.knitml.engine.common.NoMarkerFoundException;
+import com.knitml.engine.common.NoNeedleImposedException;
 import com.knitml.engine.common.NotBetweenRowsException;
 import com.knitml.engine.common.NotEndOfRowException;
 import com.knitml.engine.common.NotEnoughStitchesException;
@@ -62,7 +65,126 @@ import com.knitml.engine.settings.Direction;
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)
  * 
  */
+/**
+ * @author Jonathan Whitall (fiddlerpianist@gmail.com)
+ *
+ */
 public interface KnittingEngine extends Restorable {
+
+	/* Inquiry methods */
+
+	/**
+	 * @return the total number of needles currently being used for the project
+	 */
+	int getNumberOfNeedles();
+
+	/**
+	 * @return the total number of rows completed by this engine (since time of
+	 *         creation)
+	 */
+	int getTotalRowsCompleted();
+
+	/**
+	 * Returns whether the engine is currently positioned at the beginning of a
+	 * row. This is true when the next stitch to work is the first stitch in the
+	 * row and {@link #startNewRow()} has been called for this row.
+	 * 
+	 * @return whether the engine is at the beginning of a row
+	 */
+	boolean isBeginningOfRow();
+
+	/**
+	 * Returns whether the engine is currently positioned at the end of a row.
+	 * This is true when there are no more stitches to work in this row but
+	 * {@link #endRow()} has not yet been called for this row.
+	 * 
+	 * @return whether the engine is at the beginning of a row
+	 */
+	boolean isEndOfRow();
+
+	/**
+	 * Returns true if the engine is currently between rows ({@link #endRow()}
+	 * has been called but {@link #startNewRow()} has not). If
+	 * {@link #castOn(int, boolean))} was called immediately before this method
+	 * and it did not count as a row, this method will return true.
+	 * 
+	 * @return whether the engine is currently between rows.
+	 */
+	boolean isBetweenRows();
+
+	/**
+	 * Returns the total number of stitches currently in this row. This amounts
+	 * to a summation of the stitch count on all of the active needles at the
+	 * time that this method is called. If the current row has increases or
+	 * decreases, this number may not accurately reflect the number of stitches
+	 * worked in this row. For instance, if the needles start out with 10
+	 * stitches and the upcoming row has 2 decreases in it, this method will
+	 * return 10 if called before the decreases are worked, 9 if only one
+	 * decrease has been worked, and 8 if both decreases have been worked.
+	 * 
+	 * @return the total number of stitches in this row
+	 */
+	int getTotalNumberOfStitchesInRow();
+
+	/**
+	 * @return the number of stitches left to work in this row
+	 */
+	int getStitchesRemainingInRow();
+
+	/**
+	 * @return the number of stitches left on the current needle
+	 */
+	int getTotalNumberOfStitchesOnCurrentNeedle();
+
+	/**
+	 * Returns the number of stitches left to work on the current needle. If the
+	 * row ends between the current position and the end of the current needle,
+	 * this call is equivalent to {@link #getStitchesRemainingInRow()}.
+	 * 
+	 * @return the number of stitches left to work on this needle
+	 */
+	int getStitchesRemainingOnCurrentNeedle();
+
+	/**
+	 * @return the number of stitches to the next marker (including markers on a
+	 *         subsequent needle).
+	 * @throws NoMarkerFoundException
+	 *             if no marker exists between the current position and the end
+	 *             of the row
+	 */
+	int getStitchesToNextMarker() throws NoMarkerFoundException;
+
+	/**
+	 * @return the number of stitches to the next gap (only on the current
+	 *         needle)
+	 * @throws NoGapFoundException
+	 *             if no gap exists between the current position and the end of
+	 *             the needle
+	 */
+	int getStitchesToGap() throws NoGapFoundException;
+
+	/**
+	 * Gets the the current direction of the work. If the right side of work is
+	 * facing, this should return FORWARDS. If the wrong side of the work is
+	 * facing, this should return BACKWARDS. If a row was just completed and a
+	 * new row has not been started, this will return the direction of the row
+	 * just worked.
+	 * 
+	 * @return the current direction
+	 */
+	Direction getDirection();
+
+	/**
+	 * @return the current knitting shape of the work
+	 */
+	KnittingShape getKnittingShape();
+
+	/**
+	 * @return the current row number
+	 */
+	int getCurrentRowNumber();
+
+	/* Manipulation methods */
 
 	/**
 	 * <p>
@@ -77,16 +199,15 @@ public interface KnittingEngine extends Restorable {
 	 */
 	void resetRowNumber() throws NotEndOfRowException;
 
-	int getTotalRowsCompleted();
-
 	/**
 	 * Starts a new row.
 	 * 
 	 * @throws NotEndOfRowException
 	 *             if the engine is not at the end of a row
-	 * @throws NotEnoughStitchesException 
+	 * @throws NotEnoughStitchesException
 	 */
-	void startNewRow() throws NotEndOfRowException, NoActiveNeedlesException, NotEnoughStitchesException;
+	void startNewRow() throws NotEndOfRowException, NoActiveNeedlesException,
+			NotEnoughStitchesException;
 
 	/**
 	 * @throws NotEndOfRowException
@@ -94,21 +215,6 @@ public interface KnittingEngine extends Restorable {
 	 * @see {@link #isEndOfRow()}
 	 */
 	void endRow() throws NotEndOfRowException;
-
-	/**
-	 * @return whether the engine is at the beginning of a row
-	 */
-	boolean isBeginningOfRow();
-
-	/**
-	 * @return whether the engine is at the end of a row
-	 */
-	boolean isEndOfRow();
-
-	/**
-	 * @return whether the engine is currently between rows
-	 */
-	boolean isBetweenRows();
 
 	/**
 	 * Switches the knitting direction mid-row. This is different from a turn
@@ -187,39 +293,6 @@ public interface KnittingEngine extends Restorable {
 			throws NotBetweenRowsException;
 
 	/**
-	 * Returns the total number of stitches currently in this row. This amounts
-	 * to a summation of the stitch count on all of the active needles at the
-	 * time that this method is called. If the current row has increases or
-	 * decreases, this number may not accurately reflect the number of stitches
-	 * worked in this row. For instance, if the needles start out with 10
-	 * stitches and the upcoming row has 2 decreases in it, this method will
-	 * return 10 if called before the decreases are worked, 9 if only one
-	 * decrease has been worked, and 8 if both decreases have been worked.
-	 * 
-	 * @return the total number of stitches in this row
-	 */
-	int getTotalNumberOfStitchesInRow();
-
-	/**
-	 * @return the number of stitches left to work in this row
-	 */
-	int getStitchesRemainingInRow();
-
-	/**
-	 * @return the number of stitches left on the current needle
-	 */
-	int getTotalNumberOfStitchesOnCurrentNeedle();
-
-	/**
-	 * Returns the number of stitches left to work on the current needle. If the
-	 * row ends between the current position and the end of the current needle,
-	 * this call is equivalent to {@link #getStitchesRemainingInRow()}.
-	 * 
-	 * @return the number of stitches left to work on this needle
-	 */
-	int getStitchesRemainingOnCurrentNeedle();
-
-	/**
 	 * Arranges the current stitches on the needle(s) into the configuration
 	 * provided by stitchArray. For example, an array of [10, 15, 20] would mean
 	 * that the stitches should be arranged on the three needles: the first
@@ -246,11 +319,6 @@ public interface KnittingEngine extends Restorable {
 	void arrangeStitchesOnNeedles(int[] stitchArray)
 			throws WrongNumberOfNeedlesException, NotBetweenRowsException,
 			IllegalArgumentException, NeedlesInWrongDirectionException;
-
-	/**
-	 * @return the total number of needles currently being used for the project
-	 */
-	int getNumberOfNeedles();
 
 	/**
 	 * Changes the needles being used to the ones provided (in the order
@@ -371,7 +439,7 @@ public interface KnittingEngine extends Restorable {
 	 *             if the engine is at the beginning of a row
 	 */
 	void reverseSlip(int numberToSlip) throws NotEnoughStitchesException;
-	
+
 	/**
 	 * Places a marker between the stitch just worked and the next one.
 	 * 
@@ -400,34 +468,6 @@ public interface KnittingEngine extends Restorable {
 	 *             if no marker exists at the the current position
 	 */
 	Marker removeMarker() throws NoMarkerFoundException;
-
-	/**
-	 * @return the number of stitches to the next marker (including markers on a
-	 *         subsequent needle).
-	 * @throws NoMarkerFoundException
-	 *             if no marker exists between the current position and the end
-	 *             of the row
-	 */
-	int getStitchesToNextMarker() throws NoMarkerFoundException;
-
-	/**
-	 * @return the number of stitches to the next gap (only on the current
-	 *         needle)
-	 * @throws NoGapFoundException
-	 *             if no gap exists between the current position and the end of
-	 *             the needle
-	 */
-	int getStitchesToGap() throws NoGapFoundException;
-
-	/**
-	 * @return the current direction of the work
-	 */
-	Direction getDirection();
-
-	/**
-	 * @return the current knitting shape of the work
-	 */
-	KnittingShape getKnittingShape();
 
 	/**
 	 * Knits the next two stitches together. Both stitches must be on the same
@@ -473,19 +513,22 @@ public interface KnittingEngine extends Restorable {
 	 * Casts on the specified number of stitches using the parameters specified
 	 * in castOn object.
 	 * 
-	 * @param castOn the cast-on specification
-	 * @throws StitchesAlreadyOnNeedleException 
+	 * @param castOn
+	 *            the cast-on specification
+	 * @throws StitchesAlreadyOnNeedleException
 	 */
-	void castOn(CastOn castOn) throws NoActiveNeedlesException, StitchesAlreadyOnNeedleException;
+	void castOn(CastOn castOn) throws NoActiveNeedlesException,
+			StitchesAlreadyOnNeedleException;
 
 	/**
 	 * Casts on the specified number of stitches using the parameters specified
 	 * in castOn object. Performed while working a row.
 	 * 
-	 * @param castOn the cast-on specification
+	 * @param castOn
+	 *            the cast-on specification
 	 */
 	void castOn(InlineCastOn castOn);
-	
+
 	/**
 	 * Casts on the specified number of stitches to the current needle. If the
 	 * countAsRow parameter is set to true, the row count of the project will be
@@ -505,13 +548,15 @@ public interface KnittingEngine extends Restorable {
 	 * 
 	 * @param numberOfStitches
 	 */
-	void castOn(int numberOfStitches) throws NoActiveNeedlesException, StitchesAlreadyOnNeedleException;
+	void castOn(int numberOfStitches) throws NoActiveNeedlesException,
+			StitchesAlreadyOnNeedleException;
 
 	/**
 	 * Picks up the specified number of stitches using the parameters specified
 	 * in the pickUpStitches object.
 	 * 
-	 * @param pickUpStitches the pickUpStitches specification
+	 * @param pickUpStitches
+	 *            the pickUpStitches specification
 	 */
 	void pickUpStitches(InlinePickUpStitches pickUpStitches);
 
@@ -556,13 +601,15 @@ public interface KnittingEngine extends Restorable {
 	void slip() throws NotEnoughStitchesException;
 
 	/**
-	 * Slips the next n stitches (purlwise).
+	 * Slips the next n stitches purlwise (as specified by the numberToWork
+	 * parameter).
 	 * 
+	 * @param numberToWork
 	 * @throws NotEnoughStitchesException
 	 *             if the engine is at the end of a row
 	 */
 	void slip(int numberToWork) throws NotEnoughStitchesException;
-	
+
 	/**
 	 * Knits the next two stitches together. Both stitches must be on the same
 	 * needle or a {@link NotEnoughStitchesException} will be thrown.
@@ -577,6 +624,17 @@ public interface KnittingEngine extends Restorable {
 	void knitTwoTogether() throws NotEnoughStitchesException,
 			CannotWorkThroughMarkerException;
 
+	/**
+	 * Knits the next three stitches together. All stitches must be on the same
+	 * needle or a {@link NotEnoughStitchesException} will be thrown.
+	 * 
+	 * @throws NotEnoughStitchesException
+	 *             if there are not at least three stitches left in the row or
+	 *             on this needle
+	 * @throws CannotWorkThroughMarkerException
+	 *             if a marker sits between the three stitches to work and the
+	 *             marker's behavior prohibits being worked through
+	 */
 	void knitThreeTogether() throws NotEnoughStitchesException,
 			CannotWorkThroughMarkerException;
 
@@ -595,19 +653,80 @@ public interface KnittingEngine extends Restorable {
 			CannotWorkThroughMarkerException;
 
 	/**
-	 * @return the current row number
+	 * Increments the current row number.
 	 */
-	int getCurrentRowNumber();
-
 	void incrementCurrentRowNumber();
 
 	/**
 	 * Passes the previously worked stitch (i.e. 2 stitches ago) over the stitch
-	 * which was <i>just</i> worked.
+	 * which was <i>just</i> worked. The previous stitch can be on a different
+	 * needle than the current needle, so long as the current needle is not the
+	 * first needle.
 	 * 
 	 * @throws NotEnoughStitchesException
 	 *             if this method is called and there is not a previous stitch
 	 */
 	void passPreviousStitchOver() throws NotEnoughStitchesException;
 
+	/**
+	 * Transfers stitches at the engine cursor (i.e. about to be worked) to the
+	 * specified needle.
+	 * 
+	 * @param targetNeedle
+	 * @param numberToTransfer
+	 */
+	public void transferStitchesToNeedle(Needle targetNeedle,
+			int numberToTransfer);
+
+	/**
+	 * <p>
+	 * Imposes the needle where the engine is currently active (right before the
+	 * next stitch on the current needle to be worked). Engine operations will
+	 * work the stitches on the imposing needle, one at a time, then subsequently
+	 * slip them onto the needle being imposed upon (the one that was originally
+	 * active).
+	 * 
+	 * <p>
+	 * When a needle is imposed, the engine considers the imposed needle to be
+	 * the current needle. No operations can change the current needle until
+	 * {@link #unimposeNeedle()} is called. For instance, if the needle is
+	 * imposed in the middle of Needle 1 and there were 5 stitches to be worked
+	 * on that needle, those 5 stitches would not be accessible to the engine
+	 * until the imposing needle was unimposed. Any attempt to access those
+	 * stitches (for instance, to knit past the number of stitches on the
+	 * imposing needle), will result in a {@link NotEnoughStitchesException}.
+	 * 
+	 * <p>
+	 * Needle imposition can be used to model knitting from a stitch holder onto
+	 * the active needle.
+	 * 
+	 * @param needleToImpose
+	 */
+	public void imposeNeedle(Needle needleToImpose);
+
+	/**
+	 * Remove the imposition that a needle is currently imposing upon the
+	 * engine.
+	 * 
+	 * @return the previously imposed needle
+	 * @throws NoNeedleImposedException
+	 *             if no needle is currently imposing the engine
+	 */
+	public Needle unimposeNeedle() throws NoNeedleImposedException;
+	
+	/**
+	 * Binds off the specified number of stitches from the work.
+	 * 
+	 * @param spec the specification of how to bind off
+	 * @throws NotEnoughStitchesException if there are not enough stitches to perform this operation
+	 */
+	public void bindOff(BindOff spec) throws NotEnoughStitchesException;
+
+	/**
+	 * Binds off the rest of the stitches to work in this row.
+	 * 
+	 * @param spec the specification of how to bind off all
+	 */
+	public void bindOffAll(BindOffAll spec);
+	
 }

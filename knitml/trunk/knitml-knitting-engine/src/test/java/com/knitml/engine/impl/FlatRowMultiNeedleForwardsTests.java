@@ -12,10 +12,10 @@ public class FlatRowMultiNeedleForwardsTests extends FlatRowMultiNeedleTests {
 
 	@Override
 	protected void onSetUp() throws Exception {
-		knitter.startNewRow();
+		engine.startNewRow();
 		knit(40);
-		knitter.resetRowNumber();
-		knitter.startNewRow();
+		engine.resetRowNumber();
+		engine.startNewRow();
 	}
 	
 }

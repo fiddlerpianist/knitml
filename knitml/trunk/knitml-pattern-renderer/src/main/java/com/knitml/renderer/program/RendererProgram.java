@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 
 import com.knitml.core.common.Parameters;
 import com.knitml.core.model.Pattern;
+import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.RendererFactory;
 import com.knitml.renderer.common.RenderingException;
@@ -58,13 +59,13 @@ public class RendererProgram {
 	}
 
 	public Pattern render(Parameters parameters) throws SAXException,
-			JiBXException, IOException, RenderingException {
+			JiBXException, IOException, RenderingException, KnittingEngineException {
 		return render(parameters, new HashSet<InstructionOption>());
 	}
 
 	public Pattern render(Parameters parameters,
 			Set<InstructionOption> instructionOptions) throws SAXException,
-			JiBXException, IOException, RenderingException {
+			JiBXException, IOException, RenderingException, KnittingEngineException {
 
 		// TODO need to handle instruction options
 

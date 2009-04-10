@@ -1976,8 +1976,8 @@ k3 tbl</programlisting>
             <row>
               <entry><code>sl next 5 sts to holder 'h1'</code></entry>
               <entry>
-                <programlisting>&lt;slip-to-holder ref="h1">5
-&lt;/slip-to-holder></programlisting>
+                <programlisting>&lt;slip-to-stitch-holder ref="h1">5
+&lt;/slip-to-stitch-holder></programlisting>
               </entry>
             </row>
             <row>

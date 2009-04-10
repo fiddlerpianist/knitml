@@ -3,6 +3,7 @@ package com.knitml.engine.impl;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.knitml.core.common.KnittingShape;
 import com.knitml.engine.Needle;
@@ -16,29 +17,36 @@ class DefaultEngineMemento {
 	private int currentRowNumber;
 	private int currentNeedleIndex;
 	private boolean suppressDirectionSwitchingForNextRow;
+	private boolean castingOn;
 	private StitchCoordinate startOfRow;
-	private List<Needle> needles;
+	private List<Needle> activeNeedles;
+	private Set<Needle> allNeedles;
+	private Needle imposedNeedle;
 	private Map<String, Object> needleMementos;
 
 	public DefaultEngineMemento(Direction direction,
 			KnittingShape knittingShape, int totalRowsCompleted,
-			int currentRowNumber, List<Needle> needles,
+			int currentRowNumber, List<Needle> activeNeedles,
+			Set<Needle> allNeedles, Needle imposedNeedle,
 			Map<String, Object> needleMementos, int currentNeedleIndex,
-			boolean suppressDirectionSwitchingForNextRow,
+			boolean suppressDirectionSwitchingForNextRow, boolean castingOn,
 			StitchCoordinate startOfRow) {
 		this.direction = direction;
 		this.knittingShape = knittingShape;
 		this.totalRowsCompleted = totalRowsCompleted;
 		this.currentRowNumber = currentRowNumber;
-		this.needles = needles;
+		this.activeNeedles = activeNeedles;
+		this.allNeedles = allNeedles;
+		this.imposedNeedle = imposedNeedle;
 		this.needleMementos = needleMementos;
 		this.currentNeedleIndex = currentNeedleIndex;
 		this.suppressDirectionSwitchingForNextRow = suppressDirectionSwitchingForNextRow;
+		this.castingOn = castingOn;
 		this.startOfRow = startOfRow;
 	}
 
-	public List<Needle> getNeedles() {
-		return needles;
+	public List<Needle> getActiveNeedles() {
+		return activeNeedles;
 	}
 
 	public Direction getDirection() {
@@ -69,8 +77,20 @@ class DefaultEngineMemento {
 		return suppressDirectionSwitchingForNextRow;
 	}
 
+	public boolean isCastingOn() {
+		return castingOn;
+	}
+
 	public StitchCoordinate getStartOfRow() {
 		return startOfRow;
+	}
+
+	public Set<Needle> getAllNeedles() {
+		return allNeedles;
+	}
+
+	public Needle getImposedNeedle() {
+		return imposedNeedle;
 	}
 
 }

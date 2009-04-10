@@ -85,7 +85,7 @@ public class DefaultNeedle implements Needle {
 		this.markers = memento.getMarkers();
 		this.gaps = memento.getGaps();
 		this.lastStitchIndexReturned = memento.getLastStitchIndexReturned();
-	}
+	}	
 
 	public Object save() {
 		List<Stitch> stitchesCopy = new ArrayList<Stitch>(this.stitches);
@@ -830,18 +830,17 @@ public class DefaultNeedle implements Needle {
 		}
 		adjustMarkersAfterIncrease(numberToIncrease);
 	}
-
-	public void workIntoNextStitch(int numberToWork)
-			throws NotEnoughStitchesException {
-		if (numberToWork <= 1) {
-			throw new IllegalArgumentException(
-					"Parameter for workIntoNextStitch must be 2 or greater. To work one stitch into the next stitch, use knit() or purl().");
+	
+	public void addStitch(Stitch stitchToAdd) {
+		if (direction == Direction.FORWARDS) {
+			stitchCursor.add(stitchToAdd);
+			lastStitchIndexReturned = stitchCursor.previousIndex();
+		} else {
+			stitchCursor.add(stitchToAdd);
+			stitchCursor.previous();
+			lastStitchIndexReturned = stitchCursor.nextIndex();
 		}
-		// for instance, knit into the front and back of next stitch. This is 2
-		// stitches
-		// being worked, for a net total gain of 1.
-		increase(numberToWork - 1);
-		advanceCursorOne();
+		adjustMarkersAfterIncrease(1);
 	}
 
 	public void cross(int first, int next) throws NotEnoughStitchesException,

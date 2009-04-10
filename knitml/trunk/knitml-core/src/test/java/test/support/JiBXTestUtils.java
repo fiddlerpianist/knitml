@@ -19,7 +19,7 @@ import com.knitml.core.model.Pattern;
 
 public class JiBXTestUtils {
 
-	public static Object unmarshalXml(String xml, Class rootClass)
+	public static Object unmarshalXml(String xml, Class<?> rootClass)
 			throws JiBXException {
 		IBindingFactory factory = getBindingFactory(rootClass);
 		IUnmarshallingContext uctx = factory.createUnmarshallingContext();
@@ -30,7 +30,7 @@ public class JiBXTestUtils {
 		return unmarshalXml(xml, Pattern.class);
 	}
 
-	private static IBindingFactory getBindingFactory(Class rootClass)
+	private static IBindingFactory getBindingFactory(Class<?> rootClass)
 			throws JiBXException {
 		return BindingDirectory.getFactory(rootClass);
 	}

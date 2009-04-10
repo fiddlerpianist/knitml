@@ -23,7 +23,7 @@ import com.knitml.core.common.Wise
 import com.knitml.core.common.LoopToWork
 import com.knitml.core.common.YarnPosition
 import com.knitml.core.common.SlipDirection
-import com.knitml.core.model.directions.inline.SlipToHolder
+import com.knitml.core.model.directions.inline.SlipToStitchHolder
 
 @RunWith(JUnit4ClassRunner)
 class KnitPurlSlipTests {
@@ -130,7 +130,7 @@ class KnitPurlSlipTests {
 	}
 	
 	@Test
-	void slipToHolder() {
+	void slipToStitchHolder() {
 		def xml = '''
 			<pattern xmlns="http://www.knitml.com/schema/pattern">
 			  <supplies>
@@ -142,13 +142,13 @@ class KnitPurlSlipTests {
               </supplies>
 			  <directions>
 					<row>
-						<slip-to-holder ref="stitch-holder-1">25</slip-to-holder>
+						<slip-to-stitch-holder ref="stitch-holder-1">25</slip-to-stitch-holder>
 					</row>
 				  </directions>
 			</pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
-		assertThat element instanceof SlipToHolder, is (true)
+		assertThat element instanceof SlipToStitchHolder, is (true)
 		element.with {
 			assertThat stitchHolder, is (pattern.supplies.stitchHolders[0])
 			assertThat numberOfStitches, is (25)

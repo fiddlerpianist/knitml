@@ -83,14 +83,14 @@ class LanguageQUTests {
 	@Test
 	void sl2ToHolder() {
 		String actual = toXml ("sl next 2 sts to holder 'sh1'")
-		String expected = '''<slip-to-holder ref="sh1">2</slip-to-holder>'''
+		String expected = '''<slip-to-stitch-holder ref="sh1">2</slip-to-stitch-holder>'''
         assertXMLEqual expected, actual
 	}
 	
 	@Test
 	void sl1ToHolder() {
 		String actual = toXml ("sl next st to holder 'sh1'")
-		String expected = '''<slip-to-holder ref="sh1">1</slip-to-holder>'''
+		String expected = '''<slip-to-stitch-holder ref="sh1">1</slip-to-stitch-holder>'''
         assertXMLEqual expected, actual
 	}
 

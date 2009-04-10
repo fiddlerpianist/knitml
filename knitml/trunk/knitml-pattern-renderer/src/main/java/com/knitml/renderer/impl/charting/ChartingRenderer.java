@@ -11,6 +11,7 @@ import com.knitml.core.model.Pattern;
 import com.knitml.core.model.directions.block.CastOn;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
 import com.knitml.core.model.directions.block.Instruction;
+import com.knitml.core.model.directions.block.PickUpStitches;
 import com.knitml.core.model.directions.block.RepeatInstruction;
 import com.knitml.core.model.directions.block.Row;
 import com.knitml.core.model.directions.block.Section;
@@ -20,6 +21,7 @@ import com.knitml.core.model.directions.inline.BindOff;
 import com.knitml.core.model.directions.inline.BindOffAll;
 import com.knitml.core.model.directions.inline.CrossStitches;
 import com.knitml.core.model.directions.inline.Decrease;
+import com.knitml.core.model.directions.inline.FromStitchHolder;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
@@ -29,6 +31,7 @@ import com.knitml.core.model.directions.inline.NoStitch;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
+import com.knitml.core.model.directions.inline.SlipToStitchHolder;
 import com.knitml.core.model.directions.inline.Repeat.Until;
 import com.knitml.core.model.header.GeneralInformation;
 import com.knitml.core.model.header.Needle;
@@ -314,6 +317,10 @@ public class ChartingRenderer implements Renderer {
 		delegate.renderCastOn(castOn);
 	}
 
+	public void renderPickUpStitches(PickUpStitches pickUpStitches) {
+		delegate.renderPickUpStitches(pickUpStitches);
+	}
+
 	public void renderPickUpStitches(InlinePickUpStitches pickUpStitches) {
 		delegate.renderPickUpStitches(pickUpStitches);
 	}
@@ -393,6 +400,18 @@ public class ChartingRenderer implements Renderer {
 
 	public void endPattern() {
 		delegate.endPattern();
+	}
+
+	public void beginFromStitchHolder(FromStitchHolder fromStitchHolder) {
+		delegate.beginFromStitchHolder(fromStitchHolder);
+	}
+
+	public void endFromStitchHolder(FromStitchHolder fromStitchHolder) {
+		delegate.endFromStitchHolder(fromStitchHolder);
+	}
+
+	public void renderSlipToStitchHolder(SlipToStitchHolder operation) {
+		delegate.renderSlipToStitchHolder(operation);
 	}
 
 	public RenderingContext getRenderingContext() {

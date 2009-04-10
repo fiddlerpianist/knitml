@@ -1,9 +1,11 @@
 package com.knitml.engine.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.slf4j.Logger;
@@ -15,6 +17,8 @@ import com.knitml.core.common.SlipDirection;
 import com.knitml.core.common.Wise;
 import com.knitml.core.common.YarnPosition;
 import com.knitml.core.model.directions.block.CastOn;
+import com.knitml.core.model.directions.inline.BindOff;
+import com.knitml.core.model.directions.inline.BindOffAll;
 import com.knitml.core.model.directions.inline.CrossStitches;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
@@ -34,6 +38,7 @@ import com.knitml.engine.common.NeedlesInWrongDirectionException;
 import com.knitml.engine.common.NoActiveNeedlesException;
 import com.knitml.engine.common.NoGapFoundException;
 import com.knitml.engine.common.NoMarkerFoundException;
+import com.knitml.engine.common.NoNeedleImposedException;
 import com.knitml.engine.common.NotBetweenRowsException;
 import com.knitml.engine.common.NotEndOfRowException;
 import com.knitml.engine.common.NotEnoughStitchesException;
@@ -60,7 +65,12 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	private KnittingShape knittingShape = KnittingShape.FLAT;
 	private int totalRowsCompleted = 0;
 	private int currentRowNumber = 0;
-	private List<Needle> needles = new ArrayList<Needle>();
+
+	// collections of needles
+	private List<Needle> activeNeedles = new ArrayList<Needle>();
+	private Set<Needle> allNeedles = new HashSet<Needle>();
+	private Needle imposedNeedle = null;
+
 	// start "between" rows
 	private int currentNeedleIndex = -1;
 
@@ -69,6 +79,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	// has no effect if knitting in the round, since direction isn't switched
 	// for every row.
 	private boolean suppressDirectionSwitchingForNextRow = false;
+	private boolean castingOn = false;
 	private KnittingFactory knittingFactory;
 
 	/**
@@ -84,21 +95,23 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		this.knittingFactory = knittingFactory;
 		Needle needle = this.knittingFactory.createNeedle("default",
 				NeedleStyle.CIRCULAR);
-		needles.add(needle);
+		activeNeedles.add(needle);
+		allNeedles.add(needle);
 	}
 
 	public Object save() {
 		Map<String, Object> needleMementos = new LinkedHashMap<String, Object>();
-		for (Needle needle : this.needles) {
+		for (Needle needle : this.activeNeedles) {
 			Object needleMemento = needle.save();
 			needleMementos.put(needle.getId(), needleMemento);
 		}
-		List<Needle> needlesCopy = new ArrayList<Needle>(this.needles);
+		List<Needle> needlesCopy = new ArrayList<Needle>(this.activeNeedles);
 		DefaultEngineMemento engineMemento = new DefaultEngineMemento(
 				this.direction, this.knittingShape, this.totalRowsCompleted,
-				this.currentRowNumber, needlesCopy, needleMementos,
-				this.currentNeedleIndex,
-				this.suppressDirectionSwitchingForNextRow, this.startOfRow);
+				this.currentRowNumber, needlesCopy, this.allNeedles,
+				this.imposedNeedle, needleMementos, this.currentNeedleIndex,
+				this.suppressDirectionSwitchingForNextRow, this.castingOn,
+				this.startOfRow);
 		return engineMemento;
 	}
 
@@ -120,12 +133,15 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		this.knittingShape = memento.getKnittingShape();
 		this.totalRowsCompleted = memento.getTotalRowsCompleted();
 		this.currentRowNumber = memento.getCurrentRowNumber();
-		this.needles = memento.getNeedles();
+		this.activeNeedles = memento.getActiveNeedles();
+		this.allNeedles = memento.getAllNeedles();
+		this.imposedNeedle = memento.getImposedNeedle();
 		this.currentNeedleIndex = memento.getCurrentNeedleIndex();
 		this.suppressDirectionSwitchingForNextRow = memento
 				.isSuppressDirectionSwitchingForNextRow();
+		this.castingOn = memento.isCastingOn();
 		this.startOfRow = memento.getStartOfRow();
-		for (Needle needle : this.needles) {
+		for (Needle needle : this.activeNeedles) {
 			Object needleMemento = memento.getNeedleMementos().get(
 					needle.getId());
 			needle.restore(needleMemento);
@@ -148,6 +164,10 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throw new IllegalStateException(
 					"Cannot use different needles while the work is being worked on the wrong side (implementation limitation)");
 		}
+		if (isImposedUpon()) {
+			throw new IllegalStateException(
+					"Cannot use different needles while the engine is being imposed upon by another needle");
+		}
 		validateNewNeedleConfiguration(newNeedles, intendedKnittingShape);
 		// we must define this variable here because we are altering the state
 		// of the engine,
@@ -163,6 +183,10 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throw new NotEnoughStitchesException(
 					"Must be within a row to transfer active stitches to a needle");
 		}
+		if (isImposedUpon()) {
+			throw new IllegalStateException(
+					"Cannot transfer stitches to a new needle while the engine is being imposed upon by another needle");
+		}
 		List<Stitch> stitchesToAdd = new ArrayList<Stitch>();
 		for (int i = 0; i < numberToTransfer; i++) {
 			advanceNeedleIfNecessary();
@@ -173,6 +197,9 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	}
 
 	private void doUseNeedles(List<Needle> newNeedles) {
+		// make sure we account for all needles
+		allNeedles.addAll(newNeedles);
+		
 		// FIXME the needles should probably be by-value instead of
 		// by-reference.
 		// The reason is because of the memento concept. If I were to revert
@@ -180,7 +207,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		// but retain references to the needles
 		List<Needle> newNeedleList = new ArrayList<Needle>(newNeedles.size());
 		newNeedleList.addAll(newNeedles);
-		this.needles = newNeedleList;
+		this.activeNeedles = newNeedleList;
 	}
 
 	private void validateNewNeedleConfiguration(List<Needle> newNeedles,
@@ -249,7 +276,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	}
 
 	private void adjustNeedleAndStitchCursorsToBeginningOrEnd(boolean endOfRow) {
-		for (Needle needle : this.needles) {
+		for (Needle needle : this.activeNeedles) {
 			// adjust stitch cursors to be at appropriate place in row
 			if (endOfRow) {
 				needle.startAtEnd();
@@ -260,7 +287,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		}
 		// adjust current needle to be at appropriate place in row
 		if (endOfRow) {
-			currentNeedleIndex = needles.size() - 1;
+			currentNeedleIndex = activeNeedles.size() - 1;
 		} else {
 			currentNeedleIndex = 0;
 		}
@@ -277,6 +304,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	 */
 	public void startNewRow() throws NotEndOfRowException,
 			NoActiveNeedlesException, NotEnoughStitchesException {
+
 		if (!hasNeedles()) {
 			throw new NoActiveNeedlesException("No needles currently in use");
 		}
@@ -284,24 +312,30 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throw new NotEndOfRowException(
 					"Cannot start a new row until you reach the end of the current row");
 		}
-		if (getTotalNumberOfStitchesInRow() == 0) {
-			throw new NotEnoughStitchesException(
-					"You cannot start a row with 0 stitches in it; use cast-on or pick-up-stitches to add stitches to the work");
-		}
+		// if (getTotalNumberOfStitchesInRow() == 0) {
+		// throw new NotEnoughStitchesException(
+		// "You cannot start a row with 0 stitches in it; use cast-on or pick-up-stitches to add stitches to the work");
+		// }
 		currentRowNumber++;
 		switchDirectionIfNecessary();
 		if (isBetweenRows()) {
 			resetCurrentNeedleIndex();
 		}
+		// do this last so that it does not affect the call to isBetweenRows()
+		this.castingOn = false;
 	}
 
 	private boolean hasNeedles() {
-		return needles.size() > 0;
+		return activeNeedles.size() > 0;
 	}
 
 	public void endRow() throws NotEndOfRowException {
 		if (!isEndOfRow()) {
 			throw new NotEndOfRowException();
+		}
+		if (isImposedUpon()) {
+			throw new IllegalStateException(
+					"Cannot end a row while the engine is being imposed upon by another needle");
 		}
 
 		totalRowsCompleted++;
@@ -326,6 +360,12 @@ public class DefaultKnittingEngine implements KnittingEngine {
 					"The engine is not currently knitting a row, therefore you cannot advance the needle");
 		}
 
+		// never advance the needle if imposed upon; always impose upon the
+		// needle at currentNeedleIndex
+		if (isImposedUpon()) {
+			return;
+		}
+
 		// if we're not at the end of a row but we're at the end of a needle,
 		// advance to the next one
 		if (!isEndOfRow() && getCurrentNeedle().isEndOfNeedle()) {
@@ -348,6 +388,11 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throw new CannotRetreatNeedleException(
 					"The engine is not currently knitting a row, therefore you cannot retreat the needle");
 		}
+		// never retreat the needle if imposed upon; always impose upon the
+		// needle at currentNeedleIndex
+		if (isImposedUpon()) {
+			return;
+		}
 
 		// only retreat needle if we're at the beginning of the needle
 		if (getCurrentNeedle().isBeginningOfNeedle()) {
@@ -359,7 +404,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			}
 			// ensure the targetNeedleIndex is not out-of-bounds
 			if (targetNeedleIndex == -1
-					|| targetNeedleIndex == this.needles.size()) {
+					|| targetNeedleIndex == this.activeNeedles.size()) {
 				throw new CannotRetreatNeedleException();
 			}
 			this.currentNeedleIndex = targetNeedleIndex;
@@ -367,6 +412,11 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	}
 
 	private void switchDirectionIfNecessary() {
+		if (isImposedUpon()) {
+			throw new IllegalStateException(
+					"Cannot switch direction while the engine is being imposed upon by another needle");
+		}
+
 		if (suppressDirectionSwitchingForNextRow) {
 			resetStitchCursorOnNeedles();
 			suppressDirectionSwitchingForNextRow = false;
@@ -386,19 +436,19 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	}
 
 	private void resetStitchCursorOnNeedles() {
-		for (Needle needle : needles) {
+		for (Needle needle : activeNeedles) {
 			needle.startAtBeginning();
 		}
 	}
 
 	private void setNeedlesInCurrentDirection() {
-		for (Needle needle : needles) {
+		for (Needle needle : activeNeedles) {
 			needle.setDirection(getDirection());
 		}
 	}
 
 	public boolean isBetweenRows() {
-		return currentNeedleIndex == -1;
+		return currentNeedleIndex == -1 || castingOn;
 	}
 
 	public boolean isBeginningOfRow() {
@@ -426,17 +476,17 @@ public class DefaultKnittingEngine implements KnittingEngine {
 
 	private boolean isFirstNeedle(Needle currentNeedle) {
 		if (getDirection() == Direction.FORWARDS) {
-			return needles.indexOf(currentNeedle) == 0;
+			return activeNeedles.indexOf(currentNeedle) == 0;
 		} else {
-			return needles.indexOf(currentNeedle) == needles.size() - 1;
+			return activeNeedles.indexOf(currentNeedle) == activeNeedles.size() - 1;
 		}
 	}
 
 	private boolean isLastNeedle(Needle currentNeedle) {
 		if (getDirection() == Direction.FORWARDS) {
-			return needles.indexOf(currentNeedle) == needles.size() - 1;
+			return activeNeedles.indexOf(currentNeedle) == activeNeedles.size() - 1;
 		} else {
-			return needles.indexOf(currentNeedle) == 0;
+			return activeNeedles.indexOf(currentNeedle) == 0;
 		}
 	}
 
@@ -444,13 +494,21 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		if (currentNeedleIndex == -1) {
 			throw new NoActiveNeedlesException();
 		}
-		return needles.get(currentNeedleIndex);
+		if (isImposedUpon()) {
+			return imposedNeedle;
+		} else {
+			return activeNeedles.get(currentNeedleIndex);
+		}
 	}
 
 	/**
 	 * @see com.knitml.engine.validation.engine.KnittingEngine#turn()
 	 */
 	public void turn() {
+		if (isImposedUpon()) {
+			throw new IllegalStateException(
+					"Cannot turn the work when the engine is being imposed upon by another needle");
+		}
 		if (getStitchesRemainingOnCurrentNeedle() > 0) {
 			getCurrentNeedle().turn();
 		}
@@ -471,6 +529,10 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throw new NeedlesInWrongDirectionException(
 					"Must be knitting with the right side facing to declare the start of the row");
 		}
+		if (isImposedUpon()) {
+			throw new IllegalStateException(
+					"Cannot designate the end of a row while the engine is being imposed upon by another needle");
+		}
 
 		// This method probably won't be called when the work is already at the
 		// beginning or end of a row, but there is nothing prohibiting the
@@ -489,7 +551,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		int newNeedleIndex = this.currentNeedleIndex;
 		int newStitchIndex;
 		if (getCurrentNeedle().isEndOfNeedle()) {
-			if (newNeedleIndex == this.needles.size() - 1) {
+			if (newNeedleIndex == this.activeNeedles.size() - 1) {
 				newNeedleIndex = 0;
 			} else {
 				newNeedleIndex++;
@@ -502,15 +564,14 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		this.startOfRow = new StitchCoordinate(0, newStitchIndex);
 
 		// this will force the needle with the split end-of-row to be the first
-		// needle
-		// in the needle list
+		// needle in the needle list
 		if (newNeedleIndex > 0) {
 			List<Needle> newNeedleConfiguration = new ArrayList<Needle>();
-			for (int i = newNeedleIndex; i < this.needles.size(); i++) {
-				newNeedleConfiguration.add(needles.get(i));
+			for (int i = newNeedleIndex; i < this.activeNeedles.size(); i++) {
+				newNeedleConfiguration.add(activeNeedles.get(i));
 			}
 			for (int i = 0; i < newNeedleIndex; i++) {
-				newNeedleConfiguration.add(needles.get(i));
+				newNeedleConfiguration.add(activeNeedles.get(i));
 			}
 			// since we don't need validation nor do we want the stitch cursors
 			// reset,
@@ -532,6 +593,10 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throw new CannotAdvanceNeedleException(
 					"Must be at the end of needle to advance");
 		}
+		if (isImposedUpon()) {
+			throw new CannotAdvanceNeedleException(
+					"Cannot advance past a needle being imposed upon");
+		}
 		// it will be necessary to advance needle
 		advanceNeedleIfNecessary();
 	}
@@ -550,7 +615,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 					.info("Request made to change to round knitting but engine was already knitting round");
 			return;
 		}
-		validateNewNeedleConfiguration(this.needles, KnittingShape.ROUND);
+		validateNewNeedleConfiguration(this.activeNeedles, KnittingShape.ROUND);
 		// boolean endOfRow = isEndOfRow();
 
 		if (getDirection() == Direction.BACKWARDS) {
@@ -577,7 +642,8 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			return;
 		}
 		try {
-			validateNewNeedleConfiguration(this.needles, KnittingShape.FLAT);
+			validateNewNeedleConfiguration(this.activeNeedles,
+					KnittingShape.FLAT);
 		} catch (WrongNeedleTypeException ex) {
 			// we shouldn't get here, since we were previously knitting in the
 			// round, and a valid needle configuration in the round
@@ -611,8 +677,12 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	 * getTotalNumberOfStitchesInRow()
 	 */
 	public int getTotalNumberOfStitchesInRow() {
+		if (isImposedUpon()) {
+			return getTotalNumberOfStitchesOnCurrentNeedle();
+		}
+
 		int total = 0;
-		for (Needle needle : needles) {
+		for (Needle needle : activeNeedles) {
 			total += needle.getTotalStitches();
 		}
 		return total;
@@ -625,8 +695,12 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	 * getStitchesRemainingInRow()
 	 */
 	public int getStitchesRemainingInRow() {
+		if (isImposedUpon()) {
+			return getStitchesRemainingOnCurrentNeedle();
+		}
+
 		int remaining = 0;
-		for (Needle needle : needles) {
+		for (Needle needle : activeNeedles) {
 			remaining += needle.getStitchesRemaining();
 		}
 		return remaining;
@@ -672,9 +746,9 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		}
 
 		assert stitchArray != null;
-		if (stitchArray.length != needles.size()) {
-			throw new WrongNumberOfNeedlesException(stitchArray.length, needles
-					.size());
+		if (stitchArray.length != activeNeedles.size()) {
+			throw new WrongNumberOfNeedlesException(stitchArray.length,
+					activeNeedles.size());
 		}
 		int totalStitches = 0;
 		for (int i = 0; i < stitchArray.length; i++) {
@@ -693,7 +767,8 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		// FIXME we have to start processing the row at the start of row
 		// (defined by StitchCoordinate)
 		for (int i = 0; i < stitchArray.length; i++) {
-			int stitchesOnCurrentNeedle = needles.get(i).getTotalStitches();
+			int stitchesOnCurrentNeedle = activeNeedles.get(i)
+					.getTotalStitches();
 			int targetNumberOfStitches = stitchArray[i];
 			if (targetNumberOfStitches <= 0) {
 				throw new IllegalArgumentException(
@@ -722,8 +797,8 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	private void transferStitches(int fromNeedleIndex, int toNeedleIndex,
 			final int numberOfStitchesToTransfer)
 			throws NeedlesInWrongDirectionException {
-		Needle fromNeedle = needles.get(fromNeedleIndex);
-		Needle toNeedle = needles.get(toNeedleIndex);
+		Needle fromNeedle = activeNeedles.get(fromNeedleIndex);
+		Needle toNeedle = activeNeedles.get(toNeedleIndex);
 		int numberOfStitchesTransferred = Math.min(numberOfStitchesToTransfer,
 				fromNeedle.getTotalStitches());
 		if (fromNeedleIndex < toNeedleIndex) {
@@ -763,7 +838,10 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	 * ()
 	 */
 	public int getNumberOfNeedles() {
-		return needles.size();
+		if (isImposedUpon()) {
+			return 1;
+		}
+		return activeNeedles.size();
 	}
 
 	public void fastenOff() throws NotEnoughStitchesException {
@@ -794,6 +872,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throw new NotEnoughStitchesException();
 		}
 		getCurrentNeedle().knit();
+		imposeStitchesIfNecessary(1);
 	}
 
 	/*
@@ -808,6 +887,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throw new NotEnoughStitchesException();
 		}
 		getCurrentNeedle().purl();
+		imposeStitchesIfNecessary(1);
 	}
 
 	/*
@@ -826,6 +906,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 					advanceNeedleIfNecessary();
 					getCurrentNeedle().slip();
 				}
+				imposeStitchesIfNecessary(numberOfTimes);
 			} catch (CannotAdvanceNeedleException ex) {
 				throw new NotEnoughStitchesException();
 			}
@@ -901,17 +982,21 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		return getCurrentNeedle().removeMarker();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seecom.knitml.validation.validation.engine.KnittingEngine#
-	 * getStitchesToNextMarker()
+	/**
+	 * @see com.knitml.validation.validation.engine.KnittingEngine#
+	 *      getStitchesToNextMarker()
 	 */
 	public int getStitchesToNextMarker() throws NoMarkerFoundException {
+		if (isImposedUpon()) {
+			// only search the imposing needle
+			return getCurrentNeedle().getStitchesToNextMarker();
+		}
+
 		int inspectedNeedleIndex = currentNeedleIndex;
 		int count = 0;
 		try {
-			while (!(needles.get(inspectedNeedleIndex)).areMarkersRemaining()) {
+			while (!(activeNeedles.get(inspectedNeedleIndex))
+					.areMarkersRemaining()) {
 				count += getCurrentNeedle().getStitchesRemaining();
 				if (getDirection() == Direction.FORWARDS) {
 					inspectedNeedleIndex++;
@@ -920,7 +1005,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				}
 			}
 			return count
-					+ needles.get(inspectedNeedleIndex)
+					+ activeNeedles.get(inspectedNeedleIndex)
 							.getStitchesToNextMarker();
 		} catch (IndexOutOfBoundsException ex) {
 			throw new NoMarkerFoundException();
@@ -928,10 +1013,15 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	}
 
 	public int getStitchesToGap() throws NoGapFoundException {
+		if (isImposedUpon()) {
+			// only search the imposing needle
+			return getCurrentNeedle().getStitchesToGap();
+		}
+
 		int inspectedNeedleIndex = currentNeedleIndex;
 		int count = 0;
 		try {
-			while (!(needles.get(inspectedNeedleIndex)).hasGaps()) {
+			while (!(activeNeedles.get(inspectedNeedleIndex)).hasGaps()) {
 				count += getCurrentNeedle().getStitchesRemaining();
 				if (getDirection() == Direction.FORWARDS) {
 					inspectedNeedleIndex++;
@@ -939,7 +1029,9 @@ public class DefaultKnittingEngine implements KnittingEngine {
 					inspectedNeedleIndex--;
 				}
 			}
-			return count + needles.get(inspectedNeedleIndex).getStitchesToGap();
+			return count
+					+ activeNeedles.get(inspectedNeedleIndex)
+							.getStitchesToGap();
 		} catch (IndexOutOfBoundsException ex) {
 			throw new NoGapFoundException();
 		}
@@ -974,6 +1066,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throw new NotEnoughStitchesException();
 		}
 		getCurrentNeedle().knitTwoTogether();
+		imposeStitchesIfNecessary(1);
 	}
 
 	/*
@@ -992,25 +1085,27 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		}
 		// TODO add "through back loop"
 		getCurrentNeedle().purlTwoTogether();
+		imposeStitchesIfNecessary(1);
 	}
 
 	private void resetCurrentNeedleIndex() {
-		assert currentNeedleIndex == -1;
+		if (isImposedUpon()) {
+			throw new IllegalStateException(
+					"Cannot change the needle index while the engine is being imposed upon by another needle");
+		}
+		if (!castingOn) {
+			assert currentNeedleIndex == -1;
+		}
 		if (getDirection() == Direction.FORWARDS) {
 			currentNeedleIndex = 0;
 		} else {
-			currentNeedleIndex = needles.size() - 1;
+			currentNeedleIndex = activeNeedles.size() - 1;
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * TODO see if we can remove 'wasBetweenRows' check since cast ons mid-row
-	 * are longer done (they are a specific type of increase instead).
-	 * 
+	/**
 	 * @see com.knitml.validation.validation.engine.KnittingEngine#castOn(int,
-	 * boolean)
+	 *      boolean)
 	 */
 	public void castOn(CastOn castOn) throws NoActiveNeedlesException,
 			StitchesAlreadyOnNeedleException {
@@ -1021,7 +1116,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throw new NoActiveNeedlesException("No needles currently in use");
 		}
 
-		if (getTotalNumberOfStitchesInRow() != 0) {
+		if (getTotalNumberOfStitchesInRow() != 0 && !castingOn) {
 			throw new StitchesAlreadyOnNeedleException(
 					"You cannot cast on stitches when there are active stitches on the needle. Use inline-cast-on instead to do this within a row.");
 		}
@@ -1036,6 +1131,8 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			currentRowNumber++;
 		}
 
+		// we aren't imposed upon here because you can be imposed upon
+		// and have your needle index reset
 		getCurrentNeedle().increase(numberOfStitches);
 
 		if (countAsRow) {
@@ -1047,34 +1144,17 @@ public class DefaultKnittingEngine implements KnittingEngine {
 						ex);
 			}
 		} else {
+			// set castingOn to true to indicate we might be adding more
+			// stitches as part of this cast on
+			castingOn = true;
 			// We're not counting this as a row. Therefore we want the cursor to
 			// point to the first stitch cast on (in the forwards direction) as
 			// the next stitch to work.
-			currentNeedleIndex = -1;
+			// currentNeedleIndex = -1;
 			// And we don't want to switch directions next time startNextRow()
 			// is called.
 			suppressDirectionSwitchingForNextRow = true;
 		}
-
-		// // if 'nextRowSide' is specified and we are knitting flat
-		// if (nextRowSide != null && knittingShape == KnittingShape.FLAT) {
-		// // ... and if we EITHER are knitting forwards and the next row is a
-		// // right-side row OR we are knitting backwards and the
-		// if ((nextRowSide == Side.RIGHT && getDirection() ==
-		// Direction.FORWARDS)
-		// || (nextRowSide == Side.WRONG && getDirection() ==
-		// Direction.BACKWARDS)) {
-		// // make the direction the reverse of what it is so that a
-		// // subsequent call to "startNewRow" will "un-reverse" it.
-		// // This has the side effect of reversing the direction
-		// // between rows, though, and that may not always be
-		// // desirable.
-		// toggleDirection();
-		// for (Needle needle : needles) {
-		// needle.startAtEnd();
-		// }
-		// }
-		// }
 	}
 
 	public void castOn(int numberOfStitches) throws NoActiveNeedlesException,
@@ -1088,6 +1168,76 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		castOn.setNumberOfStitches(numberOfStitches);
 		castOn.setCountAsRow(countAsRow);
 		castOn(castOn);
+	}
+
+	public void bindOff(BindOff bindOff) throws NotEnoughStitchesException {
+		int numberOfIterations = bindOff.getNumberOfStitches();
+		for (int i = 0; i < numberOfIterations; i++) {
+			doBindOffOne(bindOff.getType(), i);
+		}
+		if (getStitchesRemainingInRow() == 0) {
+			// last stitch on the row, so fasten it off
+			reverseSlip();
+			fastenOff();
+		} else {
+			// the last stitch to bind off
+			doBindOffOne(bindOff.getType(), numberOfIterations);
+			/*
+			 * move one stitch back to the LH needle. This is because, in an
+			 * instruction such as "k10, BO 10 sts, k10", the first k of the
+			 * last k10 has actually already been worked as part of the bind off
+			 * series. We cheat a bit and slip the stitch back onto the LH
+			 * needle.
+			 */
+			reverseSlip();
+		}
+	}
+	
+	public void bindOffAll(BindOffAll bindOffAll) {
+		int numberOfIterations = getStitchesRemainingInRow();
+		boolean fastenOff = bindOffAll.isFastenOffLastStitch();
+		if (numberOfIterations == 0) {
+			if (getTotalNumberOfStitchesInRow() > 1) {
+				// if we have hit the end of the row, pass the previous stitch
+				// over the last stitch worked
+				passPreviousStitchOver();
+			} else {
+				// otherwise there is only one stitch left on the needle, and
+				// this MUST mean we should fasten off
+				fastenOff = true;
+			}
+		} else {
+			// otherwise knit or purl, binding each successive stitch off
+			for (int i = 0; i < numberOfIterations; i++) {
+				doBindOffOne(bindOffAll.getType(), i);
+			}
+		}
+
+		// now fasten last stitch off (if requested)
+		if (fastenOff) {
+			reverseSlip();
+			fastenOff();
+		}
+	}
+
+	protected void doBindOffOne(Wise wise, int numberPerformed) {
+		if (wise == Wise.PURLWISE) {
+			if (isImposedUpon()) {
+				// don't slip it onto the active needle
+				getCurrentNeedle().purl();
+			} else {
+				purl();
+			}
+		} else {
+			if (isImposedUpon()) {
+				getCurrentNeedle().knit();
+			} else {
+				knit();
+			}
+		}
+		if (numberPerformed > 0) {
+			passPreviousStitchOver();
+		}
 	}
 
 	/*
@@ -1181,7 +1331,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	public void passPreviousStitchOver() throws NotEnoughStitchesException {
 		if (getTotalNumberOfStitchesOnCurrentNeedle()
 				- getStitchesRemainingOnCurrentNeedle() == 1
-				&& !isFirstNeedle(getCurrentNeedle())) {
+				&& !isFirstNeedle(getCurrentNeedle()) && !isImposedUpon()) {
 			// this means there MAY be a previous needle with stitches on it
 			if (getDirection() == Direction.FORWARDS) {
 				try {
@@ -1194,8 +1344,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				// issuing a transferStitches() causes the cursor to move
 				// back to the start of the needle. To compensate,
 				// we must slip twice to get to where we were.
-				slip();
-				slip();
+				slip(2);
 			} else {
 				// transferStitches() can only be run when needles are in
 				// the forwards direction
@@ -1212,10 +1361,11 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				// we must slip twice to get to where we were.
 				toggleDirection();
 				getCurrentNeedle().startAtBeginning();
-				slip();
-				slip();
+				slip(2);
 			}
 		}
+		
+		// everything is on the current needle now, so go ahead and do it
 		getCurrentNeedle().passPreviousStitchOver();
 	}
 
@@ -1227,6 +1377,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throw new NotEnoughStitchesException();
 		}
 		getCurrentNeedle().knitThreeTogether();
+		imposeStitchesIfNecessary(1);
 	}
 
 	public int getTotalRowsCompleted() {
@@ -1240,24 +1391,78 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	public void increase(Increase increase) throws NotEnoughStitchesException {
 		int numberToIncrease = increase.getNumberOfTimes() == null ? 1
 				: increase.getNumberOfTimes();
+		doIncrease(numberToIncrease);
+		if (increase.getAdvanceCount() > 0) {
+			for (int i = 0; i < increase.getAdvanceCount(); i++) {
+				slip();
+			}
+		}
+	}
+
+	private void doIncrease(int numberToIncrease)
+			throws NotEnoughStitchesException {
 		getCurrentNeedle().increase(numberToIncrease);
+		imposeStitchesIfNecessary(numberToIncrease);
 	}
 
 	public void increase(IncreaseIntoNextStitch increase)
 			throws NotEnoughStitchesException {
-		getCurrentNeedle().workIntoNextStitch(increase.getOperations().size());
+		doIncrease(increase.getIncreaseCount());
+		slip(increase.getAdvanceCount());
 	}
 
 	public void pickUpStitches(InlinePickUpStitches pickUpStitches) {
 		int numberToIncrease = pickUpStitches.getNumberOfTimes() == null ? 1
 				: pickUpStitches.getNumberOfTimes();
-		getCurrentNeedle().increase(numberToIncrease);
+		doIncrease(numberToIncrease);
 	}
 
 	public void castOn(InlineCastOn castOn) {
 		int numberToIncrease = castOn.getNumberOfStitches() == null ? 1
 				: castOn.getNumberOfStitches();
-		getCurrentNeedle().increase(numberToIncrease);
+		doIncrease(numberToIncrease);
+	}
+
+	public void imposeNeedle(Needle needleToImpose) {
+		if (this.currentNeedleIndex == -1) {
+			throw new NoActiveNeedlesException(
+					"Cannot impose a needle when no needles are active");
+		}
+		if (this.imposedNeedle != null) {
+			throw new IllegalStateException(
+					"Cannot impose a second needle onto the engine; one has already been imposed");
+		}
+		imposedNeedle = needleToImpose;
+		allNeedles.add(imposedNeedle);
+	}
+
+	public Needle unimposeNeedle() throws NoNeedleImposedException {
+		if (this.imposedNeedle == null) {
+			throw new NoNeedleImposedException();
+		}
+		Needle result = this.imposedNeedle;
+		this.imposedNeedle = null;
+		return result;
+	}
+
+	protected boolean isImposedUpon() {
+		return imposedNeedle != null;
+	}
+
+	protected void imposeStitchesIfNecessary(int number) {
+		if (isImposedUpon()) {
+			Needle targetNeedle = this.activeNeedles
+					.get(this.currentNeedleIndex);
+
+			// put the cursor back before the stitches to transfer
+			for (int i = 0; i < number; i++) {
+				imposedNeedle.reverseSlip();
+			}
+			for (int i = 0; i < number; i++) {
+				Stitch stitch = imposedNeedle.removeNextStitch();
+				targetNeedle.addStitch(stitch);
+			}
+		}
 	}
 
 }

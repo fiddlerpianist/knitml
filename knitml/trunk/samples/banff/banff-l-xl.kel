@@ -46,8 +46,8 @@ Pattern "en" {
       Needle 'the-needle' [typeref:'needle-type-1']
     }
     Accessories {
-      StitchHolder 'st-holder-1'
-      StitchHolder 'st-holder-2'
+      StitchHolder 'st-holder-1' withLabel "holder 1"
+      StitchHolder 'st-holder-2' withLabel "holder 2"
     }
   }
   Directions {
@@ -80,13 +80,14 @@ Pattern "en" {
          State 4 sts remain
        }
        Section {
-         NextRow: k2tog twice, bindOff all sts
-       }
-       Section {
-       	 InformationalMessage withLabel "Join yarn at right-hand neck."
+         NextRow: k2tog twice
+         NextRow wrongSide: sl2, bindOff all sts
        }
     }
     InstructionGroup 'left-back-shoulder' withLabel "Left Shoulder" resetRowCount {
+       Section {
+       	 InformationalMessage withLabel "Join yarn at right-hand neck. In next row, work stitches directly from holder."
+       }
        Section {
          Row rightSide: fromHolder 'st-holder-1' { bindOff 10 sts, k1, k2tog, k to end }
 		 Row: P2, k1 tbl, p2tog tbl, p to end
@@ -98,7 +99,8 @@ Pattern "en" {
          State 4 sts remain
        }
        Section {
-         NextRow: k2tog twice, bindOff all sts
+         NextRow: k2tog twice
+         NextRow wrongSide: sl2, bindOff all sts
        }
     }
     InstructionGroup 'front' withLabel "Front" resetRowCount {
@@ -136,12 +138,13 @@ Pattern "en" {
          State 4 sts remain
        }
        Section {
-         NextRow: k2tog twice, bindOff all sts
+         NextRow: k2tog twice
+         NextRow wrongSide: sl2, bindOff all sts
        }
     }
     InstructionGroup 'right-front-shoulder' withLabel "Right Shoulder" {
        Section {
-         InformationalMessage withLabel "Keep center 8 sts of Front on holder. Join yarn after the last st on holder with RS facing."
+         InformationalMessage withLabel "Join yarn after the last st on holder 1 with RS facing."
        }
        Section {
          Row 1 rightSide: fromHolder 'st-holder-2' { BO 2 sts, k to end } 
