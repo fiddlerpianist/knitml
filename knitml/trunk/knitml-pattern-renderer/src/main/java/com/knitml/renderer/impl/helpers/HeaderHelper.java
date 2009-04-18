@@ -1,6 +1,7 @@
 package com.knitml.renderer.impl.helpers;
 
 import static com.knitml.core.common.EnumUtils.fromEnum;
+import static org.apache.commons.lang.StringUtils.isBlank;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -342,7 +343,7 @@ public class HeaderHelper {
 		hasBrand = constructYarnTypeBrand(yarnType, tokens);
 
 		// weight
-		if (yarnType.getWeight() != null) {
+		if (!isBlank(yarnType.getWeight())) {
 			hasWeight = true;
 			StringBuffer sb = new StringBuffer();
 			if (hasBrand) {
@@ -355,6 +356,9 @@ public class HeaderHelper {
 				sb.append(" weight yarn");
 			}
 			tokens.add(sb.toString());
+		} else if (!hasBrand) {
+			// no yarn weight, no brand, so write "yarn"
+			tokens.add("yarn");
 		}
 		Color color = yarn.getColor();
 		if (color != null) {
@@ -375,13 +379,13 @@ public class HeaderHelper {
 			List<String> tokens) {
 		int originalNumberOfTokens = tokens.size();
 		String brand = yarnType.getBrand();
-		if (brand != null) {
+		if (!isBlank(brand)) {
 			tokens.add(brand);
 		}
 		String category = yarnType.getCategory();
 		String subcategory = yarnType.getSubcategory();
-		if (category != null) {
-			if (subcategory != null) {
+		if (!isBlank(category)) {
+			if (!isBlank(subcategory)) {
 				tokens.add(category + ",");
 				tokens.add(subcategory);
 			} else {

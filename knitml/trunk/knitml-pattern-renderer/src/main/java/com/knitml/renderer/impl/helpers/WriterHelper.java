@@ -143,14 +143,17 @@ public class WriterHelper {
 		log.trace("writeLine end");
 	}
 
-	public void writeSentence(String text, boolean withPeriod) {
+	public void writeSentence(String text, boolean withPeriod, boolean capitalize) {
 		log.trace("writeSentence begin");
 		if (beginningOfParagraph) {
 			writeIndent();
 		} else if (!beginningOfParagraph && beginningOfSentence) {
 			write(" ");
 		}
-		write(StringUtils.capitalize(text));
+		if (capitalize) {
+			text = StringUtils.capitalize(text); 
+		}
+		write(text);
 		if (withPeriod) {
 			write(".");
 		}

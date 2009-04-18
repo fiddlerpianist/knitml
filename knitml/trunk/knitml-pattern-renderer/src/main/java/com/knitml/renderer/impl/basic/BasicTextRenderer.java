@@ -241,7 +241,7 @@ public class BasicTextRenderer implements Renderer {
 		}
 		getWriterHelper().writeSentence(
 				getMessage("operation.arrange-stitches-on-needles",
-						buildList(needles)), false);
+						buildList(needles)), false, getMessageHelper().shouldCapitalizeSentences());
 		writeNewLine();
 		getWriterHelper().incrementIndent();
 		for (int i = 0; i < stitchesOnNeedles.size(); i++) {
@@ -667,7 +667,7 @@ public class BasicTextRenderer implements Renderer {
 					.getCurrentOperationSet();
 			currentInstructionSet.setTail(message);
 		} else {
-			getWriterHelper().writeSentence(message, true);
+			getWriterHelper().writeSentence(message, true, getMessageHelper().shouldCapitalizeSentences());
 		}
 	}
 
@@ -698,7 +698,7 @@ public class BasicTextRenderer implements Renderer {
 		if (getOperationSetHelper().isWithinOperationSet()) {
 			getOperationSetHelper().getCurrentOperationSet().setTail(messageToRender);
 		} else {
-			getWriterHelper().writeSentence(messageToRender, false);
+			getWriterHelper().writeSentence(messageToRender, false, getMessageHelper().shouldCapitalizeSentences());
 		}
 	}
 
@@ -770,12 +770,12 @@ public class BasicTextRenderer implements Renderer {
 
 	public void renderDeclareFlatKnitting(DeclareFlatKnitting spec) {
 		getWriterHelper()
-				.writeSentence(getMessage("operation.knit-flat"), true);
+				.writeSentence(getMessage("operation.knit-flat"), true, getMessageHelper().shouldCapitalizeSentences());
 	}
 
 	public void renderDeclareRoundKnitting() {
 		getWriterHelper().writeSentence(getMessage("operation.knit-round"),
-				true);
+				true, getMessageHelper().shouldCapitalizeSentences());
 	}
 
 	public void renderPickUpStitches(InlinePickUpStitches pickUpStitches) {
@@ -931,7 +931,7 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	private void writeSentence(String text) {
-		getWriterHelper().writeSentence(text, true);
+		getWriterHelper().writeSentence(text, true, getMessageHelper().shouldCapitalizeSentences());
 	}
 
 	private void writeLine(String text) {

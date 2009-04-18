@@ -34,14 +34,14 @@ public class OperationSetHelper {
 	public void writeOperation(String operationString) {
 		writeOperation(operationString, false);
 	}
-	public void writeOperation(String operationString, boolean writeSentenceIfNoOperatioNSet) {
+	public void writeOperation(String operationString, boolean writeSentenceIfNoOperationSet) {
 		// if there is an object on the stack, write to that
 		if (!operationSetStack.empty() && !StringUtils.isBlank(operationString)) {
 			OperationSet currentInstructionSet = operationSetStack.peek();
 			currentInstructionSet.addOperationString(operationString);
 		} else {
-			if (writeSentenceIfNoOperatioNSet) {
-				getWriterHelper().writeSentence(operationString, true);
+			if (writeSentenceIfNoOperationSet) {
+				getWriterHelper().writeSentence(operationString, true, getMessageHelper().shouldCapitalizeSentences());
 			} else {
 				getWriterHelper().write(operationString);
 			}

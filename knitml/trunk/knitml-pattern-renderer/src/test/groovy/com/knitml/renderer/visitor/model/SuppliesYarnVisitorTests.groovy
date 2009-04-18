@@ -86,6 +86,16 @@ class SuppliesYarnVisitorTests extends AbstractRenderingContextTests {
 	}
 	
 	@Test
+	void oneYarnWithLengthButNoYarnWeightOrBrand() {
+		processXml '''<supplies xmlns="http://www.knitml.com/schema/pattern"><yarns>
+			<yarn-type id="yarn-type-1"/>
+			<yarn id="main-color" typeref="yarn-type-1">
+				<total-length unit="yd">1000</total-length>
+			</yarn></yarns><needles/><accessories/></supplies>''', Supplies
+		assertThat output, startsWith (YARN_HEADER + "1000 yd of yarn" + LINE_BREAK)
+	}
+	
+	@Test
 	void oneYarnWithLengthWeightAndYarnWeight() {
 		processXml '''<supplies xmlns="http://www.knitml.com/schema/pattern"><yarns>
 			<yarn-type id="lornas" weight="fingering"/>

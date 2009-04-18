@@ -186,4 +186,8 @@ public class MessageHelper {
 		return finalMessage.toString();
 	}
 
+	public boolean shouldCapitalizeSentences() {
+		return true;
+	}
+
 }
