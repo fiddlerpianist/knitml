@@ -1,6 +1,6 @@
 Nutkin Two
-A sock pattern inspired by the Nutkin pattern by Beth LaPense
 By Meg Dedolph
+A sock pattern inspired by the Nutkin pattern by Beth LaPense
 
 Stitch Gauge: 7 st/in
 Row Gauge: 12 row/in
@@ -118,15 +118,15 @@ Repeat rows 1-2 for 2.5 in.
 
 Turn the Heel
 -------------
-Row 1 [RS]: sl 1, k18, k2tog-L, k1, turn
-Row 2: sl 1, p5, p2tog-R, p1, turn
+Row 1 [RS]: sl 1, k18, ssk, k1, turn
+Row 2: sl 1, p5, p2tog, p1, turn
 
 For the next set of rows, you will be decreasing across a small gap. For each row, you will work one additional stitch from the previous row until you are one stitch before the gap. Then you will decrease across the gap and work one more stitch for that row.
-Row 3: sl 1, k to 1 st before gap, k2tog-L, k1, turn. 10 unworked stitches.
-Row 4: sl 1, p to 1 st before gap, p2tog-R, p1, turn. 10 unworked stitches.
+Row 3: sl 1, k to 1 st before gap, ssk, k1, turn. 10 unworked stitches.
+Row 4: sl 1, p to 1 st before gap, p2tog, p1, turn. 10 unworked stitches.
 Repeat rows 3-4 4 additional times.
-Row 13: sl 1, k16, k2tog-L, k1
-Row 14: sl 1, p17, p2tog-R, p1
+Row 13: sl 1, k16, ssk, k1
+Row 14: sl 1, p17, p2tog, p1
 20 stitches in row.
 
 Row 15: sl 1, k9. End of round.
@@ -141,8 +141,8 @@ Round 1:
     Needle 1: k10, pick up 18 stitches knitwise, place marker, work next row from Nutkin 2 LHS instruction
     Needle 2: work next row from Nutkin 2 RHS instruction, place marker, pick up 18 stitches knitwise, k10
 Round 2: 
-    Needle 1: k to 3 sts before marker, k2tog-R, k1, work next row from Nutkin 2 LHS instruction
-    Needle 2: work next row from Nutkin 2 RHS instruction, k1, k2tog-L, k to end
+    Needle 1: k to 3 sts before marker, k2tog, k1, work next row from Nutkin 2 LHS instruction
+    Needle 2: work next row from Nutkin 2 RHS instruction, k1, ssk, k to end
 Round 3: 
     Needle 1: k to marker, work next row from Nutkin 2 LHS instruction
     Needle 2: work next row from Nutkin 2 RHS instruction, k to end
@@ -164,8 +164,8 @@ Make the Toe
 ------------
 
 Round 1: 
-    Instep Needle: k1, k2tog-L, k to 3 sts before end, k2tog-R, k1
-    Sole Needle: k1, k2tog-L, k to 3 sts before end, k2tog-R, k1
+    Instep Needle: k1, ssk, k to 3 sts before end, k2tog, k1
+    Sole Needle: k1, ssk, k to 3 sts before end, k2tog, k1
 Round 2: Knit
 Repeat rounds 1-2 until 20 stitches remain on the needles.
 

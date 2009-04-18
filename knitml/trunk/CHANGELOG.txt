@@ -4,25 +4,34 @@ http://www.knitml.com
 
 Changes in version 0.5.0 (????-??-??)
 -------------------------------------
-
 General
 * New projects from refactoring effort:
-  * knitml-knitting-engine: the knitting simulation component from knitml-validation
+  * knitml-knitting-engine: the knitting simulation component (formerly in knitml-validation)
   * knitml-el: the Knitting Expression Language (formerly in knitml-tools)
-  * knitml-command-line: command line only utilities
+  * knitml-command-line: command-line utilities (formerly in knitml-tools)
+* Removed knitml-tools project
 
 knitml-core
 * Added 'version' to pattern element (for compatibility tracking)
 * Added 'no-stitch' element to support charting
+* Added 'stitch-holder','slip-to-stitch-holder', and 'from-stitch-holder' elements
 
 knitml-pattern-renderer
-* Chart rendering
-* Internal refactoring of model (from visitor to event handler)
-* Removed Renderer <-> RenderingContext circular dependency 
-* RendererProgram is far simpler; all user preferences are within Options element
+* Complete support for user-supplied preferences
+* Chart rendering with three symbol providers (text art, Knitters Symbols, and Aire River Knitting Font)
+* Option to generate HTML pattern instead of plain text
+* French translation added
+* Refactored internal model (visitors became event handlers)
+* Removed Renderer <-> RenderingContext circular dependency
+* JAR now has OSGi manifest headers 
 
 knitml-el
-* Added 'before' keyword so that phrases like '2 sts before end' flow more naturally
+* Added more broken word syntax support (such as 'before end' instead of 'beforeEnd')
+* Began building individual test cases for function names (before relied on functional test cases from samples directory)
+
+knitml-command-line
+* validateAndRender now equivalent to render
+* convertValidateAndRender now equivalent to convertAndRender
 
 Known Incompatibilities with previous release:
 * Instruction and inline-instruction elements defined under an instruction-definitions section must have the 'shape' attribute set
