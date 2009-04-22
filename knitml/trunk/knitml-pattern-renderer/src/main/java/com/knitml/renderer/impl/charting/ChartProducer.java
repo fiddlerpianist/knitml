@@ -165,6 +165,7 @@ class ChartProducer implements Renderer {
 		// during directions, trust that the engine is right
 		chart.setShape(renderingContext.getEngine().getKnittingShape());
 		chart.setWidth(analysis.getMaxWidth());
+		chart.setStartingRowNumber(instructionInfo.getRowRange().getMinimumInteger());
 		this.rowInfoIterator = analysis.getRowInfos().iterator();
 	}
 
