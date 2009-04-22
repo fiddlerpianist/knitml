@@ -23,6 +23,17 @@ class LanguageQUTests {
 	}
 	
 	@Test
+	void repeatInstructionFor3Inches() {
+		String actual = toXml ("repeat 'blah' for 3.5 in")
+		String expected = '''
+			<repeat-instruction ref="blah">
+				<until-measures unit="in">3.5</until-measures>
+			</repeat-instruction>
+		'''
+        assertXMLEqual expected, actual
+	}
+	
+	@Test
 	void stitchHolder() {
 		String actual = toXml ("stitchHolder 'sh1' withKey withLabel 'Stitch Holder 1'")
 		String expected = '''

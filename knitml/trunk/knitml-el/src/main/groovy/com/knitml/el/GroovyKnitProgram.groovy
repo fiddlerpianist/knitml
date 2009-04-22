@@ -22,15 +22,17 @@ class GroovyKnitProgram {
 	private static final Logger log = LoggerFactory.getLogger(GroovyKnitProgram)
 	
 	String convertToXml(options) {
+		log.info("New KEL to XML conversion started")
+		
 		StringWriter convertedXmlWriter = new StringWriter()
 		def builder = new MarkupBuilder(convertedXmlWriter)
 		builder.useDoubleQuotes = true
 
-		new GroovyToXml().createKnitML(options.reader, builder)
+		new KelToXml().createKnitML(options.reader, builder)
 		def result = convertedXmlWriter.toString()
 
 		if (options.checkSyntax) {
-			log.info "Performing validation on newly produced KnitML document"
+			log.info "Performing validation on newly produced XML document"
 			validate result
 		}
 		if (options.writer != null) {
@@ -41,6 +43,7 @@ class GroovyKnitProgram {
 			}
 		}
 		
+		log.info("KEL to XML conversion completed")
 		return result
 	}
 	
