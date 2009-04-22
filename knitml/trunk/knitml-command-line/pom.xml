@@ -84,7 +84,7 @@
         <includes>
           <include>basic-sock.kel</include>
           <include>basic-sock.xml</include>
-          <include>basic-sock-messages.properties</include>
+          <include>basic-sock-text.properties</include>
         </includes>
       </testResource>
       <testResource>
@@ -99,7 +99,7 @@
         <includes>
           <include>nutkin2.kel</include>
           <include>nutkin2.xml</include>
-          <include>nutkin2-messages.properties</include>
+          <include>nutkin2-text.properties</include>
         </includes>
       </testResource>
     </testResources>
