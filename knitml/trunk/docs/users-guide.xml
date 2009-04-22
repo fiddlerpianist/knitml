@@ -2103,7 +2103,7 @@ state unworked</programlisting>
               </entry>
             </row>
             <row>
-              <entry><code>stitchHolder 'sh1' withKey  withLabel "Stitch Holder 1"</code></entry>
+              <entry><code>stitchHolder 'sh1' withKey withLabel "Stitch Holder 1"</code></entry>
               <entry>
                 <programlisting>&lt;stitch-holder id="sh1"
   message-key="stitch-holder.sh1"
@@ -2476,14 +2476,19 @@ state unworked</programlisting>
               </entry>
             </row>
             <row xml:id="repeat-inst-type">
-              <entry morerows="3">RepeatInst</entry>
-              <entry morerows="3">
+              <entry morerows="4">RepeatInst</entry>
+              <entry morerows="4">
                 <code>('until'?, <link xlink:href="#until-inst-type">UntilInst</link>, (<link
                     xlink:href="#decimal-type">Decimal</link> | <link xlink:href="#integer-type"
                     >Integer</link>)?, <link xlink:href="#stitch-type">Stitch</link>?, <link
                     xlink:href="#length-unit-type">LengthUnit</link>?)</code> in any order</entry>
               <entry>
                 <code>until measures 4.5 in</code>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <code>for 4.5 in</code>
               </entry>
             </row>
             <row>
@@ -2577,8 +2582,8 @@ state unworked</programlisting>
             <row xml:id="until-inst-type">
               <entry>UntilInst</entry>
               <entry>
-                <code>('measures' | 'desiredLength' | 'remain' | 'remains' |
-                'additionalTimes')</code>
+                <code>('measures' | 'desiredLength' | 'remain' | 'remains' | 'additionalTimes' |
+                  'for')</code>
               </entry>
               <entry>
                 <code>desiredLength</code>

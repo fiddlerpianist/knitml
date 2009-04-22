@@ -1152,7 +1152,7 @@ state unworked</pre>
                 <code class="code">stitchHolder 'sh1'</code>
               </td><td align="left">
                 <pre class="programlisting">&lt;stitch-holder id="sh1"/&gt;</pre>
-              </td></tr><tr><td align="left"><code class="code">stitchHolder 'sh1' withKey  withLabel "Stitch Holder 1"</code></td><td align="left">
+              </td></tr><tr><td align="left"><code class="code">stitchHolder 'sh1' withKey withLabel "Stitch Holder 1"</code></td><td align="left">
                 <pre class="programlisting">&lt;stitch-holder id="sh1"
   message-key="stitch-holder.sh1"
   label="Stitch Holder 1"/&gt;</pre>
@@ -1314,9 +1314,11 @@ state unworked</pre>
                 <code class="code">to end</code>
               </td></tr><tr><td>
                 <code class="code">8 times</code>
-              </td></tr><tr><td rowspan="4"><a name="repeat-inst-type"></a>RepeatInst</td><td rowspan="4">
+              </td></tr><tr><td rowspan="5"><a name="repeat-inst-type"></a>RepeatInst</td><td rowspan="5">
                 <code class="code">('until'?, <a class="link" href="#until-inst-type">UntilInst</a>, (<a class="link" href="#decimal-type">Decimal</a> | <a class="link" href="#integer-type">Integer</a>)?, <a class="link" href="#stitch-type">Stitch</a>?, <a class="link" href="#length-unit-type">LengthUnit</a>?)</code> in any order</td><td>
                 <code class="code">until measures 4.5 in</code>
+              </td></tr><tr><td>
+                <code class="code">for 4.5 in</code>
               </td></tr><tr><td>
                 <code class="code">until 20 stitches remain</code>
               </td></tr><tr><td>
@@ -1352,8 +1354,8 @@ state unworked</pre>
               </td><td>
                 <code class="code">marker</code>
               </td></tr><tr><td><a name="until-inst-type"></a>UntilInst</td><td>
-                <code class="code">('measures' | 'desiredLength' | 'remain' | 'remains' |
-                'additionalTimes')</code>
+                <code class="code">('measures' | 'desiredLength' | 'remain' | 'remains' | 'additionalTimes' |
+                  'for')</code>
               </td><td>
                 <code class="code">desiredLength</code>
               </td></tr><tr><td><a name="weight-unit-type"></a>WeightUnit</td><td>

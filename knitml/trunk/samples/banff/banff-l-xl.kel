@@ -1,6 +1,6 @@
 Pattern "en" {
   Directives {
-	InstructionDefinitions {
+    InstructionDefinitions {
        Instruction 'ribbing-2x2' withLabel "2x2 Rib" flat {
          Row: Repeat to 2 sts before end { k2, p2 }, k2
          Row: Repeat to 2 sts before end { p2, k2 }, p2
@@ -23,24 +23,24 @@ Pattern "en" {
       StitchGauge: 3.5 stitchesPerInch
       RowGauge: 5.25 rowsPerInch
     }
-	Author {
-	  FirstName: "Jenna"
-	  LastName:  "Wilson"
-	}
+    Author {
+      FirstName: "Jenna"
+      LastName:  "Wilson"
+    }
   }
   
   Supplies {
     Yarns {
-	  YarnType 'yarn-type-1' [brand:"Tahki",category:"Soho Bulky Tweed"] {
-		BallLength: 110 yd
-		BallWeight: 100 g
-	  }
-	  Yarn 'main-color' [typeref:'yarn-type-1'] {
-	    TotalLength: 990 yd
-	    TotalWeight: 900 g
-	    Color "discontinued color" [number:304]
-	  }
-	}
+      YarnType 'yarn-type-1' [brand:"Tahki",category:"Soho Bulky Tweed"] {
+        BallLength: 110 yd
+        BallWeight: 100 g
+      }
+      Yarn 'main-color' [typeref:'yarn-type-1'] {
+        TotalLength: 990 yd
+        TotalWeight: 900 g
+        Color "discontinued color" [number:304]
+      }
+    }
     Needles {
       NeedleType 'needle-type-1' circular { size: 10 US }
       Needle 'the-needle' [typeref:'needle-type-1']
@@ -86,15 +86,15 @@ Pattern "en" {
     }
     InstructionGroup 'left-back-shoulder' withLabel "Left Shoulder" resetRowCount {
        Section {
-       	 InformationalMessage withLabel "Join yarn at right-hand neck. In next row, work stitches directly from holder."
+            InformationalMessage withLabel "Join yarn at right-hand neck. In next row, work stitches directly from holder."
        }
        Section {
          Row rightSide: fromHolder 'st-holder-1' { bindOff 10 sts, k1, k2tog, k to end }
-		 Row: P2, k1 tbl, p2tog tbl, p to end
+         Row: P2, k1 tbl, p2tog tbl, p to end
          Instruction 'lbs-rows3-4' {
-		   Row: K1, k2tog, k to end
-		   Row: P2, k1 tbl, p2tog tbl, p to end
-		 }
+           Row: K1, k2tog, k to end
+           Row: P2, k1 tbl, p2tog tbl, p to end
+         }
          Repeat 'lbs-rows3-4' 2 additionalTimes
          State 4 sts remain
        }
@@ -123,17 +123,17 @@ Pattern "en" {
     InstructionGroup 'left-front-shoulder' withLabel "Left Shoulder" resetRowCount {
        Section {
          Row 1 rightSide: k2, p1 tbl, k2tog, k14, sl 8 sts to holder 'st-holder-1', sl 19 sts to holder 'st-holder-2'
-		 Row 2: BO 2 sts, p to end 
+         Row 2: BO 2 sts, p to end 
          Instruction 'lfs-3-8' {
-		   Row [3,5,7]: K2, p1 tbl, k2tog, k to end
-		   Row [4,6,8]: P1, p2tog tbl, p to end
-		 }
-		 Instruction 'lfs-9-10' {
-		   Row 9: k2, p1 tbl, k2tog, k to end
-		   Row 10: p to end
-		 }
-	   }
-	   Section {
+           Row [3,5,7]: K2, p1 tbl, k2tog, k to end
+           Row [4,6,8]: P1, p2tog tbl, p to end
+         }
+         Instruction 'lfs-9-10' {
+           Row 9: k2, p1 tbl, k2tog, k to end
+           Row 10: p to end
+         }
+       }
+       Section {
          Repeat 'lfs-9-10' 5 additionalTimes
          State 4 sts remain
        }
@@ -158,7 +158,7 @@ Pattern "en" {
            Row 10: p2, k1 tbl, p2tog tbl, p to end
          }
        }
-	   Section {
+       Section {
          Repeat 'rfs-9-10' 5 additionalTimes
          State 4 sts inRow
        }
@@ -286,7 +286,7 @@ Pattern "en" {
        Section {
          joinInRound
          Instruction 'collar-round-1' {
-         	Round 1 rightSide: repeat to end { k2, p2 }
+             Round 1 rightSide: repeat to end { k2, p2 }
          }
          Repeat 'collar-round-1' 7 additionalTimes
        }

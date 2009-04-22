@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.5.xsd">
 	<directives>
 		<message-sources>
-			<message-source>basic-sock-messages</message-source>
+			<message-source>basic-sock-text</message-source>
 		</message-sources>
 	</directives>
 	<general-information xml:lang="en">

@@ -1,7 +1,7 @@
 <pattern version="0.5" xmlns="http://www.knitml.com/schema/pattern" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.5.xsd">
   <directives>
     <message-sources>
-      <message-source>nutkin2</message-source>
+      <message-source>nutkin2-text</message-source>
     </message-sources>
     <instruction-definitions>
       <instruction id="nutkin2-left-side" message-key="instruction.nutkin2-left-side" shape="round">
@@ -222,8 +222,7 @@
   </directives>
   <general-information xml:lang="en">
     <name>Nutkin Two</name>
-    <description>A sock pattern inspired by the Nutkin pattern by Beth LaPense</description>
-    <dimensions />
+    <description>A sock pattern inspired by the Nutkin pattern by Beth LaPensee</description>
     <gauge type="stockinette">
       <stitch-gauge unit="st/in">7</stitch-gauge>
       <row-gauge unit="row/in">12</row-gauge>
