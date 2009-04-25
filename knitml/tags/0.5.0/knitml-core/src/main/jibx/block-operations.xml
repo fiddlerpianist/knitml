@@ -1,0 +1,173 @@
+<binding>
+    <include path="inline-operations.xml"/>
+    <!-- Instruction and row elements -->
+    <mapping name="instruction-group"
+        class="com.knitml.core.model.directions.block.InstructionGroup" value-style="attribute">
+        <collection field="operations" type="java.util.ArrayList"/>
+        <value name="id" field="id"/>
+        <value name="message-key" field="messageKey" usage="optional"/>
+        <value name="label" field="label" usage="optional"/>
+        <value name="reset-row-count" field="resetRowCount" default="false"/>
+    </mapping>
+    <mapping name="instruction" class="com.knitml.core.model.directions.block.Instruction"
+        value-style="attribute" post-set="validate">
+        <collection field="rows" type="java.util.ArrayList"
+            item-type="com.knitml.core.model.directions.block.Row"/>
+        <structure field="forEachRowInInstruction" usage="optional"/>
+        <value name="id" field="id" ident="def"/>
+        <value name="label" field="label" usage="optional"/>
+        <value name="message-key" field="messageKey" usage="optional"/>
+        <value name="shape" field="knittingShape" enum-value-method="getCanonicalName" usage="optional"/>
+    </mapping>
+    <mapping name="instruction-ref" class="com.knitml.core.model.directions.block.InstructionRef"
+        marshaller="com.knitml.core.xml.translator.InstructionRefTranslator"
+        unmarshaller="com.knitml.core.xml.translator.InstructionRefTranslator"
+        ns="http://www.knitml.com/schema/pattern"/>
+    <mapping name="repeat-instruction"
+        class="com.knitml.core.model.directions.block.RepeatInstruction"
+        marshaller="com.knitml.core.xml.translator.RepeatInstructionTranslator"
+        unmarshaller="com.knitml.core.xml.translator.RepeatInstructionTranslator"
+        ns="http://www.knitml.com/schema/pattern"/>
+    <mapping name="until-measures" class="com.knitml.core.units.KnittingMeasure"
+        marshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+        unmarshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+        ns="http://www.knitml.com/schema/pattern"/>
+    <mapping name="row"
+        class="com.knitml.core.model.directions.block.Row"
+        marshaller="com.knitml.core.xml.translator.RowTranslator"
+        unmarshaller="com.knitml.core.xml.translator.RowTranslator"
+        ns="http://www.knitml.com/schema/pattern"/>
+    <!--
+    <mapping name="row" class="com.knitml.core.model.directions.block.Row" value-style="attribute">
+        <format type="int[]" serializer="com.knitml.core.common.DataConversion.serializeIntArray"
+            deserializer="com.knitml.core.common.DataConversion.deserializeIntArray"/>
+        <structure name="information" field="information" usage="optional">
+            <collection field="details" type="java.util.ArrayList"/>
+        </structure>
+        <structure field="operations"
+            marshaller="com.knitml.core.xml.translator.InlineOperationsTranslator"
+            unmarshaller="com.knitml.core.xml.translator.InlineOperationsTranslator"
+            ns="http://www.knitml.com/schema/pattern"/>
+        <structure name="followup-information" field="followupInformation" usage="optional">
+            <collection field="details" type="java.util.ArrayList"/>
+        </structure>
+        <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
+        <value name="inform-side" field="informSide" usage="optional" default="false"/>
+        <value name="short" field="shortRow" usage="optional" default="false"/>
+        <value name="side" field="side" enum-value-method="getCanonicalName" usage="optional"/>
+        <value name="assign-row-number" field="assignRowNumber" usage="optional" default="true"/>
+        <value name="reset-row-count" field="resetRowCount" usage="optional" default="false"/>
+        <value name="number" field="numbers" usage="optional"/>
+        <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
+    </mapping>
+    -->
+    <mapping name="for-each-row-in-instruction"
+        class="com.knitml.core.model.directions.block.ForEachRowInInstruction"
+        marshaller="com.knitml.core.xml.translator.ForEachRowInInstructionTranslator"
+        unmarshaller="com.knitml.core.xml.translator.ForEachRowInInstructionTranslator"
+        ns="http://www.knitml.com/schema/pattern"/>
+    <mapping name="section" class="com.knitml.core.model.directions.block.Section"
+        value-style="attribute">
+        <collection field="operations" type="java.util.ArrayList"/>
+        <value name="reset-row-count" field="resetRowCount" default="false"/>
+    </mapping>
+    <mapping name="cast-on" class="com.knitml.core.model.directions.block.CastOn"
+        value-style="attribute">
+        <value name="style" field="style" usage="optional"/>
+        <value name="count-as-row" field="countAsRow" default="false"/>
+        <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
+        <value style="text" field="numberOfStitches"/>
+    </mapping>
+    <mapping name="pick-up-stitches" value-style="attribute"
+        class="com.knitml.core.model.directions.block.PickUpStitches">
+        <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
+        <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
+        <value style="text" field="numberOfTimes"/>
+    </mapping>
+    
+    <!-- Block operations related to needles -->
+    <mapping name="arrange-stitches-on-needles"
+        class="com.knitml.core.model.directions.block.ArrangeStitchesOnNeedles"
+        value-style="attribute">
+        <collection field="needles" type="java.util.ArrayList">
+            <structure name="needle" type="com.knitml.core.common.StitchesOnNeedle"
+                value-style="attribute">
+                <value name="ref" field="needle" ident="ref"/>
+                <value style="text" field="numberOfStitches"/>
+            </structure>
+        </collection>
+    </mapping>
+    <mapping name="graft-together" class="com.knitml.core.model.directions.block.GraftTogether"
+        value-style="attribute">
+        <collection field="needles" type="java.util.ArrayList">
+            <structure name="needle" type="com.knitml.core.model.header.Needle"
+                marshaller="com.knitml.core.xml.translator.IdentifiableTranslator"
+                unmarshaller="com.knitml.core.xml.translator.IdentifiableTranslator"/>
+        </collection>
+    </mapping>
+    <mapping name="label-needle" class="com.knitml.core.model.directions.block.LabelNeedle"
+        value-style="attribute">
+        <value name="ref" field="needle" ident="ref"/>
+        <value name="message-key" field="messageKey" usage="optional"/>
+        <value name="label" field="label" usage="optional"/>
+    </mapping>
+    <mapping name="use-needles" class="com.knitml.core.model.directions.block.UseNeedles"
+        value-style="attribute">
+        <collection field="needles" type="java.util.ArrayList">
+            <structure name="needle" type="com.knitml.core.model.header.Needle"
+                marshaller="com.knitml.core.xml.translator.IdentifiableTranslator"
+                unmarshaller="com.knitml.core.xml.translator.IdentifiableTranslator"/>
+        </collection>
+        <value name="silent" field="silentRendering" default="false"/>
+    </mapping>
+
+    <!-- Block operations related to knitting shape -->
+    <mapping name="declare-flat-knitting"
+        class="com.knitml.core.model.directions.block.DeclareFlatKnitting" value-style="attribute">
+        <value name="next-row-side" field="nextRowSide" enum-value-method="getCanonicalName"/>
+    </mapping>
+    <mapping name="declare-round-knitting"
+        class="com.knitml.core.model.directions.block.DeclareRoundKnitting" value-style="attribute"/>
+    <mapping name="join-in-round" class="com.knitml.core.model.directions.block.JoinInRound"
+        value-style="attribute"/>
+
+    <!-- Accessory definitions -->
+    <mapping name="stitch-count" class="com.knitml.core.model.directions.expression.StitchCount">
+        <collection field="needles" type="java.util.ArrayList">
+            <structure name="needle" type="com.knitml.core.model.header.Needle"
+                marshaller="com.knitml.core.xml.translator.IdentifiableTranslator"
+                unmarshaller="com.knitml.core.xml.translator.IdentifiableTranslator"/>
+        </collection>
+    </mapping>
+    <mapping name="value" class="com.knitml.core.model.directions.expression.Value">
+        <value field="value" style="text"/>
+    </mapping>
+    <mapping name="information" class="com.knitml.core.model.directions.information.Information">
+        <collection field="details" type="java.util.ArrayList"/>
+    </mapping>
+    <mapping name="followup-information" class="com.knitml.core.model.directions.information.FollowupInformation">
+        <collection field="details" type="java.util.ArrayList"/>
+    </mapping>
+    <mapping name="message" class="com.knitml.core.model.directions.information.Message"
+        value-style="attribute">
+        <value name="message-key" field="messageKey" usage="optional"/>
+        <value name="label" field="label" usage="optional"/>
+    </mapping>
+    <mapping name="number-of-stitches"
+        class="com.knitml.core.model.directions.information.NumberOfStitches"
+        value-style="attribute">
+        <value name="number" field="number" usage="optional"/>
+        <value name="inform" field="inform" default="true"/>
+    </mapping>
+    <mapping name="merged-instruction"
+        class="com.knitml.core.model.directions.block.MergedInstruction" value-style="attribute">
+        <collection field="instructions" type="java.util.ArrayList"
+            item-type="com.knitml.core.model.directions.block.InstructionRef"/>
+        <value name="id" field="id" ident="def"/>
+        <value name="merge-point" field="mergePoint" enum-value-method="getCanonicalName"/>
+        <value name="type" field="type" enum-value-method="getCanonicalName"/>
+        <value name="label" field="label" usage="optional"/>
+        <value name="message-key" field="messageKey" usage="optional"/>
+    </mapping>
+
+</binding>

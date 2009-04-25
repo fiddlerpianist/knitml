@@ -1,0 +1,4 @@
+#Mon Feb 16 15:36:07 CST 2009
+eclipse.preferences.version=1
+groovy.compiler.output.path=bin-groovy
+instance/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true
