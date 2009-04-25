@@ -105,19 +105,19 @@ public class ChartingRenderer implements Renderer {
 		this.currentChartingInstruction = null;
 	}
 
-	public Instruction evaluateInstruction(Instruction instruction) {
-		return doEvaluateInstruction(instruction, false);
+	public Instruction evaluateInstruction(Instruction instruction, RepeatInstruction repeatInstruction) {
+		return doEvaluateInstruction(instruction, repeatInstruction, false);
 	}
 
 	public Instruction evaluateInstructionDefinition(Instruction instruction) {
-		return doEvaluateInstruction(instruction, true);
+		return doEvaluateInstruction(instruction, null, true);
 	}
 
-	protected Instruction doEvaluateInstruction(Instruction instruction,
+	protected Instruction doEvaluateInstruction(Instruction instruction, RepeatInstruction repeatInstruction,
 			boolean definitionOnly) {
 		Options options = renderingContext.getOptions();
 		if (options.shouldChart(instruction)) {
-			Analysis analysis = analyzer.analyzeInstruction(instruction,
+			Analysis analysis = analyzer.analyzeInstruction(instruction, repeatInstruction,
 					definitionOnly);
 			if (analysis.isChartable()) {
 				instructionIdToAnalysisMap.put(instruction.getId(), analysis);

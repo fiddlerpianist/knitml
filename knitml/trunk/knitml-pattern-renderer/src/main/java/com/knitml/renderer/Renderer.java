@@ -69,7 +69,7 @@ public interface Renderer {
 	void beginInstructionGroup();
 	void endInstructionGroup();
 
-	Instruction evaluateInstruction(Instruction instruction);
+	Instruction evaluateInstruction(Instruction instruction, RepeatInstruction associatedRepeatInstruction);
 	Instruction evaluateInstructionDefinition(Instruction instruction);
 	
 	void beginInstruction(InstructionInfo instructionInfo);

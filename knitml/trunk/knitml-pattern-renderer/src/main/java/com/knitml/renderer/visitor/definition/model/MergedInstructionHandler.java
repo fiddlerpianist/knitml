@@ -1,5 +1,7 @@
 package com.knitml.renderer.visitor.definition.model;
 
+import static com.knitml.renderer.context.ContextUtils.deriveInstructionInfo;
+
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +48,8 @@ public class MergedInstructionHandler extends AbstractEventHandler {
 		if (instructionToUse == null) {
 			instructionToUse = candidateInstruction;
 		}
-		InstructionInfo instructionInfo = context.getPatternRepository().addGlobalInstruction(instructionToUse, label);
+		InstructionInfo instructionInfo = deriveInstructionInfo(instructionToUse, label);
+		context.getPatternRepository().addGlobalInstruction(instructionInfo);
 		renderer.beginInstructionDefinition(instructionInfo);
 		InstructionController embeddedController = new InstructionController(getEventHandlerFactory());
 		embeddedController.visitInstruction(candidateInstruction, renderer);

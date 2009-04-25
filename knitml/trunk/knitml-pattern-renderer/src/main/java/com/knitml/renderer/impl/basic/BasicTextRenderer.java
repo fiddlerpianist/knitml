@@ -972,7 +972,7 @@ public class BasicTextRenderer implements Renderer {
 		this.pluralRuleFactory = pluralRuleFactory;
 	}
 
-	public Instruction evaluateInstruction(Instruction instruction) {
+	public Instruction evaluateInstruction(Instruction instruction, RepeatInstruction repeatInstruction) {
 		// returning null tells the controller that we don't want to superimpose
 		// a different Instruction than the one that we were given
 		return null;

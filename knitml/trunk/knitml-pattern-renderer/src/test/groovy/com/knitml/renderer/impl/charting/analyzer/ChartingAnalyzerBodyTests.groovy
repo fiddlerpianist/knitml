@@ -8,8 +8,11 @@ import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
 import static org.junit.Assert.assertFalse
 import static com.knitml.core.model.directions.inline.Repeat.Until.TIMES
+import static com.knitml.renderer.context.ContextUtils.deriveInstructionInfo
 import static test.support.JiBXUtils.parseXml
-import com.knitml.renderer.context.Optionsimport com.knitml.validation.context.impl.DefaultKnittingContextFactory
+
+import com.knitml.renderer.context.Optionsimport com.knitml.renderer.context.InstructionInfo
+import com.knitml.validation.context.impl.DefaultKnittingContextFactory
 import java.io.StringReader
 
 import org.junit.Before
@@ -49,7 +52,7 @@ public class ChartingAnalyzerBodyTests {
 		 </instruction>''', Instruction)
 		context.engine.castOn 4
 		// the 'false' indicates that we do not want to do a dynamic cast-on
-		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,null,false)
 		assertTrue analysis.isChartable()
 		assertThat analysis.maxWidth, is (4)
 	}
@@ -67,7 +70,7 @@ public class ChartingAnalyzerBodyTests {
 		    </row>
 		 </instruction>''', Instruction)
 		context.engine.castOn 16
-		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,null,false)
 		assertTrue analysis.isChartable()
 		assertThat analysis.maxWidth, is (16)
 	}
@@ -84,7 +87,7 @@ public class ChartingAnalyzerBodyTests {
 		       </repeat>
 		    </row>
 		 </instruction>''', Instruction)
-		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,null,false)
 		assertTrue analysis.isChartable()
 		assertThat analysis.maxWidth, is (16)
 		assertThat analysis.instructionToUse, not (null)
@@ -109,7 +112,7 @@ public class ChartingAnalyzerBodyTests {
 		         <knit>4</knit> 
 		    </row>
 		 </instruction>''', Instruction)
-		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,null,false)
 		assertFalse analysis.isChartable()
 	}
 	
@@ -131,8 +134,9 @@ public class ChartingAnalyzerBodyTests {
 		         </instruction>
 		    </directions>
 		 </pattern>''', Pattern)
-		context.patternRepository.addGlobalInstruction(pattern.directions.operations[0], "Ref Instruction")
-		Analysis analysis = analyzer.analyzeInstruction(pattern.directions.operations[1],false)
+		InstructionInfo instructionInfo = deriveInstructionInfo(pattern.directions.operations[0], "Ref Instruction")
+		context.patternRepository.addGlobalInstruction(instructionInfo)
+		Analysis analysis = analyzer.analyzeInstruction(pattern.directions.operations[1],null,false)
 		assertFalse analysis.isChartable()
 	}
 	
@@ -146,7 +150,7 @@ public class ChartingAnalyzerBodyTests {
 				<bind-off-all/>
 		    </row>
 		 </instruction>''', Instruction)
-		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,null,false)
 		assertFalse analysis.isChartable()
 	}
 	
@@ -159,7 +163,7 @@ public class ChartingAnalyzerBodyTests {
 				<designate-end-of-row/>
 		    </row>
 		 </instruction>''', Instruction)
-		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,null,false)
 		assertFalse analysis.isChartable()
 	}
 	
@@ -182,7 +186,7 @@ public class ChartingAnalyzerBodyTests {
 		    	</repeat>
 		    </row>
 		 </instruction>''', Instruction)
-		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,null,false)
 		assertTrue analysis.isChartable()
 		assertThat analysis.maxWidth, is (12)
 		analysis.instructionToUse.rows[1].operations[0].with {
@@ -216,7 +220,7 @@ public class ChartingAnalyzerBodyTests {
 		    	</repeat>
 		    </row>
 		 </instruction>''', Instruction)
-		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,null,false)
 		assertTrue analysis.isChartable()
 		assertThat analysis.maxWidth, is (12)
 		analysis.instructionToUse.rows[0].operations[0].with {
@@ -249,7 +253,7 @@ public class ChartingAnalyzerBodyTests {
 		 </instruction>
     	</directions>
         </pattern>''', Pattern)
-		Analysis analysis = analyzer.analyzeInstruction(pattern.directions.operations[0],false)
+		Analysis analysis = analyzer.analyzeInstruction(pattern.directions.operations[0],null,false)
 		assertFalse analysis.isChartable()
 	}
 
@@ -272,7 +276,7 @@ public class ChartingAnalyzerBodyTests {
 		 </instruction>
     	</directions>
         </pattern>''', Pattern)
-		Analysis analysis = analyzer.analyzeInstruction(pattern.directions.operations[1],false)
+		Analysis analysis = analyzer.analyzeInstruction(pattern.directions.operations[1],null,false)
 		assertFalse analysis.isChartable()
 	}
 	
@@ -288,7 +292,7 @@ public class ChartingAnalyzerBodyTests {
 						<purl>2</purl>
 					</row>
 				 </instruction>''', Instruction)
-		Analysis analysis = analyzer.analyzeInstruction(instruction,false)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,null,false)
 		assertTrue analysis.isChartable()
 		assertThat analysis.maxWidth, is (8)
 	}

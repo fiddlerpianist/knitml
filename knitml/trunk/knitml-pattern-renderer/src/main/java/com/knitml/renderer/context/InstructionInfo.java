@@ -18,11 +18,6 @@ public class InstructionInfo {
 		this.label = label;
 	}
 
-	public InstructionInfo(Instruction instruction) {
-		this.instruction = instruction;
-		this.label = null;
-	}
-
 	public Instruction getInstruction() {
 		return instruction;
 	}

@@ -44,7 +44,7 @@ public class ChartingAnalyzerHeaderTests {
             	<knit>4</knit>
 			</row>
 		 </instruction>''', Instruction)
-		Analysis analysis = analyzer.analyzeInstruction(instruction,true)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,null,true)
 		assertThat analysis.chartable, is (true)
 		assertThat analysis.maxWidth, is (4)
 	}
@@ -64,7 +64,7 @@ public class ChartingAnalyzerHeaderTests {
             	<repeat until='end'><knit/></repeat>
 			</row>
 		 </instruction>''', Instruction)
-		Analysis analysis = analyzer.analyzeInstruction(instruction,true)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,null,true)
 		assertThat analysis.chartable, is (true)
 		assertThat analysis.maxWidth, is (12)
 		// ensure that the second row's repeat has been literalized to '12 times'
@@ -85,7 +85,7 @@ public class ChartingAnalyzerHeaderTests {
 		       </repeat>
 			</row>
 		 </instruction>''', Instruction)
-		Analysis analysis = analyzer.analyzeInstruction(instruction,true)
+		Analysis analysis = analyzer.analyzeInstruction(instruction,null,true)
 		assertThat analysis.chartable, is (false)
 	}
 }

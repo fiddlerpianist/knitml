@@ -3,6 +3,8 @@ package com.knitml.renderer.visitor.definition.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.knitml.renderer.context.ContextUtils.deriveInstructionInfo;
+
 import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.common.RenderingException;
@@ -37,7 +39,8 @@ public class InstructionHandler extends AbstractEventHandler {
 		if (instructionToUse == null) {
 			instructionToUse = candidateInstruction;
 		}
-		InstructionInfo instructionInfo = context.getPatternRepository().addGlobalInstruction(instructionToUse, label);
+		InstructionInfo instructionInfo = deriveInstructionInfo(instructionToUse, label);
+		context.getPatternRepository().addGlobalInstruction(instructionInfo);
 		renderer.beginInstructionDefinition(instructionInfo);
 		InstructionController embeddedController = new InstructionController(getEventHandlerFactory());
 		embeddedController.visitInstruction(instructionToUse, renderer);

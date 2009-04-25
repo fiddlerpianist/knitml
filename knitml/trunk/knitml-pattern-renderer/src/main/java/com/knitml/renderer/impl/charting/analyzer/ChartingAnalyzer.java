@@ -11,6 +11,7 @@ import com.knitml.core.common.KnittingShape;
 import com.knitml.core.model.directions.DiscreteInlineOperation;
 import com.knitml.core.model.directions.InlineOperation;
 import com.knitml.core.model.directions.block.Instruction;
+import com.knitml.core.model.directions.block.RepeatInstruction;
 import com.knitml.core.model.directions.block.Row;
 import com.knitml.core.model.directions.inline.ApplyNextRow;
 import com.knitml.core.model.directions.inline.BindOffAll;
@@ -57,10 +58,6 @@ public class ChartingAnalyzer {
 	private List<RowInfo> rowInfos = new ArrayList<RowInfo>();
 	private RowInfo currentRowInfo;
 
-	// private List<RepeatMetaData> firstRepeatPerRow = new
-	// ArrayList<RepeatMetaData>();
-	// private RepeatMetaData largestRepeatBlock = null;
-
 	private boolean currentlyRepeating = false;
 
 	private KnittingShape shape = KnittingShape.FLAT;
@@ -72,23 +69,20 @@ public class ChartingAnalyzer {
 	}
 
 	public Analysis analyzeInstruction(Instruction originalInstruction,
+			RepeatInstruction repeatInstruction,
 			boolean fromInstructionDefinition) {
 		this.dynamicFirstRowCastOn = fromInstructionDefinition;
 		this.maxWidth = 0;
 		this.rowInfos.clear();
 		this.currentRowInfo = null;
 		this.currentlyRepeating = false;
-		// variables pertaining to the global repeat tracker
-		// this.repeatInCurrentRow = false;
-		// this.largestRepeatBlock = null;
 		this.shape = KnittingShape.FLAT;
 
 		Object engineState = renderingContext.getEngine().save();
+		int startingStitches = renderingContext.getEngine()
+				.getTotalNumberOfStitchesInRow();
 
 		try {
-			List<Row> newRows = new ArrayList<Row>();
-			Instruction newInstruction = new Instruction(originalInstruction,
-					newRows);
 			if (!originalInstruction.hasRows()) {
 				// cannot handle for-each-row-in-instruction yet. Possibly this
 				// would be expanded ahead of time.
@@ -97,27 +91,59 @@ public class ChartingAnalyzer {
 				return new Analysis();
 			}
 
-			for (Row originalRow : originalInstruction.getRows()) {
-				Row newRow = analyzeRow(originalRow);
-				// if null is returned, we cannot chart, so return null up the
-				// chain
-				if (newRow == null) {
+			List<Row> newRows = analyzeInstructionOnce(originalInstruction);
+			if (newRows == null) {
+				return new Analysis();
+			}
+
+			// TODO RepeatInstruction analysis here....
+
+			// FIXME for now, simply refuse to chart if the chart is unbalanced
+			// and there is a known repeat-instruction
+			if (!fromInstructionDefinition && repeatInstruction != null) {
+				int endingStitches = renderingContext.getEngine()
+						.getTotalNumberOfStitchesInRow();
+				if (startingStitches != endingStitches) {
 					return new Analysis();
 				}
-				newRows.add(newRow);
 			}
+
+			// if we do tack on rows as the result of a repeat-instruction,
+			// make sure we give the new instruction an unclassified ID instead
+			// of the original ID. We don't want someone else adding a
+			// repeat-instruction to the original + repeat-instruction chart.
+
+			// end RepeatInstruction analysis
+
+			Instruction newInstruction = new Instruction(originalInstruction,
+					newRows);
+
 			Analysis result = new Analysis();
 			result.setInstructionToUse(newInstruction);
 			result.setChartable(true);
 			result.setMaxWidth(this.maxWidth);
 			result.setRowInfos(this.rowInfos);
-			result.setContainsNoStitchOperations(this.containsNoStitchOperations);
+			result
+					.setContainsNoStitchOperations(this.containsNoStitchOperations);
 			result.setKnittingShape(this.shape);
-//			result.setGlobalRepeatInfo(this.largestRepeatBlock);
 			return result;
 		} finally {
 			renderingContext.getEngine().restore(engineState);
 		}
+	}
+
+	protected List<Row> analyzeInstructionOnce(Instruction originalInstruction) {
+		List<Row> newRows = new ArrayList<Row>();
+		for (Row originalRow : originalInstruction.getRows()) {
+			Row newRow = analyzeRow(originalRow);
+			// if null is returned, we cannot chart, so return null up the
+			// chain
+			if (newRow == null) {
+				return null;
+			}
+			newRows.add(newRow);
+		}
+		return newRows;
 	}
 
 	protected Row analyzeRow(Row originalRow) {
@@ -141,7 +167,7 @@ public class ChartingAnalyzer {
 			// cast on one stitch so that we can start a new row below
 			engine.castOn(1, false);
 		}
-//		this.repeatInCurrentRow = false;
+		// this.repeatInCurrentRow = false;
 		engine.startNewRow();
 
 		// Walk through all of the row's operations and see how it affects the
@@ -171,21 +197,21 @@ public class ChartingAnalyzer {
 			maxWidth = currentRowInfo.getRowWidth();
 		}
 
-//		if (!repeatInCurrentRow) {
-//			resetGlobalRepeatTracker();
-//		}
+		// if (!repeatInCurrentRow) {
+		// resetGlobalRepeatTracker();
+		// }
 
 		this.rowInfos.add(currentRowInfo);
 		return newRow;
 	}
 
-//	private void resetGlobalRepeatTracker() {
-//		this.largestRepeatBlock = null;
-//	}
+	// private void resetGlobalRepeatTracker() {
+	// this.largestRepeatBlock = null;
+	// }
 
-//	private boolean isFirstRow() {
-//		return rowInfos.size() == 0;
-//	}
+	// private boolean isFirstRow() {
+	// return rowInfos.size() == 0;
+	// }
 
 	protected InlineOperation handle(ApplyNextRow object) {
 		// cannot handle (for now, at least)
@@ -230,11 +256,12 @@ public class ChartingAnalyzer {
 
 	protected InlineOperation handle(Repeat oldRepeat) {
 
-//		this.repeatInCurrentRow = true;
-
+		// initialize variables for this method
+		KnittingEngine engine = renderingContext.getEngine();
 		Until until = oldRepeat.getUntil();
 		Integer value = oldRepeat.getValue();
 
+		// ensure that we can continue to analyze this instruction for charting
 		if (dynamicFirstRowCastOn && until != Until.TIMES) {
 			log
 					.info("Cannot chart this instruction because it is both defined in the header (i.e. without a knitting context) "
@@ -250,20 +277,32 @@ public class ChartingAnalyzer {
 			return null;
 		}
 
+		// see if we need to repeat at all. If not, just return "0 repeats"
+		if (!isRepeatNecessary(oldRepeat, engine)) {
+			return new Repeat(Until.TIMES, 0);
+		}
+
+		// at this point, we have to do the repeat (1 or more times)
 		currentlyRepeating = true;
 
+		// start gathering up information for the new repeat. Our goal is to
+		// convert all repeats
+		// into an until value that represents TIMES. This is so we won't need
+		// the engine to chart.
 		List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
 		Repeat newRepeat = new Repeat();
 		newRepeat.setOperations(newOperations);
 
-		KnittingEngine engine = renderingContext.getEngine();
+		// gather current (pre-repeat) state
 		int startingTotalStitches = engine
 				.getTotalNumberOfStitchesOnCurrentNeedle();
 		int startingStitchesRemaining = engine
 				.getStitchesRemainingOnCurrentNeedle();
 		Object engineState = engine.save();
 		int originalChartWidth = this.currentRowInfo.getRowWidth();
-		// TODO handle the case where we should have 0 repeats
+
+		// walk through all the instructions of this repeat ONCE to calculate
+		// the advance and increase count
 		for (InlineOperation operation : oldRepeat.getOperations()) {
 			InlineOperation newOperation = handle(operation);
 			// if null is returned, we cannot chart, so return null up the chain
@@ -276,6 +315,8 @@ public class ChartingAnalyzer {
 				.getTotalNumberOfStitchesOnCurrentNeedle();
 		int endingStitchesRemaining = engine
 				.getStitchesRemainingOnCurrentNeedle();
+
+		// reset the engine to the state before we repeated once
 		engine.restore(engineState);
 		this.currentRowInfo.setRowWidth(originalChartWidth);
 
@@ -291,31 +332,31 @@ public class ChartingAnalyzer {
 			counter = value;
 			break;
 		case BEFORE_END:
-			while (renderingContext.getEngine().getStitchesRemainingInRow() > value) {
+			while (engine.getStitchesRemainingInRow() > value) {
 				advanceAndIncrease(advanceCount, increaseCount);
 				counter++;
 			}
 			break;
 		case END:
-			while (renderingContext.getEngine().getStitchesRemainingInRow() > 0) {
+			while (engine.getStitchesRemainingInRow() > 0) {
 				advanceAndIncrease(advanceCount, increaseCount);
 				counter++;
 			}
 			break;
 		case BEFORE_GAP:
-			while (renderingContext.getEngine().getStitchesToGap() > value) {
+			while (engine.getStitchesToGap() > value) {
 				advanceAndIncrease(advanceCount, increaseCount);
 				counter++;
 			}
 			break;
 		case BEFORE_MARKER:
-			while (renderingContext.getEngine().getStitchesToNextMarker() > value) {
+			while (engine.getStitchesToNextMarker() > value) {
 				advanceAndIncrease(advanceCount, increaseCount);
 				counter++;
 			}
 			break;
 		case MARKER:
-			while (renderingContext.getEngine().getStitchesToNextMarker() > 0) {
+			while (engine.getStitchesToNextMarker() > 0) {
 				advanceAndIncrease(advanceCount, increaseCount);
 				counter++;
 			}
@@ -328,38 +369,44 @@ public class ChartingAnalyzer {
 		newRepeat.setUntil(Until.TIMES);
 		newRepeat.setValue(counter);
 
-//		int startingStitchIndexForRepeat = originalChartWidth + 1;
-//		int endingStitchIndexForRepeat = startingStitchIndexForRepeat
-//				+ advanceCount + increaseCount;
-//		if (isFirstRow() && largestRepeatBlock == null) {
-//			// if this is the first row and we haven't tracked a global repeat
-//			// yet, start tracking the global repeat
-//			Repeat globalRepeat = new Repeat(newRepeat.getUntil(), newRepeat
-//					.getValue());
-//			Range globalRepeatRange = new IntRange(
-//					startingStitchIndexForRepeat, endingStitchIndexForRepeat);
-//			this.largestRepeatBlock = new RepeatMetaData(globalRepeat,
-//					globalRepeatRange);
-//		} else if (largestRepeatBlock != null) {
-//			Range thisRepeatRange = new IntRange(startingStitchIndexForRepeat,
-//					endingStitchIndexForRepeat);
-//			// if there is already a global repeat, make sure this repeat
-//			// matches it, otherwise reset the global repeat
-//			if (!largestRepeatBlock.equals(new RepeatMetaData(newRepeat,
-//					thisRepeatRange))) {
-//				resetGlobalRepeatTracker();
-//			}
-//		}
-
 		currentlyRepeating = false;
 		return newRepeat;
+	}
+
+	/**
+	 * A repeat is necessary only when its until condition has not yet been met.
+	 * 
+	 * @param repeat
+	 * @param engine
+	 * @return
+	 */
+	protected boolean isRepeatNecessary(Repeat repeat, KnittingEngine engine) {
+		Until until = repeat.getUntil();
+		Integer value = repeat.getValue();
+		switch (until) {
+		case TIMES:
+			// repeat if we have to repeat more than 0 times
+			return value > 0;
+		case BEFORE_END:
+			return engine.getStitchesRemainingInRow() > value;
+		case END:
+			return engine.getStitchesRemainingInRow() > 0;
+		case BEFORE_GAP:
+			return engine.getStitchesToGap() > value;
+		case BEFORE_MARKER:
+			return engine.getStitchesToNextMarker() > value;
+		case MARKER:
+			return engine.getStitchesToNextMarker() > 0;
+		default:
+			throw new RuntimeException("The until value [" + until
+					+ "] has not been properly coded");
+		}
 	}
 
 	protected InlineOperation handle(Turn object) {
 		log.info("Cannot chart Turn objects");
 		return null;
 	}
-
 
 	protected InlineOperation handle(SlipToStitchHolder object) {
 		log.info("Cannot chart SlipToHolder objects");
@@ -370,7 +417,7 @@ public class ChartingAnalyzer {
 		log.info("Cannot chart FromStitchHolder objects");
 		return null;
 	}
-	
+
 	protected InlineOperation handle(UsingNeedle object) {
 		// List<InlineOperation> newOperations = new
 		// ArrayList<InlineOperation>();

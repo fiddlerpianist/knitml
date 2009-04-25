@@ -6,22 +6,21 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.apache.commons.lang.math.IntRange;
-import org.apache.commons.lang.math.Range;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
-import com.knitml.core.model.directions.block.Instruction;
-import com.knitml.core.model.directions.block.Row;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.NeedleType;
 import com.knitml.core.model.header.Yarn;
 
 public class PatternRepository {
+
+	private static final Logger log = LoggerFactory
+	.getLogger(PatternRepository.class);
 
 	private Map<String, Yarn> yarns = new LinkedHashMap<String, Yarn>();
 	private Map<String, Needle> needles = new LinkedHashMap<String, Needle>();
@@ -39,8 +38,8 @@ public class PatternRepository {
 		}
 		this.locale = options.getLocale();
 		this.patternMessageSource = new ReloadableResourceBundleMessageSource();
-		this.patternMessageSource
-				.setResourceLoader(options.getPatternMessageResourceLoader());
+		this.patternMessageSource.setResourceLoader(options
+				.getPatternMessageResourceLoader());
 	}
 
 	public Collection<Yarn> getYarns() {
@@ -93,42 +92,22 @@ public class PatternRepository {
 		return instructionInfo;
 	}
 
-	public InstructionInfo addLocalInstruction(Instruction instruction) {
-		if (instruction == null) {
-			throw new NullArgumentException("instruction");
+	public void addLocalInstruction(InstructionInfo instructionInfo) {
+		if (instructionInfo == null) {
+			throw new NullArgumentException("instructionInfo");
 		}
-		InstructionInfo instructionInfo = new InstructionInfo(instruction);
-		if (instruction.getKnittingShape() != null) {
-			// sync up the instruction info's shape with the shape declared in
-			// the definition (if we know what the shape is)
-			instructionInfo.setKnittingShape(instruction.getKnittingShape());
-		}
-		Range rowRange = deriveRowNumbers(instruction);
-		if (rowRange != null) {
-			instructionInfo.setRowRange(rowRange);
-		}
-		localInstructions.put(instruction.getId(), instructionInfo);
-		return instructionInfo;
+		localInstructions.put(instructionInfo.getId(), instructionInfo);
+		log.debug("Added local instruction [{}] to the pattern repository",
+				instructionInfo.getId());
 	}
 
-	public InstructionInfo addGlobalInstruction(Instruction instruction,
-			String label) {
-		if (instruction == null) {
-			throw new NullArgumentException("instruction");
+	public void addGlobalInstruction(InstructionInfo instructionInfo) {
+		if (instructionInfo == null) {
+			throw new NullArgumentException("instructionInfo");
 		}
-		InstructionInfo instructionInfo = new InstructionInfo(instruction,
-				label);
-		if (instruction.getKnittingShape() != null) {
-			// sync up the instruction info's shape with the shape declared in
-			// the definition (if we know what the shape is)
-			instructionInfo.setKnittingShape(instruction.getKnittingShape());
-		}
-		Range rowRange = deriveRowNumbers(instruction);
-		if (rowRange != null) {
-			instructionInfo.setRowRange(rowRange);
-		}
-		globalInstructions.put(instruction.getId(), instructionInfo);
-		return instructionInfo;
+		globalInstructions.put(instructionInfo.getId(), instructionInfo);
+		log.debug("Added global instruction [{}] to the pattern repository",
+				instructionInfo.getId());
 	}
 
 	public void addInlineInstruction(InlineInstruction instruction) {
@@ -139,25 +118,6 @@ public class PatternRepository {
 
 	public InlineInstruction getInlineInstruction(String id) {
 		return inlineInstructions.get(id);
-	}
-
-	private Range deriveRowNumbers(Instruction instruction) {
-		if (!instruction.hasRows()) {
-			return null;
-		}
-		List<Row> rows = instruction.getRows();
-		SortedSet<Integer> rowNumberSet = new TreeSet<Integer>();
-		for (Row row : rows) {
-			if (row.getNumbers() == null) {
-				// if at any point we encounter a null row number, return null
-				return null;
-			} else {
-				for (Integer i : row.getNumbers()) {
-					rowNumberSet.add(i);
-				}
-			}
-		}
-		return new IntRange(rowNumberSet.first(), rowNumberSet.last());
 	}
 
 	public void setPatternMessageSources(List<String> messageSourceLocations) {

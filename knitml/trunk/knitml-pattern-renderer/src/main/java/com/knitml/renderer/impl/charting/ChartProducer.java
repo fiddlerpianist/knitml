@@ -165,7 +165,8 @@ class ChartProducer implements Renderer {
 		// during directions, trust that the engine is right
 		chart.setShape(renderingContext.getEngine().getKnittingShape());
 		chart.setWidth(analysis.getMaxWidth());
-		chart.setStartingRowNumber(instructionInfo.getRowRange().getMinimumInteger());
+		chart.setStartingRowNumber(instructionInfo.getRowRange()
+				.getMinimumInteger());
 		this.rowInfoIterator = analysis.getRowInfos().iterator();
 	}
 
@@ -218,8 +219,9 @@ class ChartProducer implements Renderer {
 		for (int i = currentRowInfo.getRowWidth(); i < analysis.getMaxWidth(); i++) {
 			currentRow.add(ChartElement.NS);
 		}
-		
-		// release currentRow... it has already been added to the chart in beginRow()
+
+		// release currentRow... it has already been added to the chart in
+		// beginRow()
 		currentRow = null;
 		if (chart.getShape() == KnittingShape.FLAT) {
 			if (direction == Direction.FORWARDS) {
@@ -489,7 +491,7 @@ class ChartProducer implements Renderer {
 	public void renderPickUpStitches(InlinePickUpStitches pickUpStitches) {
 		throw new NotImplementedException();
 	}
-	
+
 	public void renderRepeatInstruction(RepeatInstruction repeatInstruction,
 			InstructionInfo instructionInfo) {
 		throw new NotImplementedException();
@@ -515,7 +517,8 @@ class ChartProducer implements Renderer {
 		throw new NotImplementedException();
 	}
 
-	public Instruction evaluateInstruction(Instruction instruction) {
+	public Instruction evaluateInstruction(Instruction instruction,
+			RepeatInstruction associatedRepeatInstruction) {
 		throw new NotImplementedException();
 	}
 
