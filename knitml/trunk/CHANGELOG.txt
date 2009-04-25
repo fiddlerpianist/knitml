@@ -2,7 +2,7 @@ KNITML CHANGELOG
 =====================
 http://www.knitml.com
 
-Changes in version 0.5.0 (????-??-??)
+Changes in version 0.5.0 (2009-04-25)
 -------------------------------------
 General
 * New projects from refactoring effort:
