@@ -3,12 +3,12 @@
   <parent>
     <artifactId>knitml-parent</artifactId>
     <groupId>com.knitml</groupId>
-    <version>0.5.0</version>
+    <version>0.5.0-SNAPSHOT</version>
   </parent>
   <groupId>com.knitml</groupId>
   <artifactId>knitml-command-line</artifactId>
   <name>KnitML Command Line</name>
-  <version>0.5.0</version>
+  <version>0.5.0-SNAPSHOT</version>
   <description>KnitML Java executables</description>
   <repositories>
     <repository>
