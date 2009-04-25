@@ -18,9 +18,9 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:svn:https://knitml.svn.sourceforge.net/svnroot/knitml/knitml/trunk</connection>
-		<developerConnection>scm:svn:https://knitml.svn.sourceforge.net/svnroot/knitml/knitml/trunk</developerConnection>
-		<url>http://knitml.svn.sourceforge.net/svnroot/knitml</url>
+		<connection>scm:svn:https://knitml.googlecode.com/svn/knitml/trunk</connection>
+		<developerConnection>scm:svn:https://knitml.googlecode.com/svn/knitml/trunk</developerConnection>
+		<url>http://knitml.googlecode.com/svn/knitml/trunk</url>
 	</scm>
 	<distributionManagement>
 		<repository>
