@@ -15,11 +15,11 @@ Pre-release:
   * upload latest docs to web site
   * update CHANGELOG.txt for this release
   * svn commit all changes
-  * mvn release prepare
+  * mvn release prepare (swear a lot)
   * grab distribution files on local workstation
-  * mvn release perform
   * unzip / rezip distribution
   * upload distribution to SourceForge
+  * mvn release perform (swear even more)
 
 Post-release:
   * Blog post
