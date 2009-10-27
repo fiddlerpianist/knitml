@@ -16,4 +16,9 @@ public class SimpleInstruction {
 		return type;
 	}
 
+	@Override
+	public String toString() {
+		return String.valueOf(getType());
+	}
+
 }

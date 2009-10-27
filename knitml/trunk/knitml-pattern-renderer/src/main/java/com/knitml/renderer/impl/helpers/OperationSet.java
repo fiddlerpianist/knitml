@@ -27,6 +27,10 @@ public class OperationSet implements Iterable<Object> {
 	public Object getOperation(int index) {
 		return operations.get(index);
 	}
+	
+	protected List<Object> getOperations() {
+		return this.operations;
+	}
 
 	public void addOperationString(String operation) {
 		operations.add(operation);
@@ -37,9 +41,11 @@ public class OperationSet implements Iterable<Object> {
 	}
 
 	public void addOperationSet(OperationSet operationSet) {
-		if (type == Type.REPEAT) {
-			throw new IllegalStateException("Cannot nest repeat elements");
-		}
+		// JW 10/26/09: I believe this was added because rendering couldn't be guaranteed to make sense,
+		// however nested repeats need to be supported by the spec
+//		if (type == Type.REPEAT) {
+//			throw new IllegalStateException("Cannot nest repeat elements");
+//		}
 		operations.add(operationSet);
 	}
 

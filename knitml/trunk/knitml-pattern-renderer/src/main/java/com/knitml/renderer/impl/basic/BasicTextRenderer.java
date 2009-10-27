@@ -453,25 +453,35 @@ public class BasicTextRenderer implements Renderer {
 					"Cannot issue a repeat without being inside a row or operation");
 		}
 		OperationSet repeatOperationSet = new RepeatOperationSet();
-		// add this repeat to the row's operation set
-		currentOperationSet.addOperationSet(repeatOperationSet);
 		// add the repeat InstructionSet to the beginning of the stack. All
 		// operations will peek at this object when writing operations
 		getOperationSetHelper().addNewOperationSet(repeatOperationSet);
 	}
 
 	public void endRepeat(Repeat.Until until, Integer value) {
-		OperationSet currentOperationSet = getOperationSetHelper()
+		OperationSet repeatOperationSet = getOperationSetHelper()
 				.getCurrentOperationSet();
-		if (currentOperationSet == null) {
+		if (repeatOperationSet == null) {
 			throw new IllegalStateException(
 					"Must have a currentRepeat attribute set to write a 'repeat until' operation");
 		}
-		if (!(currentOperationSet instanceof RepeatOperationSet)) {
+		if (!(repeatOperationSet instanceof RepeatOperationSet)) {
 			throw new IllegalStateException(
 					"The working operation set must be a RepeatInstructionSet");
 		}
-		RepeatOperationSet currentRepeat = (RepeatOperationSet) currentOperationSet;
+		
+		// first pop the RepeatOperationSet off the top of the writing stack
+		getOperationSetHelper().removeCurrentOperationSet();
+		if (repeatOperationSet.size() == 0) {
+			// if there was nothing captured in the repeat operation set, there's nothing to do
+			return;
+		} else {
+			// add the repeat operation set to the end of its parent operation set (most likely a row operation set)
+			// only if there was anything captured in the repeat (some can be empty)
+			getOperationSetHelper().getCurrentOperationSet().addOperationSet(repeatOperationSet);
+		}
+		
+		RepeatOperationSet currentRepeat = (RepeatOperationSet) repeatOperationSet;
 		String messageKey;
 		if (currentRepeat.size() == 1) {
 			messageKey = "operation.until." + fromEnum(until);
@@ -491,7 +501,7 @@ public class BasicTextRenderer implements Renderer {
 			currentRepeat.setToEnd(true);
 		}
 		// remove the current repeat from the stack
-		getOperationSetHelper().removeCurrentOperationSet();
+//		getOperationSetHelper().removeCurrentOperationSet();
 	}
 
 	public void beginRow() {

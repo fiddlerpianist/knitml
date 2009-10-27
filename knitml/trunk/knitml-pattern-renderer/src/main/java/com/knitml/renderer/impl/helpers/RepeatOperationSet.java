@@ -25,4 +25,9 @@ public class RepeatOperationSet extends OperationSet {
 		return toEnd;
 	}
 
+	@Override
+	public String toString() {
+		return "{repeat=" + getOperations() + "; until=" + getUntilInstruction() + "; toEnd=" + toEnd + "}";
+	}
+
 }
