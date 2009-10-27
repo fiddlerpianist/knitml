@@ -1,13 +1,9 @@
 #summary How to Install Snapshot Updates for the KnitML Editor
 
-= Introduction =
+= Instructions =
 
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+  * Unzip the snapshot update (ZIP file) into the editor's plugin directory. (For instance, if you installed the editor at C:\gpec-0.2.0, unzip the file in C:\gpec-0.2.0\plugins)
+  * The next time you run the editor, run it with the -clean option. (From a command window, this would look like:
+{{{
+  knitmlEditor -clean
+}}}
