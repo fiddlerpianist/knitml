@@ -26,7 +26,8 @@ Post-release:
   * Ravelry post
   * Create new schemas for next target version
   * Upload new schemas to web site
+  * Add entries to knitml.schemas
   * Change EL project schema object to use next version number
   * Change Core project schema object to use next version number
-  * Update schema number in Eclipse tools
-  * Add entry to knitml.schemas
+  * Update schema number in Eclipse tools (including KnitML catalog)
+  * Update samples to use new schema
