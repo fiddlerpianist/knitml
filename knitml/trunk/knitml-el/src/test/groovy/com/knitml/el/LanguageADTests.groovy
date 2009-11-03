@@ -123,6 +123,13 @@ class LanguageADTests {
 	}
 
 	@Test
+	void cdd() {
+		String actual = toXml ("cdd 3")
+		String expected = '''<double-decrease type="cdd">3</double-decrease>'''
+        assertXMLEqual expected, actual
+	}
+	
+	@Test
 	void co1() {
 		String actual = toXml ("co 35")
 		String expected = '''<cast-on>35</cast-on>'''

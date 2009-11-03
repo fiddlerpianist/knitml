@@ -80,6 +80,28 @@ class LanguageILTests {
         assertXMLEqual expected, actual
 	}
 	
+	@Test
+	void k2tog() {
+		String actual = toXml ("k2tog 3")
+		String expected = '''<decrease type="k2tog">3</decrease>'''
+        assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void k3tog() {
+		String actual = toXml ("k3tog 3")
+		String expected = '''<double-decrease type="k3tog">3</double-decrease>'''
+        assertXMLEqual expected, actual
+	}
+
+	@Test
+	void kfb() {
+		String actual = toXml ("kfb 3 times")
+		String expected = '''<increase type="kfb">3</increase>'''
+        assertXMLEqual expected, actual
+	}
+	
+	
 	static void main(args) {
 		JUnitCore.main(LanguageILTests.name)
 	}

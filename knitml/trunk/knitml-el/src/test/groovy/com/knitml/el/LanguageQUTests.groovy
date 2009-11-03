@@ -41,6 +41,49 @@ class LanguageQUTests {
 		'''
         assertXMLEqual expected, actual
 	}
+
+	@Test
+	void s2kp() {
+		String actual = toXml ("s2kp")
+		String expected = '''<double-decrease type="cdd"/>'''
+        assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void sk2p() {
+		String actual = toXml ("sk2p")
+		String expected = '''<double-decrease type="sk2p"/>'''
+        assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void sssk() {
+		String actual = toXml ("sssk")
+		String expected = '''<double-decrease type="sssk"/>'''
+        assertXMLEqual expected, actual
+	}
+	
+	
+	@Test
+	void s2kpWithArg() {
+		String actual = toXml ("s2kp 3")
+		String expected = '''<double-decrease type="cdd">3</double-decrease>'''
+        assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void sk2pWithArg() {
+		String actual = toXml ("sk2p 3")
+		String expected = '''<double-decrease type="sk2p">3</double-decrease>'''
+        assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void ssskWithArg() {
+		String actual = toXml ("sssk 3")
+		String expected = '''<double-decrease type="sssk">3</double-decrease>'''
+        assertXMLEqual expected, actual
+	}
 	
 	@Test
 	void slReverse() {
