@@ -45,9 +45,9 @@ public class Decrease implements DiscreteInlineOperation {
 		case SKP:
 		case P2TOG:
 		case P3TOG:
+		case SK2P:
 			return Lean.LEFT;
 		case CDD:
-		case SK2P:
 			return Lean.BALANCED;
 		default:
 			return null;
