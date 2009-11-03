@@ -1,4 +1,4 @@
-<pattern xmlns="http://www.knitml.com/schema/pattern" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.5.xsd" version="0.5" xml:lang="en">
+<pattern xmlns="http://www.knitml.com/schema/pattern" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.6.xsd" version="0.6" xml:lang="en">
   <directives>
     <instruction-definitions>
       <instruction id="ribbing-2x2" label="2x2 Rib" shape="flat">

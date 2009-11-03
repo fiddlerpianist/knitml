@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pattern xmlns="http://www.knitml.com/schema/pattern" version="0.5"
+<pattern xmlns="http://www.knitml.com/schema/pattern" version="0.6"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.5.xsd">
+	xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.6.xsd">
 	<directives>
 		<message-sources>
 			<message-source>basic-sock-text</message-source>
