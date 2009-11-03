@@ -1391,7 +1391,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		} catch (CannotAdvanceNeedleException ex) {
 			throw new NotEnoughStitchesException();
 		}
-		prepareCurrentNeedleForDecrease(2);
+		prepareCurrentNeedleForDecrease(3);
 		getCurrentNeedle().knitThreeTogether();
 		imposeStitchesIfNecessary(1);
 	}

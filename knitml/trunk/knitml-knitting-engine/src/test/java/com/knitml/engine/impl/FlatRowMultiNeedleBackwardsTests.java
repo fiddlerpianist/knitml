@@ -47,8 +47,20 @@ public class FlatRowMultiNeedleBackwardsTests extends FlatRowMultiNeedleTests {
 
 	@Override
 	@Ignore
-	public void decreaseBetweenNeedles() throws Exception {
-		// FIXME you should probably be able to do this while knitting on the WS as well
+	public void k2togBetweenNeedles() throws Exception {
+		// not a valid test
+	}
+
+	@Override
+	@Ignore
+	public void p2togBetweenNeedles() throws Exception {
+		// not a valid test
+	}
+
+	@Override
+	@Ignore
+	public void k3togBetweenNeedles() throws Exception {
+		// not a valid test
 	}
 	
 	@Override

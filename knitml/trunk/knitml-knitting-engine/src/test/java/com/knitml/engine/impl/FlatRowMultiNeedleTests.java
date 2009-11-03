@@ -51,7 +51,7 @@ public abstract class FlatRowMultiNeedleTests extends FlatRowTests {
 	}
 
 	@Test
-	public void decreaseBetweenNeedles() throws Exception {
+	public void k2togBetweenNeedles() throws Exception {
 		engine.knit(9);
 		engine.knitTwoTogether();
 		engine.knit(8);
@@ -73,6 +73,52 @@ public abstract class FlatRowMultiNeedleTests extends FlatRowTests {
 		assertThat(engine.getTotalNumberOfStitchesOnCurrentNeedle(), is (19));
 	}
 	
+	@Test
+	public void p2togBetweenNeedles() throws Exception {
+		engine.purl(9);
+		engine.purlTwoTogether();
+		engine.purl(8);
+		engine.purlTwoTogether();
+		engine.purl(19);
+		engine.endRow();
+		
+		// neutralizes flat vs. round
+		engine.startNewRow();
+		engine.knit(38);
+		engine.endRow();
+		
+		engine.startNewRow();
+		engine.slip(1);
+		assertThat(engine.getTotalNumberOfStitchesOnCurrentNeedle(), is (10));
+		engine.slip(10); 		// goes to the next needle
+		assertThat(engine.getTotalNumberOfStitchesOnCurrentNeedle(), is (9));
+		engine.slip(9);		// goes to the next needle
+		assertThat(engine.getTotalNumberOfStitchesOnCurrentNeedle(), is (19));
+	}
+	
+	@Test
+	public void k3togBetweenNeedles() throws Exception {
+		engine.knit(9);
+		engine.knitThreeTogether();
+		engine.knit(6);
+		engine.knitThreeTogether();
+		engine.knit(19);
+		engine.endRow();
+		
+		// neutralizes flat vs. round
+		engine.startNewRow();
+		engine.knit(36);
+		engine.endRow();
+		
+		engine.startNewRow();
+		engine.slip(1);
+		assertThat(engine.getTotalNumberOfStitchesOnCurrentNeedle(), is (10));
+		engine.slip(10); 		// goes to the next needle
+		assertThat(engine.getTotalNumberOfStitchesOnCurrentNeedle(), is (7));
+		engine.slip(8);		// goes to the next needle
+		assertThat(engine.getTotalNumberOfStitchesOnCurrentNeedle(), is (19));
+	}
+
 	@Test
 	public void transferStitchesToPreviousNeedle() throws Exception {
 		engine.knit(40);
