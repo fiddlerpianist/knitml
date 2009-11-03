@@ -49,7 +49,7 @@ class RepeatHandlerTests extends AbstractRenderingContextTests {
 					<knit />
 				</repeat>
 			</row>''', Row
-		assertThat output.trim(), is ('Row 1: *k2tog, k 10 times, repeat from * 4 times, k to end')
+		assertThat output.trim(), is ('Row 1: [k2tog, k 10 times], repeat [] 4 times, k to end')
 	}
 	
 	@Test
