@@ -26,32 +26,31 @@ public class IncreaseVisitor extends AbstractPatternVisitor {
 	public void visit(Object element, KnittingContext context)
 			throws KnittingEngineException {
 		Increase increase = (Increase) element;
+		
+		
+		// any increases which also involve working an existing stitch
+		// should add to the specialOperations list
+		List<DiscreteInlineOperation> substituteOperations = new ArrayList<DiscreteInlineOperation>(2);
 		if (increase.getType() == IncreaseType.KFB) {
-			// any increases which also involve working an existing stitch
-			// should be done like this
-			List<DiscreteInlineOperation> operations = new ArrayList<DiscreteInlineOperation>(2);
-			operations.add(new Knit(1, null, LoopToWork.LEADING));
-			operations.add(new Knit(1, null, LoopToWork.TRAILING));
-			IncreaseIntoNextStitch calculatedIncrease = new IncreaseIntoNextStitch(
-					increase.getYarnIdRef(), operations);
-			context.getEngine().increase(calculatedIncrease);
+			substituteOperations.add(new Knit(1, null, LoopToWork.LEADING));
+			substituteOperations.add(new Knit(1, null, LoopToWork.TRAILING));
 		} else if (increase.getType() == IncreaseType.PFB) {
-			// any increases which also involve working an existing stitch
-			// should be done like this
-			List<DiscreteInlineOperation> operations = new ArrayList<DiscreteInlineOperation>(2);
-			operations.add(new Purl(1, null, LoopToWork.LEADING));
-			operations.add(new Purl(1, null, LoopToWork.TRAILING));
-			IncreaseIntoNextStitch calculatedIncrease = new IncreaseIntoNextStitch(
-					increase.getYarnIdRef(), operations);
-			context.getEngine().increase(calculatedIncrease);
+			substituteOperations.add(new Purl(1, null, LoopToWork.LEADING));
+			substituteOperations.add(new Purl(1, null, LoopToWork.TRAILING));
 		} else if (increase.getType() == IncreaseType.MOSS) {
-			List<DiscreteInlineOperation> operations = new ArrayList<DiscreteInlineOperation>(2);
-			operations.add(new Knit(1, null, LoopToWork.LEADING));
-			operations.add(new Purl(1, null, LoopToWork.LEADING));
+			substituteOperations.add(new Knit(1, null, LoopToWork.LEADING));
+			substituteOperations.add(new Purl(1, null, LoopToWork.LEADING));
+		}
+		
+		if (!substituteOperations.isEmpty()) {
 			IncreaseIntoNextStitch calculatedIncrease = new IncreaseIntoNextStitch(
-					increase.getYarnIdRef(), operations);
-			context.getEngine().increase(calculatedIncrease);
-		} else {
+					increase.getYarnIdRef(), substituteOperations);
+			int numberOfTimes = increase.getNumberOfTimes() == null ? 1 : increase.getNumberOfTimes();
+			for (int i=0; i < numberOfTimes; i++) {
+				context.getEngine().increase(calculatedIncrease);
+			}
+		}
+		else {
 			// all other increases do not work an existing stitch
 			context.getEngine().increase(increase);
 		}

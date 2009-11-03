@@ -37,6 +37,29 @@ class IncreaseVisitorTests extends AbstractKnittingContextTests {
 	}
 
 	@Test
+	void knitMultiIncreases() {
+		processXml '''
+			<row short="true">
+		  		<knit>10</knit>
+		  		<increase type="m1a">5</increase>
+		  		<knit>10</knit>
+		  	</row>
+	    '''
+		assertThat engine.totalNumberOfStitchesInRow, is (25)
+	}
+	
+	@Test
+	void kfbMultiIncrease() {
+		processXml '''
+			<row short="true">
+		  		<increase type="kfb">15</increase>
+		  		<knit>5</knit>
+		  	</row>
+	    '''
+		assertThat engine.totalNumberOfStitchesInRow, is (35)
+	}
+	
+	@Test
 	void knitToFrontAndBackIncrease() {
 		processXml '''
 			<row short="true">
