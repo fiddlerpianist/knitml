@@ -7,16 +7,21 @@ import java.util.Map;
 import com.knitml.core.model.Identifiable;
 import com.knitml.core.model.InstructionHolder;
 import com.knitml.core.model.directions.block.Instruction;
+import com.knitml.core.model.directions.block.Row;
 import com.knitml.validation.common.InvalidStructureException;
 import com.knitml.validation.context.PatternState;
 
 public class DefaultPatternState implements PatternState {
 
+	/**
+	 * The number of times an instruction has been replayed
+	 */
 	private int instructionReplays = 0;
 	private int headerRowNumber;
 	private boolean withinInstruction = false;
 	private Map<String, InstructionHolder> instructionsInUse = new LinkedHashMap<String, InstructionHolder>();
 	private Map<String, Integer> repeatCounts = new LinkedHashMap<String, Integer>();
+	private Map<String, Row> activeRowsForInstruction = new LinkedHashMap<String, Row>();
 
 	public int getHeaderRowNumber() {
 		return headerRowNumber;
@@ -77,6 +82,18 @@ public class DefaultPatternState implements PatternState {
 
 	public Map<String, Integer> getInstructionRepeatCounts() {
 		return Collections.unmodifiableMap(repeatCounts);
+	}
+
+	public void clearActiveRowsForInstructions() {
+		this.activeRowsForInstruction.clear();
+	}
+
+	public Row getActiveRowForInstruction(String instructionId) {
+		return this.activeRowsForInstruction.get(instructionId);
+	}
+
+	public void setActiveRowForInstruction(String instructionId, Row activeRow) {
+		this.activeRowsForInstruction.put(instructionId, activeRow);
 	}
 
 }
