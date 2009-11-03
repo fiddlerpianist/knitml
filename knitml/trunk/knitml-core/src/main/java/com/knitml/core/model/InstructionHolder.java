@@ -14,6 +14,10 @@ public class InstructionHolder {
 		return result;
 	}
 
+	public Row getThisRow() {
+		return instruction.getRows().get(nextRowIndex);
+	}
+	
 	protected void advanceToNextRow() {
 		if (nextRowIndex == instruction.getRows().size() - 1) {
 			nextRowIndex = 0;
