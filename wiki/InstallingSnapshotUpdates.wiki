@@ -1,9 +1,0 @@
-#summary How to Install Snapshot Updates for the KnitML Editor
-
-= Instructions =
-
-  * Unzip the snapshot update (ZIP file) into the editor's plugin directory. For instance, if you installed the editor at C:\gpec-0.2.0, unzip it into C:\gpec-0.2.0\plugins. Make sure you use folder names when you unzip.
-  * The next time you run the editor, run it with the -clean option. You can either create a shortcut from the executable file and add the "-clean" option to it, or you can open a shell window in the editor's home directory and run it by typing:
-{{{
-  knitmlEditor -clean
-}}}
