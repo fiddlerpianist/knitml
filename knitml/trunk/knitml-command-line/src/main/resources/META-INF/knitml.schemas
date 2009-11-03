@@ -3,4 +3,6 @@ http\://www.knitml.com/schema/pattern-0.4.1.xsd=com/knitml/core/xml/pattern-0.4.
 http\://www.knitml.com/schema/pattern-header-types-0.4.xsd=com/knitml/core/xml/pattern-header-types-0.4.xsd
 http\://www.knitml.com/schema/pattern-0.5.xsd=com/knitml/core/xml/pattern-0.5.xsd
 http\://www.knitml.com/schema/pattern-header-types-0.5.xsd=com/knitml/core/xml/pattern-header-types-0.5.xsd
+http\://www.knitml.com/schema/pattern-0.6.xsd=com/knitml/core/xml/pattern-0.6.xsd
+http\://www.knitml.com/schema/pattern-header-types-0.6.xsd=com/knitml/core/xml/pattern-header-types-0.6.xsd
 http\://www.w3.org/2001/xml.xsd=com/knitml/core/xml/xml.xsd
