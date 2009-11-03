@@ -55,7 +55,7 @@ public class RowVisitor extends AbstractPatternVisitor {
 			// at the beginning
 			context.getEngine().incrementCurrentRowNumber();
 		}
-
+		
 		if (context.getEngine().getTotalNumberOfStitchesInRow() == 0) {
 			// We are starting with no stitches on the needles.
 			// When this is the case, we need to be told which side to start on
@@ -100,6 +100,10 @@ public class RowVisitor extends AbstractPatternVisitor {
 
 		manageRowNumbers(row, context);
 		visitChildren(row, context);
+		// clears any "fixed" row information which have been applied in this row
+		context.getPatternState().clearActiveRowsForInstructions();
+
+		
 		if (row.getFollowupInformation() != null) {
 			visitChild(row.getFollowupInformation(), context);
 		}

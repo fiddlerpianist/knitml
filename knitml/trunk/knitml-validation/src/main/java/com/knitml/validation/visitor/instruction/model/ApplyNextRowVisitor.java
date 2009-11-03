@@ -22,21 +22,31 @@ public class ApplyNextRowVisitor extends AbstractPatternVisitor {
 			throws KnittingEngineException {
 		PatternRepository repository = context.getPatternRepository();
 		PatternState state = context.getPatternState();
-
 		ApplyNextRow applyNextRow = (ApplyNextRow) element;
 		String id = applyNextRow.getInstructionRef().getId();
-		InstructionHolder holder = state.getInstructionInUse(id);
-		if (holder == null) {
-			state.useInstruction(repository.getBlockInstruction(id));
-			holder = state.getInstructionInUse(id);
-		}
-		assert holder != null;
 
-		// find the row in the PatternState object and execute the next row
-		Row row = holder.getNextRow();
-		// visit the children of this row, not the row itself. This is considered a replay
+		// Find which instruction we are attempting to apply the next row of.
+		// First, see if the row to apply has been "fixed" to the currently executing row
+		Row rowToApply = state.getActiveRowForInstruction(id);
+		if (rowToApply == null) { // change test condition
+			InstructionHolder holder = state.getInstructionInUse(id);
+			if (holder == null) {
+				state.useInstruction(repository.getBlockInstruction(id));
+				holder = state.getInstructionInUse(id);
+			}
+			assert holder != null;
+
+			// find the row in the PatternState object and execute the next row
+			rowToApply = holder.getNextRow();
+			state.setActiveRowForInstruction(id, rowToApply);
+		}
+
+		
+		assert rowToApply != null;
+		// visit the children of this row, not the row itself. This is
+		// considered a replay
 		context.getPatternState().setReplayMode(true);
-		visitChildren(row, context);
+		visitChildren(rowToApply, context);
 		context.getPatternState().setReplayMode(false);
 	}
 

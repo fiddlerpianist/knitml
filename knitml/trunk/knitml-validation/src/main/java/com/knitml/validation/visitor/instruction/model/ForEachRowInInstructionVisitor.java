@@ -35,6 +35,8 @@ public class ForEachRowInInstructionVisitor extends AbstractPatternVisitor {
 			if (i > 0) {
 				context.getPatternState().setReplayMode(false);
 			}
+			// clears any "fixed" row information which have been applied in this row
+			context.getPatternState().clearActiveRowsForInstructions();
 		}
 	}
 
