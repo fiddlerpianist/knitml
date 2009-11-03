@@ -6,12 +6,13 @@ import java.util.StringTokenizer;
 
 public class Version {
 
-	private static final String CURRENT_VERSION_ID = "0.5";
+	private static final String CURRENT_VERSION_ID = "0.6";
 	private static final Version CURRENT_VERSION = new Version(
 			CURRENT_VERSION_ID);
 	private static final Map<String, Version> supportedVersions = new HashMap<String, Version>();
 
 	static {
+		supportedVersions.put("0.5", new Version("0.5"));
 		supportedVersions.put(CURRENT_VERSION_ID, new Version(
 				CURRENT_VERSION_ID));
 	}
@@ -29,7 +30,7 @@ public class Version {
 	}
 
 	public static boolean isSupported(Pattern pattern) {
-		return getVersion(pattern) != null;
+		return getVersion(pattern) != null; 
 	}
 
 	private String id;
