@@ -51,6 +51,29 @@ public abstract class FlatRowMultiNeedleTests extends FlatRowTests {
 	}
 
 	@Test
+	public void decreaseBetweenNeedles() throws Exception {
+		engine.knit(9);
+		engine.knitTwoTogether();
+		engine.knit(8);
+		engine.knitTwoTogether();
+		engine.knit(19);
+		engine.endRow();
+		
+		// neutralizes flat vs. round
+		engine.startNewRow();
+		engine.knit(38);
+		engine.endRow();
+		
+		engine.startNewRow();
+		engine.slip(1);
+		assertThat(engine.getTotalNumberOfStitchesOnCurrentNeedle(), is (10));
+		engine.slip(10); 		// goes to the next needle
+		assertThat(engine.getTotalNumberOfStitchesOnCurrentNeedle(), is (9));
+		engine.slip(9);		// goes to the next needle
+		assertThat(engine.getTotalNumberOfStitchesOnCurrentNeedle(), is (19));
+	}
+	
+	@Test
 	public void transferStitchesToPreviousNeedle() throws Exception {
 		engine.knit(40);
 		engine.startNewRow();

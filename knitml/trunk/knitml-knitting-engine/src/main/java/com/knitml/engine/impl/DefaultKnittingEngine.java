@@ -199,7 +199,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	private void doUseNeedles(List<Needle> newNeedles) {
 		// make sure we account for all needles
 		allNeedles.addAll(newNeedles);
-		
+
 		// FIXME the needles should probably be by-value instead of
 		// by-reference.
 		// The reason is because of the memento concept. If I were to revert
@@ -1065,8 +1065,22 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		} catch (CannotAdvanceNeedleException ex) {
 			throw new NotEnoughStitchesException();
 		}
+		prepareCurrentNeedleForDecrease(2);
 		getCurrentNeedle().knitTwoTogether();
 		imposeStitchesIfNecessary(1);
+	}
+
+	private void prepareCurrentNeedleForDecrease(int numberOfStitchesInvolved) {
+		int stitchesOnCurrentNeedle = getCurrentNeedle().getStitchesRemaining();
+		if (stitchesOnCurrentNeedle < numberOfStitchesInvolved) {
+			transferStitches(getNextNeedleIndex(), getCurrentNeedleIndex(),
+					numberOfStitchesInvolved - stitchesOnCurrentNeedle);
+			// the above operation puts the stitches at the end of the needle. We want
+			// the cursor to be where it was right before this operation
+			for (int i = 0; i < numberOfStitchesInvolved; i++) {
+				getCurrentNeedle().reverseSlip();
+			}
+		}
 	}
 
 	/*
@@ -1083,6 +1097,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		} catch (CannotAdvanceNeedleException ex) {
 			throw new NotEnoughStitchesException();
 		}
+		prepareCurrentNeedleForDecrease(2);
 		// TODO add "through back loop"
 		getCurrentNeedle().purlTwoTogether();
 		imposeStitchesIfNecessary(1);
@@ -1192,7 +1207,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			reverseSlip();
 		}
 	}
-	
+
 	public void bindOffAll(BindOffAll bindOffAll) {
 		int numberOfIterations = getStitchesRemainingInRow();
 		boolean fastenOff = bindOffAll.isFastenOffLastStitch();
@@ -1364,7 +1379,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				slip(2);
 			}
 		}
-		
+
 		// everything is on the current needle now, so go ahead and do it
 		getCurrentNeedle().passPreviousStitchOver();
 	}
@@ -1376,6 +1391,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		} catch (CannotAdvanceNeedleException ex) {
 			throw new NotEnoughStitchesException();
 		}
+		prepareCurrentNeedleForDecrease(2);
 		getCurrentNeedle().knitThreeTogether();
 		imposeStitchesIfNecessary(1);
 	}
@@ -1462,6 +1478,24 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				Stitch stitch = imposedNeedle.removeNextStitch();
 				targetNeedle.addStitch(stitch);
 			}
+		}
+	}
+
+	protected int getCurrentNeedleIndex() {
+		return this.currentNeedleIndex;
+	}
+
+	protected int getNextNeedleIndex() {
+		int candidateIndex;
+		if (getDirection() == Direction.FORWARDS) {
+			candidateIndex = getCurrentNeedleIndex() + 1;
+		} else {
+			candidateIndex = getCurrentNeedleIndex() - 1;
+		}
+		if (candidateIndex < this.activeNeedles.size()) {
+			return candidateIndex;
+		} else {
+			return -1;
 		}
 	}
 

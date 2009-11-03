@@ -46,6 +46,12 @@ public class FlatRowMultiNeedleBackwardsTests extends FlatRowMultiNeedleTests {
 	}
 
 	@Override
+	@Ignore
+	public void decreaseBetweenNeedles() throws Exception {
+		// FIXME you should probably be able to do this while knitting on the WS as well
+	}
+	
+	@Override
 	@Test
 	public void transferStitchesToSpareNeedle() throws Exception {
 		Needle stitchHolder = knittingFactory.createNeedle("stitch-holder", NeedleStyle.CIRCULAR);
