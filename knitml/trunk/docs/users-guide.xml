@@ -1003,6 +1003,17 @@ Next Row: Bind off all stitches</programlisting>
               </entry>
             </row>
             <row>
+              <entry>cdd</entry>
+              <entry>number as <link xlink:href="#integer-type">Integer</link></entry>
+              <entry>Center double decrease</entry>
+              <entry>
+                <code>cdd 2</code>
+              </entry>
+              <entry>
+                <code>&lt;double-decrease type="cdd">2&lt;/double-decrease></code>
+              </entry>
+            </row>
+            <row>
               <entry>co / CO</entry>
               <entry>(same as castOn)</entry>
               <entry>alias for castOn</entry>
@@ -1434,6 +1445,17 @@ k3 tbl</programlisting>
               </entry>
             </row>
             <row>
+              <entry>k3tog</entry>
+              <entry>(none)</entry>
+              <entry>Knit next three stitches together</entry>
+              <entry>
+                <code>k3tog</code>
+              </entry>
+              <entry>
+                <code>&lt;double-decrease type="k3tog"/></code>
+              </entry>
+            </row>
+            <row>
               <entry>kfb</entry>
               <entry>(none)</entry>
               <entry>Knit to the front and back of the next stitch.</entry>
@@ -1671,6 +1693,17 @@ k3 tbl</programlisting>
               </entry>
             </row>
             <row>
+              <entry>p3tog</entry>
+              <entry>(none)</entry>
+              <entry>Purl next three stitches together</entry>
+              <entry>
+                <code>p3tog</code>
+              </entry>
+              <entry>
+                <code>&lt;double-decrease type="p3tog"/></code>
+              </entry>
+            </row>
+            <row>
               <entry>pattern</entry>
               <entry>languageCode as <link xlink:href="#string-type">String</link> (optional)</entry>
               <entry>The pattern written in the specified ISO language code</entry>
@@ -1900,6 +1933,17 @@ k3 tbl</programlisting>
               </entry>
             </row>
             <row>
+              <entry>s2kp</entry>
+              <entry>(same as cdd)</entry>
+              <entry>Center double decrease</entry>
+              <entry>
+                <code>s2kp</code>
+              </entry>
+              <entry>
+                <code>&lt;double-decrease type="cdd"/></code>
+              </entry>
+            </row>
+            <row>
               <entry>section</entry>
               <entry>
                 <emphasis>resetRowCount</emphasis> (optional)</entry>
@@ -2003,6 +2047,17 @@ k3 tbl</programlisting>
               </entry>
               <entry>
                 <code>&lt;decrease type="ssk"/></code>
+              </entry>
+            </row>
+            <row>
+              <entry>sssk</entry>
+              <entry>(none)</entry>
+              <entry>Slip-slip-slip-knit</entry>
+              <entry>
+                <code>sssk</code>
+              </entry>
+              <entry>
+                <code>&lt;double-decrease type="sssk"/></code>
               </entry>
             </row>
             <row>
