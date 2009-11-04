@@ -2,8 +2,10 @@ package com.knitml.engine.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -17,6 +19,7 @@ import com.knitml.engine.KnittingFactory;
 import com.knitml.engine.Marker;
 import com.knitml.engine.Needle;
 import com.knitml.engine.Stitch;
+import com.knitml.engine.StitchOperation;
 import com.knitml.engine.common.CannotPutMarkerOnEndOfNeedleException;
 import com.knitml.engine.common.CannotWorkThroughMarkerException;
 import com.knitml.engine.common.NeedlesInWrongDirectionException;
@@ -51,7 +54,7 @@ public class DefaultNeedle implements Needle {
 	private String id;
 	private NeedleStyle needleType;
 	private Direction direction = Direction.FORWARDS;
-	// FIXME when Collections generics for 3.2 comes out
+	// FIXME if Collections generics for 3.2 ever comes out
 	@SuppressWarnings("unchecked")
 	private List<Stitch> stitches = new TreeList();
 	private ListIterator<Stitch> stitchCursor = stitches.listIterator();
@@ -85,9 +88,19 @@ public class DefaultNeedle implements Needle {
 		this.markers = memento.getMarkers();
 		this.gaps = memento.getGaps();
 		this.lastStitchIndexReturned = memento.getLastStitchIndexReturned();
-	}	
+		for (Stitch stitch : this.stitches) {
+			Object stitchMemento = memento.getStitchMementos().get(
+					stitch.getId());
+			stitch.restore(stitchMemento);
+		}
+	}
 
 	public Object save() {
+		Map<String, Object> stitchMementos = new LinkedHashMap<String, Object>();
+		for (Stitch stitch : this.stitches) {
+			Object stitchMemento = stitch.save();
+			stitchMementos.put(stitch.getId(), stitchMemento);
+		}
 		List<Stitch> stitchesCopy = new ArrayList<Stitch>(this.stitches);
 		SortedMap<Integer, Marker> markersCopy = new TreeMap<Integer, Marker>(
 				this.markers);
@@ -95,7 +108,7 @@ public class DefaultNeedle implements Needle {
 				this.gaps);
 		Object memento = new DefaultNeedleMemento(this.direction, stitchesCopy,
 				stitchCursor.nextIndex(), markersCopy, gapsCopy,
-				this.lastStitchIndexReturned);
+				this.lastStitchIndexReturned, stitchMementos);
 		return memento;
 	}
 
@@ -116,7 +129,8 @@ public class DefaultNeedle implements Needle {
 	 * @see com.knitml.validation.validation.engine.model.Needle#knit()
 	 */
 	public void knit() throws NotEnoughStitchesException {
-		advanceCursorOne();
+		Stitch workedStitch = advanceCursorOne();
+		recordKnit(workedStitch);
 	}
 
 	/*
@@ -125,7 +139,8 @@ public class DefaultNeedle implements Needle {
 	 * @see com.knitml.validation.validation.engine.model.Needle#purl()
 	 */
 	public void purl() throws NotEnoughStitchesException {
-		advanceCursorOne();
+		Stitch workedStitch = advanceCursorOne();
+		recordPurl(workedStitch);
 	}
 
 	/*
@@ -251,11 +266,19 @@ public class DefaultNeedle implements Needle {
 	 */
 	public void knitTwoTogether() throws NotEnoughStitchesException,
 			CannotWorkThroughMarkerException {
-		decrease(1);
+		Stitch result = doKnitTwoTogether();
+		recordKnit(result);
 	}
 
-	private void doDecrease(int numberToDecrease, boolean betweenGap)
+	private Stitch doKnitTwoTogether() throws NotEnoughStitchesException,
+			CannotWorkThroughMarkerException {
+		return decrease(1);
+	}
+
+	private Stitch doDecrease(int numberToDecrease, boolean betweenGap)
 			throws NotEnoughStitchesException {
+		Stitch resultingStitch;
+
 		if (betweenGap) {
 			int stitchesToGap = 0;
 			while (getStitchesToGap() > 0) {
@@ -280,16 +303,17 @@ public class DefaultNeedle implements Needle {
 				stitchCursor.remove();
 			}
 			lastStitchIndexReturned = stitchCursor.nextIndex();
-			stitchCursor.next();
+			resultingStitch = stitchCursor.next();
 		} else {
 			for (int i = 0; i < numberToDecrease; i++) {
 				stitchCursor.previous();
 				stitchCursor.remove();
 			}
 			lastStitchIndexReturned = stitchCursor.previousIndex();
-			stitchCursor.previous();
+			resultingStitch = stitchCursor.previous();
 		}
 		adjustMarkersAfterDecrease(numberToDecrease);
+		return resultingStitch;
 	}
 
 	private boolean isMarkerBetweenNextNStitches(int numberOfStitches) {
@@ -308,17 +332,17 @@ public class DefaultNeedle implements Needle {
 				&& getStitchesToGap() <= numberOfStitches - 1;
 	}
 
-	private void advanceCursorOne() throws NotEnoughStitchesException {
+	private Stitch advanceCursorOne() throws NotEnoughStitchesException {
 		try {
 			if (hasGaps() && getStitchesToGap() == 0) {
 				unsignalGap();
 			}
 			if (direction == Direction.FORWARDS) {
 				lastStitchIndexReturned = stitchCursor.nextIndex();
-				stitchCursor.next();
+				return stitchCursor.next();
 			} else {
 				lastStitchIndexReturned = stitchCursor.previousIndex();
-				stitchCursor.previous();
+				return stitchCursor.previous();
 			}
 		} catch (NoSuchElementException ex) {
 			throw new NotEnoughStitchesException(
@@ -334,14 +358,14 @@ public class DefaultNeedle implements Needle {
 		return markers.size() > 0;
 	}
 
-	private void retreatCursorOne() throws NotEnoughStitchesException {
+	private Stitch retreatCursorOne() throws NotEnoughStitchesException {
 		try {
 			if (direction == Direction.FORWARDS) {
 				lastStitchIndexReturned = stitchCursor.previousIndex();
-				stitchCursor.previous();
+				return stitchCursor.previous();
 			} else {
 				lastStitchIndexReturned = stitchCursor.nextIndex();
-				stitchCursor.next();
+				return stitchCursor.next();
 			}
 		} catch (NoSuchElementException ex) {
 			throw new NotEnoughStitchesException(
@@ -618,7 +642,8 @@ public class DefaultNeedle implements Needle {
 	 */
 	public void purlTwoTogether() throws NotEnoughStitchesException,
 			CannotWorkThroughMarkerException {
-		decrease(1);
+		Stitch result = decrease(1);
+		recordPurl(result);
 	}
 
 	/*
@@ -756,16 +781,18 @@ public class DefaultNeedle implements Needle {
 			CannotWorkThroughMarkerException {
 		// doing this rather than decrease(2) allows multiple markers to be
 		// handled, though technically it knits the same stitch twice.
-		knitTwoTogether();
+		doKnitTwoTogether();
 		reverseSlip();
-		knitTwoTogether();
+		doKnitTwoTogether();
 
 		// This used to be done by the following method call:
 		// decrease(2);
 	}
 
-	private void decrease(int numberToDecrease)
+	private Stitch decrease(int numberToDecrease)
 			throws NotEnoughStitchesException, CannotWorkThroughMarkerException {
+		Stitch resultingStitch;
+
 		boolean betweenGap = false;
 		if (isGapBetweenNextNStitches(numberToDecrease + 1)) {
 			betweenGap = true;
@@ -794,13 +821,14 @@ public class DefaultNeedle implements Needle {
 				} else if (behavior == MarkerBehavior.PLACE_BEFORE_STITCH_WORKED) {
 					placeMarker(removedMarker);
 				}
-				doDecrease(numberToDecrease, betweenGap);
+				resultingStitch = doDecrease(numberToDecrease, betweenGap);
 				if (behavior == MarkerBehavior.PLACE_AFTER_STITCH_WORKED) {
 					placeMarker(removedMarker);
 				}
 			} else {
-				doDecrease(numberToDecrease, betweenGap);
+				resultingStitch = doDecrease(numberToDecrease, betweenGap);
 			}
+			return resultingStitch;
 		} catch (NoMarkerFoundException ex) {
 			// should not happen
 			throw new RuntimeException("An unexpected internal error occurred",
@@ -813,6 +841,7 @@ public class DefaultNeedle implements Needle {
 	}
 
 	public void increase(int numberToIncrease) {
+		// TODO increase should know whether it was a knitted or purled increase
 		if (direction == Direction.FORWARDS) {
 			for (int i = 0; i < numberToIncrease; i++) {
 				Stitch stitch = knittingFactory.createStitch();
@@ -830,7 +859,7 @@ public class DefaultNeedle implements Needle {
 		}
 		adjustMarkersAfterIncrease(numberToIncrease);
 	}
-	
+
 	public void addStitch(Stitch stitchToAdd) {
 		if (direction == Direction.FORWARDS) {
 			stitchCursor.add(stitchToAdd);
@@ -895,6 +924,22 @@ public class DefaultNeedle implements Needle {
 			result.addAll(unaffectedPartHead);
 			this.stitches = result;
 			this.stitchCursor = stitches.listIterator(nextStitchIndex + 1);
+		}
+	}
+
+	private void recordKnit(Stitch workedStitch) {
+		if (getDirection() == Direction.FORWARDS) {
+			workedStitch.recordOperation(StitchOperation.KNIT);
+		} else {
+			workedStitch.recordOperation(StitchOperation.PURL);
+		}
+	}
+
+	private void recordPurl(Stitch workedStitch) {
+		if (getDirection() == Direction.FORWARDS) {
+			workedStitch.recordOperation(StitchOperation.PURL);
+		} else {
+			workedStitch.recordOperation(StitchOperation.KNIT);
 		}
 	}
 

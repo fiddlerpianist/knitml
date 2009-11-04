@@ -878,6 +878,20 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.knitml.validation.validation.engine.KnittingEngine#knit(boolean)
+	 */
+	public Stitch peekAtNextStitch() throws NotEnoughStitchesException {
+		try {
+			advanceNeedleIfNecessary();
+		} catch (CannotAdvanceNeedleException ex) {
+			throw new NotEnoughStitchesException();
+		}
+		return getCurrentNeedle().peekAtNextStitch();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.knitml.validation.validation.engine.KnittingEngine#purl(boolean)
 	 */
 	public void purl(boolean throughBackLoop) throws NotEnoughStitchesException {

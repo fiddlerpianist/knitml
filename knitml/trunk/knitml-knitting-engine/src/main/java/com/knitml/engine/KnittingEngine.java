@@ -184,6 +184,8 @@ public interface KnittingEngine extends Restorable {
 	 */
 	int getCurrentRowNumber();
 
+	Stitch peekAtNextStitch();
+
 	/* Manipulation methods */
 
 	/**
