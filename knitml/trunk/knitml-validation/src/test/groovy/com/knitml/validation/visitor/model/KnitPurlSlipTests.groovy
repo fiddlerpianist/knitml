@@ -6,6 +6,8 @@ package com.knitml.validation.visitor.model;
 import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
+import static com.knitml.core.model.directions.StitchNature.KNIT;
+import static com.knitml.core.model.directions.StitchNature.PURL;
 
 import org.junit.Ignore
 import org.junit.Test
@@ -24,7 +26,7 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 	}
 	
 	@Test
-	void knitPurl() {
+	void workRibbing() {
 		processXml '''
 			<row>
 		  		<knit>10</knit>
@@ -32,6 +34,10 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 		  	</row>
 	    '''
 		assertThat engine.totalNumberOfStitchesInRow, is (20)
+		engine.startNewRow()
+		assertThat engine.peekAtNextStitch().currentNature, is (PURL)
+		engine.knit(10)
+		assertThat engine.peekAtNextStitch().currentNature, is (KNIT)
 	}
 	
 	@Test
@@ -43,6 +49,10 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 		  	</row>
 	    '''
 		assertThat engine.totalNumberOfStitchesInRow, is (20)
+		engine.startNewRow()
+		assertThat engine.peekAtNextStitch().currentNature, is (KNIT)
+		engine.knit(10)
+		assertThat engine.peekAtNextStitch().currentNature, is (KNIT)
 	}
 
 	@Test
@@ -215,4 +225,27 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 		engine.startNewRow()
 		assertThat engine.stitchesToNextMarker, is (10)
 	}
+
+	@Test
+	void workRibbingThenWorkEven() {
+		processXml PATTERN_START_TAG + '''
+		  <directions>
+			<row>
+		  		<knit>10</knit>
+		  		<purl>10</purl>
+		  	</row>
+		  	<row>
+		  		<work-even>20</work-even>
+		  	</row>
+		  </directions>
+        </pattern>
+    	'''
+		assertThat engine.totalNumberOfStitchesInRow, is (20)
+		engine.startNewRow()
+		assertThat engine.peekAtNextStitch().currentNature, is (KNIT)
+		engine.knit(10)
+		assertThat engine.peekAtNextStitch().currentNature, is (PURL)
+	}
+	
+
 }
