@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.knitml.core.common.NeedleStyle;
+import com.knitml.core.model.directions.StitchNature;
 import com.knitml.engine.Needle;
 import com.knitml.engine.Stitch;
 import com.knitml.engine.common.CannotPutMarkerOnEndOfNeedleException;
@@ -86,7 +87,7 @@ public abstract class FlatNeedleTests {
 		List<Stitch> stitches = needle.getStitches();
 		assertEquals(stitches.get(0), needle.peekAtNextStitch());
 	}
-	
+
 	/**
 	 * Test that the DefaultStitch collection cannot be modified.
 	 * 
@@ -120,7 +121,7 @@ public abstract class FlatNeedleTests {
 		assertEquals(8, needle.getTotalStitches());
 		assertEquals(6, needle.getStitchesRemaining());
 	}
-	
+
 	@Test
 	public void knitToEndOfRow() throws Exception {
 		knit(10);
@@ -172,13 +173,13 @@ public abstract class FlatNeedleTests {
 		assertEquals(9, needle.getTotalStitches());
 		assertTrue(needle.isEndOfNeedle());
 	}
-	
-	@Test(expected=NotEnoughStitchesException.class)
+
+	@Test(expected = NotEnoughStitchesException.class)
 	public void decreaseOverEndOfNeedle() throws Exception {
 		purl(9);
 		needle.knitTwoTogether();
 	}
-	
+
 	@Test(expected = NotEnoughStitchesException.class)
 	public void purlTooFar() throws Exception {
 		purl(11);
@@ -248,7 +249,8 @@ public abstract class FlatNeedleTests {
 	}
 
 	@Test
-	public void knitTwoTogetherThroughMarkerAndPlaceMarkerAfterStitch() throws Exception {
+	public void knitTwoTogetherThroughMarkerAndPlaceMarkerAfterStitch()
+			throws Exception {
 		knit(5);
 		needle.placeMarker(new DefaultMarker(
 				MarkerBehavior.PLACE_AFTER_STITCH_WORKED));
@@ -261,7 +263,8 @@ public abstract class FlatNeedleTests {
 	}
 
 	@Test
-	public void knitTwoTogetherThroughMarkerAndPlaceMarkerBeforeStitch() throws Exception {
+	public void knitTwoTogetherThroughMarkerAndPlaceMarkerBeforeStitch()
+			throws Exception {
 		knit(5);
 		needle.placeMarker(new DefaultMarker(
 				MarkerBehavior.PLACE_BEFORE_STITCH_WORKED));
@@ -311,7 +314,7 @@ public abstract class FlatNeedleTests {
 		knit(3);
 		needle.knitThreeTogether();
 	}
-	
+
 	@Test
 	public void knitThreeTogetherThroughTwoMarkers() throws Exception {
 		knit(3);
@@ -320,20 +323,22 @@ public abstract class FlatNeedleTests {
 		needle.placeMarker(new DefaultMarker(MarkerBehavior.REMOVE));
 		knit(6);
 
-		// level set forwards and backwards directions since this test isn't symmetric
+		// level set forwards and backwards directions since this test isn't
+		// symmetric
 		nextRow();
 		knit(10);
 		nextRow();
-		
+
 		knit(2);
 		needle.knitThreeTogether();
 		knit(5);
 		nextRow();
 		assertFalse(needle.areMarkersRemaining());
 	}
-	
+
 	@Test
-	public void knitThreeTogetherThroughMarkerAndPlaceMarkerAfterStitch() throws Exception {
+	public void knitThreeTogetherThroughMarkerAndPlaceMarkerAfterStitch()
+			throws Exception {
 		knit(5);
 		needle.placeMarker(new DefaultMarker(
 				MarkerBehavior.PLACE_AFTER_STITCH_WORKED));
@@ -346,7 +351,8 @@ public abstract class FlatNeedleTests {
 	}
 
 	@Test
-	public void knitThreeTogetherThroughMarkerAndPlaceMarkerBeforeStitch() throws Exception {
+	public void knitThreeTogetherThroughMarkerAndPlaceMarkerBeforeStitch()
+			throws Exception {
 		knit(5);
 		needle.placeMarker(new DefaultMarker(
 				MarkerBehavior.PLACE_BEFORE_STITCH_WORKED));
@@ -360,7 +366,8 @@ public abstract class FlatNeedleTests {
 	}
 
 	@Test
-	public void knitThreeTogetherThroughMarkerAndRemoveMarker() throws Exception {
+	public void knitThreeTogetherThroughMarkerAndRemoveMarker()
+			throws Exception {
 		knit(5);
 		needle.placeMarker(new DefaultMarker(MarkerBehavior.REMOVE));
 		knit(5);
@@ -374,7 +381,7 @@ public abstract class FlatNeedleTests {
 		assertEquals(8, needle.getTotalStitches());
 		assertFalse(needle.areMarkersRemaining());
 	}
-	
+
 	@Test
 	public void addAndRemoveMarker() throws Exception {
 		knit(3);
@@ -661,30 +668,31 @@ public abstract class FlatNeedleTests {
 		needle.removeNextStitch();
 		assertEquals(0, needle.getTotalStitches());
 	}
-	
-	@Test(expected=NotEnoughStitchesException.class)
+
+	@Test(expected = NotEnoughStitchesException.class)
 	public void bindOffStitchWhichIsNotThere() throws Exception {
 		knit(1);
 		needle.passPreviousStitchOver();
 	}
-	
+
 	@Test
 	public void crossStitches() throws Exception {
 		knit(3);
-		needle.cross(2,3);
+		needle.cross(2, 3);
 		knit(7);
-		assertThat(needle.isEndOfNeedle(), is (true));
-		
+		assertThat(needle.isEndOfNeedle(), is(true));
+
 		List<Stitch> stitches = needle.getStitches();
 		List<String> stitchNames = new ArrayList<String>(stitches.size());
 		for (Stitch stitch : stitches) {
 			stitchNames.add(stitch.getId());
 		}
-		String[] expectedStitchArray = new String[] { "A","B","C","F","G","H","D","E","I","J" };
-		assertThat(stitchNames.toArray(new String[0]), is (expectedStitchArray));
+		String[] expectedStitchArray = new String[] { "A", "B", "C", "F", "G",
+				"H", "D", "E", "I", "J" };
+		assertThat(stitchNames.toArray(new String[0]), is(expectedStitchArray));
 	}
-	
-	@Test(expected=CannotWorkThroughMarkerException.class)
+
+	@Test(expected = CannotWorkThroughMarkerException.class)
 	public void crossStitchesOverMarker() throws Exception {
 		knit(4);
 		needle.placeMarker(new DefaultMarker());
@@ -693,13 +701,12 @@ public abstract class FlatNeedleTests {
 		// get on the same page with subclasses
 		knit(10);
 		nextRow();
-		
+
 		// now perform the test
 		knit(3);
-		needle.cross(2,3);
+		needle.cross(2, 3);
 	}
 
-	
 	@Test
 	public void crossStitchesNearMarker() throws Exception {
 		knit(3);
@@ -711,58 +718,86 @@ public abstract class FlatNeedleTests {
 		// get on the same page with subclasses
 		knit(10);
 		nextRow();
-		
+
 		// now perform the test
 		knit(3);
-		needle.cross(2,3);
+		needle.cross(2, 3);
 		knit(7);
-		assertThat(needle.isEndOfNeedle(), is (true));
+		assertThat(needle.isEndOfNeedle(), is(true));
 	}
-	
+
 	@Test
 	public void addStitchesToBeginning() throws Exception {
-		List<Stitch> startingStitchesOnNeedle = new ArrayList<Stitch>(needle.getStitches());
+		List<Stitch> startingStitchesOnNeedle = new ArrayList<Stitch>(needle
+				.getStitches());
 		List<Stitch> stitchesToAdd = new ArrayList<Stitch>();
 		Stitch firstStitch = new DefaultStitch("AA");
 		stitchesToAdd.add(firstStitch);
 		stitchesToAdd.add(new DefaultStitch("BB"));
 		stitchesToAdd.add(new DefaultStitch("CC"));
 		stitchesToAdd.add(new DefaultStitch("DD"));
-		
+
 		// perform the operation on the needle
 		needle.addStitchesToBeginning(stitchesToAdd);
 		List<Stitch> expectedStitchesOnNeedle = new ArrayList<Stitch>();
 		expectedStitchesOnNeedle.addAll(stitchesToAdd);
 		expectedStitchesOnNeedle.addAll(startingStitchesOnNeedle);
 		assertEquals(expectedStitchesOnNeedle, needle.getStitches());
-		
-		// make sure the stitch cursor is set to return the first stitch (i.e. "AA")
+
+		// make sure the stitch cursor is set to return the first stitch (i.e.
+		// "AA")
 		needle.startAtBeginning();
 		assertEquals(firstStitch, needle.peekAtNextStitch());
-	}	
+	}
 
 	@Test
 	public void addStitchesToEnd() throws Exception {
-		List<Stitch> startingStitchesOnNeedle = new ArrayList<Stitch>(needle.getStitches());
+		List<Stitch> startingStitchesOnNeedle = new ArrayList<Stitch>(needle
+				.getStitches());
 		List<Stitch> stitchesToAdd = new ArrayList<Stitch>();
 		Stitch firstStitch = new DefaultStitch("K");
 		stitchesToAdd.add(firstStitch);
 		stitchesToAdd.add(new DefaultStitch("L"));
 		stitchesToAdd.add(new DefaultStitch("M"));
 		stitchesToAdd.add(new DefaultStitch("N"));
-		
+
 		// perform the operation on the needle
 		needle.addStitchesToEnd(stitchesToAdd);
 		List<Stitch> expectedStitchesOnNeedle = new ArrayList<Stitch>();
 		expectedStitchesOnNeedle.addAll(startingStitchesOnNeedle);
 		expectedStitchesOnNeedle.addAll(stitchesToAdd);
 		assertEquals(expectedStitchesOnNeedle, needle.getStitches());
-		
-		// make sure the stitch cursor is set to return the first stitch (i.e. "AA")
+
+		// make sure the stitch cursor is set to return the first stitch (i.e.
+		// "AA")
 		needle.startAtBeginning();
 		knit(10);
 		assertEquals(firstStitch, needle.peekAtNextStitch());
-	}	
-	
+	}
+
+	@Test
+	public void verifyLastOperation() throws Exception {
+		knit(10);
+		nextRow();
+		while (needle.getStitchesRemaining() > 0) {
+			assertThat(needle.peekAtNextStitch().getCurrentNature(), is (StitchNature.KNIT));
+			needle.knit();
+		}
+	}
+
+	@Test
+	public void verifyLastOperationAcrossMultipleRows() throws Exception {
+		// forward side
+		knit(10);
+		nextRow();
+		// backward side: knitting here means that a purl will be recorded for the StitchOperation
+		knit(10);
+		nextRow();
+		// forward side 
+		while (needle.getStitchesRemaining() > 0) {
+			assertThat(needle.peekAtNextStitch().getCurrentNature(), is (StitchNature.PURL));
+			needle.knit();
+		}
+	}
 	
 }

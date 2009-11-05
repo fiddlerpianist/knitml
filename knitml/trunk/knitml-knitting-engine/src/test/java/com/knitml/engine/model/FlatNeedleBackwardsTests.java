@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.knitml.core.model.directions.StitchNature;
 import com.knitml.engine.Stitch;
 import com.knitml.engine.common.NeedlesInWrongDirectionException;
 import com.knitml.engine.impl.DefaultStitch;
@@ -123,5 +124,31 @@ public class FlatNeedleBackwardsTests extends FlatNeedleTests {
 		assertThat(stitchNames.toArray(new String[0]), is (expectedStitchArray));
 	}
 	
+	@Test
+	@Override
+	public void verifyLastOperation() throws Exception {
+		knit(10); // this is on the backward side
+		nextRow();
+		while (needle.getStitchesRemaining() > 0) {
+			assertThat(needle.peekAtNextStitch().getCurrentNature(), is (StitchNature.PURL));
+			needle.knit();
+		}
+	}
+
+	@Test
+	@Override
+	public void verifyLastOperationAcrossMultipleRows() throws Exception {
+		// backward side
+		knit(10);
+		nextRow();
+		// forward side
+		knit(10);
+		nextRow();
+		// backward side 
+		while (needle.getStitchesRemaining() > 0) {
+			assertThat(needle.peekAtNextStitch().getCurrentNature(), is (StitchNature.KNIT));
+			needle.knit();
+		}
+	}
 	
 }

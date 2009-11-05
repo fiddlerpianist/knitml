@@ -1,8 +1,11 @@
 package com.knitml.engine;
 
+import com.knitml.core.model.directions.StitchNature;
+
 public interface Stitch extends Restorable {
 
 	String getId();
-	void recordOperation(StitchOperation operation);
+	StitchNature getCurrentNature();
+	void recordNature(StitchNature nature);
 
 }

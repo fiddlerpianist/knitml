@@ -1,5 +1,9 @@
 package com.knitml.engine.impl;
 
+import static com.knitml.core.model.directions.StitchNature.KNIT;
+import static com.knitml.core.model.directions.StitchNature.PURL;
+import static com.knitml.core.model.directions.StitchNature.reverse;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -19,7 +23,6 @@ import com.knitml.engine.KnittingFactory;
 import com.knitml.engine.Marker;
 import com.knitml.engine.Needle;
 import com.knitml.engine.Stitch;
-import com.knitml.engine.StitchOperation;
 import com.knitml.engine.common.CannotPutMarkerOnEndOfNeedleException;
 import com.knitml.engine.common.CannotWorkThroughMarkerException;
 import com.knitml.engine.common.NeedlesInWrongDirectionException;
@@ -845,6 +848,7 @@ public class DefaultNeedle implements Needle {
 		if (direction == Direction.FORWARDS) {
 			for (int i = 0; i < numberToIncrease; i++) {
 				Stitch stitch = knittingFactory.createStitch();
+				stitch.recordNature(KNIT);
 				// this inserts the stitch before the cursor
 				stitchCursor.add(stitch);
 			}
@@ -852,6 +856,7 @@ public class DefaultNeedle implements Needle {
 		} else {
 			for (int i = 0; i < numberToIncrease; i++) {
 				Stitch stitch = knittingFactory.createStitch();
+				stitch.recordNature(reverse(KNIT));
 				stitchCursor.add(stitch);
 				stitchCursor.previous();
 			}
@@ -928,18 +933,18 @@ public class DefaultNeedle implements Needle {
 	}
 
 	private void recordKnit(Stitch workedStitch) {
-		if (getDirection() == Direction.FORWARDS) {
-			workedStitch.recordOperation(StitchOperation.KNIT);
+		if (getDirection() == Direction.BACKWARDS) {
+			workedStitch.recordNature(reverse(KNIT));
 		} else {
-			workedStitch.recordOperation(StitchOperation.PURL);
+			workedStitch.recordNature(KNIT);
 		}
 	}
 
 	private void recordPurl(Stitch workedStitch) {
-		if (getDirection() == Direction.FORWARDS) {
-			workedStitch.recordOperation(StitchOperation.PURL);
+		if (getDirection() == Direction.BACKWARDS) {
+			workedStitch.recordNature(reverse(PURL));
 		} else {
-			workedStitch.recordOperation(StitchOperation.KNIT);
+			workedStitch.recordNature(PURL);
 		}
 	}
 

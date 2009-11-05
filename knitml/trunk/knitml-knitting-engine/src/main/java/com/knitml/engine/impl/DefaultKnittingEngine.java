@@ -1152,8 +1152,9 @@ public class DefaultKnittingEngine implements KnittingEngine {
 
 		// all cast ons are done in the forwards direction
 		direction = Direction.FORWARDS;
-
+		setNeedlesInCurrentDirection();
 		resetCurrentNeedleIndex();
+		
 		if (countAsRow) {
 			// customized "startNewRow" without resetting anything (because it's
 			// already been done)

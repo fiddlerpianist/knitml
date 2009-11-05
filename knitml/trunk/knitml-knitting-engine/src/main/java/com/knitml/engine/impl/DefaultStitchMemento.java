@@ -1,17 +1,17 @@
 package com.knitml.engine.impl;
 
-import com.knitml.engine.StitchOperation;
+import com.knitml.core.model.directions.StitchNature;
 
 
 class DefaultStitchMemento {
 
-	private StitchOperation history;
+	private StitchNature history;
 	
-	public DefaultStitchMemento(StitchOperation history) {
+	public DefaultStitchMemento(StitchNature history) {
 		this.history = history;
 	}
 
-	public StitchOperation getHistory() {
+	public StitchNature getHistory() {
 		return history;
 	}
 

@@ -3,8 +3,10 @@
  */
 package com.knitml.engine.model;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.knitml.core.common.NeedleStyle;
+import com.knitml.core.model.directions.StitchNature;
 import com.knitml.engine.Stitch;
 import com.knitml.engine.impl.DefaultKnittingFactory;
 import com.knitml.engine.impl.DefaultMarker;
@@ -94,6 +97,22 @@ public class RoundNeedleTests extends FlatNeedleTests {
 		knit(7);
 		nextRow();
 		assertFalse(needle.areMarkersRemaining());
+	}
+
+	@Test
+	@Override
+	public void verifyLastOperationAcrossMultipleRows() throws Exception {
+		// forward side
+		knit(10);
+		nextRow();
+		// forward side again
+		knit(10);
+		nextRow();
+		// forward side 
+		while (needle.getStitchesRemaining() > 0) {
+			assertThat(needle.peekAtNextStitch().getCurrentNature(), is (StitchNature.KNIT));
+			needle.knit();
+		}
 	}
 	
 }

@@ -14,9 +14,11 @@ import org.junit.Test;
 
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.NeedleStyle;
+import com.knitml.core.model.directions.StitchNature;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.KnittingFactory;
 import com.knitml.engine.Needle;
+import com.knitml.engine.Stitch;
 import com.knitml.engine.common.NoGapFoundException;
 import com.knitml.engine.common.NoMarkerFoundException;
 import com.knitml.engine.settings.Direction;
@@ -57,8 +59,8 @@ public class SingleNeedleMementoTests {
 		restore();
 		assertOriginalState();
 	}
-	
-	private void assertOriginalState() {
+
+	private void assertOriginalState() throws Exception {
 		// capture state right after the cast-on row before startNewRow() is
 		// called
 		assertEquals(1, engine.getTotalRowsCompleted());
@@ -67,6 +69,28 @@ public class SingleNeedleMementoTests {
 		assertEquals(0, engine.getStitchesRemainingInRow());
 		assertEquals(Direction.FORWARDS, engine.getDirection());
 		assertEquals(KnittingShape.FLAT, engine.getKnittingShape());
+		
+		// this will mess up original state, so do a save/restore
+		save();
+		engine.startNewRow();
+		Stitch stitch = engine.peekAtNextStitch();
+		assertEquals("n", stitch.getId());
+		assertEquals(StitchNature.KNIT, stitch.getCurrentNature());
+		restore();
+	}
+
+	@Test
+	public void checkLastOperationOnStitchRestored() throws Exception {
+		engine.startNewRow();
+		// backwards
+		engine.knit(40);
+		engine.startNewRow();
+		// forwards
+		engine.slip(39);
+		// check stitch "n"
+		Stitch stitch = engine.peekAtNextStitch();
+		assertEquals("n", stitch.getId());
+		assertEquals(StitchNature.PURL, stitch.getCurrentNature());
 	}
 
 	@Test
