@@ -3,6 +3,7 @@ package com.knitml.core.model.directions.inline;
 import org.apache.commons.lang.ObjectUtils;
 
 import com.knitml.core.common.LoopToWork;
+import com.knitml.core.model.directions.StitchNature;
 
 
 public class Purl extends Knit {
@@ -21,5 +22,11 @@ public class Purl extends Knit {
 		}
 		return false;
 	}
+
+	@Override
+	public StitchNature getStitchNatureProduced() {
+		return StitchNature.PURL;
+	}
+	
 	
 }

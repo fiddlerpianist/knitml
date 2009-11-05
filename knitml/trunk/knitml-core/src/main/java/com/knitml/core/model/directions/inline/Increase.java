@@ -2,8 +2,11 @@ package com.knitml.core.model.directions.inline;
 
 import com.knitml.core.common.IncreaseType;
 import com.knitml.core.model.directions.DiscreteInlineOperation;
+import com.knitml.core.model.directions.StitchNature;
+import com.knitml.core.model.directions.StitchNatureProducer;
 
-public class Increase implements DiscreteInlineOperation {
+public class Increase implements DiscreteInlineOperation,
+		StitchNatureProducer {
 
 	protected Integer numberOfTimes;
 	protected String yarnIdRef;
@@ -46,5 +49,19 @@ public class Increase implements DiscreteInlineOperation {
 
 	public int getIncreaseCount() {
 		return numberOfTimes == null ? 1 : numberOfTimes;
+	}
+
+	public StitchNature getStitchNatureProduced() {
+		switch (type) {
+		case M1P:
+		case M1LP:
+		case M1RP:
+		case PLL:
+		case PRL:
+		case PFB:
+			return StitchNature.PURL;
+		default:
+			return StitchNature.KNIT;
+		}
 	}
 }

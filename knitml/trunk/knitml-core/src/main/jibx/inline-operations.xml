@@ -16,6 +16,13 @@
             deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
         <value name="loop-to-work" field="loopToWork" enum-value-method="getCanonicalName" usage="optional"/>
     </mapping>
+    <mapping name="work-even" value-style="attribute"
+        class="com.knitml.core.model.directions.inline.WorkEven">
+        <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
+        <value style="text" field="numberOfTimes" usage="optional"
+            serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
+            deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
+    </mapping>
     <mapping name="slip" value-style="attribute"
         class="com.knitml.core.model.directions.inline.Slip">
         <value style="text" field="numberOfTimes" usage="optional"

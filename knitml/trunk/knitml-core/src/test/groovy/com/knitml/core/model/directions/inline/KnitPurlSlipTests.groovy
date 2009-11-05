@@ -73,6 +73,7 @@ class KnitPurlSlipTests {
 		}
 		marshalXmlAndCompare(pattern,xml)
 	}
+	
 	@Test
 	void purl() {
 		def xml = '''
@@ -100,6 +101,31 @@ class KnitPurlSlipTests {
 		marshalXmlAndCompare(pattern,xml)
 	}
 	
+	@Test
+	void workEven() {
+		def xml = '''
+			<pattern xmlns="http://www.knitml.com/schema/pattern">
+			  <directions>
+					<row>
+						<work-even yarn-ref="knit0"/>
+						<work-even>5</work-even>
+					</row>
+			  </directions>
+			</pattern>'''
+		Pattern pattern = unmarshalXml(xml)
+		def element = pattern.directions.operations[0].operations[0]
+		element.with {
+			assertThat yarnIdRef, is ('knit0')
+			assertThat numberOfTimes, is (null)
+		}
+		element = pattern.directions.operations[0].operations[1]
+		element.with {
+			assertThat yarnIdRef, is (null)
+			assertThat numberOfTimes, is (5)
+		}
+		marshalXmlAndCompare(pattern,xml)
+	}
+
 	@Test
 	void slip() {
 		def xml = '''

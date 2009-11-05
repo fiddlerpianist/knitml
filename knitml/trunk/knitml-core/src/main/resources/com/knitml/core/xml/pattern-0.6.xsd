@@ -206,6 +206,20 @@
     </xsd:simpleContent>
   </xsd:complexType>
 
+  <xsd:complexType name="WorkEvenType">
+    <xsd:annotation>
+      <xsd:documentation>The work-even operation is defined as working the current stich(es) in the
+        same manner as they were worked in the row below. If the stitch below was knit, then this is
+        equivalent to a knit operation. If it was purled, it is equivalent to a purl
+      operation.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:short">
+        <xsd:attribute name="yarn-ref" type="yarn-ref-type"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
   <xsd:complexType name="DecreaseType">
     <xsd:annotation>
       <xsd:documentation>Represents a single decrease in the pattern. The content of this element
@@ -528,6 +542,7 @@
       <xsd:element name="bind-off-all" type="BindOffAllType"/>
       <xsd:element name="knit" type="KnitType" default="1"/>
       <xsd:element name="purl" type="PurlType" default="1"/>
+      <xsd:element name="work-even" type="WorkEvenType" default="1"/>
       <xsd:element name="decrease" type="DecreaseType" default="1"/>
       <xsd:element name="double-decrease" type="DoubleDecreaseType" default="1"/>
       <xsd:element name="increase" type="IncreaseType" default="1"/>

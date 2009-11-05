@@ -2,8 +2,10 @@ package com.knitml.core.model.directions.inline;
 
 import com.knitml.core.common.Wise;
 import com.knitml.core.model.directions.DiscreteInlineOperation;
+import com.knitml.core.model.directions.StitchNature;
+import com.knitml.core.model.directions.StitchNatureProducer;
 
-public class InlinePickUpStitches implements DiscreteInlineOperation {
+public class InlinePickUpStitches implements DiscreteInlineOperation, StitchNatureProducer {
 	
 	protected String yarnIdRef;
 	protected Integer numberOfTimes;
@@ -36,6 +38,13 @@ public class InlinePickUpStitches implements DiscreteInlineOperation {
 
 	public int getIncreaseCount() {
 		return numberOfTimes == null ? 1 : numberOfTimes;
+	}
+
+	public StitchNature getStitchNatureProduced() {
+		if (type == Wise.PURLWISE) {
+			return StitchNature.PURL;
+		}
+		return StitchNature.KNIT;
 	}
 	
 }

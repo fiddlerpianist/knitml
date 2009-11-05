@@ -1,8 +1,10 @@
 package com.knitml.core.model.directions.inline;
 
 import com.knitml.core.model.directions.DiscreteInlineOperation;
+import com.knitml.core.model.directions.StitchNature;
+import com.knitml.core.model.directions.StitchNatureProducer;
 
-public class InlineCastOn implements DiscreteInlineOperation {
+public class InlineCastOn implements DiscreteInlineOperation, StitchNatureProducer {
 
 	protected Integer numberOfStitches;
 	protected String yarnIdRef;
@@ -45,6 +47,10 @@ public class InlineCastOn implements DiscreteInlineOperation {
 	
 	public InlineCastOn(int numberOfStitches) {
 		this.numberOfStitches = numberOfStitches;
+	}
+
+	public StitchNature getStitchNatureProduced() {
+		return StitchNature.KNIT;
 	}
 
 }

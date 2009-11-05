@@ -2,16 +2,12 @@ package com.knitml.core.model.directions.inline;
 
 import org.apache.commons.lang.ObjectUtils;
 
-import com.knitml.core.common.LoopToWork;
 import com.knitml.core.model.directions.DiscreteInlineOperation;
-import com.knitml.core.model.directions.StitchNature;
-import com.knitml.core.model.directions.StitchNatureProducer;
 
-public class Knit implements DiscreteInlineOperation, StitchNatureProducer {
+public class WorkEven implements DiscreteInlineOperation {
 
 	protected Integer numberOfTimes;
 	protected String yarnIdRef;
-	protected LoopToWork loopToWork;
 
 	public Integer getNumberOfTimes() {
 		return numberOfTimes;
@@ -21,19 +17,14 @@ public class Knit implements DiscreteInlineOperation, StitchNatureProducer {
 		return yarnIdRef;
 	}
 
-	public LoopToWork getLoopToWork() {
-		return loopToWork;
-	}
-
 	protected boolean hasContent() {
 		return numberOfTimes != null;
 	}
 
-	public Knit(Integer numberOfTimes, String yarnIdRef, LoopToWork loopToWork) {
+	public WorkEven(Integer numberOfTimes, String yarnIdRef) {
 		super();
 		this.numberOfTimes = numberOfTimes;
 		this.yarnIdRef = yarnIdRef;
-		this.loopToWork = loopToWork;
 	}
 
 	public int getAdvanceCount() {
@@ -46,17 +37,12 @@ public class Knit implements DiscreteInlineOperation, StitchNatureProducer {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Knit && !(obj instanceof Purl)) {
-			Knit that = (Knit) obj;
+		if (obj instanceof WorkEven) {
+			WorkEven that = (WorkEven) obj;
 			return (ObjectUtils.equals(this.numberOfTimes, that.numberOfTimes)
-					&& ObjectUtils.equals(this.yarnIdRef, that.yarnIdRef) && ObjectUtils
-					.equals(this.loopToWork, that.loopToWork));
+					&& ObjectUtils.equals(this.yarnIdRef, that.yarnIdRef));
 		}
 		return false;
-	}
-
-	public StitchNature getStitchNatureProduced() {
-		return StitchNature.KNIT;
 	}
 
 }

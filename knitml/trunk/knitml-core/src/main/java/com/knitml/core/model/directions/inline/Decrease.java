@@ -3,8 +3,11 @@ package com.knitml.core.model.directions.inline;
 import com.knitml.core.common.DecreaseType;
 import com.knitml.core.common.Lean;
 import com.knitml.core.model.directions.DiscreteInlineOperation;
+import com.knitml.core.model.directions.StitchNature;
+import com.knitml.core.model.directions.StitchNatureProducer;
 
-public class Decrease implements DiscreteInlineOperation {
+public class Decrease implements DiscreteInlineOperation,
+		StitchNatureProducer {
 
 	protected Integer numberOfTimes;
 	protected String yarnIdRef;
@@ -51,6 +54,18 @@ public class Decrease implements DiscreteInlineOperation {
 			return Lean.BALANCED;
 		default:
 			return null;
+		}
+	}
+
+	public StitchNature getStitchNatureProduced() {
+		switch (type) {
+		case SSP:
+		case P2TOG_TBL:
+		case P2TOG:
+		case P3TOG:
+			return StitchNature.PURL;
+		default:
+			return StitchNature.KNIT;
 		}
 	}
 
