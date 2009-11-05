@@ -51,6 +51,7 @@ import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
 import com.knitml.core.model.directions.inline.SlipToStitchHolder;
+import com.knitml.core.model.directions.inline.WorkEven;
 import com.knitml.core.model.header.GeneralInformation;
 import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.Supplies;
@@ -395,6 +396,33 @@ public class BasicTextRenderer implements Renderer {
 		if (loopToWork == LoopToWork.TRAILING) {
 			key.append(".through-trailing-loop");
 		}
+		getOperationSetHelper().writeOperation(
+				getMessageHelper().getPluralizedMessage(key.toString(),
+						numberToWork, values.toArray()));
+	}
+	
+	public void renderWorkEven(WorkEven workEven) {
+		StringBuffer key = new StringBuffer("operation.work-even");
+		List<Object> values = new ArrayList<Object>();
+		// get numberOfStitches, or 1 if null
+		Integer numberToWork = workEven.getNumberOfTimes() != null ? workEven
+				.getNumberOfTimes() : 1;
+		values.add(numberToWork);
+
+		// get a "k"/"p" out of the way first
+		if (workEven.getNumberOfTimes() == null && workEven.getYarnIdRef() == null) {
+			SimpleInstruction operation = new SimpleInstruction(SimpleInstruction.Type.WORK_EVEN);
+			getOperationSetHelper().writeOperation(operation);
+			return;
+		}
+
+		Yarn yarn = renderingContext.getPatternRepository().getYarn(
+				workEven.getYarnIdRef());
+		if (yarn != null) {
+			key.append(".with-yarn");
+			values.add(yarn.getSymbol());
+		}
+
 		getOperationSetHelper().writeOperation(
 				getMessageHelper().getPluralizedMessage(key.toString(),
 						numberToWork, values.toArray()));

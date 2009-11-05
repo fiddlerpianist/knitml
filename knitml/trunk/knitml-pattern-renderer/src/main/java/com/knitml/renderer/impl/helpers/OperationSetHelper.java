@@ -56,9 +56,12 @@ public class OperationSetHelper {
 			if (operation.getType() == SimpleInstruction.Type.PURL) {
 				writeOperation(getMessageHelper().getPluralizedMessage(
 						"operation.purl", 1));
-			} else {
+			} else if (operation.getType() == SimpleInstruction.Type.KNIT){
 				writeOperation(getMessageHelper().getPluralizedMessage(
 						"operation.knit", 1));
+			} else if (operation.getType() == SimpleInstruction.Type.WORK_EVEN){
+				writeOperation(getMessageHelper().getPluralizedMessage(
+						"operation.work-even", 1));
 			}
 		}
 	}
@@ -152,6 +155,13 @@ public class OperationSetHelper {
 					} else {
 						message = getMessageHelper().getPluralizedMessage(
 								"operation.purl", 1, StringUtils.EMPTY);
+					}
+				} else if (simpleInstruction.getType() == SimpleInstruction.Type.WORK_EVEN) {
+					if (potentiallySimple) {
+						message = getMessage("operation.work-even-only");
+					} else {
+						message = getMessageHelper().getPluralizedMessage(
+								"operation.work-even", 1, StringUtils.EMPTY);
 					}
 				} else {
 					throw new IllegalArgumentException(

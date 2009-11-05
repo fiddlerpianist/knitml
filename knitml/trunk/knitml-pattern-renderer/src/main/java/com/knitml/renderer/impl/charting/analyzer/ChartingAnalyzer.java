@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.model.directions.DiscreteInlineOperation;
 import com.knitml.core.model.directions.InlineOperation;
+import com.knitml.core.model.directions.StitchNature;
+import com.knitml.core.model.directions.StitchNatureProducer;
 import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.core.model.directions.block.RepeatInstruction;
 import com.knitml.core.model.directions.block.Row;
@@ -21,14 +23,19 @@ import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.InlineCastOn;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
+import com.knitml.core.model.directions.inline.Knit;
 import com.knitml.core.model.directions.inline.NoStitch;
 import com.knitml.core.model.directions.inline.PlaceMarker;
+import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.SlipToStitchHolder;
+import com.knitml.core.model.directions.inline.StitchGroup;
 import com.knitml.core.model.directions.inline.Turn;
 import com.knitml.core.model.directions.inline.UsingNeedle;
+import com.knitml.core.model.directions.inline.WorkEven;
 import com.knitml.core.model.directions.inline.Repeat.Until;
 import com.knitml.engine.KnittingEngine;
+import com.knitml.engine.settings.Direction;
 import com.knitml.renderer.context.RenderingContext;
 
 /**
@@ -185,7 +192,13 @@ public class ChartingAnalyzer {
 		if (dynamicFirstRowCastOn) {
 			// remove the "extra" stitch we created in order to start the row.
 			engine.reverseSlip(1);
-			engine.knitTwoTogether();
+			// don't swallow the real stitch's nature
+			StitchNature stitchNature = engine.peekAtNextStitch().getCurrentNature();
+			if (stitchNature == StitchNature.PURL) {
+				engine.purlTwoTogether();
+			} else {
+				engine.knitTwoTogether();
+			}
 			// now pretend like all is normal
 			dynamicFirstRowCastOn = false;
 		}
@@ -294,10 +307,10 @@ public class ChartingAnalyzer {
 		newRepeat.setOperations(newOperations);
 
 		// gather current (pre-repeat) state
-		int startingTotalStitches = engine
-				.getTotalNumberOfStitchesOnCurrentNeedle();
-		int startingStitchesRemaining = engine
-				.getStitchesRemainingOnCurrentNeedle();
+//		int startingTotalStitches = engine
+//				.getTotalNumberOfStitchesOnCurrentNeedle();
+//		int startingStitchesRemaining = engine
+//				.getStitchesRemainingOnCurrentNeedle();
 		Object engineState = engine.save();
 		int originalChartWidth = this.currentRowInfo.getRowWidth();
 
@@ -311,53 +324,71 @@ public class ChartingAnalyzer {
 			}
 			newOperations.add(newOperation);
 		}
-		int endingTotalStitches = engine
-				.getTotalNumberOfStitchesOnCurrentNeedle();
-		int endingStitchesRemaining = engine
-				.getStitchesRemainingOnCurrentNeedle();
+//		int endingTotalStitches = engine
+//				.getTotalNumberOfStitchesOnCurrentNeedle();
+//		int endingStitchesRemaining = engine
+//				.getStitchesRemainingOnCurrentNeedle();
 
 		// reset the engine to the state before we repeated once
 		engine.restore(engineState);
 		this.currentRowInfo.setRowWidth(originalChartWidth);
 
-		int advanceCount = startingStitchesRemaining - endingStitchesRemaining;
-		int increaseCount = endingTotalStitches - startingTotalStitches;
+//		int advanceCount = startingStitchesRemaining - endingStitchesRemaining;
+//		int increaseCount = endingTotalStitches - startingTotalStitches;
 
 		int counter = 0;
 		switch (until) {
 		case TIMES:
 			for (int i = 0; i < value; i++) {
-				advanceAndIncrease(advanceCount, increaseCount);
+				// advanceAndIncrease(advanceCount, increaseCount);
+				for (InlineOperation operation : oldRepeat.getOperations()) {
+					handle(operation);
+				}
 			}
 			counter = value;
 			break;
 		case BEFORE_END:
 			while (engine.getStitchesRemainingInRow() > value) {
-				advanceAndIncrease(advanceCount, increaseCount);
+				// advanceAndIncrease(advanceCount, increaseCount);
+				for (InlineOperation operation : oldRepeat.getOperations()) {
+					handle(operation);
+				}
 				counter++;
 			}
 			break;
 		case END:
 			while (engine.getStitchesRemainingInRow() > 0) {
-				advanceAndIncrease(advanceCount, increaseCount);
+				// advanceAndIncrease(advanceCount, increaseCount);
+				for (InlineOperation operation : oldRepeat.getOperations()) {
+					handle(operation);
+				}
 				counter++;
 			}
 			break;
 		case BEFORE_GAP:
 			while (engine.getStitchesToGap() > value) {
-				advanceAndIncrease(advanceCount, increaseCount);
+				// advanceAndIncrease(advanceCount, increaseCount);
+				for (InlineOperation operation : oldRepeat.getOperations()) {
+					handle(operation);
+				}
 				counter++;
 			}
 			break;
 		case BEFORE_MARKER:
 			while (engine.getStitchesToNextMarker() > value) {
-				advanceAndIncrease(advanceCount, increaseCount);
+				// advanceAndIncrease(advanceCount, increaseCount);
+				for (InlineOperation operation : oldRepeat.getOperations()) {
+					handle(operation);
+				}
 				counter++;
 			}
 			break;
 		case MARKER:
 			while (engine.getStitchesToNextMarker() > 0) {
-				advanceAndIncrease(advanceCount, increaseCount);
+				// advanceAndIncrease(advanceCount, increaseCount);
+				for (InlineOperation operation : oldRepeat.getOperations()) {
+					handle(operation);
+				}
 				counter++;
 			}
 			break;
@@ -371,6 +402,19 @@ public class ChartingAnalyzer {
 
 		currentlyRepeating = false;
 		return newRepeat;
+	}
+
+	protected InlineOperation handle(StitchGroup stitchGroup) {
+		List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
+		for (InlineOperation operation : stitchGroup.getOperations()) {
+			InlineOperation newOperation = handle(operation);
+			// if null is returned, we cannot chart, so return null up the chain
+			if (newOperation == null) {
+				return null;
+			}
+			newOperations.add(newOperation);
+		}
+		return new StitchGroup(newOperations);
 	}
 
 	/**
@@ -448,12 +492,16 @@ public class ChartingAnalyzer {
 			renderingContext.getEngine().castOn(new InlineCastOn(advanceCount));
 			renderingContext.getEngine().reverseSlip(advanceCount);
 		}
-		advanceAndIncrease(advanceCount, increaseCount);
+		StitchNature stitchNature = object instanceof StitchNatureProducer ? ((StitchNatureProducer) object)
+				.getStitchNatureProduced()
+				: null;
+		advanceAndIncrease(advanceCount, increaseCount, stitchNature);
 
 		return object;
 	}
 
-	protected void advanceAndIncrease(int advanceCount, int increaseCount) {
+	protected void advanceAndIncrease(int advanceCount, int increaseCount,
+			StitchNature nature) {
 		this.currentRowInfo.addToRowWidth(advanceCount + increaseCount);
 		if (increaseCount < 0) {
 			// decrease the number specified by increaseCount
@@ -470,7 +518,13 @@ public class ChartingAnalyzer {
 		}
 		// advance the engine the number that this operations says to advance
 		// plus the increases
-		renderingContext.getEngine().slip(advanceCount + increaseCount);
+		if (nature == null) {
+			renderingContext.getEngine().slip(advanceCount + increaseCount);
+		} else if (nature == StitchNature.PURL) {
+			renderingContext.getEngine().purl(advanceCount + increaseCount);
+		} else { // nature == StitchNature.KNIT
+			renderingContext.getEngine().knit(advanceCount + increaseCount);
+		}
 	}
 
 	protected InlineOperation handle(NoStitch object) {
@@ -481,6 +535,31 @@ public class ChartingAnalyzer {
 						: object.getNumberOfStitches());
 		this.containsNoStitchOperations = true;
 		return object;
+	}
+
+	protected InlineOperation handle(WorkEven object) {
+		// A WorkEven means to knit knits and purl purls
+		int numberOfTimes = object.getNumberOfTimes() == null ? 1 : object
+				.getNumberOfTimes();
+		List<InlineOperation> newOperations = new ArrayList<InlineOperation>(
+				numberOfTimes);
+		for (int i = 0; i < numberOfTimes; i++) {
+			StitchNature currentStitchNature = renderingContext.getEngine()
+					.peekAtNextStitch().getCurrentNature();
+			// reverse the stitch nature if working from the wrong side
+			if (renderingContext.getEngine().getDirection() == Direction.BACKWARDS) {
+				currentStitchNature = StitchNature.reverse(currentStitchNature);
+			}
+			
+			// knit the knits and purl the purls
+			if (currentStitchNature == StitchNature.KNIT) {
+				newOperations.add(new Knit(1, object.getYarnIdRef(), null));
+			} else { // lastOperation == StitchOperation.PURL
+				newOperations.add(new Purl(1, object.getYarnIdRef(), null));
+			}
+			advanceAndIncrease(1, 0, currentStitchNature);
+		}
+		return new StitchGroup(newOperations);
 	}
 
 	protected InlineOperation handle(PlaceMarker object) {

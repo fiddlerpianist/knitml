@@ -29,6 +29,7 @@ import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
 import com.knitml.core.model.directions.inline.SlipToStitchHolder;
+import com.knitml.core.model.directions.inline.WorkEven;
 import com.knitml.core.model.header.GeneralInformation;
 import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.Supplies;
@@ -94,6 +95,7 @@ public interface Renderer {
 	// inline events
 	void renderKnit(Knit knit);
 	void renderPurl(Purl purl);
+	void renderWorkEven(WorkEven workEven);
 	void renderDecrease(Decrease decrease);
 	void renderIncrease(Increase increase);
 	void renderSlip(Slip slip);

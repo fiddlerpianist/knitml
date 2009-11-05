@@ -37,6 +37,7 @@ import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
 import com.knitml.core.model.directions.inline.SlipToStitchHolder;
+import com.knitml.core.model.directions.inline.WorkEven;
 import com.knitml.core.model.directions.inline.Repeat.Until;
 import com.knitml.core.model.header.GeneralInformation;
 import com.knitml.core.model.header.Needle;
@@ -543,6 +544,10 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderSlipToStitchHolder(SlipToStitchHolder operation) {
+		throw new NotImplementedException();
+	}
+	
+	public void renderWorkEven(WorkEven operation) {
 		throw new NotImplementedException();
 	}
 

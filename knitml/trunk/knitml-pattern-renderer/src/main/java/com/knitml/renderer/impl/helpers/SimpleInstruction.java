@@ -3,7 +3,7 @@ package com.knitml.renderer.impl.helpers;
 public class SimpleInstruction {
 
 	public enum Type {
-		KNIT, PURL
+		KNIT, PURL, WORK_EVEN
 	}
 
 	private Type type;

@@ -47,6 +47,27 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	}
 
 	@Test
+	public void flatChartWithWorkEven() {
+		processXml PATTERN_START_TAG + '''
+			<directives>
+				<instruction-definitions>
+					<instruction id="inst1" label="Stockinette Stitch" shape="flat"> 
+						<row> 
+							<knit>2</knit>
+							<purl>2</purl>
+						</row>
+						<row>
+							<work-even>4</work-even>
+						</row>
+					</instruction>
+				</instruction-definitions>
+			</directives>
+		 </pattern>'''
+
+		 assertThat renderer.graph, is ([[K,K,P,P],[K,K,P,P]])
+	}
+	
+	@Test
 	public void roundChart() {
 		processXml PATTERN_START_TAG + '''
 			<directives>
@@ -65,6 +86,28 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 
 		 assertThat renderer.graph, is ([[K,K,K,K],[K,K,K,K]])
 	}
+	
+	@Test
+	public void roundChartWithWorkEven() {
+		processXml PATTERN_START_TAG + '''
+			<directives>
+				<instruction-definitions>
+					<instruction id="inst1" label="Stockinette Stitch" shape="round"> 
+						<row> 
+							<knit>2</knit>
+							<purl>2</purl>
+						</row>
+						<row>
+							<work-even>4</work-even>
+						</row>
+					</instruction>
+				</instruction-definitions>
+			</directives>
+		 </pattern>'''
+
+		 assertThat renderer.graph, is ([[K,K,P,P],[K,K,P,P]])
+	}
+
 	
 	@Test
 	public void asymmetricFlatChart() {

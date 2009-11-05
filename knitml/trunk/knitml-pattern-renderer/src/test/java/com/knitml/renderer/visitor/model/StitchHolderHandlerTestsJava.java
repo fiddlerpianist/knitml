@@ -12,17 +12,20 @@ import com.knitml.core.model.directions.block.Row;
 
 public class StitchHolderHandlerTestsJava extends AbstractRenderingContextTests {
 
-	@Before
-	public void before() {
-		renderingContext.getEngine().castOn(60);
+	@Override
+	protected String[] getConfigLocations() {
+		return new String[] {"applicationContext-patternRenderer-charting.xml"};
 	}
-
+	
 	@Test
-	public void developingTest() throws Exception {
-		processXml("<row xmlns='http://www.knitml.com/schema/pattern' number='1'>" +
-		"<knit>60</knit>" +
-		"<repeat until='end'><knit /></repeat></row>", Row.class);
-		assertThat (getOutput().trim(), endsWith ("Row 1: k60"));
+	public void flatChartWithWorkEven() throws Exception{
+		processXml (PATTERN_START_TAG + "<directives><instruction-definitions>" +
+		"<instruction id='inst1' label='Stockinette Stitch' shape='flat'>" + 
+						"<row><knit>2</knit><purl>2</purl></row>" +
+						"<row><work-even>4</work-even></row></instruction>" +
+				"</instruction-definitions></directives></pattern>");
+//
+//		 assertThat renderer.graph, is ([[K,K,P,P],[K,K,P,P]])
 	}
 	
 
