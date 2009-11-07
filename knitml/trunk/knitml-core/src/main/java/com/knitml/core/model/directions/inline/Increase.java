@@ -52,6 +52,9 @@ public class Increase implements DiscreteInlineOperation,
 	}
 
 	public StitchNature getStitchNatureProduced() {
+		if (type == null) {
+			return StitchNature.KNIT;
+		}
 		switch (type) {
 		case M1P:
 		case M1LP:
