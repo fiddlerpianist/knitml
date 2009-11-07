@@ -160,8 +160,7 @@ public class OperationSetHelper {
 					if (potentiallySimple) {
 						message = getMessage("operation.work-even-only");
 					} else {
-						message = getMessageHelper().getPluralizedMessage(
-								"operation.work-even", 1, StringUtils.EMPTY);
+						message = getMessage("operation.work-even-no-args");
 					}
 				} else {
 					throw new IllegalArgumentException(

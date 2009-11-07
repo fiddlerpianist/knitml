@@ -10,6 +10,7 @@ import org.apache.commons.collections15.bidimap.DualHashBidiMap;
 import org.apache.commons.lang.NotImplementedException;
 
 import com.knitml.core.common.KnittingShape;
+import com.knitml.core.common.LoopToWork;
 import com.knitml.core.common.Stack;
 import com.knitml.core.common.StitchesOnNeedle;
 import com.knitml.core.model.Pattern;
@@ -290,10 +291,14 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderKnit(Knit knit) {
+		ChartElement chartElement = ChartElement.K;
+		if (knit.getLoopToWork() == LoopToWork.TRAILING) {
+			chartElement = ChartElement.K_TW;
+		}
 		int times = knit.getNumberOfTimes() == null ? 1 : knit
 				.getNumberOfTimes();
 		for (int i = 0; i < times; i++) {
-			add(ChartElement.K);
+			add(chartElement);
 		}
 	}
 
@@ -315,10 +320,14 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderPurl(Purl purl) {
+		ChartElement chartElement = ChartElement.P;
+		if (purl.getLoopToWork() == LoopToWork.TRAILING) {
+			chartElement = ChartElement.P_TW;
+		}
 		int times = purl.getNumberOfTimes() == null ? 1 : purl
 				.getNumberOfTimes();
 		for (int i = 0; i < times; i++) {
-			add(ChartElement.P);
+			add(chartElement);
 		}
 	}
 
@@ -344,6 +353,9 @@ class ChartProducer implements Renderer {
 			switch (increase.getType()) {
 			case YO:
 				point = ChartElement.YO;
+				break;
+			case M1P:
+				point = ChartElement.M1P;
 				break;
 			default:
 				throw new RuntimeException(

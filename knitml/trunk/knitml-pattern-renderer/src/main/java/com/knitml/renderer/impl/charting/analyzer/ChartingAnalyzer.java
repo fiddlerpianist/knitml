@@ -193,7 +193,8 @@ public class ChartingAnalyzer {
 			// remove the "extra" stitch we created in order to start the row.
 			engine.reverseSlip(1);
 			// don't swallow the real stitch's nature
-			StitchNature stitchNature = engine.peekAtNextStitch().getCurrentNature();
+			StitchNature stitchNature = engine.peekAtNextStitch()
+					.getCurrentNature();
 			if (stitchNature == StitchNature.PURL) {
 				engine.purlTwoTogether();
 			} else {
@@ -303,20 +304,27 @@ public class ChartingAnalyzer {
 		// into an until value that represents TIMES. This is so we won't need
 		// the engine to chart.
 		List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
-		Repeat newRepeat = new Repeat();
-		newRepeat.setOperations(newOperations);
 
 		// gather current (pre-repeat) state
-//		int startingTotalStitches = engine
-//				.getTotalNumberOfStitchesOnCurrentNeedle();
-//		int startingStitchesRemaining = engine
-//				.getStitchesRemainingOnCurrentNeedle();
+		// int startingTotalStitches = engine
+		// .getTotalNumberOfStitchesOnCurrentNeedle();
+		// int startingStitchesRemaining = engine
+		// .getStitchesRemainingOnCurrentNeedle();
 		Object engineState = engine.save();
 		int originalChartWidth = this.currentRowInfo.getRowWidth();
 
 		// walk through all the instructions of this repeat ONCE to calculate
-		// the advance and increase count
+		// the advance and increase count. If we find a work-even, remove
+		// the repeat all together and completely expand the row
+		boolean contextualOperationFound = false;
 		for (InlineOperation operation : oldRepeat.getOperations()) {
+			if (!contextualOperationFound && operation instanceof WorkEven) {
+				contextualOperationFound = true;
+				// if we find out there are contextual operations, clear out newOperations
+				// and wait for the actual repeat. We'll gather that info then.
+				newOperations.clear();
+				break;
+			}
 			InlineOperation newOperation = handle(operation);
 			// if null is returned, we cannot chart, so return null up the chain
 			if (newOperation == null) {
@@ -324,17 +332,18 @@ public class ChartingAnalyzer {
 			}
 			newOperations.add(newOperation);
 		}
-//		int endingTotalStitches = engine
-//				.getTotalNumberOfStitchesOnCurrentNeedle();
-//		int endingStitchesRemaining = engine
-//				.getStitchesRemainingOnCurrentNeedle();
+		// int endingTotalStitches = engine
+		// .getTotalNumberOfStitchesOnCurrentNeedle();
+		// int endingStitchesRemaining = engine
+		// .getStitchesRemainingOnCurrentNeedle();
 
 		// reset the engine to the state before we repeated once
 		engine.restore(engineState);
 		this.currentRowInfo.setRowWidth(originalChartWidth);
 
-//		int advanceCount = startingStitchesRemaining - endingStitchesRemaining;
-//		int increaseCount = endingTotalStitches - startingTotalStitches;
+		// int advanceCount = startingStitchesRemaining -
+		// endingStitchesRemaining;
+		// int increaseCount = endingTotalStitches - startingTotalStitches;
 
 		int counter = 0;
 		switch (until) {
@@ -342,7 +351,10 @@ public class ChartingAnalyzer {
 			for (int i = 0; i < value; i++) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					handle(operation);
+					InlineOperation newOperation = handle(operation);
+					if (contextualOperationFound) {
+						newOperations.add(newOperation);
+					}
 				}
 			}
 			counter = value;
@@ -351,7 +363,10 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesRemainingInRow() > value) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					handle(operation);
+					InlineOperation newOperation = handle(operation);
+					if (contextualOperationFound) {
+						newOperations.add(newOperation);
+					}
 				}
 				counter++;
 			}
@@ -360,7 +375,10 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesRemainingInRow() > 0) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					handle(operation);
+					InlineOperation newOperation = handle(operation);
+					if (contextualOperationFound) {
+						newOperations.add(newOperation);
+					}
 				}
 				counter++;
 			}
@@ -369,7 +387,10 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesToGap() > value) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					handle(operation);
+					InlineOperation newOperation = handle(operation);
+					if (contextualOperationFound) {
+						newOperations.add(newOperation);
+					}
 				}
 				counter++;
 			}
@@ -378,7 +399,10 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesToNextMarker() > value) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					handle(operation);
+					InlineOperation newOperation = handle(operation);
+					if (contextualOperationFound) {
+						newOperations.add(newOperation);
+					}
 				}
 				counter++;
 			}
@@ -387,7 +411,10 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesToNextMarker() > 0) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					handle(operation);
+					InlineOperation newOperation = handle(operation);
+					if (contextualOperationFound) {
+						newOperations.add(newOperation);
+					}
 				}
 				counter++;
 			}
@@ -397,11 +424,18 @@ public class ChartingAnalyzer {
 					+ "] has not been properly coded");
 		}
 
-		newRepeat.setUntil(Until.TIMES);
-		newRepeat.setValue(counter);
-
 		currentlyRepeating = false;
-		return newRepeat;
+		if (contextualOperationFound) {
+			// make a stitch group out of all of the gathered operations if
+			// we are dealing with work even operations
+			return new StitchGroup(newOperations);
+		} else {
+			Repeat newRepeat = new Repeat();
+			newRepeat.setOperations(newOperations);
+			newRepeat.setUntil(Until.TIMES);
+			newRepeat.setValue(counter);
+			return newRepeat;
+		}
 	}
 
 	protected InlineOperation handle(StitchGroup stitchGroup) {
@@ -550,7 +584,7 @@ public class ChartingAnalyzer {
 			if (renderingContext.getEngine().getDirection() == Direction.BACKWARDS) {
 				currentStitchNature = StitchNature.reverse(currentStitchNature);
 			}
-			
+
 			// knit the knits and purl the purls
 			if (currentStitchNature == StitchNature.KNIT) {
 				newOperations.add(new Knit(1, object.getYarnIdRef(), null));

@@ -33,17 +33,19 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 				<instruction-definitions>
 					<instruction id="inst1" label="Stockinette Stitch" shape="flat"> 
 						<row> 
-							<knit>4</knit>
+							<purl>2</purl>
+							<knit loop-to-work="trailing">2</knit>
 						</row>
 						<row>
-							<purl>4</purl>
+							<knit loop-to-work="trailing">2</knit>
+							<purl>2</purl>
 						</row>
 					</instruction>
 				</instruction-definitions>
 			</directives>
 		 </pattern>'''
 		 
-		 assertThat renderer.graph, is ([[K,K,K,K],[K,K,K,K]])
+		 assertThat renderer.graph, is ([[P,P,K_TW,K_TW],[K,K,P_TW,P_TW]])
 	}
 
 	@Test
@@ -66,6 +68,30 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 
 		 assertThat renderer.graph, is ([[K,K,P,P],[K,K,P,P]])
 	}
+	
+	@Test
+	public void flatChartWithWorkEvenWithRepeat() {
+		processXml PATTERN_START_TAG + '''
+			<directives>
+				<instruction-definitions>
+					<instruction id="inst1" label="Stockinette Stitch" shape="flat"> 
+						<row> 
+							<knit>2</knit>
+							<purl>2</purl>
+						</row>
+						<row>
+							<repeat until="times" value="4">
+								<work-even/>
+							</repeat>
+						</row>
+					</instruction>
+				</instruction-definitions>
+			</directives>
+		 </pattern>'''
+
+		 assertThat renderer.graph, is ([[K,K,P,P],[K,K,P,P]])
+	}
+
 	
 	@Test
 	public void roundChart() {

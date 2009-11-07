@@ -8,6 +8,7 @@ import static com.knitml.renderer.chart.ChartElement.K2TOG_TBL;
 import static com.knitml.renderer.chart.ChartElement.K3TOG;
 import static com.knitml.renderer.chart.ChartElement.K_TW;
 import static com.knitml.renderer.chart.ChartElement.M1;
+import static com.knitml.renderer.chart.ChartElement.M1P;
 import static com.knitml.renderer.chart.ChartElement.NS;
 import static com.knitml.renderer.chart.ChartElement.P;
 import static com.knitml.renderer.chart.ChartElement.P2TOG;
@@ -33,6 +34,7 @@ public class TextArtSymbolProvider extends AbstractSymbolProvider {
 		symbols.put(P_TW, "\u01C2");
 		symbols.put(YO, "o");
 		symbols.put(M1, "M");
+		symbols.put(M1P, "I");
 		symbols.put(SSK, "\\");
 		symbols.put(K2TOG, "/");
 		symbols.put(SSP, "p");
