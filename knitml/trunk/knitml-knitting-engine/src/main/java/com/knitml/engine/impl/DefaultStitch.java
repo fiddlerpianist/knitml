@@ -56,10 +56,11 @@ public class DefaultStitch implements Stitch {
 		return new DefaultStitchMemento(this.history);
 	}
 
-	public void recordNature(StitchNature operation) {
+	public void recordNature(StitchNature nature) {
+		if (nature != null)
 		// at some point we may want to save the history for more than just the
 		// last operation, but we don't need to do that yet
-		this.history = operation;
+		this.history = nature;
 	}
 
 	public StitchNature getCurrentNature() {

@@ -3,6 +3,7 @@ package com.knitml.engine;
 import java.util.List;
 
 import com.knitml.core.common.NeedleStyle;
+import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.engine.common.CannotPutMarkerOnEndOfNeedleException;
 import com.knitml.engine.common.CannotWorkThroughMarkerException;
 import com.knitml.engine.common.NeedlesInWrongDirectionException;
@@ -48,7 +49,9 @@ public interface Needle extends Restorable {
 	void knitTwoTogether() throws NotEnoughStitchesException,
 			CannotWorkThroughMarkerException;
 
-	void increase(int numberOfStitches);
+	void increase(Increase increase);
+
+	void increase(int numberToIncrease);
 
 	/**
 	 * <p>

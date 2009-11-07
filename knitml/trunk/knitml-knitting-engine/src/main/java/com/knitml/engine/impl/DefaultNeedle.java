@@ -19,6 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.knitml.core.common.NeedleStyle;
+import com.knitml.core.model.directions.StitchNature;
+import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.engine.KnittingFactory;
 import com.knitml.engine.Marker;
 import com.knitml.engine.Needle;
@@ -844,11 +846,17 @@ public class DefaultNeedle implements Needle {
 	}
 
 	public void increase(int numberToIncrease) {
+		increase(new Increase(numberToIncrease));
+	}
+	
+	public void increase(Increase increase) {
 		// TODO increase should know whether it was a knitted or purled increase
+		int numberToIncrease = increase.getNumberOfTimes() == null ? 1 : increase.getNumberOfTimes();
+		StitchNature stitchNature = increase.getStitchNatureProduced();
 		if (direction == Direction.FORWARDS) {
 			for (int i = 0; i < numberToIncrease; i++) {
 				Stitch stitch = knittingFactory.createStitch();
-				stitch.recordNature(KNIT);
+				stitch.recordNature(stitchNature);
 				// this inserts the stitch before the cursor
 				stitchCursor.add(stitch);
 			}
@@ -856,7 +864,7 @@ public class DefaultNeedle implements Needle {
 		} else {
 			for (int i = 0; i < numberToIncrease; i++) {
 				Stitch stitch = knittingFactory.createStitch();
-				stitch.recordNature(reverse(KNIT));
+				stitch.recordNature(reverse(stitchNature));
 				stitchCursor.add(stitch);
 				stitchCursor.previous();
 			}

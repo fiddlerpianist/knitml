@@ -1163,7 +1163,8 @@ public class DefaultKnittingEngine implements KnittingEngine {
 
 		// we aren't imposed upon here because you can be imposed upon
 		// and have your needle index reset
-		getCurrentNeedle().increase(numberOfStitches);
+		// TODO would the StitchNature always be KNIT in this case? 
+		getCurrentNeedle().increase(new Increase(numberOfStitches));
 
 		if (countAsRow) {
 			try {
@@ -1420,9 +1421,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	}
 
 	public void increase(Increase increase) throws NotEnoughStitchesException {
-		int numberToIncrease = increase.getNumberOfTimes() == null ? 1
-				: increase.getNumberOfTimes();
-		doIncrease(numberToIncrease);
+		doIncrease(increase);
 		if (increase.getAdvanceCount() > 0) {
 			for (int i = 0; i < increase.getAdvanceCount(); i++) {
 				slip();
@@ -1430,28 +1429,29 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		}
 	}
 
-	private void doIncrease(int numberToIncrease)
+	private void doIncrease(Increase increase)
 			throws NotEnoughStitchesException {
-		getCurrentNeedle().increase(numberToIncrease);
-		imposeStitchesIfNecessary(numberToIncrease);
+		getCurrentNeedle().increase(increase);
+		imposeStitchesIfNecessary(increase.getNumberOfTimes() == null ? 1 : increase.getNumberOfTimes());
 	}
 
 	public void increase(IncreaseIntoNextStitch increase)
 			throws NotEnoughStitchesException {
-		doIncrease(increase.getIncreaseCount());
+		// TODO record knits vs. purls... right now will only show up as knits
+		doIncrease(new Increase(increase.getIncreaseCount()));
 		slip(increase.getAdvanceCount());
 	}
 
 	public void pickUpStitches(InlinePickUpStitches pickUpStitches) {
 		int numberToIncrease = pickUpStitches.getNumberOfTimes() == null ? 1
 				: pickUpStitches.getNumberOfTimes();
-		doIncrease(numberToIncrease);
+		doIncrease(new Increase(numberToIncrease));
 	}
 
 	public void castOn(InlineCastOn castOn) {
 		int numberToIncrease = castOn.getNumberOfStitches() == null ? 1
 				: castOn.getNumberOfStitches();
-		doIncrease(numberToIncrease);
+		doIncrease(new Increase(numberToIncrease));
 	}
 
 	public void imposeNeedle(Needle needleToImpose) {
