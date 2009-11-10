@@ -20,7 +20,7 @@ import com.knitml.core.model.header.Yarn;
 public class PatternRepository {
 
 	private static final Logger log = LoggerFactory
-	.getLogger(PatternRepository.class);
+			.getLogger(PatternRepository.class);
 
 	private Map<String, Yarn> yarns = new LinkedHashMap<String, Yarn>();
 	private Map<String, Needle> needles = new LinkedHashMap<String, Needle>();
@@ -126,18 +126,12 @@ public class PatternRepository {
 	}
 
 	public String getPatternMessage(String key) {
-		if (patternMessageSource != null) {
-			return patternMessageSource.getMessage(key, null, getLocale());
-		}
-		return null;
+		return patternMessageSource.getMessage(key, null, getLocale());
 	}
 
 	public String getPatternMessage(String key, String defaultValue) {
-		if (patternMessageSource != null) {
-			return patternMessageSource.getMessage(key, null, defaultValue,
-					getLocale());
-		}
-		return null;
+		return patternMessageSource.getMessage(key, null, defaultValue,
+				getLocale());
 	}
 
 	public void clearLocalInstructions() {

@@ -1,6 +1,7 @@
 package com.knitml.renderer.impl.helpers;
 
 import static com.knitml.core.common.KnittingShape.ROUND;
+import static com.knitml.validation.visitor.util.InstructionUtils.areRowsConsecutive;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Locale;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.IntRange;
 import org.apache.commons.lang.math.Range;
 import org.apache.commons.lang.text.StrTokenizer;
 import org.springframework.context.MessageSource;
@@ -46,9 +48,18 @@ public class MessageHelper {
 
 	public String getRowLabel(KnittingShape knittingShape, List<Integer> rows,
 			String yarnId, RenderingContext context) {
+		Yarn yarn = context.getPatternRepository().getYarn(yarnId);
+
 		String rowType = knittingShape == ROUND ? "round" : "row";
 		StringBuffer key = new StringBuffer("operation");
 		List<Object> values = new ArrayList<Object>();
+
+		// if rows looks like [3,4,5,...] where ... continues consecutive numbering scheme
+		if (areRowsConsecutive(rows) && rows.size() > 2) {
+			return buildRowRangeString(knittingShape, new IntRange(rows.get(0),
+					rows.get(rows.size() - 1)), yarn);
+		}
+
 		String rowNumberString = buildList(rows, true);
 		if (StringUtils.isBlank(rowNumberString)) {
 			key.append(".next-").append(rowType);
@@ -56,12 +67,9 @@ public class MessageHelper {
 			key.append(".").append(rowType);
 			values.add(rowNumberString);
 		}
-		if (yarnId != null) {
-			Yarn yarn = context.getPatternRepository().getYarn(yarnId);
-			if (yarn != null && yarn.getSymbol() != null) {
-				key.append(".with-yarn");
-				values.add(yarn.getSymbol());
-			}
+		if (yarn != null && yarn.getSymbol() != null) {
+			key.append(".with-yarn");
+			values.add(yarn.getSymbol());
 		}
 		return getPluralizedMessage(key.toString(), rows.size(), values
 				.toArray());
@@ -92,22 +100,26 @@ public class MessageHelper {
 		return sb.toString();
 	}
 
-	public String buildRowString(KnittingShape knittingShape, Range rowRange) {
-		String messageKey;
+	public String buildRowRangeString(KnittingShape knittingShape,
+			Range rowRange, Yarn yarn) {
+		StringBuffer key = new StringBuffer();
 		if (ROUND.equals(knittingShape)) {
-			messageKey = "operation.round";
+			key.append("operation.round.range");
 		} else {
-			messageKey = "operation.row";
+			key.append("operation.row.range");
 		}
-		if (rowRange.getMinimumInteger() == rowRange.getMaximumInteger()) {
-			return getPluralizedMessage(messageKey, 1, rowRange.getMinimumInteger());
-		} else {
-			int numberOfRows = rowRange.getMaximumInteger()
-					- rowRange.getMinimumInteger() + 1;
-			return getPluralizedMessage(messageKey + ".range", numberOfRows,
-					new Object[] { rowRange.getMinimumInteger(),
-							rowRange.getMaximumInteger() });
+		List<Object> values = new ArrayList<Object>(3);
+		values.add(rowRange.getMinimumInteger());
+		values.add(rowRange.getMaximumInteger());
+
+		if (yarn != null && yarn.getSymbol() != null) {
+			key.append(".with-yarn");
+			values.add(yarn.getSymbol());
 		}
+
+		int numberOfRows = rowRange.getMaximumInteger()
+				- rowRange.getMinimumInteger() + 1;
+		return getPluralizedMessageNoVarargs(key.toString(), numberOfRows, values.toArray());
 	}
 
 	public String getMessage(String code, Object... args) {
@@ -123,8 +135,9 @@ public class MessageHelper {
 		return this.messageSource.getMessage(code, args, defaultMessage,
 				this.locale);
 	}
-	
-	public String getPluralizedMessageNoVarargs(String code, double number, Object[] args) {
+
+	public String getPluralizedMessageNoVarargs(String code, double number,
+			Object[] args) {
 		if (args.length == 0) {
 			args = new Object[] { number };
 		}
@@ -149,7 +162,8 @@ public class MessageHelper {
 		return getPluralizedMessageNoVarargs(code, number, args);
 	}
 
-	public String getPluralizedMessage(String code, int[] numbers, Object... args) {
+	public String getPluralizedMessage(String code, int[] numbers,
+			Object... args) {
 		if (args.length == 0) {
 			args = ArrayUtils.toObject(numbers);
 		}

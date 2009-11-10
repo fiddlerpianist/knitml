@@ -96,6 +96,26 @@ class RowVisitorTests extends AbstractRenderingContextTests {
 	}
 	
 	@Test
+	void rowOneThroughFive() {
+		processXml '''
+		<instruction id="blah" xmlns="http://www.knitml.com/schema/pattern">
+			<row number="1 2 3 4 5"><knit>1</knit></row>
+		</instruction>
+		''', Instruction
+		assertThat output.trim(), is ('Rows 1-5: k1')
+	}
+
+	@Test
+	void rowOneThroughFiveWithA() {
+		processXml '''
+		<instruction id="blah" xmlns="http://www.knitml.com/schema/pattern">
+			<row number="1 2 3 4 5" yarn-ref="yarn1"><knit>1</knit></row>
+		</instruction>
+		''', Instruction
+		assertThat output.trim(), is ('Rows 1-5 (A): k1')
+	}
+	
+	@Test
 	void nextRowWithA() {
 		processXml '<row assign-row-number="false" xmlns="http://www.knitml.com/schema/pattern" yarn-ref="yarn1"><knit>1</knit></row>', Row
 		assertThat output.trim(), is ('Next row (A): k1')

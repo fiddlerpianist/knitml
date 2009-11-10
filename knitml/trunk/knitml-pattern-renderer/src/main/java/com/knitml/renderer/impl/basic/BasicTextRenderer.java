@@ -601,7 +601,7 @@ public class BasicTextRenderer implements Renderer {
 			InstructionInfo instructionInfo) {
 		String instructionIdentifier = instructionInfo.getLabel();
 		if (instructionIdentifier == null) {
-			instructionIdentifier = buildRowString(instructionInfo
+			instructionIdentifier = buildRowRangeString(instructionInfo
 					.getKnittingShape(), instructionInfo.getRowRange());
 		}
 		renderRepeatInstructionInternal(repeatInstruction,
@@ -663,8 +663,8 @@ public class BasicTextRenderer implements Renderer {
 		writeNewLine();
 	}
 
-	private String buildRowString(KnittingShape knittingShape, Range rowRange) {
-		return getMessageHelper().buildRowString(knittingShape, rowRange);
+	private String buildRowRangeString(KnittingShape knittingShape, Range rowRange) {
+		return getMessageHelper().buildRowRangeString(knittingShape, rowRange, null);
 	}
 
 	public void renderDecrease(Decrease decrease) {
