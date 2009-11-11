@@ -101,6 +101,19 @@ class LanguageILTests {
         assertXMLEqual expected, actual
 	}
 	
+	@Test
+	void longRound() {
+		String actual = toXml ("longRound")
+		String expected = '''<row type="round" long="true"/>'''
+        assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void longRow() {
+		String actual = toXml ("longRow")
+		String expected = '''<row long="true"/>'''
+        assertXMLEqual expected, actual
+	}
 	
 	static void main(args) {
 		JUnitCore.main(LanguageILTests.name)
