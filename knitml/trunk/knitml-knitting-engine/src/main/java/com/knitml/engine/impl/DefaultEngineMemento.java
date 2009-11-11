@@ -18,6 +18,7 @@ class DefaultEngineMemento {
 	private int currentNeedleIndex;
 	private boolean suppressDirectionSwitchingForNextRow;
 	private boolean castingOn;
+	private boolean longRow;
 	private StitchCoordinate startOfRow;
 	private List<Needle> activeNeedles;
 	private Set<Needle> allNeedles;
@@ -30,7 +31,7 @@ class DefaultEngineMemento {
 			Set<Needle> allNeedles, Needle imposedNeedle,
 			Map<String, Object> needleMementos, int currentNeedleIndex,
 			boolean suppressDirectionSwitchingForNextRow, boolean castingOn,
-			StitchCoordinate startOfRow) {
+			StitchCoordinate startOfRow, boolean longRow) {
 		this.direction = direction;
 		this.knittingShape = knittingShape;
 		this.totalRowsCompleted = totalRowsCompleted;
@@ -43,6 +44,7 @@ class DefaultEngineMemento {
 		this.suppressDirectionSwitchingForNextRow = suppressDirectionSwitchingForNextRow;
 		this.castingOn = castingOn;
 		this.startOfRow = startOfRow;
+		this.longRow = longRow;
 	}
 
 	public List<Needle> getActiveNeedles() {
@@ -93,4 +95,7 @@ class DefaultEngineMemento {
 		return imposedNeedle;
 	}
 
+	public boolean isLongRow() {
+		return longRow;
+	}
 }

@@ -3,10 +3,9 @@
  */
 package com.knitml.engine.impl;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-
-import static org.hamcrest.CoreMatchers.is;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -215,5 +214,4 @@ public abstract class FlatRowMultiNeedleTests extends FlatRowTests {
 		
 	}
 
-	
 }

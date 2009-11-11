@@ -15,6 +15,7 @@ import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.NotEndOfRowException;
 import com.knitml.engine.common.NotEnoughStitchesException;
 import com.knitml.engine.common.StitchesAlreadyOnNeedleException;
+import com.knitml.engine.common.WrongKnittingShapeException;
 
 /**
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)
@@ -278,4 +279,10 @@ public abstract class FlatRowTests {
 		}
 	}
 
+	@Test(expected=WrongKnittingShapeException.class)
+	public void knitLongRow() throws Exception {
+		knit(40);
+		engine.endRow();
+		engine.startNewLongRow();
+	}
 }

@@ -40,6 +40,7 @@ import com.knitml.engine.common.NotBetweenRowsException;
 import com.knitml.engine.common.NotEndOfRowException;
 import com.knitml.engine.common.NotEnoughStitchesException;
 import com.knitml.engine.common.StitchesAlreadyOnNeedleException;
+import com.knitml.engine.common.WrongKnittingShapeException;
 import com.knitml.engine.common.WrongNeedleTypeException;
 import com.knitml.engine.common.WrongNumberOfNeedlesException;
 import com.knitml.engine.settings.Direction;
@@ -206,10 +207,29 @@ public interface KnittingEngine extends Restorable {
 	 * 
 	 * @throws NotEndOfRowException
 	 *             if the engine is not at the end of a row
+	 * @throws NoActiveNeedlesException
+	 *             if there are currently no active needles in the work 
 	 * @throws NotEnoughStitchesException
+	 *             if there are currently zero stitches being worked
 	 */
 	void startNewRow() throws NotEndOfRowException, NoActiveNeedlesException,
 			NotEnoughStitchesException;
+
+	/**
+	 * Starts a new row.
+	 * 
+	 * @throws NotEndOfRowException
+	 *             if the engine is not at the end of a row
+	 * @throws NoActiveNeedlesException
+	 *             if there are currently no active needles in the work 
+	 * @throws NotEnoughStitchesException
+	 *             if there are currently zero stitches being worked
+	 * @throws WrongKnittingShapeException
+	 *             if the engine is not currently working in the round
+	 * 
+	 */
+	void startNewLongRow() throws NotEndOfRowException, NoActiveNeedlesException,
+			NotEnoughStitchesException, WrongKnittingShapeException;
 
 	/**
 	 * @throws NotEndOfRowException

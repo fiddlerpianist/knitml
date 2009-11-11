@@ -126,6 +126,50 @@ public class RoundRowMultiNeedleTests extends FlatRowMultiNeedleTests {
 		engine.endRow();
 	}
 
+	@Test
+	public void knitLongRowWithKnitTwoTogether() throws Exception {
+		knit(40);
+		engine.endRow();
+		engine.startNewLongRow();
+		knit(39);
+		// knit together last stitch from this round and first stitch from next round;
+		// resulting stitch should go on the last needle of the row
+		engine.knitTwoTogether();
+		engine.endRow();
+
+		engine.startNewRow();
+		assertEquals(9, engine.getStitchesRemainingOnCurrentNeedle());
+		knit(9);
+		engine.advanceNeedle();
+		assertEquals(10, engine.getStitchesRemainingOnCurrentNeedle());
+		knit(10);
+		engine.advanceNeedle();
+		assertEquals(20, engine.getStitchesRemainingOnCurrentNeedle());
+		knit(20);
+		engine.endRow();
+	}
+	
+	@Test
+	@Override
+	public void knitLongRow() throws Exception {
+		knit(40);
+		engine.endRow();
+		engine.startNewLongRow();
+		knit(45);
+		engine.endRow();
+
+		engine.startNewRow();
+		assertEquals(5, engine.getStitchesRemainingOnCurrentNeedle());
+		knit(5);
+		engine.advanceNeedle();
+		assertEquals(10, engine.getStitchesRemainingOnCurrentNeedle());
+		knit(10);
+		engine.advanceNeedle();
+		assertEquals(25, engine.getStitchesRemainingOnCurrentNeedle());
+		knit(25);
+		engine.endRow();
+	}
+	
 	@Override
 	protected void onSetUp() throws Exception {
 		engine.declareRoundKnitting();

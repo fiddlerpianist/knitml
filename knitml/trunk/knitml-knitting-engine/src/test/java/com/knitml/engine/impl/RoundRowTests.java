@@ -62,5 +62,15 @@ public class RoundRowTests extends FlatRowTests {
 		}
 		assertEquals(5, engine.getStitchesRemainingInRow());
 	}
+	
+	@Test
+	@Override
+	public void knitLongRow() throws Exception {
+		knit(40);
+		engine.endRow();
+		engine.startNewLongRow();
+		knit(45);
+		engine.endRow();
+	}
 
 }
