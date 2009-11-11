@@ -263,6 +263,31 @@ public class RowVisitorTests extends AbstractKnittingContextTests {
 		'''
 		assertThat engine.direction, is (BACKWARDS)
 	}
+
+	@Test(expected=WrongKnittingShapeException)
+	void attemptToKnitLongRowFlat() {
+		processXml '''
+			<row long="true">
+				<knit>25</knit>
+			</row>
+			<row>
+				<knit>20</knit>
+			</row>
+		'''
+	}
+	
+	@Test
+	void knitLongRow() {
+		engine.declareRoundKnitting()
+		processXml '''
+			<row long="true">
+				<knit>25</knit>
+			</row>
+			<row>
+				<knit>20</knit>
+			</row>
+		'''
+	}
 	
 	static void main(args) {
 		JUnitCore.main(RowVisitorTests.name)

@@ -45,11 +45,15 @@ public class RowVisitor extends AbstractPatternVisitor {
 			context.getEngine().resetRowNumber();
 			context.getPatternRepository().clearLocalInstructions();
 		}
-		boolean isCompleteRow = !row.isShortRow();
+		boolean isNotShortRow = !row.isShortRow();
 		// start a new row if it's a complete row (i.e. not a short row)
 		// and the work is currently between rows
-		if (isCompleteRow || context.getEngine().isBetweenRows()) {
-			context.getEngine().startNewRow();
+		if (isNotShortRow || context.getEngine().isBetweenRows()) {
+			if (row.isLongRow()) {
+				context.getEngine().startNewLongRow();
+			} else {
+				context.getEngine().startNewRow();
+			}
 		} else {
 			// artificially increment the row number, even though the row is not
 			// at the beginning
@@ -100,7 +104,7 @@ public class RowVisitor extends AbstractPatternVisitor {
 
 		manageRowNumbers(row, context);
 		visitChildren(row, context);
-		// clears any "fixed" row information which have been applied in this row
+		// clears any "fixed" row information which has been applied in this row
 		context.getPatternState().clearActiveRowsForInstructions();
 
 		
@@ -110,7 +114,7 @@ public class RowVisitor extends AbstractPatternVisitor {
 
 		// if we specify that this row is a complete row, OR if we get to the
 		// end of the row when we're finished, call endRow()
-		if (isCompleteRow || context.getEngine().isEndOfRow()) {
+		if (isNotShortRow || context.getEngine().isEndOfRow()) {
 			context.getEngine().endRow();
 		}
 	}
