@@ -242,17 +242,23 @@ public class BasicTextRenderer implements Renderer {
 		}
 		getWriterHelper().writeSentence(
 				getMessage("operation.arrange-stitches-on-needles",
-						buildList(needles)), false, getMessageHelper().shouldCapitalizeSentences());
+						buildList(needles)), false,
+				getMessageHelper().shouldCapitalizeSentences());
 		writeNewLine();
 		getWriterHelper().incrementIndent();
 		for (int i = 0; i < stitchesOnNeedles.size(); i++) {
 			StitchesOnNeedle stitchesOnNeedle = stitchesOnNeedles.get(i);
+			Integer stitchesOnThisNeedle = stitchesOnNeedle
+					.getNumberOfStitches();
+			if (stitchesOnThisNeedle == null || stitchesOnThisNeedle == 0) {
+				// don't write out the stitch count if there are 0 stitches on the needle
+				continue;
+			}
 			StringBuffer sb = new StringBuffer();
 			sb.append(StringUtils.capitalize(stitchesOnNeedle.getNeedle()
 					.toString()));
 			sb.append(": ");
-			sb.append(getNumberOfStitchesMessage(stitchesOnNeedle
-					.getNumberOfStitches(), true));
+			sb.append(getNumberOfStitchesMessage(stitchesOnThisNeedle, true));
 			writeLine(sb.toString());
 		}
 		getWriterHelper().decrementIndent();
@@ -400,7 +406,7 @@ public class BasicTextRenderer implements Renderer {
 				getMessageHelper().getPluralizedMessage(key.toString(),
 						numberToWork, values.toArray()));
 	}
-	
+
 	public void renderWorkEven(WorkEven workEven) {
 		StringBuffer key = new StringBuffer("operation.work-even");
 		List<Object> values = new ArrayList<Object>();
@@ -410,8 +416,10 @@ public class BasicTextRenderer implements Renderer {
 		values.add(numberToWork);
 
 		// get a "k"/"p" out of the way first
-		if (workEven.getNumberOfTimes() == null && workEven.getYarnIdRef() == null) {
-			SimpleInstruction operation = new SimpleInstruction(SimpleInstruction.Type.WORK_EVEN);
+		if (workEven.getNumberOfTimes() == null
+				&& workEven.getYarnIdRef() == null) {
+			SimpleInstruction operation = new SimpleInstruction(
+					SimpleInstruction.Type.WORK_EVEN);
 			getOperationSetHelper().writeOperation(operation);
 			return;
 		}
@@ -497,18 +505,22 @@ public class BasicTextRenderer implements Renderer {
 			throw new IllegalStateException(
 					"The working operation set must be a RepeatInstructionSet");
 		}
-		
+
 		// first pop the RepeatOperationSet off the top of the writing stack
 		getOperationSetHelper().removeCurrentOperationSet();
 		if (repeatOperationSet.size() == 0) {
-			// if there was nothing captured in the repeat operation set, there's nothing to do
+			// if there was nothing captured in the repeat operation set,
+			// there's nothing to do
 			return;
 		} else {
-			// add the repeat operation set to the end of its parent operation set (most likely a row operation set)
-			// only if there was anything captured in the repeat (some can be empty)
-			getOperationSetHelper().getCurrentOperationSet().addOperationSet(repeatOperationSet);
+			// add the repeat operation set to the end of its parent operation
+			// set (most likely a row operation set)
+			// only if there was anything captured in the repeat (some can be
+			// empty)
+			getOperationSetHelper().getCurrentOperationSet().addOperationSet(
+					repeatOperationSet);
 		}
-		
+
 		RepeatOperationSet currentRepeat = (RepeatOperationSet) repeatOperationSet;
 		String messageKey;
 		if (currentRepeat.size() == 1) {
@@ -529,7 +541,7 @@ public class BasicTextRenderer implements Renderer {
 			currentRepeat.setToEnd(true);
 		}
 		// remove the current repeat from the stack
-//		getOperationSetHelper().removeCurrentOperationSet();
+		// getOperationSetHelper().removeCurrentOperationSet();
 	}
 
 	public void beginRow() {
@@ -663,8 +675,10 @@ public class BasicTextRenderer implements Renderer {
 		writeNewLine();
 	}
 
-	private String buildRowRangeString(KnittingShape knittingShape, Range rowRange) {
-		return getMessageHelper().buildRowRangeString(knittingShape, rowRange, null);
+	private String buildRowRangeString(KnittingShape knittingShape,
+			Range rowRange) {
+		return getMessageHelper().buildRowRangeString(knittingShape, rowRange,
+				null);
 	}
 
 	public void renderDecrease(Decrease decrease) {
@@ -705,7 +719,8 @@ public class BasicTextRenderer implements Renderer {
 					.getCurrentOperationSet();
 			currentInstructionSet.setTail(message);
 		} else {
-			getWriterHelper().writeSentence(message, true, getMessageHelper().shouldCapitalizeSentences());
+			getWriterHelper().writeSentence(message, true,
+					getMessageHelper().shouldCapitalizeSentences());
 		}
 	}
 
@@ -734,9 +749,11 @@ public class BasicTextRenderer implements Renderer {
 
 	public void renderMessage(String messageToRender) {
 		if (getOperationSetHelper().isWithinOperationSet()) {
-			getOperationSetHelper().getCurrentOperationSet().setTail(messageToRender);
+			getOperationSetHelper().getCurrentOperationSet().setTail(
+					messageToRender);
 		} else {
-			getWriterHelper().writeSentence(messageToRender, false, getMessageHelper().shouldCapitalizeSentences());
+			getWriterHelper().writeSentence(messageToRender, false,
+					getMessageHelper().shouldCapitalizeSentences());
 		}
 	}
 
@@ -803,12 +820,12 @@ public class BasicTextRenderer implements Renderer {
 			throw new IllegalStateException(
 					"The working operation set must be a FromStitchHolder type of operation set");
 		}
-		((FromStitchHolderOperationSet)operationSet).setLabel(label);
+		((FromStitchHolderOperationSet) operationSet).setLabel(label);
 	}
 
 	public void renderDeclareFlatKnitting(DeclareFlatKnitting spec) {
-		getWriterHelper()
-				.writeSentence(getMessage("operation.knit-flat"), true, getMessageHelper().shouldCapitalizeSentences());
+		getWriterHelper().writeSentence(getMessage("operation.knit-flat"),
+				true, getMessageHelper().shouldCapitalizeSentences());
 	}
 
 	public void renderDeclareRoundKnitting() {
@@ -826,7 +843,8 @@ public class BasicTextRenderer implements Renderer {
 		doRenderPickUpStitches(pickUpStitches, true);
 	}
 
-	protected void doRenderPickUpStitches(PickUpStitches pickUpStitches, boolean writeSentenceByDefault) {
+	protected void doRenderPickUpStitches(PickUpStitches pickUpStitches,
+			boolean writeSentenceByDefault) {
 		StringBuffer key = new StringBuffer("operation.pick-up-stitches");
 		List<Object> args = new ArrayList<Object>();
 		int numberOfTimes = defaultToOne(pickUpStitches.getNumberOfTimes());
@@ -842,9 +860,10 @@ public class BasicTextRenderer implements Renderer {
 		}
 		getOperationSetHelper().writeOperation(
 				getMessageHelper().getPluralizedMessageNoVarargs(
-						key.toString(), numberOfTimes, args.toArray()), writeSentenceByDefault);
+						key.toString(), numberOfTimes, args.toArray()),
+				writeSentenceByDefault);
 	}
-	
+
 	public void renderBindOff(BindOff bindOff) {
 		StringBuffer key = new StringBuffer("operation.bind-off");
 		List<Object> args = new ArrayList<Object>();
@@ -969,7 +988,8 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	private void writeSentence(String text) {
-		getWriterHelper().writeSentence(text, true, getMessageHelper().shouldCapitalizeSentences());
+		getWriterHelper().writeSentence(text, true,
+				getMessageHelper().shouldCapitalizeSentences());
 	}
 
 	private void writeLine(String text) {
@@ -1010,7 +1030,8 @@ public class BasicTextRenderer implements Renderer {
 		this.pluralRuleFactory = pluralRuleFactory;
 	}
 
-	public Instruction evaluateInstruction(Instruction instruction, RepeatInstruction repeatInstruction) {
+	public Instruction evaluateInstruction(Instruction instruction,
+			RepeatInstruction repeatInstruction) {
 		// returning null tells the controller that we don't want to superimpose
 		// a different Instruction than the one that we were given
 		return null;
