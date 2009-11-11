@@ -27,6 +27,7 @@ public class Row implements BlockOperation, CompositeOperation {
 	protected String yarnIdRef;
 	protected boolean informSide;
 	protected boolean shortRow = false;
+	protected boolean longRow = false;
 	protected Side side;
 	protected Boolean assignRowNumber = true;
 	protected boolean resetRowCount = false;
@@ -150,6 +151,9 @@ public class Row implements BlockOperation, CompositeOperation {
 		if (isShortRow()) {
 			sb.append("Short ");
 		}
+		if (isLongRow()) {
+			sb.append("Long ");
+		}
 		if (getType() == KnittingShape.ROUND) {
 			sb.append("Round ");
 		} else {
@@ -165,6 +169,12 @@ public class Row implements BlockOperation, CompositeOperation {
 		sb.append(": ");
 		sb.append(getOperations());
 		return sb.toString();
+	}
+	public boolean isLongRow() {
+		return longRow;
+	}
+	public void setLongRow(boolean longRow) {
+		this.longRow = longRow;
 	}
 
 }

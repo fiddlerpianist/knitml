@@ -721,6 +721,11 @@
           the row. A row that is short but is not marked that way is not valid.</xsd:documentation>
       </xsd:annotation>
     </xsd:attribute>
+    <xsd:attribute name="long" type="xsd:boolean" default="false">
+      <xsd:annotation>
+        <xsd:documentation>A row is long if the stitch operations it defines run into the next row.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
     <xsd:attribute name="assign-row-number" type="xsd:boolean">
       <xsd:annotation>
         <xsd:documentation>Informs a pre-processor that it should assign a row number to the 'row'

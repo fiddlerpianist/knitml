@@ -105,6 +105,7 @@ class RowsAndInstructionsTests {
 				<directions>
 					<row type="round" number="1 3 4 5"
 						assign-row-number="false" short="true"
+                        long="true"
 						inform-side="true" yarn-ref="yarn1"
 						reset-row-count="true" side="right" />
 					<row number="2"/>
@@ -119,6 +120,7 @@ class RowsAndInstructionsTests {
 			assertThat numbers, is (expected)
 			assertThat assignRowNumber, is (false)
 			assertThat shortRow, is (true)
+			assertThat longRow, is (true)
 			assertThat informSide, is (true)
 			assertThat yarnIdRef, is ('yarn1')
 			assertThat resetRowCount, is (true)
@@ -130,6 +132,7 @@ class RowsAndInstructionsTests {
 			assertThat numbers, is (expected)
 			assertThat assignRowNumber, is (true)
 			assertThat shortRow, is (false)
+			assertThat longRow, is (false)
 			assertThat informSide, is (false)
 			assertThat yarnIdRef, is (null)
 			assertThat resetRowCount, is (false)

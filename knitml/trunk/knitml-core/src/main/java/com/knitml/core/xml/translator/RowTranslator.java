@@ -68,6 +68,9 @@ public class RowTranslator implements IMarshaller, IUnmarshaller, IAliasable {
 		if (row.isShortRow()) {
 			ctx.attribute(this.index, "short", Boolean.TRUE.toString());
 		}
+		if (row.isLongRow()) {
+			ctx.attribute(this.index, "long", Boolean.TRUE.toString());
+		}
 		if (row.getSide() != null) {
 			ctx
 					.attribute(this.index, "side", EnumUtils.fromEnum(row
@@ -158,6 +161,9 @@ public class RowTranslator implements IMarshaller, IUnmarshaller, IAliasable {
 		row.setShortRow(false);
 		if (ctx.hasAttribute(null, "short")) {
 			row.setShortRow(ctx.attributeBoolean(null, "short"));
+		}
+		if (ctx.hasAttribute(null, "long")) {
+			row.setLongRow(ctx.attributeBoolean(null, "long"));
 		}
 		row.setSide(EnumUtils.toEnum(getAttribute(ctx, "side"), Side.class));
 		row.setResetRowCount(false);
