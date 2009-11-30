@@ -1,65 +1,65 @@
-pattern 'en' {
-    directives {
-    	instructionDefinitions {
-            inlineInstruction 'cross-2-over-2' [label:'2/2 LC']  { cross 2 inFrontOf 2, k4 }
-            inlineInstruction 'cross-2-behind-2'  [label:'2/2 RC']  { cross 2 behind 2, k4 }
+Pattern "en" {
+    Directives {
+    	InstructionDefinitions {
+            InlineInstruction 'cross-2-over-2' [label:"2/2 LC"]  { cross 2 inFrontOf 2, k4 }
+            InlineInstruction 'cross-2-behind-2'  [label:"2/2 RC"]  { cross 2 behind 2, k4 }
     	}
     }
-	generalInformation {
-		name: 'Color Sampler Swatch'
-		description: 'A basic 2-color swatch sampler'
-		dimensions
-		gauge 'stockinette' {
-			stitchGauge:  5 stitchesPerInch
-			   rowGauge:  7 rowsPerInch
+	GeneralInformation {
+		Name: "Color Sampler Swatch"
+		Description: "A basic 2-color swatch sampler"
+		Dimensions
+		Gauge 'stockinette' {
+			StitchGauge:  5 stitchesPerInch
+			RowGauge:  7 rowsPerInch
 		}
-		techniques {
-			technique: 'stranded knitting'
-			technique: 'cabling'
+		Techniques {
+			Technique: "stranded knitting"
+			Technique: "cabling"
 		}
-		author {
-			firstName: 'Jonathan'
-			lastName:  'Whitall'
+		Author {
+			FirstName: "Jonathan"
+			LastName:  "Whitall"
 		}
-		copyrightInfo
+		CopyrightInfo
 	}
-	supplies {
-		yarns {
-			yarnType 'wool' [brand:'Brown Sheep',category:'Lamb\'s Pride',weight:'worsted']
-			yarnType 'cotton' [brand:'Cotton Classic',weight:'worsted']
-			yarn 'MC' [label:'Main Color',symbol:'MC',typeref:'wool']  { color 'red' }
-			yarn 'CC' [label:'Contrast Color',symbol:'CC',typeref:'cotton']  { color 'yellow' }
+	Supplies {
+		Yarns {
+			YarnType 'wool' [brand:"Brown Sheep",category:"Lamb's Pride",weight:"worsted"]
+			YarnType 'cotton' [brand:"Cotton Classic",weight:"worsted"]
+			Yarn 'MC' [label:"Main Color",symbol:"MC",typeref:'wool']  { color "red" }
+			Yarn 'CC' [label:"Contrast Color",symbol:"CC",typeref:'cotton']  { color "yellow" }
 		}
-		needles {
-			needleType 'size1' { size: US 1 }
-			needle 'needle1' [label:'Needle 1',typeref:'size1']
+		Needles {
+			NeedleType 'size1' { size: US 1 }
+			Needle 'needle1' [label:"Needle 1",typeref:'size1']
 		}
-		accessories
+		Accessories
 	}
-	directions {
-		instructionGroup 'start' {
-			useNeedle 'needle1'
-			castOn 11 'long-tail'
+	Directions {
+		InstructionGroup 'start' {
+			UseNeedle 'needle1'
+			CastOn 11 'long-tail'
 		}
-		instructionGroup 'knit-swatch' {
-			section {
-				row: k5 'MC', k1 'CC', k5 'MC'
-				row: k4 'MC', k3 'CC', k4 'MC'
-				row: k3 'MC', k5 'CC', k3 'MC'
-				row: k2 'MC', k7 'CC', k2 'MC'
-				row: k1 'MC', k9 'CC', k1 'MC'
-				row 'MC': k5, m1a, k6
+		InstructionGroup 'knit-swatch' {
+			Section {
+				Row: k5 'MC', k1 'CC', k5 'MC'
+				Row: k4 'MC', k3 'CC', k4 'MC'
+				Row: k3 'MC', k5 'CC', k3 'MC'
+				Row: k2 'MC', k7 'CC', k2 'MC'
+				Row: k1 'MC', k9 'CC', k1 'MC'
+				Row 'MC': k5, m1a, k6
 			}
-			section resetRowCount {
-				instruction 'cable-repeat' {
-					row [1,2,3,4,6,7,8,9] 'MC' { p to end }
-					row 5 'MC'  { p4, ref 'cross-2-over-2', p4 }
-					row 10 'MC' { p4, ref 'cross-2-behind-2', p4 }
+			Section resetRowCount {
+				Instruction 'cable-repeat' {
+					Row [1,2,3,4,6,7,8,9] 'MC': p to end
+					Row 5 'MC': p4, ref 'cross-2-over-2', p4
+					Row 10 'MC': p4, ref 'cross-2-behind-2', p4
 				}
-				repeat 'cable-repeat' 2 additionalTimes
+				Repeat 'cable-repeat' 2 additionalTimes
 			}
-			section {
-				row 'MC' doNotAssignNumber: bindOff allStitches
+			Section {
+				NextRow 'MC': bo all sts
 			}
 		}
 	}
