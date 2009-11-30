@@ -61,6 +61,26 @@ class LanguageILTests {
 	}
 
 	@Test
+	void kTo2BeforeEnd() {
+		String actual = toXml ("k to 2 sts before end")
+		String expected = '''
+			<repeat until="before-end" value="2">
+				<knit/>
+			</repeat>'''
+        assertXMLEqual expected, actual
+	}
+
+	@Test
+	void kTo2FromEnd() {
+		String actual = toXml ("k to 2 sts from end")
+		String expected = '''
+			<repeat until="before-end" value="2">
+				<knit/>
+			</repeat>'''
+        assertXMLEqual expected, actual
+	}
+
+	@Test
 	void kWithYarnFromHolder() {
 		String actual = toXml ("k 2 sts with 'A' from holder 'sh1'")
 		String expected = '''

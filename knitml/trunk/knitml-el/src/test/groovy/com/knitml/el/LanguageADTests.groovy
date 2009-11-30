@@ -32,16 +32,6 @@ class LanguageADTests {
 	}
 	
 	@Test
-	void kToEnd() {
-		String actual = toXml ("k to 2 sts before end")
-		String expected = '''
-			<repeat until="before-end" value="2">
-				<knit/>
-			</repeat>'''
-        assertXMLEqual expected, actual
-	}
-
-	@Test
 	void applyNextRow() {
 		String actual = toXml ("applyNextRow 'my'")
 		String expected = '''<apply-next-row instruction-ref="my"/>'''
