@@ -2,7 +2,12 @@ package com.knitml.core.common;
 
 public class ValidationException extends RuntimeException {
 	
-	private Object objectInError;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+private Object objectInError;
 
 	public Object getObjectInError() {
 		return objectInError;

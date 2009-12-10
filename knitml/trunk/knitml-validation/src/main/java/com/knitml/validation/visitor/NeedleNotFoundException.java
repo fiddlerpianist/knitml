@@ -2,6 +2,11 @@ package com.knitml.validation.visitor;
 
 public class NeedleNotFoundException extends RuntimeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public NeedleNotFoundException() {
 		// TODO Auto-generated constructor stub
 	}

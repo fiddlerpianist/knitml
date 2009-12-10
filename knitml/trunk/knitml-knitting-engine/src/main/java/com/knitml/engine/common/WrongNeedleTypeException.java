@@ -3,6 +3,11 @@ package com.knitml.engine.common;
 
 public class WrongNeedleTypeException extends KnittingEngineException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public WrongNeedleTypeException() {
 		super();
 	}

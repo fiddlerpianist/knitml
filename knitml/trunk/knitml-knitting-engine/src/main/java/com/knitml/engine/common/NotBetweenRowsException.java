@@ -2,6 +2,11 @@ package com.knitml.engine.common;
 
 public class NotBetweenRowsException extends KnittingEngineException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public NotBetweenRowsException() {
 	}
 

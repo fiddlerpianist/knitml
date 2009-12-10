@@ -2,6 +2,11 @@ package com.knitml.core.common;
 
 public class VersionNotSupportedException extends RuntimeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public VersionNotSupportedException() {
 		super();
 	}

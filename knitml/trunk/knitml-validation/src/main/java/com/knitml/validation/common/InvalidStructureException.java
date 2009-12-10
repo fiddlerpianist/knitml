@@ -4,6 +4,11 @@ import com.knitml.engine.common.KnittingEngineException;
 
 public class InvalidStructureException extends KnittingEngineException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public InvalidStructureException() {
 		// TODO Auto-generated constructor stub
 	}

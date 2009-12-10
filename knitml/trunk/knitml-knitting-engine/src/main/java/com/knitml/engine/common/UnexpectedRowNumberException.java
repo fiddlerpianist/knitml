@@ -2,6 +2,11 @@ package com.knitml.engine.common;
 
 public class UnexpectedRowNumberException extends KnittingEngineException {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private int expected;
 	private int actual;
 

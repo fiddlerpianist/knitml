@@ -2,6 +2,11 @@ package com.knitml.engine.common;
 
 public class StitchesAlreadyOnNeedleException extends KnittingEngineException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public StitchesAlreadyOnNeedleException() {
 		super();
 		// TODO Auto-generated constructor stub

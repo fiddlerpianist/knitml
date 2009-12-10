@@ -2,6 +2,11 @@ package com.knitml.engine.common;
 
 public class NoGapFoundException extends KnittingEngineException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public NoGapFoundException() {
 		super();
 		// TODO Auto-generated constructor stub
