@@ -13,6 +13,11 @@ import org.apache.commons.collections15.bidimap.DualHashBidiMap;
 
 public class USNeedleSize extends DerivedUnit<Length> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static USNeedleSize instance = new USNeedleSize(); 
 	
 	public static USNeedleSize getInstance() {
@@ -85,6 +90,11 @@ public class USNeedleSize extends DerivedUnit<Length> {
 
 	private class USToStandardConverter extends UnitConverter {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		@Override
 		public double convert(double x) throws ConversionException {
 			return usToStandardConversion.get(x);
@@ -103,6 +113,11 @@ public class USNeedleSize extends DerivedUnit<Length> {
 	}
 
 	private class StandardToUSConverter extends UnitConverter {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		public double convert(double x) throws ConversionException {

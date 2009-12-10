@@ -9,6 +9,11 @@ import javax.measure.unit.Unit;
 
 public class KnittingMeasure<Q extends Quantity> extends Measure<String, Q> {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	static {
 		@SuppressWarnings("unused")
 		// to initialize the units specific to here
