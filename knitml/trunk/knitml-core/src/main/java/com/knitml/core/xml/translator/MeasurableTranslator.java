@@ -46,7 +46,7 @@ public class MeasurableTranslator implements IMarshaller, IUnmarshaller,
 	/**
 	 * @see org.jibx.runtime.IMarshaller#isExtension(int)
 	 */
-	public boolean isExtension(int index) {
+	public boolean isExtension(String index) {
 		return false;
 	}
 
@@ -54,6 +54,7 @@ public class MeasurableTranslator implements IMarshaller, IUnmarshaller,
 	 * @see org.jibx.runtime.IMarshaller#marshal(java.lang.Object,
 	 *      org.jibx.runtime.IMarshallingContext)
 	 */
+	@SuppressWarnings("unchecked")
 	public void marshal(Object obj, IMarshallingContext ictx)
 			throws JiBXException {
 

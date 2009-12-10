@@ -57,16 +57,10 @@
         </structure>
     </mapping>
     <mapping name="yarn-type" class="com.knitml.core.model.header.YarnType" value-style="attribute">
-        <value name="id" field="id" ident="def"/>
-        <value name="brand" field="brand" usage="optional"/>
-        <value name="category" field="category" usage="optional"/>
-        <value name="subcategory" field="subcategory" usage="optional"/>
-        <value name="catalog-id" field="catalogId" usage="optional"/>
-        <value name="weight" field="weight" usage="optional"/>
         <structure name="ball-length" field="ballLength" usage="optional"
             type="com.knitml.core.units.KnittingMeasure"
-            marshaller="com.knitml.core.xml.translator.MeasurableTranslator"
-            unmarshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+            marshaller="com.knitml.core.xml.translator.BallLengthMeasurableTranslator"
+            unmarshaller="com.knitml.core.xml.translator.BallLengthMeasurableTranslator"
             ns="http://www.knitml.com/schema/pattern"/>
         <structure name="ball-weight" field="ballWeight" usage="optional"
             type="com.knitml.core.units.KnittingMeasure"
@@ -79,13 +73,14 @@
             unmarshaller="com.knitml.core.xml.translator.MeasurableTranslator"
             ns="http://www.knitml.com/schema/pattern"/>
         <structure name="availability" usage="optional"/>
+        <value name="id" field="id" ident="def"/>
+        <value name="brand" field="brand" usage="optional"/>
+        <value name="category" field="category" usage="optional"/>
+        <value name="subcategory" field="subcategory" usage="optional"/>
+        <value name="catalog-id" field="catalogId" usage="optional"/>
+        <value name="weight" field="weight" usage="optional"/>
     </mapping>
     <mapping name="yarn" class="com.knitml.core.model.header.Yarn" value-style="attribute" post-set="afterPropertiesSet">
-        <value name="id" field="id" ident="def"/>
-        <value name="symbol" field="symbol" usage="optional"/>
-        <value name="message-key" field="messageKey" usage="optional"/>
-        <value name="label" field="label" usage="optional"/>
-        <value name="typeref" field="yarnType" ident="ref"/>
         <structure name="total-length" field="totalLength" usage="optional"
             type="com.knitml.core.units.KnittingMeasure"
             marshaller="com.knitml.core.xml.translator.MeasurableTranslator"
@@ -102,6 +97,11 @@
             <value name="description" field="description" usage="optional"/>
             <value name="number" field="number" usage="optional"/>
         </structure>
+        <value name="id" field="id" ident="def"/>
+        <value name="symbol" field="symbol" usage="optional"/>
+        <value name="message-key" field="messageKey" usage="optional"/>
+        <value name="label" field="label" usage="optional"/>
+        <value name="typeref" field="yarnType" ident="ref"/>
     </mapping>
     <mapping name="needle-type" class="com.knitml.core.model.header.NeedleType"
         value-style="attribute">

@@ -42,7 +42,7 @@ public class RepeatInstructionTranslator implements IMarshaller, IUnmarshaller,
 	/**
 	 * @see org.jibx.runtime.IMarshaller#isExtension(int)
 	 */
-	public boolean isExtension(int index) {
+	public boolean isExtension(String index) {
 		return false;
 	}
 

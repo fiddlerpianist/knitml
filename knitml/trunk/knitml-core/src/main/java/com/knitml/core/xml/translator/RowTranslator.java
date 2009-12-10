@@ -37,7 +37,7 @@ public class RowTranslator implements IMarshaller, IUnmarshaller, IAliasable {
 	/**
 	 * @see org.jibx.runtime.IMarshaller#isExtension(int)
 	 */
-	public boolean isExtension(int index) {
+	public boolean isExtension(String index) {
 		return false;
 	}
 

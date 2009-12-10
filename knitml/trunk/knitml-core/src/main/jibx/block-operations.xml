@@ -29,8 +29,8 @@
         unmarshaller="com.knitml.core.xml.translator.RepeatInstructionTranslator"
         ns="http://www.knitml.com/schema/pattern"/>
     <mapping name="until-measures" class="com.knitml.core.units.KnittingMeasure"
-        marshaller="com.knitml.core.xml.translator.MeasurableTranslator"
-        unmarshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+        marshaller="com.knitml.core.xml.translator.UntilMeasuresMeasurableTranslator"
+        unmarshaller="com.knitml.core.xml.translator.UntilMeasuresMeasurableTranslator"
         ns="http://www.knitml.com/schema/pattern"/>
     <mapping name="row"
         class="com.knitml.core.model.directions.block.Row"

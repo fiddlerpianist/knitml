@@ -33,7 +33,7 @@ public class ForEachRowInInstructionTranslator implements IMarshaller, IUnmarsha
 	/**
 	 * @see org.jibx.runtime.IMarshaller#isExtension(int)
 	 */
-	public boolean isExtension(int index) {
+	public boolean isExtension(String index) {
 		return false;
 	}
 

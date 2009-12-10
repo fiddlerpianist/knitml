@@ -18,6 +18,7 @@
   </repositories>
   <build>
     <plugins>
+    <!-- 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
@@ -30,6 +31,7 @@
           </execution>
         </executions>
       </plugin>
+       -->
       <!--<plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -44,7 +46,7 @@
       <plugin>
         <groupId>org.jibx</groupId>
         <artifactId>maven-jibx-plugin</artifactId>
-        <version>1.1.6a</version>
+        <version>1.2.1</version>
         <configuration>
           <includes>
             <includes>pattern-binding.xml</includes>
@@ -64,7 +66,7 @@
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-all</artifactId>
-      <version>1.5.4</version>
+      <version>1.6.7</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -104,12 +106,12 @@
     <dependency>
       <groupId>org.jibx</groupId>
       <artifactId>jibx-bind</artifactId>
-      <version>1.1.6a</version>
+      <version>1.2.1</version>
     </dependency>
     <dependency>
       <groupId>org.jibx</groupId>
       <artifactId>jibx-extras</artifactId>
-      <version>1.1.6a</version>
+      <version>1.2.1</version>
     </dependency>
     <dependency>
       <groupId>xmlunit</groupId>
