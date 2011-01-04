@@ -14,7 +14,6 @@ import com.knitml.el.GroovyKnitProgram
 
 import static org.custommonkey.xmlunit.XMLAssert.*
 
-@RunWith(JUnit4ClassRunner)
 class SampleConversionTests {
 	
 	@BeforeClass
@@ -53,7 +52,4 @@ class SampleConversionTests {
         return new BufferedReader(new InputStreamReader(patternResourceStream))
 	}
 	
-	static void main(args) {
-		JUnitCore.main(SampleConversionTests.name)
-	}
 }

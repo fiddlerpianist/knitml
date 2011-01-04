@@ -2,9 +2,6 @@ package com.knitml.el
 
 import org.junit.Test
 import org.junit.BeforeClass
-import org.junit.runner.RunWith
-import org.junit.runner.JUnitCore
-import org.junit.internal.runners.JUnit4ClassRunner
 import org.custommonkey.xmlunit.XMLUnit
 
 import com.knitml.core.common.Parameters
@@ -13,7 +10,6 @@ import com.knitml.el.GroovyKnitProgram
 import static org.custommonkey.xmlunit.XMLAssert.*
 import static com.knitml.el.KelUtils.toXml
 
-@RunWith(JUnit4ClassRunner)
 class LanguageWZTests {
 	
 	@BeforeClass
@@ -26,52 +22,49 @@ class LanguageWZTests {
 	void workEven() {
 		String actual = toXml ("work even")
 		String expected = '<work-even/>'
-        assertXMLEqual expected, actual
+		assertXMLEqual expected, actual
 	}
 	
 	@Test
 	void workEvenFiveStitches() {
 		String actual = toXml ("work even 5 sts")
 		String expected = '<work-even>5</work-even>'
-        assertXMLEqual expected, actual
+		assertXMLEqual expected, actual
 	}
 	
 	@Test
 	void workEvenForNextFiveStitches() {
 		String actual = toXml ("work even for next 5 sts")
 		String expected = '<work-even>5</work-even>'
-        assertXMLEqual expected, actual
+		assertXMLEqual expected, actual
 	}
 	
 	@Test
 	void workNextFiveStitchesEvenly() {
 		String actual = toXml ("work next 5 sts evenly")
 		String expected = '<work-even>5</work-even>'
-        assertXMLEqual expected, actual
+		assertXMLEqual expected, actual
 	}
-
+	
 	@Test
 	void workEvenToEnd() {
 		String actual = toXml ("work even to end")
 		String expected = '<repeat until="end"><work-even/></repeat>'
-        assertXMLEqual expected, actual
+		assertXMLEqual expected, actual
 	}
-
+	
 	@Test
 	void workEvenToThreeBeforeEnd() {
 		String actual = toXml ("work even to 3 sts before end")
 		String expected = '<repeat until="before-end" value="3"><work-even/></repeat>'
-        assertXMLEqual expected, actual
+		assertXMLEqual expected, actual
 	}
+	
 	@Test
 	void workEvenToThreeBeforeEndStitchHolder() {
 		// make sure that nonsense noise is filtered out
 		String actual = toXml ("work even to 3 sts before end to holder next")
 		String expected = '<repeat until="before-end" value="3"><work-even/></repeat>'
-        assertXMLEqual expected, actual
-	}
-	
-	static void main(args) {
-		JUnitCore.main(LanguageWZTests.name)
+		assertXMLEqual expected, actual
 	}
 }

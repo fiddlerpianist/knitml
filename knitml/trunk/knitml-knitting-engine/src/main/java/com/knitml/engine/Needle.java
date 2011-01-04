@@ -39,7 +39,7 @@ public interface Needle extends Restorable {
 			throws CannotPutMarkerOnEndOfNeedleException;
 
 	Marker removeMarker() throws NoMarkerFoundException;
-	
+
 	Stitch removeNextStitch() throws NotEnoughStitchesException;
 
 	int getStitchesToGap();
@@ -119,8 +119,15 @@ public interface Needle extends Restorable {
 
 	void addStitchesToEnd(List<Stitch> stitchesToAdd);
 
+	/**
+	 * Adds the given stitch to the working point of the current needle. Meant
+	 * primarily as an interface for needle implementations to share stitches
+	 * with each other and not meant to be an API.
+	 * 
+	 * @return
+	 */
 	void addStitch(Stitch stitchToAdd);
-	
+
 	/**
 	 * Returns the current view of stitches on the needle. The view is adjusted
 	 * for either forwards or backwards needle direction, so that the sequence

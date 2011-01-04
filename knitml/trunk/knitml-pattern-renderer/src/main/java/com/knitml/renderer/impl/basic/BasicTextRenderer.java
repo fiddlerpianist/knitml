@@ -25,6 +25,7 @@ import com.knitml.core.common.SlipDirection;
 import com.knitml.core.common.StitchesOnNeedle;
 import com.knitml.core.common.ValidationException;
 import com.knitml.core.model.Pattern;
+import com.knitml.core.model.directions.Operation;
 import com.knitml.core.model.directions.block.CastOn;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
 import com.knitml.core.model.directions.block.Instruction;
@@ -42,11 +43,13 @@ import com.knitml.core.model.directions.inline.CrossStitches;
 import com.knitml.core.model.directions.inline.Decrease;
 import com.knitml.core.model.directions.inline.FromStitchHolder;
 import com.knitml.core.model.directions.inline.Increase;
+import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
 import com.knitml.core.model.directions.inline.Knit;
 import com.knitml.core.model.directions.inline.NoStitch;
+import com.knitml.core.model.directions.inline.PassPreviousStitchOver;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
@@ -251,7 +254,8 @@ public class BasicTextRenderer implements Renderer {
 			Integer stitchesOnThisNeedle = stitchesOnNeedle
 					.getNumberOfStitches();
 			if (stitchesOnThisNeedle == null || stitchesOnThisNeedle == 0) {
-				// don't write out the stitch count if there are 0 stitches on the needle
+				// don't write out the stitch count if there are 0 stitches on
+				// the needle
 				continue;
 			}
 			StringBuffer sb = new StringBuffer();
@@ -687,6 +691,11 @@ public class BasicTextRenderer implements Renderer {
 		renderSequentialOperation("operation.decrease." + style, times);
 	}
 
+	public void renderPassPreviousStitchOver(PassPreviousStitchOver ppso) {
+		Integer times = ppso.getNumberOfTimes();
+		renderSequentialOperation("operation.pass-previous-stitch-over", times);
+	}
+	
 	public void renderIncrease(Increase increase) {
 		Integer times = increase.getNumberOfTimes();
 		StringBuffer messageKey = new StringBuffer("operation.increase");
@@ -784,6 +793,32 @@ public class BasicTextRenderer implements Renderer {
 					"Expecting a USING_NEEDLE type InstructionSet on the stack; instead was "
 							+ needleInstructionSet.getType());
 		}
+	}
+
+	public void renderIncreaseIntoNextStitch(
+			IncreaseIntoNextStitch increaseIntoNextStitch) {
+
+		OperationSet newOperationSet = new OperationSet(Type.INC_INTO_NEXT_ST);
+		newOperationSet
+				.setHead(getMessage("operation.increase-into-next-stitch.begin"));
+		newOperationSet
+				.setTail(getMessage("operation.increase-into-next-stitch.end"));
+		OperationSet currentOperationSet = getOperationSetHelper()
+				.getCurrentOperationSet();
+		// add this operation to the current operation set
+		currentOperationSet.addOperationSet(newOperationSet);
+		// now push this down the stack so that the new operation set is
+		// used for capturing operations
+		getOperationSetHelper().addNewOperationSet(newOperationSet);
+		for (Operation op : increaseIntoNextStitch.getOperations()) {
+			if (op instanceof Purl) {
+				// purl needs to go first
+				renderPurl((Purl) op);
+			} else if (op instanceof Knit) {
+				renderKnit((Knit) op);
+			}
+		}
+		getOperationSetHelper().removeCurrentOperationSet();
 	}
 
 	public void beginFromStitchHolder(FromStitchHolder fromStitchHolder) {

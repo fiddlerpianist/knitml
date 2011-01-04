@@ -166,6 +166,12 @@ public class Row implements BlockOperation, CompositeOperation {
 		if (getSide() != null) {
 			sb.append("Side: ").append(getSide()).append(" ");
 		}
+		if (getInformation() != null) {
+			sb.append("Information: ").append(getInformation()).append(" ");
+		}
+		if (getFollowupInformation() != null) {
+			sb.append("Followup Information: ").append(getFollowupInformation()).append(" ");
+		}
 		sb.append(": ");
 		sb.append(getOperations());
 		return sb.toString();

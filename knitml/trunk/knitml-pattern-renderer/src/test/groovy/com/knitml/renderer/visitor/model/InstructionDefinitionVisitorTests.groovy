@@ -172,8 +172,4 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 		assertThat output, containsString ('k5, work next row from Merged Instruction instruction, k5')
 	}
 	
-	static void main(args) {
-		JUnitCore.main(InstructionDefinitionVisitorTests.name)
-	}
-	
 }

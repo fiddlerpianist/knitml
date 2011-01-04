@@ -23,11 +23,13 @@ import com.knitml.core.model.directions.inline.CrossStitches;
 import com.knitml.core.model.directions.inline.Decrease;
 import com.knitml.core.model.directions.inline.FromStitchHolder;
 import com.knitml.core.model.directions.inline.Increase;
+import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
 import com.knitml.core.model.directions.inline.Knit;
 import com.knitml.core.model.directions.inline.NoStitch;
+import com.knitml.core.model.directions.inline.PassPreviousStitchOver;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
@@ -421,6 +423,15 @@ public class ChartingRenderer implements Renderer {
 
 	public RenderingContext getRenderingContext() {
 		return this.renderingContext;
+	}
+
+	public void renderIncreaseIntoNextStitch(
+			IncreaseIntoNextStitch increaseIntoNextStitch) {
+		delegate.renderIncreaseIntoNextStitch(increaseIntoNextStitch);
+	}
+
+	public void renderPassPreviousStitchOver(PassPreviousStitchOver ppso) {
+		delegate.renderPassPreviousStitchOver(ppso);
 	}
 
 }

@@ -29,11 +29,13 @@ import com.knitml.core.model.directions.inline.CrossStitches;
 import com.knitml.core.model.directions.inline.Decrease;
 import com.knitml.core.model.directions.inline.FromStitchHolder;
 import com.knitml.core.model.directions.inline.Increase;
+import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
 import com.knitml.core.model.directions.inline.Knit;
 import com.knitml.core.model.directions.inline.NoStitch;
+import com.knitml.core.model.directions.inline.PassPreviousStitchOver;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
@@ -558,8 +560,17 @@ class ChartProducer implements Renderer {
 	public void renderSlipToStitchHolder(SlipToStitchHolder operation) {
 		throw new NotImplementedException();
 	}
-	
+
 	public void renderWorkEven(WorkEven operation) {
+		throw new NotImplementedException();
+	}
+
+	public void renderIncreaseIntoNextStitch(
+			IncreaseIntoNextStitch increaseIntoNextStitch) {
+		throw new NotImplementedException();
+	}
+
+	public void renderPassPreviousStitchOver(PassPreviousStitchOver ppso) {
 		throw new NotImplementedException();
 	}
 

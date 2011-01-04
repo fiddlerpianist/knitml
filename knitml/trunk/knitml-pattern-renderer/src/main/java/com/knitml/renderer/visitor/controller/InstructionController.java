@@ -43,12 +43,18 @@ public class InstructionController {
 				.findEventHandlerFromClassName(operation);
 		boolean result = eventHandler.begin(operation, renderer);
 		if (result) {
+			if (operation instanceof Row && ((Row)operation).getInformation() != null) {
+				visit(((Row)operation).getInformation(), renderer);
+			}
 			if (operation instanceof CompositeOperation) {
 				List<? extends Operation> subOperations = ((CompositeOperation) operation)
 						.getOperations();
 				for (Operation subOperation : subOperations) {
 					visit(subOperation, renderer);
 				}
+			}
+			if (operation instanceof Row && ((Row)operation).getFollowupInformation() != null) {
+				visit(((Row)operation).getFollowupInformation(), renderer);
 			}
 		}
 		eventHandler.end(operation, renderer);

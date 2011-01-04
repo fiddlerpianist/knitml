@@ -20,7 +20,7 @@ class InformationVisitorTests extends AbstractRenderingContextTests {
 		processXml PATTERN_START_TAG + '''
 				<directions>
 					<cast-on>5</cast-on>
-					<row xmlns="http://www.knitml.com/schema/pattern" number="1">
+					<row number="1">
 						<knit>5</knit>
 						<followup-information>
 							<number-of-stitches number="5" inform="true"/>
@@ -32,6 +32,58 @@ class InformationVisitorTests extends AbstractRenderingContextTests {
 	}
 
 	@Test
+	void numberOfStitchesAtRowEndWithinInstruction() {
+		processXml PATTERN_START_TAG + '''
+				<directions>
+					<cast-on>5</cast-on>
+					<instruction id="inst-1">
+					    <row number="1">
+						    <knit>5</knit>
+						    <followup-information>
+							    <number-of-stitches number="5" inform="true"/>
+						    </followup-information>
+					    </row>
+					</instruction>
+				</directions>
+			</pattern>'''
+		assertThat output.trim(), endsWith ('5 stitches in row.')
+	}
+	
+	@Test
+	void messageAtRowEnd() {
+		processXml PATTERN_START_TAG + '''
+				<directions>
+					<cast-on>5</cast-on>
+					<row number="1">
+						<knit>5</knit>
+						<followup-information>
+							<message label="This row is tricky."/>
+						</followup-information>
+					</row>
+				</directions>
+			</pattern>'''
+		assertThat output.trim(), endsWith ('This row is tricky.')
+	}
+
+	@Test
+	void messageAtRowEndWithinInstruction() {
+		processXml PATTERN_START_TAG + '''
+				<directions>
+					<cast-on>5</cast-on>
+					<instruction id="inst-1">
+					    <row number="1">
+						    <knit>5</knit>
+						    <followup-information>
+							    <message label="This row is tricky."/>
+						    </followup-information>
+					    </row>
+					</instruction>
+				</directions>
+			</pattern>'''
+		assertThat output.trim(), endsWith ('This row is tricky.')
+	}
+	
+	@Test
 	void numberOfStitchesOutsideOfRow() {
 		renderingContext.engine.castOn 5
 		processXml '''
@@ -41,10 +93,6 @@ class InformationVisitorTests extends AbstractRenderingContextTests {
 			</information>
 		</section>''', Section
 		assertThat output.trim(), is ('5 stitches in row.')
-	}
-	
-	static void main(args) {
-		JUnitCore.main(InformationVisitorTests.name)
 	}
 	
 }

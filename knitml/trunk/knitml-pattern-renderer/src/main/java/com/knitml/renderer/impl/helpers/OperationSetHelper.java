@@ -34,14 +34,17 @@ public class OperationSetHelper {
 	public void writeOperation(String operationString) {
 		writeOperation(operationString, false);
 	}
-	public void writeOperation(String operationString, boolean writeSentenceIfNoOperationSet) {
+
+	public void writeOperation(String operationString,
+			boolean writeSentenceIfNoOperationSet) {
 		// if there is an object on the stack, write to that
 		if (!operationSetStack.empty() && !StringUtils.isBlank(operationString)) {
 			OperationSet currentInstructionSet = operationSetStack.peek();
 			currentInstructionSet.addOperationString(operationString);
 		} else {
 			if (writeSentenceIfNoOperationSet) {
-				getWriterHelper().writeSentence(operationString, true, getMessageHelper().shouldCapitalizeSentences());
+				getWriterHelper().writeSentence(operationString, true,
+						getMessageHelper().shouldCapitalizeSentences());
 			} else {
 				getWriterHelper().write(operationString);
 			}
@@ -56,10 +59,10 @@ public class OperationSetHelper {
 			if (operation.getType() == SimpleInstruction.Type.PURL) {
 				writeOperation(getMessageHelper().getPluralizedMessage(
 						"operation.purl", 1));
-			} else if (operation.getType() == SimpleInstruction.Type.KNIT){
+			} else if (operation.getType() == SimpleInstruction.Type.KNIT) {
 				writeOperation(getMessageHelper().getPluralizedMessage(
 						"operation.knit", 1));
-			} else if (operation.getType() == SimpleInstruction.Type.WORK_EVEN){
+			} else if (operation.getType() == SimpleInstruction.Type.WORK_EVEN) {
 				writeOperation(getMessageHelper().getPluralizedMessage(
 						"operation.work-even", 1));
 			}
@@ -138,6 +141,8 @@ public class OperationSetHelper {
 					useComma = false;
 				} else if (nestedOperationSet.getType() == Type.FROM_STITCH_HOLDER) {
 					renderFromStitchHolderOperationSet((FromStitchHolderOperationSet) nestedOperationSet);
+				} else {
+					renderOperationSet(nestedOperationSet, potentiallySimple);
 				}
 			} else if (operation instanceof SimpleInstruction) {
 				SimpleInstruction simpleInstruction = (SimpleInstruction) operation;
@@ -180,7 +185,11 @@ public class OperationSetHelper {
 			}
 		}
 		String tail = operationSet.getTail();
-		if (tail != null) {
+		if (tail != null && operationSet.getType() == Type.INC_INTO_NEXT_ST) {
+			// FIXME Hmm... I don't particularly like this
+			getWriterHelper().write(tail);
+		}
+		else if (tail != null) {
 			getWriterHelper().write(". " + StringUtils.capitalize(tail));
 			if (!tail.endsWith(".")) {
 				getWriterHelper().write(".");

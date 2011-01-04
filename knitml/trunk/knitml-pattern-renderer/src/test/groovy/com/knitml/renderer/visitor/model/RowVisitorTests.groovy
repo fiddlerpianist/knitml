@@ -174,8 +174,4 @@ class RowVisitorTests extends AbstractRenderingContextTests {
 		assertThat output.trim(), is ('Row 1 [whew!,RS]: k1')
 	}
 	
-	static void main(args) {
-		JUnitCore.main(RowVisitorTests.name)
-	}
-	
 }

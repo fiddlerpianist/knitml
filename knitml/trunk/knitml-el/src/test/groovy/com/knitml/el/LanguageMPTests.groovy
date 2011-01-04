@@ -13,7 +13,7 @@ import com.knitml.el.GroovyKnitProgram
 import static org.custommonkey.xmlunit.XMLAssert.*
 import static com.knitml.el.KelUtils.toXml
 
-class CommentTests {
+class LanguageMPTests {
 	
 	@BeforeClass
 	static void setUp() {
@@ -22,30 +22,19 @@ class CommentTests {
 	}
 	
 	@Test
-	void commentedPattern() {
-		String actual = toXml( '''
-    // comment starting at front of line
-    Directions {      // comment after open curly brace
-    	// comment before function...    Row: k10
-        Row: k5    // comment after a "colonized closure"
-        state sts // comment after function with attributes
-    }
-		''')
-
+	void ppso() {
+		String actual = toXml ("ppso 3")
 		String expected = '''
-			<directions>
-				<row>
-					<knit>5</knit>
-				</row>
-				<information>
-					<number-of-stitches/>
-				</information>
-			</directions>
-'''
+        <pass-previous-stitch-over>3</pass-previous-stitch-over>
+        '''
         assertXMLEqual expected, actual
 	}
 	
-	static void main(args) {
-		JUnitCore.main(CommentTests.name)
+	@Test
+	void ppsoNoArgs() {
+		String actual = toXml ("ppso")
+		String expected = '<pass-previous-stitch-over/>'
+        assertXMLEqual expected, actual
 	}
+	
 }

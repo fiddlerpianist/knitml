@@ -58,9 +58,5 @@ class ApplyNextRowVisitorTests extends AbstractRenderingContextTests {
 			'''
 	}
 	
-	static void main(args) {
-		JUnitCore.main(ApplyNextRowVisitorTests.name)
-	}
-	
 }
  

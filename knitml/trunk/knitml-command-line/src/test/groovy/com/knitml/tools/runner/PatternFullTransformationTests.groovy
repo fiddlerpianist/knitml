@@ -77,7 +77,4 @@ class PatternFullTransformationTests extends RunnerTests {
 		convertValidateAndRender 'banff-l-xl'
 	}
 
-	static void main(args) {
-		JUnitCore.main(PatternFullTransformationTests.name)
-	}
 }

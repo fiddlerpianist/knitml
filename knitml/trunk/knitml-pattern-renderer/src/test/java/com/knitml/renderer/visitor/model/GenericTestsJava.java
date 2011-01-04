@@ -13,12 +13,12 @@ public class GenericTestsJava extends AbstractRenderingContextTests {
 
 	@Test
 	public void flatChartWithWorkEven() throws Exception {
-		processXml(PATTERN_START_TAG
-				+ "<directives><instruction-definitions>"
-				+ "<instruction id='inst1' label='Stockinette Stitch' shape='flat'>"
-				+ "<row><knit>2</knit><purl>2</purl></row>"
-				+ "<row><repeat until='times' value='4'><work-even/></repeat></row>"
-				+ "</instruction-definitions></directives></pattern>");
+//		processXml(PATTERN_START_TAG
+//				+ "<directives><instruction-definitions>"
+//				+ "<instruction id='inst1' label='Stockinette Stitch' shape='flat'>"
+//				+ "<row><knit>2</knit><purl>2</purl></row>"
+//				+ "<row><repeat until='times' value='4'><work-even/></repeat></row>"
+//				+ "</instruction-definitions></directives></pattern>");
 		//
 		// assertThat renderer.graph, is ([[K,K,P,P],[K,K,P,P]])
 	}

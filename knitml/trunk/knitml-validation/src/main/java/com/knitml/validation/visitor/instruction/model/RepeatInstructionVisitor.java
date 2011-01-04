@@ -181,6 +181,7 @@ public class RepeatInstructionVisitor extends AbstractPatternVisitor {
 			double rowsPerInch = rowGauge.doubleValue(Units.ROWS_PER_INCH);
 			int repeats = (int) Math.ceil((untilMeasuresInches * rowsPerInch)
 					/ instructionToRepeat.getRows().size());
+			log.info("Repeating instruction {} times", String.valueOf(repeats));
 			for (int i = 0; i < repeats - 1; i++) {
 				context.getPatternState().incrementRepeatCount(instructionToRepeat);
 				visitChild(instructionToRepeat, context);

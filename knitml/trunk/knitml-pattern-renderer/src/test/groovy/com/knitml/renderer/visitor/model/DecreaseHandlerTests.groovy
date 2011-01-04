@@ -6,10 +6,11 @@ import static org.junit.Assert.assertThat
 
 import org.junit.Test
 import org.junit.Before
-import org.junit.runner.JUnitCore
 
+import com.knitml.core.model.directions.block.Row 
 import com.knitml.core.model.directions.inline.Decrease
 import com.knitml.core.model.directions.inline.DoubleDecrease
+import com.knitml.core.model.directions.inline.PassPreviousStitchOver;
 
 import test.support.AbstractRenderingContextTests
 
@@ -34,8 +35,23 @@ class DecreaseHandlerTests extends AbstractRenderingContextTests {
 		assertThat output, is ('sssk')
 	}
 	
-	static void main(args) {
-		JUnitCore.main(DecreaseHandlerTests.name)
+	@Test
+	void passPreviousStitchOverOnce() {
+		processXml '''
+		<row xmlns="http://www.knitml.com/schema/pattern">
+		  <knit>3</knit>
+		  <pass-previous-stitch-over/>
+		</row>''', Row
+		assertThat output.trim(), is ('Row 1: k3, pass prev st over')
 	}
-	
+
+	@Test
+	void passPreviousStitchOverTwice() {
+		processXml '''
+		<row xmlns="http://www.knitml.com/schema/pattern">
+		  <knit>3</knit>
+		  <pass-previous-stitch-over>2</pass-previous-stitch-over>
+		</row>''', Row
+		assertThat output.trim(), is ('Row 1: k3, pass prev st over, pass prev st over')
+	}
 }

@@ -13,7 +13,6 @@ import com.knitml.el.GroovyKnitProgram
 import static org.custommonkey.xmlunit.XMLAssert.*
 import static com.knitml.el.KelUtils.toXml
 
-@RunWith(JUnit4ClassRunner)
 class LanguageEHTests {
 	
 	@BeforeClass
@@ -32,10 +31,6 @@ class LanguageEHTests {
 					<knit/>
 				</repeat>
 			</from-stitch-holder>'''
-        assertXMLEqual expected, actual
-	}
-	
-	static void main(args) {
-		JUnitCore.main(LanguageEHTests.name)
+		assertXMLEqual expected, actual
 	}
 }

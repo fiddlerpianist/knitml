@@ -20,11 +20,13 @@ import com.knitml.core.model.directions.inline.CrossStitches;
 import com.knitml.core.model.directions.inline.Decrease;
 import com.knitml.core.model.directions.inline.FromStitchHolder;
 import com.knitml.core.model.directions.inline.Increase;
+import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
 import com.knitml.core.model.directions.inline.Knit;
 import com.knitml.core.model.directions.inline.NoStitch;
+import com.knitml.core.model.directions.inline.PassPreviousStitchOver;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
 import com.knitml.core.model.directions.inline.Slip;
@@ -97,6 +99,7 @@ public interface Renderer {
 	void renderPurl(Purl purl);
 	void renderWorkEven(WorkEven workEven);
 	void renderDecrease(Decrease decrease);
+	void renderPassPreviousStitchOver(PassPreviousStitchOver ppso);
 	void renderIncrease(Increase increase);
 	void renderSlip(Slip slip);
 	void renderNoStitch(NoStitch noStitch);
@@ -115,6 +118,8 @@ public interface Renderer {
 	// composite inline events
 	void beginRepeat(Repeat repeat);
 	void endRepeat(Repeat.Until until, Integer value);
+
+	void renderIncreaseIntoNextStitch(IncreaseIntoNextStitch increaseIntoNextStitch);
 
 	void beginFromStitchHolder(FromStitchHolder fromStitchHolder);
 	void endFromStitchHolder(FromStitchHolder fromStitchHolder);

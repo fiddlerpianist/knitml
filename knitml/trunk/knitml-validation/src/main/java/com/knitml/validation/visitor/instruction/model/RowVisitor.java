@@ -24,7 +24,6 @@ import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
 public class RowVisitor extends AbstractPatternVisitor {
 
-	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory.getLogger(RowVisitor.class);
 
 	public void visit(Object element, KnittingContext context)
@@ -42,6 +41,7 @@ public class RowVisitor extends AbstractPatternVisitor {
 
 		// tell engine what to do with the current row
 		if (row.isResetRowCount()) {
+			log.debug("Resetting the row number and clearing instructions");
 			context.getEngine().resetRowNumber();
 			context.getPatternRepository().clearLocalInstructions();
 		}
@@ -111,6 +111,8 @@ public class RowVisitor extends AbstractPatternVisitor {
 		if (row.getFollowupInformation() != null) {
 			visitChild(row.getFollowupInformation(), context);
 		}
+
+		log.info("Row {} completed: {} stitches", context.getEngine().getCurrentRowNumber(), context.getEngine().getTotalNumberOfStitchesInRow());
 
 		// if we specify that this row is a complete row, OR if we get to the
 		// end of the row when we're finished, call endRow()

@@ -227,6 +227,30 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 	}
 
 	@Test
+	void passPreviousStitchOver() {
+		processXml '''
+			<row>
+		  		<knit>10</knit>
+		  		<pass-previous-stitch-over/>
+		  		<knit>10</knit>
+		  	</row>
+	    '''
+		assertThat engine.totalNumberOfStitchesInRow, is (19)
+	}
+	
+	@Test
+	void passPreviousStitchOverTwice() {
+		processXml '''
+			<row>
+		  		<knit>10</knit>
+		  		<pass-previous-stitch-over>2</pass-previous-stitch-over>
+		  		<knit>10</knit>
+		  	</row>
+	    '''
+		assertThat engine.totalNumberOfStitchesInRow, is (18)
+	}
+	
+	@Test
 	void workRibbingThenWorkEven() {
 		processXml PATTERN_START_TAG + '''
 		  <directions>

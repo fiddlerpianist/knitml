@@ -37,6 +37,12 @@
         <value style="text" field="numberOfStitches"/>
         <value name="ref" field="stitchHolder" ident="ref"/>
     </mapping>
+    <mapping name="pass-previous-stitch-over" value-style="attribute"
+        class="com.knitml.core.model.directions.inline.PassPreviousStitchOver">
+        <value style="text" field="numberOfTimes" usage="optional"
+            serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
+            deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
+    </mapping>
     <mapping name="no-stitch" value-style="attribute"
         class="com.knitml.core.model.directions.inline.NoStitch">
         <value style="text" field="numberOfStitches" usage="optional"

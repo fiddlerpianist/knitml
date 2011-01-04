@@ -11,21 +11,12 @@ import static test.support.JiBXTestUtils.marshalXmlAndCompare
 import org.custommonkey.xmlunit.XMLUnit
 
 import org.junit.Test
-import org.junit.Ignore
 import org.junit.BeforeClass
-import org.junit.internal.runners.JUnit4ClassRunner
-import org.junit.runner.JUnitCore
-import org.junit.runner.RunWith
 
 import com.knitml.core.model.Pattern
-import com.knitml.core.common.Side
-import com.knitml.core.common.Wise
-import com.knitml.core.common.LoopToWork
-import com.knitml.core.common.YarnPosition
 import com.knitml.core.common.CrossType
 import com.knitml.core.model.directions.inline.FromStitchHolder
 
-@RunWith(JUnit4ClassRunner)
 class MiscellaneousOperationTests {
 	@BeforeClass
 	static void setUp() {
@@ -49,6 +40,25 @@ class MiscellaneousOperationTests {
 			assertThat type, is (CrossType.FRONT)
 			assertThat first, is (2)
 			assertThat next, is (3)
+		}
+		marshalXmlAndCompare(pattern,xml)
+	}
+	
+	@Test
+	void passPreviousStitchOver() {
+		def xml = '''
+			<pattern xmlns="http://www.knitml.com/schema/pattern">
+			  <directions>
+					<row>
+						<pass-previous-stitch-over>2</pass-previous-stitch-over>
+					</row>
+				  </directions>
+			</pattern>'''
+		Pattern pattern = unmarshalXml(xml)
+		def element = pattern.directions.operations[0].operations[0]
+		assertThat (element instanceof PassPreviousStitchOver, is (true))
+		element.with {
+			assertThat numberOfTimes, is (2)
 		}
 		marshalXmlAndCompare(pattern,xml)
 	}
@@ -334,10 +344,6 @@ class MiscellaneousOperationTests {
 			assertThat operations[0].instructionRef, is (instruction)
 		}
 		marshalXmlAndCompare(pattern,xml)
-	}
-	
-	static void main(args) {
-		JUnitCore.main(MiscellaneousOperationTests.name)
 	}
 	
 }

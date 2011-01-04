@@ -13,13 +13,25 @@ import com.knitml.el.GroovyKnitProgram
 import static org.custommonkey.xmlunit.XMLAssert.*
 import static com.knitml.el.KelUtils.toXml
 
-@RunWith(JUnit4ClassRunner)
 class LanguageILTests {
 	
 	@BeforeClass
 	static void setUp() {
 		XMLUnit.ignoreWhitespace = true
 		XMLUnit.ignoreComments = true
+	}
+	
+	@Test
+	void increaseIntoNextStitch() {
+		String actual = toXml ("increaseIntoNextStitch { p1, k1, p1 }")
+		String expected = '''
+        <increase-into-next-stitch>
+          <purl>1</purl>
+          <knit>1</knit>
+          <purl>1</purl>
+        </increase-into-next-stitch>
+        '''
+        assertXMLEqual expected, actual
 	}
 	
 	@Test
@@ -135,7 +147,4 @@ class LanguageILTests {
         assertXMLEqual expected, actual
 	}
 	
-	static void main(args) {
-		JUnitCore.main(LanguageILTests.name)
-	}
 }

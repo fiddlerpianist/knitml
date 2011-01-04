@@ -419,6 +419,15 @@
     </xsd:simpleContent>
   </xsd:complexType>
 
+  <xsd:complexType name="PassPreviousStitchOverType">
+    <xsd:annotation>
+      <xsd:documentation>Represents passing the stitch worked two stitches ago over the stitch just worked.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:short"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  
   <xsd:complexType name="SlipToStitchHolderType">
     <xsd:annotation>
       <xsd:documentation>Represents moving a series of stitches from the left needle to the
@@ -551,6 +560,7 @@
       <xsd:element name="slip" type="SlipType" default="1"/>
       <xsd:element name="slip-to-stitch-holder" type="SlipToStitchHolderType"/>
       <xsd:element name="from-stitch-holder" type="FromStitchHolderType"/>
+      <xsd:element name="pass-previous-stitch-over" type="PassPreviousStitchOverType" default="1"/>
       <xsd:element name="no-stitch" type="NoStitchType" default="1"/>
       <xsd:element name="turn" type="TurnType"/>
       <xsd:element name="place-marker" type="EmptyType"/>

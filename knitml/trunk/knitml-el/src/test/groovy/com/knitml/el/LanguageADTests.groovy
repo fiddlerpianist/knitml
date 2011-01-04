@@ -13,7 +13,6 @@ import com.knitml.el.GroovyKnitProgram
 import static org.custommonkey.xmlunit.XMLAssert.*
 import static com.knitml.el.KelUtils.toXml
 
-@RunWith(JUnit4ClassRunner)
 class LanguageADTests {
 	
 	@BeforeClass
@@ -203,7 +202,4 @@ class LanguageADTests {
         assertXMLEqual expected, actual
 	}
 	
-	static void main(args) {
-		JUnitCore.main(LanguageADTests.name)
-	}
 }
