@@ -59,6 +59,7 @@ Pattern "en" {
 				Repeat 'cable-repeat' 2 additionalTimes
 			}
 			Section {
+			    NextRow 'MC': k to end, ppso
 				NextRow 'MC': bo all sts
 			}
 		}

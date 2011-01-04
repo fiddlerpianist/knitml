@@ -1704,6 +1704,17 @@ k3 tbl</programlisting>
               </entry>
             </row>
             <row>
+              <entry>passPreviousStitchOver</entry>
+              <entry>number as <link xlink:href="#integer-type">Integer</link> (optional)</entry>
+              <entry>Pass the stitch worked 2 stitches ago over the stitch just worked.</entry>
+              <entry>
+                <code>passPreviousStitchOver</code>
+              </entry>
+              <entry>
+                <code>&lt;pass-previous-stitch-over/></code>
+              </entry>
+            </row>
+            <row>
               <entry>pattern</entry>
               <entry>languageCode as <link xlink:href="#string-type">String</link> (optional)</entry>
               <entry>The pattern written in the specified ISO language code</entry>
@@ -1766,6 +1777,17 @@ k3 tbl</programlisting>
               </entry>
               <entry>
                 <code>&lt;place-marker/></code>
+              </entry>
+            </row>
+            <row>
+              <entry>ppso</entry>
+              <entry>number as <link xlink:href="#integer-type">Integer</link> (optional)</entry>
+              <entry>Alias for passPreviousStitchOver</entry>
+              <entry>
+                <code>ppso</code>
+              </entry>
+              <entry>
+                <code>&lt;pass-previous-stitch-over/></code>
               </entry>
             </row>
             <row>
