@@ -758,6 +758,23 @@
         <xsd:list itemType="xsd:short"/>
       </xsd:simpleType>
     </xsd:attribute>
+    <xsd:attribute name="subsequent">
+      <xsd:annotation>
+        <xsd:documentation>Indicates whether this row is to be repeated for all following even
+        or odd rows within this instruction. Only valid when defined within an instruction and
+        that instruction has its "row-count" attribute defined. An unspecified value is equivalent
+        to "none", meaning that this row element only defines the row numbers specified by the
+        "number" attribute.
+        </xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="even"/>
+          <xsd:enumeration value="odd"/>
+          <xsd:enumeration value="none"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
     <xsd:attribute name="type">
       <xsd:annotation>
         <xsd:documentation>The current shape of knitting, either 'flat' or 'round.' Specifying this
@@ -1200,6 +1217,15 @@
           <xsd:enumeration value="round"/>
         </xsd:restriction>
       </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute name="row-count" type="xsd:short">
+      <xsd:annotation>
+        <xsd:documentation>States the expected number of rows for this instruction. This is only
+        mandatory if the rows contained within this instruction use the "subsequent" attribute to
+        extend their definition to even or odd rows. It can be used without the "subsequent"
+        attribute to validate expectations.
+        </xsd:documentation>
+      </xsd:annotation>
     </xsd:attribute>
     <xsd:attributeGroup ref="labelAttrs"/>
   </xsd:complexType>

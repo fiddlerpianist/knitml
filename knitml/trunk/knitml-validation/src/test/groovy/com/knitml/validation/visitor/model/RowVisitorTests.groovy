@@ -181,23 +181,15 @@ public class RowVisitorTests extends AbstractKnittingContextTests {
 	}
 	
 	@Test
-	void processVaryingRowNumbers() {
+	void processNonSequentialRowNumbersWithinInstruction() {
 		knittingContext.engine = createNiceMock(KnittingEngine)
 		engine = knittingContext.engine
 		engine.with {
 			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
-			startNewRow()
-			knit 20
-			endRow()
-			startNewRow()
-			purl 20
-			endRow()
-			startNewRow()
-			knit 20
-			endRow()
-			startNewRow()
-			purl 20
-			endRow()
+			startNewRow(); knit 20; endRow()
+			startNewRow(); purl 20; endRow()
+			startNewRow(); knit 20; endRow()
+			startNewRow(); purl 20; endRow()
 		}
 		replay engine
 		processXml '''
@@ -206,6 +198,64 @@ public class RowVisitorTests extends AbstractKnittingContextTests {
 				<knit>20</knit>
 			</row>
 			<row number="2 4">
+				<purl>20</purl>
+			</row>
+		</instruction>
+		'''
+		verify engine
+	}
+	
+	@Test
+	void processRowNumbersWithinInstructionWithSubsequentAttribute() {
+		knittingContext.engine = createNiceMock(KnittingEngine)
+		engine = knittingContext.engine
+		engine.with {
+			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
+			startNewRow(); knit 20; endRow()
+			startNewRow(); purl 20; endRow()
+			startNewRow(); knit 20; endRow()
+			startNewRow(); purl 20; endRow()
+			startNewRow(); knit 20; endRow()
+			startNewRow(); purl 20; endRow()
+			startNewRow(); knit 20; endRow()
+			startNewRow(); purl 20; endRow()
+		}
+		replay engine
+		processXml '''
+		<instruction id="thingy" row-count="8">
+			<row number="1" subsequent="odd">
+				<knit>20</knit>
+			</row>
+			<row number="2" subsequent="even">
+				<purl>20</purl>
+			</row>
+		</instruction>
+		'''
+		verify engine
+	}
+	
+	@Test
+	void processRowNumbersWithinInstructionWithUnusualSubsequentConfiguration() {
+		knittingContext.engine = createNiceMock(KnittingEngine)
+		engine = knittingContext.engine
+		engine.with {
+			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
+			startNewRow(); knit 20; endRow()
+			startNewRow(); knit 20; endRow()
+			startNewRow(); knit 20; endRow()
+			startNewRow(); purl 20; endRow()
+			startNewRow(); knit 20; endRow()
+			startNewRow(); purl 20; endRow()
+			startNewRow(); knit 20; endRow()
+			startNewRow(); purl 20; endRow()
+		}
+		replay engine
+		processXml '''
+		<instruction id="thingy" row-count="8">
+			<row number="1 2" subsequent="odd">
+				<knit>20</knit>
+			</row>
+			<row number="4" subsequent="even">
 				<purl>20</purl>
 			</row>
 		</instruction>
@@ -289,7 +339,4 @@ public class RowVisitorTests extends AbstractKnittingContextTests {
 		'''
 	}
 	
-	static void main(args) {
-		JUnitCore.main(RowVisitorTests.name)
-	}
 }

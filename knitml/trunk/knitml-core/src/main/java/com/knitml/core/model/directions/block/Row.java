@@ -9,6 +9,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.math.Range;
 
 import com.knitml.core.common.KnittingShape;
+import com.knitml.core.common.RowDefinitionScope;
 import com.knitml.core.common.Side;
 import com.knitml.core.model.directions.BlockOperation;
 import com.knitml.core.model.directions.CompositeOperation;
@@ -32,6 +33,7 @@ public class Row implements BlockOperation, CompositeOperation {
 	protected Boolean assignRowNumber = true;
 	protected boolean resetRowCount = false;
 	protected int[] numbers = new int[0];
+	protected RowDefinitionScope subsequent;
 	protected KnittingShape type; // "flat" or "round"
 	
 	private boolean assignRowNumbersAffected = false;
@@ -140,6 +142,12 @@ public class Row implements BlockOperation, CompositeOperation {
 	}
 	public void setResetRowCount(boolean resetRowCount) {
 		this.resetRowCount = resetRowCount;
+	}
+	public RowDefinitionScope getSubsequent() {
+		return subsequent;
+	}
+	public void setSubsequent(RowDefinitionScope subsequent) {
+		this.subsequent = subsequent;
 	}
 	public void setType(KnittingShape type) {
 		this.type = type;

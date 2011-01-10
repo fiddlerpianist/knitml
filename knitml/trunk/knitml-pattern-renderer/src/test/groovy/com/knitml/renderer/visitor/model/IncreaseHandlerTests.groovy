@@ -140,7 +140,6 @@ class IncreaseHandlerTests extends AbstractRenderingContextTests {
 		assertThat output, is ('yo')
 	}
 	
-	@Ignore
 	@Test
 	void increaseIntoNextStitch() {
 		processXml '''

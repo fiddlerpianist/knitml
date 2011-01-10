@@ -11,6 +11,7 @@ import org.apache.commons.lang.NotImplementedException;
 
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.LoopToWork;
+import com.knitml.core.common.Side;
 import com.knitml.core.common.Stack;
 import com.knitml.core.common.StitchesOnNeedle;
 import com.knitml.core.model.Pattern;
@@ -147,7 +148,11 @@ class ChartProducer implements Renderer {
 	// methods from Renderer that are implemented
 
 	public void beginInstructionDefinition(InstructionInfo instructionInfo) {
-		this.direction = Direction.FORWARDS;
+		if (this.analysis.getStartingSide() == Side.WRONG) {
+			this.direction = Direction.BACKWARDS;
+		} else {
+			this.direction = Direction.FORWARDS;
+		}
 		// the engine hasn't been used yet to set shape, so get this information
 		// from the instruction itself
 		chart = new Chart();
@@ -162,8 +167,14 @@ class ChartProducer implements Renderer {
 	}
 
 	public void beginInstruction(InstructionInfo instructionInfo) {
-		this.direction = Direction.FORWARDS;
 		chart = new Chart();
+		if (this.analysis.getStartingSide() == Side.WRONG) {
+			this.direction = Direction.BACKWARDS;
+			chart.setStartingSide(Side.WRONG);
+		} else {
+			this.direction = Direction.FORWARDS;
+			chart.setStartingSide(Side.RIGHT);
+		}
 		// FIXME internationalize
 		chart.setTitle("Work as follows");
 		// during directions, trust that the engine is right

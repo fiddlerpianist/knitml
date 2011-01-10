@@ -21,6 +21,7 @@ public class Instruction implements BlockOperation, Identifiable,
 	protected String label;
 	protected String messageKey;
 	protected KnittingShape knittingShape;
+	protected Integer rowCount;
 
 	public void validate() {
 		if (forEachRowInInstruction != null && rows != null && !rows.isEmpty()) {
@@ -66,6 +67,7 @@ public class Instruction implements BlockOperation, Identifiable,
 		this.label = instruction.getLabel();
 		this.messageKey = instruction.getMessageKey();
 		this.knittingShape = instruction.getKnittingShape();
+		this.rowCount = instruction.getRowCount();
 		this.rows = rows;
 	}
 	
@@ -84,8 +86,21 @@ public class Instruction implements BlockOperation, Identifiable,
 		this.rows = rows;
 	}
 	
+	public Instruction(String id, String label, String messageKey, KnittingShape knittingShape, List<Row> rows, Integer rowCount) {
+		this.id = id;
+		this.label = label;
+		this.messageKey = messageKey;
+		this.knittingShape = knittingShape;
+		this.rows = rows;
+		this.rowCount = rowCount;
+	}
+	
 	public KnittingShape getKnittingShape() {
 		return knittingShape;
 	}
 	
+	public Integer getRowCount() {
+		return rowCount;
+	}
+
 }

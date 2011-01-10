@@ -8,16 +8,12 @@ import static test.support.JiBXUtils.parseXml
 
 import test.support.AbstractRenderingContextTests
 
-import java.io.StringReader
 
-import org.junit.Before
+import org.junit.Ignore 
 import org.junit.Test
 import org.junit.internal.runners.JUnit4ClassRunner
 import org.junit.runner.RunWith
 
-import com.knitml.core.model.directions.block.Instruction
-import com.knitml.core.model.Pattern
-import com.knitml.renderer.Renderer
 
 @RunWith(JUnit4ClassRunner.class)
 class ChartingRendererTests extends AbstractRenderingContextTests {
@@ -48,6 +44,29 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 		 assertThat renderer.graph, is ([[P,P,K_TW,K_TW],[K,K,P_TW,P_TW]])
 	}
 
+	@Test
+	public void flatChartStartingOnWrongSide() {
+		processXml PATTERN_START_TAG + '''
+			<directives>
+				<instruction-definitions>
+					<instruction id="inst1" label="Stockinette Stitch" shape="flat">
+						<row side="wrong">
+							<purl>2</purl>
+							<knit loop-to-work="trailing">2</knit>
+						</row>
+						<row>
+							<knit loop-to-work="trailing">2</knit>
+							<purl>2</purl>
+						</row>
+					</instruction>
+				</instruction-definitions>
+			</directives>
+		 </pattern>'''
+		 
+		 assertThat renderer.graph, is ([[P_TW,P_TW,K,K],[K_TW,K_TW,P,P]])
+	}
+
+	
 	@Test
 	public void flatChartWithWorkEven() {
 		processXml PATTERN_START_TAG + '''

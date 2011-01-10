@@ -27,7 +27,7 @@ import com.knitml.core.xml.EntityResolverWrapper
 import com.knitml.renderer.program.RendererProgram
 import com.knitml.renderer.util.SpringConfigurationBuilder
 import com.knitml.renderer.util.Configuration
-import com.knitml.el.GroovyKnitProgram
+import com.knitml.el.KelProgram
 import com.knitml.tools.runner.support.RunnerUtils
 import com.knitml.validation.ValidationProgram
 import com.knitml.validation.context.KnittingContextFactory
@@ -60,7 +60,7 @@ class ConvertAndRenderPattern {
 		def parameters = new Parameters()
 		parameters.reader = RunnerUtils.getReader(line) 
 		parameters.checkSyntax = RunnerUtils.getCheckSyntax(line)
-		GroovyKnitProgram converter = new GroovyKnitProgram()
+		KelProgram converter = new KelProgram()
 		String xml = converter.convertToXml(parameters)
 
 		// now validate / render the document

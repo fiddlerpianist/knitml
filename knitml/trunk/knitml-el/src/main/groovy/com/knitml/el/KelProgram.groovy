@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory
 
 import static com.knitml.core.xml.Schemas.CURRENT_PATTERN_SCHEMA
 
-class GroovyKnitProgram {
+class KelProgram {
 
-	private static final Logger log = LoggerFactory.getLogger(GroovyKnitProgram)
+	private static final Logger log = LoggerFactory.getLogger(KelProgram)
 	
 	String convertToXml(options) {
 		log.info("New KEL to XML conversion started")

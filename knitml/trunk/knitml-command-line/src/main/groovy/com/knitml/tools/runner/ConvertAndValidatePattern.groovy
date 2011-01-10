@@ -30,7 +30,7 @@ import com.knitml.core.model.Pattern
 import com.knitml.core.common.Parameters
 import com.knitml.core.xml.PluggableSchemaResolver
 import com.knitml.core.xml.EntityResolverWrapper
-import com.knitml.el.GroovyKnitProgram
+import com.knitml.el.KelProgram
 import com.knitml.tools.runner.support.RunnerUtils
 import com.knitml.validation.ValidationProgram;
 import com.knitml.validation.context.KnittingContextFactory;
@@ -62,7 +62,7 @@ class ConvertAndValidatePattern {
 		parameters.reader = RunnerUtils.getReader(line) 
 		parameters.checkSyntax = RunnerUtils.getCheckSyntax(line)
 		// convert to XML document
-		GroovyKnitProgram converter = new GroovyKnitProgram()
+		KelProgram converter = new KelProgram()
 		String xml = converter.convertToXml(parameters)
 
 		IBindingFactory factory = BindingDirectory.getFactory(Pattern)

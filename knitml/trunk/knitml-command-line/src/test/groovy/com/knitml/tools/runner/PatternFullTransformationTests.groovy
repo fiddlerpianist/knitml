@@ -14,17 +14,17 @@ import org.springframework.core.io.ClassPathResource;
 
 import com.knitml.core.common.Parameters
 import com.knitml.core.model.Pattern
-import com.knitml.el.GroovyKnitProgram
+import com.knitml.el.KelProgram
 
 class PatternFullTransformationTests extends RunnerTests {
 
-	protected static GroovyKnitProgram converter
+	protected static KelProgram converter
 	
 	protected InputStream patternResourceStream
 
 	@BeforeClass
 	static void setUpClass() {
-		converter = new GroovyKnitProgram()
+		converter = new KelProgram()
 	}
 
 	@After

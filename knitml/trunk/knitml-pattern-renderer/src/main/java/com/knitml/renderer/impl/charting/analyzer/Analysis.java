@@ -3,6 +3,7 @@ package com.knitml.renderer.impl.charting.analyzer;
 import java.util.List;
 
 import com.knitml.core.common.KnittingShape;
+import com.knitml.core.common.Side;
 import com.knitml.core.model.directions.block.Instruction;
 
 public class Analysis {
@@ -12,6 +13,7 @@ public class Analysis {
 	private KnittingShape shape = null;
 	private List<RowInfo> rowInfos = null;
 	private boolean containsNoStitchOperations = false;
+	private Side startingSide = null;
 	
 	public Instruction getInstructionToUse() {
 		return instructionToUse;
@@ -37,12 +39,6 @@ public class Analysis {
 	public void setKnittingShape(KnittingShape shape) {
 		this.shape = shape;
 	}
-//	public RepeatMetaData getGlobalRepeatInfo() {
-//		return globalRepeatInfo;
-//	}
-//	public void setGlobalRepeatInfo(RepeatMetaData globalRepeatInfo) {
-//		this.globalRepeatInfo = globalRepeatInfo;
-//	}
 	public List<RowInfo> getRowInfos() {
 		return rowInfos;
 	}
@@ -54,5 +50,11 @@ public class Analysis {
 	}
 	public void setContainsNoStitchOperations(boolean containsNoStitchOperations) {
 		this.containsNoStitchOperations = containsNoStitchOperations;
+	}
+	public void setStartingSide(Side startingSide) {
+		this.startingSide = startingSide;
+	}
+	public Side getStartingSide() {
+		return startingSide;
 	}
 }

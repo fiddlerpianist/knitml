@@ -12,7 +12,7 @@ import org.apache.commons.cli.CommandLineParser
 import org.apache.commons.cli.GnuParser
 
 import com.knitml.tools.runner.support.RunnerUtils
-import com.knitml.el.GroovyKnitProgram
+import com.knitml.el.KelProgram
 
 class ConvertPattern {
 
@@ -35,7 +35,7 @@ class ConvertPattern {
 		CommandLine line = parser.parse(options, args)
 		// we're not using an applicationContext for conversion, so pass null
 		def options = RunnerUtils.toParameters(line)
-		GroovyKnitProgram converter = new GroovyKnitProgram()
+		KelProgram converter = new KelProgram()
 		converter.convertToXml(options)
 	}
 	

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.knitml.core.common.KnittingShape;
+import com.knitml.core.common.Side;
 import com.knitml.core.model.directions.DiscreteInlineOperation;
 import com.knitml.core.model.directions.InlineOperation;
 import com.knitml.core.model.directions.StitchNature;
@@ -64,6 +65,7 @@ public class ChartingAnalyzer {
 	private boolean containsNoStitchOperations = false;
 	private List<RowInfo> rowInfos = new ArrayList<RowInfo>();
 	private RowInfo currentRowInfo;
+	private Side startingSide = null;
 
 	private boolean currentlyRepeating = false;
 
@@ -133,6 +135,7 @@ public class ChartingAnalyzer {
 			result
 					.setContainsNoStitchOperations(this.containsNoStitchOperations);
 			result.setKnittingShape(this.shape);
+			result.setStartingSide(this.startingSide);
 			return result;
 		} finally {
 			renderingContext.getEngine().restore(engineState);
@@ -174,8 +177,18 @@ public class ChartingAnalyzer {
 			// cast on one stitch so that we can start a new row below
 			engine.castOn(1, false);
 		}
-		// this.repeatInCurrentRow = false;
 		engine.startNewRow();
+		if (this.startingSide == null) {
+			this.startingSide = Side.RIGHT;
+			if (dynamicFirstRowCastOn && originalRow.getSide() == Side.WRONG) {
+				this.startingSide = Side.WRONG;
+				engine.knit();
+				engine.endRow();
+				engine.startNewRow();
+			} else if (engine.getDirection() == Direction.BACKWARDS){
+				this.startingSide = Side.WRONG;
+			}
+		}
 
 		// Walk through all of the row's operations and see how it affects the
 		// counts
@@ -320,7 +333,8 @@ public class ChartingAnalyzer {
 		for (InlineOperation operation : oldRepeat.getOperations()) {
 			if (!contextualOperationFound && operation instanceof WorkEven) {
 				contextualOperationFound = true;
-				// if we find out there are contextual operations, clear out newOperations
+				// if we find out there are contextual operations, clear out
+				// newOperations
 				// and wait for the actual repeat. We'll gather that info then.
 				newOperations.clear();
 				break;

@@ -8,7 +8,7 @@ import org.junit.internal.runners.JUnit4ClassRunner
 import org.custommonkey.xmlunit.XMLUnit
 
 import com.knitml.core.common.Parameters
-import com.knitml.el.GroovyKnitProgram
+import com.knitml.el.KelProgram
 
 import static org.custommonkey.xmlunit.XMLAssert.*
 import static com.knitml.el.KelUtils.toXml
@@ -19,6 +19,124 @@ class LanguageQUTests {
 	static void setUp() {
 		XMLUnit.ignoreWhitespace = true
 		XMLUnit.ignoreComments = true
+	}
+	
+	@Test
+	void rowAndAllEvenRows() {
+		String actual = toXml ("row 2 and all even rows")
+		String expected = '''
+			<row number="2" subsequent="even"/>
+		'''
+        assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void roundAndAllEvenRounds() {
+		String actual = toXml ("round 2 and all even rounds")
+		String expected = '''
+			<row type="round" number="2" subsequent="even"/>
+		'''
+        assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void rowAndFollowingOddRows() {
+		String actual = toXml ("row 2 and following odd rows")
+		String expected = '''
+			<row number="2" subsequent="odd"/>
+		'''
+        assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void rowAndFollowingEvenRows() {
+		String actual = toXml ("row 2 and following even rows")
+		String expected = '''
+			<row number="2" subsequent="even"/>
+		'''
+        assertXMLEqual expected, actual
+	}
+
+	@Test
+	void rowAndEvenRows() {
+		String actual = toXml ("row 2 and even rows")
+		String expected = '''
+			<row number="2" subsequent="even"/>
+		'''
+		assertXMLEqual expected, actual
+	}
+
+	@Test
+	void rowAndFollowingRows() {
+		// note that this won't do anything; either 'even' or 'odd' is required
+		String actual = toXml ("row 2 and following rows")
+		String expected = '''
+			<row number="2"/>
+		'''
+		assertXMLEqual expected, actual
+	}
+
+	@Test
+	void rowWithRsFacing() {
+		String actual = toXml ("row with RS facing")
+		String expected = '''
+			<row side="right"/>
+		'''
+		assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void rowOnRightSide() {
+		String actual = toXml ("row on rightSide")
+		String expected = '''
+			<row side="right"/>
+		'''
+		assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void rowOnRS() {
+		String actual = toXml ("row on RS")
+		String expected = '''
+			<row side="right"/>
+		'''
+		assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void rowOnRs() {
+		String actual = toXml ("row on rs")
+		String expected = '''
+			<row side="right"/>
+		'''
+		assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void rowOnWrongSide() {
+		String actual = toXml ("row on wrongSide")
+		String expected = '''
+			<row side="wrong"/>
+		'''
+		assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void rowOnWS() {
+		String actual = toXml ("row on WS")
+		String expected = '''
+			<row side="wrong"/>
+		'''
+		assertXMLEqual expected, actual
+	}
+	
+	@Test
+	void rowOnWs() {
+		String actual = toXml ("row on ws")
+		String expected = '''
+			<row side="wrong"/>
+		'''
+		assertXMLEqual expected, actual
 	}
 	
 	@Test

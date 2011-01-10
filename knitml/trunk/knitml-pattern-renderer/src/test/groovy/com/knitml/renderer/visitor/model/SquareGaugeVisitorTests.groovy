@@ -164,8 +164,4 @@ class SquareGaugeVisitorTests extends AbstractRenderingContextTests {
 		assertThat output.trim(), endsWith ("Gauge:  32 rows = 10 cm")
 	}
 	
-	static void main(args) {
-		JUnitCore.main(SquareGaugeVisitorTests.name)
-	}
-	
 }

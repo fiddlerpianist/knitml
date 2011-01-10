@@ -64,8 +64,33 @@ class RepeatHandlerTests extends AbstractRenderingContextTests {
 		assertThat output.trim(), is ('Row 1: k60')
 	}
 	
-	static void main(args) {
-		JUnitCore.main(RepeatHandlerTests.name)
+	@Test
+	void increaseIntoNextStitchWithinRepeat() {
+		processXml '''
+		    <row xmlns="http://www.knitml.com/schema/pattern">
+		      <repeat until="end">
+		      <increase-into-next-stitch>
+		        <knit>1</knit>
+		        <purl>1</purl>
+		      </increase-into-next-stitch>
+		      </repeat>
+		    </row>''', Row
+		assertThat output.trim(), is ('Row 1: repeat [inc into next st [k1, p1]] to end')
 	}
 	
+	@Test
+	void increaseIntoNextStitchWithinRepeatWithinInstruction() {
+		processXml '''
+		  <instruction id="inst-1" xmlns="http://www.knitml.com/schema/pattern">
+		    <row>
+		      <repeat until="end">
+		      <increase-into-next-stitch>
+		        <knit>1</knit>
+		        <purl>1</purl>
+		      </increase-into-next-stitch>
+		      </repeat>
+		    </row>
+		  </instruction>''', Instruction
+		assertThat output.trim(), is ('Row 1: repeat [inc into next st [k1, p1]] to end')
+	}
 }

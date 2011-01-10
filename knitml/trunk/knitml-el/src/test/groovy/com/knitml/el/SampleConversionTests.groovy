@@ -10,7 +10,7 @@ import org.junit.internal.runners.JUnit4ClassRunner
 import org.custommonkey.xmlunit.XMLUnit
 
 import com.knitml.core.common.Parameters
-import com.knitml.el.GroovyKnitProgram
+import com.knitml.el.KelProgram
 
 import static org.custommonkey.xmlunit.XMLAssert.*
 
@@ -26,7 +26,7 @@ class SampleConversionTests {
 		def parameters = new Parameters()
 		parameters.reader = acquireClassPathReader(pattern + ".kel")
 		parameters.writer = new StringWriter()
-		GroovyKnitProgram converter = new GroovyKnitProgram()
+		KelProgram converter = new KelProgram()
 		converter.convertToXml(parameters)
 		parameters.reader.close()
 		assertXMLEqual(acquireClassPathReader(pattern + ".xml"), new StringReader(parameters.writer.toString()))

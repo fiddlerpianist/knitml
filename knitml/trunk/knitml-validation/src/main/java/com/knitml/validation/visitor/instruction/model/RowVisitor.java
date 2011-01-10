@@ -112,7 +112,7 @@ public class RowVisitor extends AbstractPatternVisitor {
 			visitChild(row.getFollowupInformation(), context);
 		}
 
-		log.info("Row {} completed: {} stitches", context.getEngine().getCurrentRowNumber(), context.getEngine().getTotalNumberOfStitchesInRow());
+		log.debug("Row {} completed: {} stitches", context.getEngine().getCurrentRowNumber(), context.getEngine().getTotalNumberOfStitchesInRow());
 
 		// if we specify that this row is a complete row, OR if we get to the
 		// end of the row when we're finished, call endRow()

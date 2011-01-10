@@ -11,12 +11,13 @@ import static org.junit.Assert.assertNotNull
 import static test.support.JiBXTestUtils.unmarshalXml
 import static test.support.JiBXTestUtils.marshalXmlAndCompare
 
+import static com.knitml.core.common.KnittingShape.ROUND;
+
 import javax.measure.Measure
 
 import org.custommonkey.xmlunit.XMLUnit
 
 import org.junit.Test
-import org.junit.Ignore
 import org.junit.BeforeClass
 import org.junit.internal.runners.JUnit4ClassRunner
 import org.junit.runner.JUnitCore
@@ -29,9 +30,9 @@ import com.knitml.core.model.directions.inline.Knit
 import com.knitml.core.model.directions.inline.Purl
 import com.knitml.core.model.Pattern
 import com.knitml.core.model.directions.expression.StitchCount
-import com.knitml.core.model.directions.expression.Value
 
 import com.knitml.core.common.KnittingShape
+import com.knitml.core.common.RowDefinitionScope 
 import com.knitml.core.common.Side
 import com.knitml.core.units.Units
 import com.knitml.core.common.ValidationException
@@ -79,6 +80,36 @@ class RowsAndInstructionsTests {
 	}
 	
 	@Test
+	void anInstruction() {
+		def xml = '''
+		<pattern xmlns="http://www.knitml.com/schema/pattern">
+			<directions>
+				<instruction id="thingy1" shape="round" label="Label 1" message-key="label1" row-count="25"/>
+				<instruction id="thingy2"/>
+			</directions>
+		</pattern>'''
+		def pattern = unmarshalXml(xml)
+		def instruction = pattern.directions.operations[0]
+		assertThat (instruction instanceof Instruction, is (true))
+		instruction.with {
+			assertThat id, is('thingy1')
+			assertThat knittingShape, is(ROUND)
+			assertThat label, is('Label 1')
+			assertThat messageKey, is('label1')
+			assertThat rowCount, is(25)
+		}
+		instruction = pattern.directions.operations[1]
+		instruction.with {
+			assertThat id, is('thingy2')
+			assertThat knittingShape, is(null)
+			assertThat label, is(null)
+			assertThat messageKey, is(null)
+			assertThat rowCount, is(null)
+		}
+		marshalXmlAndCompare(pattern,xml)
+	}
+	
+	@Test
 	void anInstructionWithReference() {
 		def xml = '''
 		<pattern xmlns="http://www.knitml.com/schema/pattern">
@@ -107,7 +138,7 @@ class RowsAndInstructionsTests {
 						assign-row-number="false" short="true"
                         long="true"
 						inform-side="true" yarn-ref="yarn1"
-						reset-row-count="true" side="right" />
+						reset-row-count="true" side="right" subsequent="even" />
 					<row number="2"/>
 				</directions>
 			</pattern>'''
@@ -125,6 +156,7 @@ class RowsAndInstructionsTests {
 			assertThat yarnIdRef, is ('yarn1')
 			assertThat resetRowCount, is (true)
 			assertThat side, is (Side.RIGHT)
+			assertThat subsequent, is (RowDefinitionScope.EVEN)
 		}
 		rows[1].with {
 			assertThat type, is (null)
@@ -137,6 +169,7 @@ class RowsAndInstructionsTests {
 			assertThat yarnIdRef, is (null)
 			assertThat resetRowCount, is (false)
 			assertThat side, is (null)
+			assertThat subsequent, is (null)
 		}
 		marshalXmlAndCompare(pattern,xml)
 	}

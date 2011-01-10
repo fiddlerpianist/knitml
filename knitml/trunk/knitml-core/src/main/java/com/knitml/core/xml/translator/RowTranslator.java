@@ -16,6 +16,7 @@ import org.jibx.runtime.impl.UnmarshallingContext;
 import com.knitml.core.common.DataConversion;
 import com.knitml.core.common.EnumUtils;
 import com.knitml.core.common.KnittingShape;
+import com.knitml.core.common.RowDefinitionScope;
 import com.knitml.core.common.Side;
 import com.knitml.core.model.directions.InlineOperation;
 import com.knitml.core.model.directions.block.Row;
@@ -88,6 +89,11 @@ public class RowTranslator implements IMarshaller, IUnmarshaller, IAliasable {
 		if (row.getNumbers() != null && row.getNumbers().length > 0) {
 			ctx.attribute(this.index, "number", DataConversion
 					.serializeIntArray(row.getNumbers()));
+		}
+		if (row.getSubsequent() != null) {
+			ctx
+					.attribute(this.index, "subsequent", EnumUtils.fromEnum(row
+							.getSubsequent()));
 		}
 		if (row.getType() != null) {
 			ctx
@@ -170,6 +176,8 @@ public class RowTranslator implements IMarshaller, IUnmarshaller, IAliasable {
 		if (ctx.hasAttribute(null, "reset-row-count")) {
 			row.setResetRowCount(ctx.attributeBoolean(null, "reset-row-count"));
 		}
+		row.setSubsequent(EnumUtils.toEnum(getAttribute(ctx, "subsequent"),
+				RowDefinitionScope.class));
 		row.setType(EnumUtils.toEnum(getAttribute(ctx, "type"),
 				KnittingShape.class));
 		ctx.parsePastStartTag(this.uri, this.name);
