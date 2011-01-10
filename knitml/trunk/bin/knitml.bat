@@ -166,8 +166,6 @@ goto postExec
 @endlocal
 
 :postExec
-@REM if exist "%HOME%\mavenrc_post.bat" call "%HOME%\mavenrc_post.bat"
-@REM pause the batch file if KNITML_BATCH_PAUSE is set to 'on'
 
 exit /B %ERROR_CODE%
 

@@ -47,6 +47,36 @@ class RowVisitorTests extends AbstractRenderingContextTests {
 	}
 	
 	@Test
+	void rowOddAndEvenRows() {
+		processXml '''
+		<instruction id="blah" row-count="6" xmlns="http://www.knitml.com/schema/pattern">
+			<row number="1" subsequent="odd"><knit>1</knit></row>
+			<row number="2" subsequent="even"><purl>1</purl></row>
+		</instruction>''', Instruction
+		assertThat output.trim(), is ('Row 1 [and following odd rows]: k1' + LINE_BREAK + 'Row 2 [and following even rows]: p1')
+	}
+	
+	@Test
+	void rowOddAndEvenRowsWithSide() {
+		processXml '''
+		<instruction id="blah" row-count="6" xmlns="http://www.knitml.com/schema/pattern">
+			<row number="1" subsequent="odd" side="right"><knit>1</knit></row>
+			<row number="2" subsequent="even"><purl>1</purl></row>
+		</instruction>''', Instruction
+		assertThat output.trim(), is ('Row 1 [and following odd rows,RS]: k1' + LINE_BREAK + 'Row 2 [and following even rows]: p1')
+	}
+	
+	@Test
+	void rowOddAndEvenRowsUnusual() {
+		processXml '''
+		<instruction id="blah" row-count="6" xmlns="http://www.knitml.com/schema/pattern">
+			<row number="1 4" subsequent="odd"><knit>1</knit></row>
+			<row number="2 3 6"><purl>1</purl></row>
+		</instruction>''', Instruction
+		assertThat output.trim(), is ('Rows 1,4 [and following odd rows]: k1' + LINE_BREAK + 'Rows 2,3,6: p1')
+	}
+	
+	@Test
 	void nextRow() {
 		processXml '<row assign-row-number="false" xmlns="http://www.knitml.com/schema/pattern"><knit>1</knit></row>', Row
 		assertThat output.trim(), is ('Next row: k1')

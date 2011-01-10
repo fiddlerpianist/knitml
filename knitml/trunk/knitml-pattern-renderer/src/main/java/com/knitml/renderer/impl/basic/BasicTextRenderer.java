@@ -21,6 +21,7 @@ import org.springframework.context.MessageSource;
 import com.knitml.core.common.EnumUtils;
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.LoopToWork;
+import com.knitml.core.common.RowDefinitionScope;
 import com.knitml.core.common.SlipDirection;
 import com.knitml.core.common.StitchesOnNeedle;
 import com.knitml.core.common.ValidationException;
@@ -574,22 +575,34 @@ public class BasicTextRenderer implements Renderer {
 							+ rowOperationSet.getType());
 		}
 
-		// get the prefix for the row (i.e. the row label) and set it as the
-		// head of the InstructionSet
-		Information information = row.getInformation();
+		// initialize the information object to pass to the renderer (make a copy)
+		Information rendererInformation = new Information();
+		Information rowInformation = row.getInformation();
+		if (row.getInformation() != null) {
+			rendererInformation.setDetails(rowInformation.getDetails());
+		}
+
+		if (row.getSubsequent() == RowDefinitionScope.EVEN) {
+			Message subsequentMessage = new Message();
+			subsequentMessage.setMessageKey("operation.row.subsequent-even-rows");
+			rendererInformation.getDetails().add(subsequentMessage);
+		} else if (row.getSubsequent() == RowDefinitionScope.ODD) {
+			Message subsequentMessage = new Message();
+			subsequentMessage.setMessageKey("operation.row.subsequent-odd-rows");
+			rendererInformation.getDetails().add(subsequentMessage);
+		}
+
 		if (row.getSide() != null) {
-			information = new Information();
-			if (row.getInformation() != null) {
-				information.setDetails(row.getInformation().getDetails());
-			}
 			Message sideMessage = new Message();
 			sideMessage.setMessageKey("operation."
 					+ EnumUtils.fromEnum(row.getSide())
 					+ "-side-row-abbreviation");
-			information.getDetails().add(sideMessage);
+			rendererInformation.getDetails().add(sideMessage);
 		}
 
-		String rowHeader = getRowLabel(shape, rowNumbers, yarnId, information);
+		// get the row label and set it as the head of the InstructionSet
+		String rowHeader = getRowLabel(shape, rowNumbers, yarnId,
+				rendererInformation);
 		rowOperationSet.setHead(rowHeader);
 
 		// only render the row if:
@@ -695,7 +708,7 @@ public class BasicTextRenderer implements Renderer {
 		Integer times = ppso.getNumberOfTimes();
 		renderSequentialOperation("operation.pass-previous-stitch-over", times);
 	}
-	
+
 	public void renderIncrease(Increase increase) {
 		Integer times = increase.getNumberOfTimes();
 		StringBuffer messageKey = new StringBuffer("operation.increase");

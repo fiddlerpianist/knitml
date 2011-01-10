@@ -10,7 +10,6 @@ import com.knitml.core.xml.PluggableSchemaResolver
 import com.knitml.core.xml.EntityResolverWrapper
 
 import org.xml.sax.EntityResolver
-import org.w3c.dom.ls.LSResourceResolver
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
