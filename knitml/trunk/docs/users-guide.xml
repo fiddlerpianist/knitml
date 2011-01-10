@@ -1891,16 +1891,17 @@ k3 tbl</programlisting>
               </entry>
             </row>
             <row>
-              <entry morerows="4">row</entry>
-              <entry morerows="4">
+              <entry morerows="5">row</entry>
+              <entry morerows="5">
                 <para>yarnRef as <link xlink:href="#idref-type">IDREF</link>, number as <link
                     xlink:href="#integer-type">Integer</link>, numbers as List&lt;Integer>,
                     <emphasis>informSide</emphasis>, <emphasis>doNotAssignNumber</emphasis>,
+                    <emphasis>and (all|following) (even|odd) (rows|rounds)</emphasis>,
                   xmlAttributes as <link xlink:href="#map-type">Map</link>
                 </para>
                 <para>(all parameters optional)</para>
               </entry>
-              <entry morerows="4">A row in the pattern</entry>
+              <entry morerows="5">A row in the pattern</entry>
               <entry>
                 <code>row 'y1' 1 {...}</code>
               </entry>
@@ -1914,6 +1915,14 @@ k3 tbl</programlisting>
               </entry>
               <entry>
                 <code>&lt;row number="1 3 5">...&lt;/row></code>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <code>row 1 and following odd rows {...}</code>
+              </entry>
+              <entry>
+                <code>&lt;row number="1" subsequent="odd">...&lt;/row></code>
               </entry>
             </row>
             <row>
@@ -2237,7 +2246,7 @@ state unworked</programlisting>
                   >IDREF</link>
               </entry>
               <entry>Use the specified needle for knitting. "Quietly" indicates that this is a
-                directive for the computer, not something that should be rendererd in a pattern.</entry>
+                directive for the computer, not something that should be rendered in a pattern.</entry>
               <entry>
                 <code>useNeedle 'n1' quietly</code>
               </entry>
