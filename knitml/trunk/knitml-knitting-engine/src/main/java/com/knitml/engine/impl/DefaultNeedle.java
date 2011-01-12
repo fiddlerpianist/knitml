@@ -72,7 +72,7 @@ public class DefaultNeedle implements Needle {
 	private SortedMap<Integer, Marker> gaps = new TreeMap<Integer, Marker>();
 
 	private int lastStitchIndexReturned = -1;
-
+	
 	public DefaultNeedle(String id, NeedleStyle needleType,
 			KnittingFactory knittingFactory) {
 		this.id = id;

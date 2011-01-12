@@ -11,6 +11,7 @@ import org.apache.commons.lang.NullArgumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.knitml.core.common.IncreaseType;
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.NeedleStyle;
 import com.knitml.core.common.SlipDirection;
@@ -21,7 +22,6 @@ import com.knitml.core.model.directions.inline.BindOff;
 import com.knitml.core.model.directions.inline.BindOffAll;
 import com.knitml.core.model.directions.inline.CrossStitches;
 import com.knitml.core.model.directions.inline.Increase;
-import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
 import com.knitml.core.model.directions.inline.InlineCastOn;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
 import com.knitml.core.model.directions.inline.Slip;
@@ -82,6 +82,8 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	private boolean suppressDirectionSwitchingForNextRow = false;
 	private boolean castingOn = false;
 	private boolean longRow = false;
+	private boolean workingIntoStitch = false;
+
 	private KnittingFactory knittingFactory;
 
 	/**
@@ -113,7 +115,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				this.currentRowNumber, needlesCopy, this.allNeedles,
 				this.imposedNeedle, needleMementos, this.currentNeedleIndex,
 				this.suppressDirectionSwitchingForNextRow, this.castingOn,
-				this.startOfRow, this.longRow);
+				this.startOfRow, this.longRow, this.workingIntoStitch);
 		return engineMemento;
 	}
 
@@ -144,6 +146,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		this.castingOn = memento.isCastingOn();
 		this.startOfRow = memento.getStartOfRow();
 		this.longRow = memento.isLongRow();
+		this.workingIntoStitch = memento.isWorkingIntoStitch();
 		for (Needle needle : this.activeNeedles) {
 			Object needleMemento = memento.getNeedleMementos().get(
 					needle.getId());
@@ -353,7 +356,8 @@ public class DefaultKnittingEngine implements KnittingEngine {
 
 	public void endRow() throws NotEndOfRowException {
 		if (!isEndOfRow()) {
-			throw new NotEndOfRowException("There are " + getStitchesRemainingInRow() + " stitches left in the row");
+			throw new NotEndOfRowException("There are "
+					+ getStitchesRemainingInRow() + " stitches left in the row");
 		}
 		if (isImposedUpon()) {
 			throw new IllegalStateException(
@@ -895,9 +899,13 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	 * @see com.knitml.validation.validation.engine.KnittingEngine#knit(boolean)
 	 */
 	public void knit(boolean throughBackLoop) throws NotEnoughStitchesException {
-		prepareNeedleForOperation(1);
-		getCurrentNeedle().knit();
-		imposeStitchesIfNecessary(1);
+		if (this.workingIntoStitch) {
+			increase(new Increase(1, IncreaseType.M1));
+		} else {
+			prepareNeedleForOperation(1);
+			getCurrentNeedle().knit();
+			imposeStitchesIfNecessary(1);
+		}
 	}
 
 	/*
@@ -920,9 +928,13 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	 * @see com.knitml.validation.validation.engine.KnittingEngine#purl(boolean)
 	 */
 	public void purl(boolean throughBackLoop) throws NotEnoughStitchesException {
-		prepareNeedleForOperation(1);
-		getCurrentNeedle().purl();
-		imposeStitchesIfNecessary(1);
+		if (this.workingIntoStitch) {
+			increase(new Increase(1, IncreaseType.M1P));
+		} else {
+			prepareNeedleForOperation(1);
+			getCurrentNeedle().purl();
+			imposeStitchesIfNecessary(1);
+		}
 	}
 
 	/*
@@ -1451,11 +1463,14 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				: increase.getNumberOfTimes());
 	}
 
-	public void increase(IncreaseIntoNextStitch increase)
-			throws NotEnoughStitchesException {
-		// TODO record knits vs. purls... right now will only show up as knits
-		doIncrease(new Increase(increase.getIncreaseCount()));
-		slip(increase.getAdvanceCount());
+	public void startWorkingIntoNextStitch() throws NotEnoughStitchesException {
+		prepareNeedleForOperation(1);
+		getCurrentNeedle().removeNextStitch();
+		this.workingIntoStitch = true;
+	}
+
+	public void endWorkingIntoNextStitch() {
+		this.workingIntoStitch = false;
 	}
 
 	public void pickUpStitches(InlinePickUpStitches pickUpStitches) {
@@ -1540,6 +1555,10 @@ public class DefaultKnittingEngine implements KnittingEngine {
 
 	protected boolean isLongRow() {
 		return longRow;
+	}
+
+	public boolean isWorkingIntoStitch() {
+		return workingIntoStitch;
 	}
 
 }

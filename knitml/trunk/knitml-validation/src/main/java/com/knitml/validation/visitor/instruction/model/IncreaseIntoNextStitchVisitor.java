@@ -17,7 +17,9 @@ public class IncreaseIntoNextStitchVisitor extends AbstractPatternVisitor {
 	public void visit(Object element, KnittingContext context)
 			throws KnittingEngineException {
 		IncreaseIntoNextStitch increase = (IncreaseIntoNextStitch) element;
-		context.getEngine().increase(increase);
+		context.getEngine().startWorkingIntoNextStitch();
+		visitChildren(increase, context);
+		context.getEngine().endWorkingIntoNextStitch();
 	}
 
 }

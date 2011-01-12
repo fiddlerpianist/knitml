@@ -119,10 +119,11 @@ public interface Renderer {
 	void beginRepeat(Repeat repeat);
 	void endRepeat(Repeat.Until until, Integer value);
 
-	void renderIncreaseIntoNextStitch(IncreaseIntoNextStitch increaseIntoNextStitch);
-
 	void beginFromStitchHolder(FromStitchHolder fromStitchHolder);
 	void endFromStitchHolder(FromStitchHolder fromStitchHolder);
+
+	void beginIncreaseIntoNextStitch(IncreaseIntoNextStitch increaseIntoNextStitch);
+	void endIncreaseIntoNextStitch(IncreaseIntoNextStitch increaseIntoNextStitch);
 
 	void beginUsingNeedle(Needle needle);
 	void endUsingNeedle();

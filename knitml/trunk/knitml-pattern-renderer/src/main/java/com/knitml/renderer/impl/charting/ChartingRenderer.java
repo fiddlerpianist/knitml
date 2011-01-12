@@ -425,9 +425,14 @@ public class ChartingRenderer implements Renderer {
 		return this.renderingContext;
 	}
 
-	public void renderIncreaseIntoNextStitch(
+	public void beginIncreaseIntoNextStitch(
 			IncreaseIntoNextStitch increaseIntoNextStitch) {
-		delegate.renderIncreaseIntoNextStitch(increaseIntoNextStitch);
+		delegate.beginIncreaseIntoNextStitch(increaseIntoNextStitch);
+	}
+
+	public void endIncreaseIntoNextStitch(
+			IncreaseIntoNextStitch increaseIntoNextStitch) {
+		delegate.endIncreaseIntoNextStitch(increaseIntoNextStitch);
 	}
 
 	public void renderPassPreviousStitchOver(PassPreviousStitchOver ppso) {

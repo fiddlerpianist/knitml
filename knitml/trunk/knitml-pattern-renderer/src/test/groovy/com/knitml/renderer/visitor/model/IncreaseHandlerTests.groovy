@@ -32,7 +32,7 @@ class IncreaseHandlerTests extends AbstractRenderingContextTests {
 	void m1p() {
 		renderingContext.engine.startNewRow()
 		processXml '<increase type="m1p" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
-		assertThat output, is ('M1P')
+		assertThat output, is ('M1 (purled)')
 	}
 	
 	@Test

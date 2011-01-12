@@ -576,7 +576,12 @@ class ChartProducer implements Renderer {
 		throw new NotImplementedException();
 	}
 
-	public void renderIncreaseIntoNextStitch(
+	public void beginIncreaseIntoNextStitch(
+			IncreaseIntoNextStitch increaseIntoNextStitch) {
+		throw new NotImplementedException();
+	}
+
+	public void endIncreaseIntoNextStitch(
 			IncreaseIntoNextStitch increaseIntoNextStitch) {
 		throw new NotImplementedException();
 	}

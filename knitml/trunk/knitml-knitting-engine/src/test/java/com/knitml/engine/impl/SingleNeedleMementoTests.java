@@ -4,6 +4,8 @@
 package com.knitml.engine.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +71,7 @@ public class SingleNeedleMementoTests {
 		assertEquals(0, engine.getStitchesRemainingInRow());
 		assertEquals(Direction.FORWARDS, engine.getDirection());
 		assertEquals(KnittingShape.FLAT, engine.getKnittingShape());
+		assertFalse(engine.isWorkingIntoStitch());
 		
 		// this will mess up original state, so do a save/restore
 		save();
@@ -172,4 +175,13 @@ public class SingleNeedleMementoTests {
 		assertEquals(5, newNeedle.getTotalStitches());
 	}
 
+	@Test
+	public void checkWorkingIntoNextStitchRestored() throws Exception {
+		engine.startNewRow();
+		engine.startWorkingIntoNextStitch();
+		engine.knit();
+		engine.purl();
+		assertTrue(engine.isWorkingIntoStitch());
+	}
+	
 }

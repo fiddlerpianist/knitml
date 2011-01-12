@@ -24,7 +24,6 @@ import com.knitml.core.model.directions.inline.BindOff;
 import com.knitml.core.model.directions.inline.BindOffAll;
 import com.knitml.core.model.directions.inline.CrossStitches;
 import com.knitml.core.model.directions.inline.Increase;
-import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
 import com.knitml.core.model.directions.inline.InlineCastOn;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
 import com.knitml.core.model.directions.inline.Slip;
@@ -68,7 +67,7 @@ import com.knitml.engine.settings.Direction;
  */
 /**
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)
- *
+ * 
  */
 public interface KnittingEngine extends Restorable {
 
@@ -112,6 +111,12 @@ public interface KnittingEngine extends Restorable {
 	 * @return whether the engine is currently between rows.
 	 */
 	boolean isBetweenRows();
+
+	/**
+	 * Returns true if the engine is currently set to knit and/or purl into the
+	 * working stitch.
+	 */
+	boolean isWorkingIntoStitch();
 
 	/**
 	 * Returns the total number of stitches currently in this row. This amounts
@@ -208,7 +213,7 @@ public interface KnittingEngine extends Restorable {
 	 * @throws NotEndOfRowException
 	 *             if the engine is not at the end of a row
 	 * @throws NoActiveNeedlesException
-	 *             if there are currently no active needles in the work 
+	 *             if there are currently no active needles in the work
 	 * @throws NotEnoughStitchesException
 	 *             if there are currently zero stitches being worked
 	 */
@@ -221,15 +226,16 @@ public interface KnittingEngine extends Restorable {
 	 * @throws NotEndOfRowException
 	 *             if the engine is not at the end of a row
 	 * @throws NoActiveNeedlesException
-	 *             if there are currently no active needles in the work 
+	 *             if there are currently no active needles in the work
 	 * @throws NotEnoughStitchesException
 	 *             if there are currently zero stitches being worked
 	 * @throws WrongKnittingShapeException
 	 *             if the engine is not currently working in the round
 	 * 
 	 */
-	void startNewLongRow() throws NotEndOfRowException, NoActiveNeedlesException,
-			NotEnoughStitchesException, WrongKnittingShapeException;
+	void startNewLongRow() throws NotEndOfRowException,
+			NoActiveNeedlesException, NotEnoughStitchesException,
+			WrongKnittingShapeException;
 
 	/**
 	 * @throws NotEndOfRowException
@@ -528,8 +534,9 @@ public interface KnittingEngine extends Restorable {
 
 	void increase(Increase increase) throws NotEnoughStitchesException;
 
-	void increase(IncreaseIntoNextStitch increase)
-			throws NotEnoughStitchesException;
+	void startWorkingIntoNextStitch() throws NotEnoughStitchesException;
+
+	void endWorkingIntoNextStitch();
 
 	/**
 	 * Casts on the specified number of stitches using the parameters specified
@@ -704,9 +711,9 @@ public interface KnittingEngine extends Restorable {
 	 * <p>
 	 * Imposes the needle where the engine is currently active (right before the
 	 * next stitch on the current needle to be worked). Engine operations will
-	 * work the stitches on the imposing needle, one at a time, then subsequently
-	 * slip them onto the needle being imposed upon (the one that was originally
-	 * active).
+	 * work the stitches on the imposing needle, one at a time, then
+	 * subsequently slip them onto the needle being imposed upon (the one that
+	 * was originally active).
 	 * 
 	 * <p>
 	 * When a needle is imposed, the engine considers the imposed needle to be
@@ -735,20 +742,23 @@ public interface KnittingEngine extends Restorable {
 	 *             if no needle is currently imposing the engine
 	 */
 	public Needle unimposeNeedle() throws NoNeedleImposedException;
-	
+
 	/**
 	 * Binds off the specified number of stitches from the work.
 	 * 
-	 * @param spec the specification of how to bind off
-	 * @throws NotEnoughStitchesException if there are not enough stitches to perform this operation
+	 * @param spec
+	 *            the specification of how to bind off
+	 * @throws NotEnoughStitchesException
+	 *             if there are not enough stitches to perform this operation
 	 */
 	public void bindOff(BindOff spec) throws NotEnoughStitchesException;
 
 	/**
 	 * Binds off the rest of the stitches to work in this row.
 	 * 
-	 * @param spec the specification of how to bind off all
+	 * @param spec
+	 *            the specification of how to bind off all
 	 */
 	public void bindOffAll(BindOffAll spec);
-	
+
 }

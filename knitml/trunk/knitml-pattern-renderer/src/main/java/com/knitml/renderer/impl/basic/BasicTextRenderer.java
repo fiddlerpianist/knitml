@@ -1,6 +1,7 @@
 package com.knitml.renderer.impl.basic;
 
 import static com.knitml.core.common.EnumUtils.fromEnum;
+import static org.apache.commons.lang.StringUtils.capitalize;
 
 import java.io.Writer;
 import java.text.DecimalFormat;
@@ -26,7 +27,6 @@ import com.knitml.core.common.SlipDirection;
 import com.knitml.core.common.StitchesOnNeedle;
 import com.knitml.core.common.ValidationException;
 import com.knitml.core.model.Pattern;
-import com.knitml.core.model.directions.Operation;
 import com.knitml.core.model.directions.block.CastOn;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
 import com.knitml.core.model.directions.block.Instruction;
@@ -155,8 +155,8 @@ public class BasicTextRenderer implements Renderer {
 		OperationSet operationSet = new OperationSet(
 				OperationSet.Type.INLINE_INSTRUCTION);
 		if (label != null) {
-			operationSet.setHead(label
-					+ getMessage("operation.group-end-punctuation") + " ");
+			operationSet.setHead(capitalize(label
+					+ getMessage("operation.group-end-punctuation") + " "));
 		}
 		getOperationSetHelper().addNewOperationSet(operationSet);
 	}
@@ -575,7 +575,8 @@ public class BasicTextRenderer implements Renderer {
 							+ rowOperationSet.getType());
 		}
 
-		// initialize the information object to pass to the renderer (make a copy)
+		// initialize the information object to pass to the renderer (make a
+		// copy)
 		Information rendererInformation = new Information();
 		Information rowInformation = row.getInformation();
 		if (row.getInformation() != null) {
@@ -584,11 +585,13 @@ public class BasicTextRenderer implements Renderer {
 
 		if (row.getSubsequent() == RowDefinitionScope.EVEN) {
 			Message subsequentMessage = new Message();
-			subsequentMessage.setMessageKey("operation.row.subsequent-even-rows");
+			subsequentMessage
+					.setMessageKey("operation.row.subsequent-even-rows");
 			rendererInformation.getDetails().add(subsequentMessage);
 		} else if (row.getSubsequent() == RowDefinitionScope.ODD) {
 			Message subsequentMessage = new Message();
-			subsequentMessage.setMessageKey("operation.row.subsequent-odd-rows");
+			subsequentMessage
+					.setMessageKey("operation.row.subsequent-odd-rows");
 			rendererInformation.getDetails().add(subsequentMessage);
 		}
 
@@ -603,7 +606,7 @@ public class BasicTextRenderer implements Renderer {
 		// get the row label and set it as the head of the InstructionSet
 		String rowHeader = getRowLabel(shape, rowNumbers, yarnId,
 				rendererInformation);
-		rowOperationSet.setHead(rowHeader);
+		rowOperationSet.setHead(capitalize(rowHeader));
 
 		// only render the row if:
 		// 1) we are not within an instruction, OR
@@ -787,8 +790,8 @@ public class BasicTextRenderer implements Renderer {
 
 	public void beginUsingNeedle(Needle needle) {
 		OperationSet needleOperationSet = new OperationSet(Type.USING_NEEDLE);
-		needleOperationSet.setHead(needle
-				+ getMessage("operation.group-end-punctuation") + " ");
+		needleOperationSet.setHead(capitalize(needle
+				+ getMessage("operation.group-end-punctuation") + " "));
 		OperationSet currentOperationSet = getOperationSetHelper()
 				.getCurrentOperationSet();
 		// add this operation to the current operation set
@@ -808,34 +811,7 @@ public class BasicTextRenderer implements Renderer {
 		}
 	}
 
-	public void renderIncreaseIntoNextStitch(
-			IncreaseIntoNextStitch increaseIntoNextStitch) {
-
-		OperationSet newOperationSet = new OperationSet(Type.INC_INTO_NEXT_ST);
-		newOperationSet
-				.setHead(getMessage("operation.increase-into-next-stitch.begin"));
-		newOperationSet
-				.setTail(getMessage("operation.increase-into-next-stitch.end"));
-		OperationSet currentOperationSet = getOperationSetHelper()
-				.getCurrentOperationSet();
-		// add this operation to the current operation set
-		currentOperationSet.addOperationSet(newOperationSet);
-		// now push this down the stack so that the new operation set is
-		// used for capturing operations
-		getOperationSetHelper().addNewOperationSet(newOperationSet);
-		for (Operation op : increaseIntoNextStitch.getOperations()) {
-			if (op instanceof Purl) {
-				// purl needs to go first
-				renderPurl((Purl) op);
-			} else if (op instanceof Knit) {
-				renderKnit((Knit) op);
-			}
-		}
-		getOperationSetHelper().removeCurrentOperationSet();
-	}
-
 	public void beginFromStitchHolder(FromStitchHolder fromStitchHolder) {
-
 		OperationSet fromStitchHolderOperationSet = new FromStitchHolderOperationSet();
 		OperationSet currentOperationSet = getOperationSetHelper()
 				.getCurrentOperationSet();
@@ -869,6 +845,37 @@ public class BasicTextRenderer implements Renderer {
 					"The working operation set must be a FromStitchHolder type of operation set");
 		}
 		((FromStitchHolderOperationSet) operationSet).setLabel(label);
+	}
+
+	public void beginIncreaseIntoNextStitch(
+			IncreaseIntoNextStitch incIntoNextStitch) {
+		OperationSet incIntoNextStitchOperationSet = new OperationSet(
+				Type.INC_INTO_NEXT_ST);
+		OperationSet currentOperationSet = getOperationSetHelper()
+				.getCurrentOperationSet();
+		if (currentOperationSet == null) {
+			throw new IllegalStateException(
+					"Cannot issue an increase-into-next-stitch without being inside a row");
+		}
+		// add this operation to the current operation set
+		currentOperationSet.addOperationSet(incIntoNextStitchOperationSet);
+		// now push this down the stack so that the operation set is used for
+		// capturing operations
+		getOperationSetHelper().addNewOperationSet(
+				incIntoNextStitchOperationSet);
+	}
+
+	public void endIncreaseIntoNextStitch(
+			IncreaseIntoNextStitch incIntoNextStitch) {
+		// remove the current repeat from the stack (so that new operation sets
+		// aren't added to it)
+		OperationSet operationSet = getOperationSetHelper()
+				.removeCurrentOperationSet();
+		if (operationSet == null
+				|| operationSet.getType() != Type.INC_INTO_NEXT_ST) {
+			throw new IllegalStateException(
+					"Must have a current operation set of type INC_INTO_NEXT_ST to work correctly");
+		}
 	}
 
 	public void renderDeclareFlatKnitting(DeclareFlatKnitting spec) {

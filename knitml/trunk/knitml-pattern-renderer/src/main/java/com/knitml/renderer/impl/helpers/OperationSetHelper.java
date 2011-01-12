@@ -115,8 +115,7 @@ public class OperationSetHelper {
 			potentiallySimple = false;
 		}
 		if (operationSet.getHead() != null) {
-			getWriterHelper().write(
-					StringUtils.capitalize(operationSet.getHead()));
+			getWriterHelper().write(operationSet.getHead());
 		}
 
 		Iterator<Object> it = operationSet.iterator();
@@ -125,7 +124,7 @@ public class OperationSetHelper {
 			boolean useComma = true;
 			if (operation instanceof RepeatOperationSet) {
 				// a RepeatInstructionSet takes additional handling
-				renderRepeatInstructionSet((RepeatOperationSet) operation,
+				renderRepeatOperationSet((RepeatOperationSet) operation,
 						potentiallySimple);
 			} else if (operation instanceof OperationSet) {
 				OperationSet nestedOperationSet = (OperationSet) operation;
@@ -141,6 +140,8 @@ public class OperationSetHelper {
 					useComma = false;
 				} else if (nestedOperationSet.getType() == Type.FROM_STITCH_HOLDER) {
 					renderFromStitchHolderOperationSet((FromStitchHolderOperationSet) nestedOperationSet);
+				} else if (nestedOperationSet.getType() == Type.INC_INTO_NEXT_ST) {
+					renderIncreaseIntoNextStitchOperationSet(nestedOperationSet);
 				} else {
 					renderOperationSet(nestedOperationSet, potentiallySimple);
 				}
@@ -185,11 +186,7 @@ public class OperationSetHelper {
 			}
 		}
 		String tail = operationSet.getTail();
-		if (tail != null && operationSet.getType() == Type.INC_INTO_NEXT_ST) {
-			// FIXME Hmm... I don't particularly like this
-			getWriterHelper().write(tail);
-		}
-		else if (tail != null) {
+		if (tail != null) {
 			getWriterHelper().write(". " + StringUtils.capitalize(tail));
 			if (!tail.endsWith(".")) {
 				getWriterHelper().write(".");
@@ -202,37 +199,35 @@ public class OperationSetHelper {
 		return getMessageHelper().getMessage(messageKey, args);
 	}
 
-	private boolean renderRepeatInstructionSet(
-			RepeatOperationSet repeatInstructionSet, boolean potentiallySimple) {
+	private boolean renderRepeatOperationSet(
+			RepeatOperationSet repeatOperationSet, boolean potentiallySimple) {
 		boolean singularRepeat = false;
-		if (repeatInstructionSet.size() == 1) {
+		if (repeatOperationSet.size() == 1 && !(repeatOperationSet.getOperation(0) instanceof OperationSet)) {
 			singularRepeat = true;
 		}
-		if (!singularRepeat || !repeatInstructionSet.isToEnd()) {
+		if (!singularRepeat || !repeatOperationSet.isToEnd()) {
 			potentiallySimple = false;
 		}
 		if (!singularRepeat) {
 			getWriterHelper().write(getMessage("operation.repeat.begin"));
 		}
-		boolean simple = renderOperationSet(repeatInstructionSet,
+		boolean simple = renderOperationSet(repeatOperationSet,
 				potentiallySimple);
 		if (!singularRepeat) {
 			getWriterHelper().write(getMessage("operation.repeat.end"));
 		}
-		if (repeatInstructionSet.getUntilInstruction() != null && !simple) {
+		if (repeatOperationSet.getUntilInstruction() != null && !simple) {
 			getWriterHelper().write(" ");
-			getWriterHelper().write(repeatInstructionSet.getUntilInstruction());
+			getWriterHelper().write(repeatOperationSet.getUntilInstruction());
 		}
 		return simple;
 	}
 
 	private void renderFromStitchHolderOperationSet(
 			FromStitchHolderOperationSet operationSet) {
-		getWriterHelper().startWritingToSegment("temp");
+		getWriterHelper().startWritingToAnonymousSegment();
 		renderOperationSet(operationSet, false);
-		getWriterHelper().stopWritingToSegment("temp");
-		String fromStitchHolderOperations = getWriterHelper()
-				.getSegment("temp");
+		String fromStitchHolderOperations = getWriterHelper().stopWritingToAnonymousSegment();
 		StringBuffer messageKey = new StringBuffer(
 				"operation.from-stitch-holder");
 		List<String> values = new ArrayList<String>();
@@ -251,4 +246,13 @@ public class OperationSetHelper {
 		getWriterHelper().write(message);
 	}
 
+	private void renderIncreaseIntoNextStitchOperationSet(
+			OperationSet operationSet) {
+		getWriterHelper().startWritingToAnonymousSegment();
+		renderOperationSet(operationSet, false);
+		String incIntoNextStitchOperations = getWriterHelper().stopWritingToAnonymousSegment();
+		String messageKey = "operation.increase-into-next-stitch";
+		String message = getMessageHelper().getMessage(messageKey, incIntoNextStitchOperations);
+		getWriterHelper().write(message);
+	}
 }

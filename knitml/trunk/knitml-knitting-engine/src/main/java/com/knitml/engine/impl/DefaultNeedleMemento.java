@@ -57,5 +57,4 @@ class DefaultNeedleMemento {
 	public Map<String, Object> getStitchMementos() {
 		return stitchMementos;
 	}
-
 }

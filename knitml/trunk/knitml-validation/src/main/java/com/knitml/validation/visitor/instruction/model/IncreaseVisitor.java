@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.common.IncreaseType;
 import com.knitml.core.common.LoopToWork;
 import com.knitml.core.model.directions.DiscreteInlineOperation;
+import com.knitml.core.model.directions.Operation;
 import com.knitml.core.model.directions.inline.Increase;
-import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
 import com.knitml.core.model.directions.inline.Knit;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.engine.common.KnittingEngineException;
@@ -43,11 +43,17 @@ public class IncreaseVisitor extends AbstractPatternVisitor {
 		}
 		
 		if (!substituteOperations.isEmpty()) {
-			IncreaseIntoNextStitch calculatedIncrease = new IncreaseIntoNextStitch(
-					increase.getYarnIdRef(), substituteOperations);
 			int numberOfTimes = increase.getNumberOfTimes() == null ? 1 : increase.getNumberOfTimes();
 			for (int i=0; i < numberOfTimes; i++) {
-				context.getEngine().increase(calculatedIncrease);
+				context.getEngine().startWorkingIntoNextStitch();
+				for (Operation op : substituteOperations) {
+					if (op instanceof Purl) {
+						context.getEngine().purl(((Purl)op).getLoopToWork() == LoopToWork.TRAILING ? true : false);
+					} else {
+						context.getEngine().knit(((Knit)op).getLoopToWork() == LoopToWork.TRAILING ? true : false);
+					}
+				}
+				context.getEngine().endWorkingIntoNextStitch();
 			}
 		}
 		else {

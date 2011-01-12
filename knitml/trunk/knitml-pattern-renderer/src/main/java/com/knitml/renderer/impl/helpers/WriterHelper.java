@@ -10,6 +10,8 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.knitml.core.common.Stack;
+
 public class WriterHelper {
 
 	public static final String LINE_SEPARATOR = System
@@ -23,7 +25,8 @@ public class WriterHelper {
 	// this is where temporary buffers are kept and stashed
 	private Map<String, StringBuffer> namedBuffers = new HashMap<String, StringBuffer>();
 	// this is the current buffer that all write() operations will go to, if set
-	private StringBuffer currentBuffer;
+//	private StringBuffer currentBuffer;
+	private Stack<StringBuffer> bufferStack = new Stack<StringBuffer>();
 	private boolean beginningOfSentence = true;
 	private boolean beginningOfParagraph = true;
 	private int indent = 0;
@@ -39,23 +42,29 @@ public class WriterHelper {
 		this.writer = writer;
 	}
 
+	public void startWritingToAnonymousSegment() {
+		bufferStack.push(new StringBuffer(256));
+	}
+	public String stopWritingToAnonymousSegment() {
+		return bufferStack.pop().toString();
+	}
+	
 	public void startWritingToSegment(String id) {
-		if (currentBuffer != null) {
-			throw new IllegalStateException(
-					"Cannot write to a new segment while currently writing to another segment");
+		StringBuffer targetBuffer = namedBuffers.get(id);
+		if (targetBuffer == null) {
+			targetBuffer = new StringBuffer(256);
+			namedBuffers.put(id, targetBuffer);
 		}
-		StringBuffer buffer = new StringBuffer(256);
-		namedBuffers.put(id, buffer);
-		currentBuffer = buffer;
+		bufferStack.push(targetBuffer);
 	}
 
 	public void stopWritingToSegment(String id) {
 		StringBuffer namedBuffer = namedBuffers.get(id);
-		if (currentBuffer != namedBuffer) {
+		if (bufferStack.empty() || bufferStack.peek() != namedBuffer) {
 			throw new IllegalStateException(
 					"Currently not writing to the same buffer whose end was requested");
 		}
-		currentBuffer = null;
+		bufferStack.pop();
 	}
 
 	public String getSegment(String id) {
@@ -68,10 +77,6 @@ public class WriterHelper {
 
 	public void writeSegmentToWriter(String id) {
 		StringBuffer buffer = namedBuffers.get(id);
-		if (currentBuffer != null) {
-			throw new IllegalStateException(
-					"Cannot write to writer while writing to a segment");
-		}
 		if (buffer != null) {
 			write(buffer.toString());
 		}
@@ -107,9 +112,8 @@ public class WriterHelper {
 	}
 
 	private void writeInternal(String string) {
-
-		if (currentBuffer != null) {
-			currentBuffer.append(string);
+		if (!bufferStack.empty()) {
+			bufferStack.peek().append(string);
 		} else {
 			try {
 				writer.write(string);

@@ -19,6 +19,11 @@ public class Increase implements DiscreteInlineOperation,
 		this.numberOfTimes = numberOfTimes;
 	}
 
+	public Increase(int numberOfTimes, IncreaseType type) {
+		this.numberOfTimes = numberOfTimes;
+		this.type = type;
+	}
+	
 	public Integer getNumberOfTimes() {
 		return numberOfTimes;
 	}

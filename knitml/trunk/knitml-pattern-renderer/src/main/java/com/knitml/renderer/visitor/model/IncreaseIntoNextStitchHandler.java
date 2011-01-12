@@ -16,8 +16,13 @@ public class IncreaseIntoNextStitchHandler extends AbstractEventHandler {
 	public boolean begin(Object element, Renderer renderer)
 			throws RenderingException {
 		IncreaseIntoNextStitch operation = (IncreaseIntoNextStitch) element;
-		renderer.renderIncreaseIntoNextStitch(operation);
+		renderer.beginIncreaseIntoNextStitch(operation);
 		return true;
 	}
 
+	public void end(Object element, Renderer renderer) throws RenderingException {
+		IncreaseIntoNextStitch operation = (IncreaseIntoNextStitch) element;
+		renderer.endIncreaseIntoNextStitch(operation);
+	}
+	
 }
