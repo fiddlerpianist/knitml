@@ -1,4 +1,4 @@
-#summary Thoughts around calculating needle lenghths for a pattern knitted in the round
+#summary Thoughts around calculating needle length for a pattern knitted in the round
 
 = Introduction =
 
