@@ -21,6 +21,7 @@ import com.knitml.core.model.directions.inline.Decrease;
 import com.knitml.core.model.directions.inline.FromStitchHolder;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
+import com.knitml.core.model.directions.inline.InlineCastOn;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
@@ -106,6 +107,7 @@ public interface Renderer {
 	void renderCrossStitches(CrossStitches element);
 	void renderDesignateEndOfRow(KnittingShape currentKnittingShape);
 	void renderTurn();
+	void renderCastOn(InlineCastOn castOn);
 	void renderPickUpStitches(InlinePickUpStitches pickUpStitches);
 	void renderPlaceMarker();
 	void renderRemoveMarker();

@@ -35,6 +35,17 @@ class LanguageILTests {
 	}
 	
 	@Test
+	void inlineCastOn() {
+		String actual = toXml ("row: co 24 sts")
+		String expected = '''
+        <row>
+          <inline-cast-on>24</inline-cast-on>
+        </row>
+        '''
+        assertXMLEqual expected, actual
+	}
+	
+	@Test
 	void informationalMessageNotInRow() {
 		String actual = toXml ("section { co 10 sts, informationalMessage withLabel 'Hello World' }")
 		String expected = '''

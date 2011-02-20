@@ -9,6 +9,15 @@ public class CastOn implements BlockOperation {
 	protected String style;
 	protected boolean countAsRow;
 
+	public CastOn() {
+	}
+	
+	public CastOn(Integer numberOfStitches, String yarnIdRef, String style) {
+		this.numberOfStitches = numberOfStitches;
+		this.yarnIdRef = yarnIdRef;
+		this.style = style;
+	}
+
 	public boolean isCountAsRow() {
 		return countAsRow;
 	}

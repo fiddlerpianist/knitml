@@ -1,6 +1,5 @@
 package com.knitml.tools.runner
 
-import groovy.xml.MarkupBuilder
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

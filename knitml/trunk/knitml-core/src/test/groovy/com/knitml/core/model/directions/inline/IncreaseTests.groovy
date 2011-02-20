@@ -136,9 +136,4 @@ class IncreaseTests {
 		marshalXmlAndCompare(pattern,xml)
 	}
 	
-	
-	static void main(args) {
-		JUnitCore.main(IncreaseTests.name)
-	}
-	
 }
