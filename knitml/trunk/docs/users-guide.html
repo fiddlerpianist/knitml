@@ -1,6 +1,6 @@
 <html><head>
       <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-   <title>The KnitML User's Guide</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.73.2"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e2"></a>The KnitML User's Guide</h1></div><div><div class="author"><h3 class="author">Jonathan Whitall</h3><code class="email">&lt;<a class="email" href="mailto:fiddlerpianist@gmail.com">fiddlerpianist@gmail.com</a>&gt;</code></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="part"><a href="#d0e11">I. Getting Started</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e14">1. Introduction</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e56">2. Installing and Running KnitML</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></dd></dl></dd><dt><span class="part"><a href="#d0e243">II. Writing KnitML Patterns</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e246">3. The Knitting Expression Language</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e249">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e430">Writing a Simple Pattern</a></span></dt><dt><span class="sect1"><a href="#d0e556">Improving the Pattern</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e611">4. The XML Pattern</a></span></dt><dt><span class="chapter"><a href="#internationalization">5. Internationalization</a></span></dt></dl></dd><dt><span class="part"><a href="#d0e621">III. Customizing and Extending KnitML</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e624">6. Customizing the Pattern Renderer</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e627">Overview</a></span></dt><dt><span class="sect1"><a href="#personalizing-patterns">Personalizing Patterns</a></span></dt><dt><span class="sect1"><a href="#adding-support-for-a-new-language">Adding Support for a New Language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#d0e755">Configuring your Environment</a></span></dt><dt><span class="sect2"><a href="#d0e789">Handling Plurals</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d0e874">7. Integrating with APIs</a></span></dt></dl></dd><dt><span class="appendix"><a href="#d0e879">A. The Specification</a></span></dt><dt><span class="appendix"><a href="#d0e887">B. Knitting Expression Language Reference</a></span></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>B.1. <a href="#el-function-table">Defined Expression Language Functions</a></dt><dt>B.2. <a href="#custom-function-example-table">Custom Function Examples</a></dt><dt>B.3. <a href="#d0e3159">Expression Language Data Types</a></dt></dl></div><div class="part" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e11"></a>Part&nbsp;I.&nbsp;Getting Started</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#d0e14">1. Introduction</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e56">2. Installing and Running KnitML</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></dd></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e14"></a>Chapter&nbsp;1.&nbsp;Introduction</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e17"></a>Overview</h2></div></div></div><p>The KnitML project's goal is to define and promote the adoption of a standard content
+   <title>The KnitML User's Guide</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div lang="en" class="book" title="The KnitML User's Guide"><div class="titlepage"><div><div><h1 class="title"><a name="d0e2"></a>The KnitML User's Guide</h1></div><div><div class="author"><h3 class="author">Jonathan Whitall</h3><code class="email">&lt;<a class="email" href="mailto:fiddlerpianist@gmail.com">fiddlerpianist@gmail.com</a>&gt;</code></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="part"><a href="#d0e11">I. Getting Started</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e14">1. Introduction</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e56">2. Installing and Running KnitML</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></dd></dl></dd><dt><span class="part"><a href="#d0e243">II. Writing KnitML Patterns</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e246">3. The Knitting Expression Language</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e249">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e430">Writing a Simple Pattern</a></span></dt><dt><span class="sect1"><a href="#d0e556">Improving the Pattern</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e611">4. The XML Pattern</a></span></dt><dt><span class="chapter"><a href="#internationalization">5. Internationalization</a></span></dt></dl></dd><dt><span class="part"><a href="#d0e621">III. Customizing and Extending KnitML</a></span></dt><dd><dl><dt><span class="chapter"><a href="#d0e624">6. Customizing the Pattern Renderer</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e627">Overview</a></span></dt><dt><span class="sect1"><a href="#personalizing-patterns">Personalizing Patterns</a></span></dt><dt><span class="sect1"><a href="#adding-support-for-a-new-language">Adding Support for a New Language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#d0e755">Configuring your Environment</a></span></dt><dt><span class="sect2"><a href="#d0e789">Handling Plurals</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d0e874">7. Integrating with APIs</a></span></dt></dl></dd><dt><span class="appendix"><a href="#d0e879">A. The Specification</a></span></dt><dt><span class="appendix"><a href="#d0e887">B. Knitting Expression Language Reference</a></span></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>B.1. <a href="#el-function-table">Defined Expression Language Functions</a></dt><dt>B.2. <a href="#custom-function-example-table">Custom Function Examples</a></dt><dt>B.3. <a href="#d0e3338">Expression Language Data Types</a></dt></dl></div><div class="part" title="Part&nbsp;I.&nbsp;Getting Started"><div class="titlepage"><div><div><h1 class="title"><a name="d0e11"></a>Part&nbsp;I.&nbsp;Getting Started</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#d0e14">1. Introduction</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e56">2. Installing and Running KnitML</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></dd></dl></div><div class="chapter" title="Chapter&nbsp;1.&nbsp;Introduction"><div class="titlepage"><div><div><h2 class="title"><a name="d0e14"></a>Chapter&nbsp;1.&nbsp;Introduction</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e17">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e26">Pattern Formats</a></span></dt><dt><span class="sect1"><a href="#d0e37">Known Limitations</a></span></dt></dl></div><div class="sect1" title="Overview"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e17"></a>Overview</h2></div></div></div><p>The KnitML project's goal is to define and promote the adoption of a standard content
           model for knitting patterns. By developing a community-supported specification and
           providing basic rendering and transformation tools, the project aims to make KnitML easy
           to use and valuable to the knitter.</p><p>Knitting patterns are algorithms as much as they are documents. Consequently, it is
@@ -11,7 +11,7 @@
           rendered as a comprehensible published pattern.</p><p>The tools provided by the KnitML Project are meant to show the value of KnitML to the
           knitting community by demonstrating the advantages to standardizing on a content model.
           They are by no means exhaustive. Independent efforts to write software which understands
-          KnitML patterns (such as the Knitter project) are already underway. </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e26"></a>Pattern Formats</h2></div></div></div><p>KnitML patterns are expressed primarily using a technology called XML (Extensible
+          KnitML patterns (such as the Knitter project) are already underway. </p></div><div class="sect1" title="Pattern Formats"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e26"></a>Pattern Formats</h2></div></div></div><p>KnitML patterns are expressed primarily using a technology called XML (Extensible
           Markup Language). XML is an international standard for expressing custom document markup.
           KnitML provides validation rules to an XML parser (in the form of a schema) which ensures
           that the knitting pattern follows the expected syntax. If you use an XML authoring tool to
@@ -30,33 +30,33 @@
           software (such as the validator and the pattern renderer).</p><p>While we encourage all patterns to be developed in KnittingEL, tooling support is
           limited to basic text editing. Because of this, it's pretty easy to create KEL files that
           will produce invalid XML files. XML tooling is far more extensive and will better be able
-          to guide the pattern designer to create a valid pattern.</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e37"></a>Known Limitations</h2></div></div></div><div class="itemizedlist"><ul type="disc"><li><p>You cannot currently express seaming knitted edges together</p></li><li><p>Provisional cast ons are not yet supported</p></li><li><p>Support for picking up stitches is somewhat limited (because edges cannot be
-              expressed)</p></li><li><p>n-sized decreases are not yet supported (where n is more than a double
-            decrease)</p></li><li><p>repeats are completely literal (there is no way to express a soft repeat)</p></li></ul></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e56"></a>Chapter&nbsp;2.&nbsp;Installing and Running KnitML</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e59"></a>Installation</h2></div></div></div><p>KnitML requires Java 1.5 (or higher) to run. If you do not have Java 1.5 installed,
-          please visit the Sun website to download it (http://java.sun.com).</p><p>To set up your machine to run the <code class="code">knitml</code> executable, you must:</p><div class="orderedlist"><ol type="1"><li><p>Set the <code class="code">JAVA_HOME</code> environment variable to the root directory of your
-              Java installation (for example <code class="code">C:\Program Files\Java\jre1.5.0_11</code>)</p></li><li><p>Set the <code class="code">KNITML_HOME</code> environment variable to the root directory of
+          to guide the pattern designer to create a valid pattern.</p></div><div class="sect1" title="Known Limitations"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e37"></a>Known Limitations</h2></div></div></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>You cannot currently express seaming knitted edges together</p></li><li class="listitem"><p>Provisional cast ons are not yet supported</p></li><li class="listitem"><p>Support for picking up stitches is somewhat limited (because edges cannot be
+              expressed)</p></li><li class="listitem"><p>n-sized decreases are not yet supported (where n is more than a double
+            decrease)</p></li><li class="listitem"><p>repeats are completely literal (there is no way to express a soft repeat)</p></li></ul></div></div></div><div class="chapter" title="Chapter&nbsp;2.&nbsp;Installing and Running KnitML"><div class="titlepage"><div><div><h2 class="title"><a name="d0e56"></a>Chapter&nbsp;2.&nbsp;Installing and Running KnitML</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e59">Installation</a></span></dt><dt><span class="sect1"><a href="#d0e99">Project Layout</a></span></dt><dt><span class="sect1"><a href="#d0e136">Processing XML files</a></span></dt><dt><span class="sect1"><a href="#d0e185">Processing KEL files</a></span></dt></dl></div><div class="sect1" title="Installation"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e59"></a>Installation</h2></div></div></div><p>KnitML requires Java 1.5 (or higher) to run. If you do not have Java 1.5 installed,
+          please visit the Sun website to download it (http://java.sun.com).</p><p>To set up your machine to run the <code class="code">knitml</code> executable, you must:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Set the <code class="code">JAVA_HOME</code> environment variable to the root directory of your
+              Java installation (for example <code class="code">C:\Program Files\Java\jre1.5.0_11</code>)</p></li><li class="listitem"><p>Set the <code class="code">KNITML_HOME</code> environment variable to the root directory of
               where you unzipped the KnitML distribution (for example C:\Program
-            Files\knitml-0.4).</p></li><li><p>For Windows, set the <code class="code">KNITML_HOME/bin</code> directory in your PATH
+            Files\knitml-0.4).</p></li><li class="listitem"><p>For Windows, set the <code class="code">KNITML_HOME/bin</code> directory in your PATH
               environment variable so that the <code class="code">knitml</code> command can be run from any
               directory. (The actual value will be <code class="code">%KNITML_HOME%/bin</code> appended to the
               end of the PATH variable.)</p></li></ol></div><p>For Windows XP, you can set environment variables from the Start menu. Select
           Settings, then Control Panel, then System. Select the Advanced tab, then press the
           Environment Variables button, highlight the System Variable (or User Variable) with the
           name you want, click Edit, add or append the desired value, then click OK twice.
-        (Whew!)</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e99"></a>Project Layout</h2></div></div></div><p>The <code class="code">samples</code> directory contains several different patterns to showcase the
-          both XML and KnittingEL patterns: </p><div class="itemizedlist"><ul type="disc"><li><p>A simple square (for use with the tutorial in this document)</p></li><li><p>A sampler swatch (includes color work and cables)</p></li><li><p>A basic sock</p></li><li><p>A sock based from the Nutkin pattern (called Nutkin2)</p></li></ul></div><p>The <code class="code">conf</code> directory contains files which configure the way KnitML runs. It
+        (Whew!)</p></div><div class="sect1" title="Project Layout"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e99"></a>Project Layout</h2></div></div></div><p>The <code class="code">samples</code> directory contains several different patterns to showcase the
+          both XML and KnittingEL patterns: </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>A simple square (for use with the tutorial in this document)</p></li><li class="listitem"><p>A sampler swatch (includes color work and cables)</p></li><li class="listitem"><p>A basic sock</p></li><li class="listitem"><p>A sock based from the Nutkin pattern (called Nutkin2)</p></li></ul></div><p>The <code class="code">conf</code> directory contains files which configure the way KnitML runs. It
           includes logging configuration as well as several files which configure the validator and
           pattern renderer. The conf directory is added to the classpath when a <code class="code">knitml</code>
           command is executed.</p><p>The pattern renderer uses a set of property files (called a resource bundle) built
           into the module that allow rendering in different languages. Currently, KnitML provides
           support for both English and Spanish rendering. This will expand as people contribute more
           languages. If you would like to add support for a new language, see <a class="xref" href="#adding-support-for-a-new-language" title="Adding Support for a New Language">the section called &#8220;Adding Support for a New Language&#8221;</a>.</p><p>You can use your own property file to further customize how a pattern will look when
-          it is rendered. See <a class="xref" href="#personalizing-patterns" title="Personalizing Patterns">the section called &#8220;Personalizing Patterns&#8221;</a> for guidance.</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e136"></a>Processing XML files</h2></div></div></div><p>To process a KnitML file in XML format, first change to the directory where your XML
-          file is located, then run one of the following commands:</p><div class="itemizedlist"><ul type="disc"><li><pre class="programlisting">knitml validate &lt;xml-filename&gt;
+          it is rendered. See <a class="xref" href="#personalizing-patterns" title="Personalizing Patterns">the section called &#8220;Personalizing Patterns&#8221;</a> for guidance.</p></div><div class="sect1" title="Processing XML files"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e136"></a>Processing XML files</h2></div></div></div><p>To process a KnitML file in XML format, first change to the directory where your XML
+          file is located, then run one of the following commands:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><pre class="programlisting">knitml validate &lt;xml-filename&gt;
                 [-output &lt;validated-filename&gt;]
-                [-checksyntax]</pre><p>Creates a validated XML file from an unvalidated XML file</p></li><li><pre class="programlisting">knitml render &lt;xml-filename&gt;
+                [-checksyntax]</pre><p>Creates a validated XML file from an unvalidated XML file</p></li><li class="listitem"><pre class="programlisting">knitml render &lt;xml-filename&gt;
               [-output &lt;pattern-filename&gt;]
-              [-checksyntax]</pre><p>Renders a pattern from a validated XML file</p></li><li><pre class="programlisting">knitml validateAndRender &lt;xml-filename&gt;
+              [-checksyntax]</pre><p>Renders a pattern from a validated XML file</p></li><li class="listitem"><pre class="programlisting">knitml validateAndRender &lt;xml-filename&gt;
                          [-output &lt;pattern-filename&gt;]
                          [-checksyntax]</pre><p>Renders a pattern from an unvalidated XML file</p></li></ul></div><p>If the <code class="code">-output</code> option is not specified, the result will be sent to the
           screen (i.e. "standard out"). The <code class="code">-checksyntax</code> option performs XML schema
@@ -64,21 +64,21 @@
           check the syntax, as the software is configured to resolve the XML schemas provided with
           the KnitML core JAR file.</p><p>You can also use the following shortcuts: <code class="code">r</code> for <code class="code">render</code>,
             <code class="code">v</code> for <code class="code">validate</code>, <code class="code">vr</code> for
-          <code class="code">validateAndRender</code>.</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e185"></a>Processing KEL files</h2></div></div></div><p>To process a KnitML file in KEL format, first change to the directory where the KEL
-          file is located, then run the appropriate KnitML command:</p><div class="itemizedlist"><ul type="disc"><li><p>
+          <code class="code">validateAndRender</code>.</p></div><div class="sect1" title="Processing KEL files"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e185"></a>Processing KEL files</h2></div></div></div><p>To process a KnitML file in KEL format, first change to the directory where the KEL
+          file is located, then run the appropriate KnitML command:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
               <code class="code">knitml convert &lt;knittingEL-filename&gt; [-output &lt;knitml-filename&gt;]
                 [-checksyntax]</code>
-            </p><p>Converts a KEL file to an unvalidated XML file</p></li><li><p>
+            </p><p>Converts a KEL file to an unvalidated XML file</p></li><li class="listitem"><p>
               <code class="code">knitml convertAndValidate &lt;knittingEL-filename&gt; [-output
                 &lt;validated-knitml-filename&gt;] [-checksyntax]</code>
-            </p><p>Converts a KEL file to a validated XML file</p></li><li><p>
+            </p><p>Converts a KEL file to a validated XML file</p></li><li class="listitem"><p>
               <code class="code">knitml convertValidateAndRender &lt;knittingEL-filename&gt; [-output
                 &lt;pattern-filename&gt;] [-checksyntax]</code>
             </p><p>Converts a KEL file directly to a rendered pattern</p></li></ul></div><p>
           <code class="code">-output</code> and <code class="code">-checksyntax</code> behave as described in the previous
           section.</p><p>You can also use the following shortcuts: <code class="code">c</code> for <code class="code">convert</code>,
             <code class="code">cv</code> for <code class="code">convertAndValidate</code>, <code class="code">cvr</code> for
-            <code class="code">convertValidateAndRender</code>.</p></div></div></div><div class="part" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e243"></a>Part&nbsp;II.&nbsp;Writing KnitML Patterns</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#d0e246">3. The Knitting Expression Language</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e249">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e430">Writing a Simple Pattern</a></span></dt><dt><span class="sect1"><a href="#d0e556">Improving the Pattern</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e611">4. The XML Pattern</a></span></dt><dt><span class="chapter"><a href="#internationalization">5. Internationalization</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e246"></a>Chapter&nbsp;3.&nbsp;The Knitting Expression Language</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e249">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e430">Writing a Simple Pattern</a></span></dt><dt><span class="sect1"><a href="#d0e556">Improving the Pattern</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e249"></a>Overview</h2></div></div></div><p>The Knitting Expression Language (formerly known as GroovyKnit) is based on the Groovy
+            <code class="code">convertValidateAndRender</code>.</p></div></div></div><div class="part" title="Part&nbsp;II.&nbsp;Writing KnitML Patterns"><div class="titlepage"><div><div><h1 class="title"><a name="d0e243"></a>Part&nbsp;II.&nbsp;Writing KnitML Patterns</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#d0e246">3. The Knitting Expression Language</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e249">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e430">Writing a Simple Pattern</a></span></dt><dt><span class="sect1"><a href="#d0e556">Improving the Pattern</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d0e611">4. The XML Pattern</a></span></dt><dt><span class="chapter"><a href="#internationalization">5. Internationalization</a></span></dt></dl></div><div class="chapter" title="Chapter&nbsp;3.&nbsp;The Knitting Expression Language"><div class="titlepage"><div><div><h2 class="title"><a name="d0e246"></a>Chapter&nbsp;3.&nbsp;The Knitting Expression Language</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e249">Overview</a></span></dt><dt><span class="sect1"><a href="#d0e430">Writing a Simple Pattern</a></span></dt><dt><span class="sect1"><a href="#d0e556">Improving the Pattern</a></span></dt></dl></div><div class="sect1" title="Overview"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e249"></a>Overview</h2></div></div></div><p>The Knitting Expression Language (formerly known as GroovyKnit) is based on the Groovy
           programming language and GroovyMarkup architecture
             (<code class="uri">http://groovy.codehaus.org/GroovyMarkup</code>). Elements are specified by name,
           and sub-elements go between curly braces following the name. So this in KnittingEL:</p><pre class="programlisting">pattern {
@@ -154,7 +154,7 @@ Row: k3, p3</pre><p>And
           <code class="code">{}</code>s instead.</p><p>You can use the : syntax for any of the following functions: <code class="code">row</code>,
             <code class="code">round</code>, <code class="code">nextRow</code>, <code class="code">nextRound</code>, <code class="code">shortRow</code>.
           The <code class="code">:</code> syntax used with other functions exists for language purposes only and
-          is simply ignored (producing the same effect as if it were omitted).</p><p>KnittingEL also defines shorthands for common operations. Here are a few:</p><div class="informaltable"><table border="0"><colgroup><col><col></colgroup><thead><tr><th>KnittingEL</th><th>XML</th></tr></thead><tbody><tr><td>
+          is simply ignored (producing the same effect as if it were omitted).</p><p>KnittingEL also defines shorthands for common operations. Here are a few:</p><div class="informaltable"><table border="0"><colgroup><col class="KnittingEL"><col class="XML"></colgroup><thead><tr><th>KnittingEL</th><th>XML</th></tr></thead><tbody><tr><td>
                   <pre class="programlisting">row { k to end }</pre>
                 </td><td>
                   <pre class="programlisting">&lt;row&gt;
@@ -182,7 +182,7 @@ Row: k3, p3</pre><p>And
           </p><pre class="programlisting">yarnType 'my-yarn' [brand:'Cotton Classic', weight:'worsted']
 yarnType [id:'my-yarn', brand:'Cotton Classic', weight:'worsted']
 &lt;yarn-type id="my-yarn" brand="Cotton Classic" weight="worsted"/&gt;</pre><p>
-        </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e430"></a>Writing a Simple Pattern</h2></div></div></div><p>For this example, we will compose the KnitML pattern using the KnittingEL syntax. The
+        </p></div><div class="sect1" title="Writing a Simple Pattern"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e430"></a>Writing a Simple Pattern</h2></div></div></div><p>For this example, we will compose the KnitML pattern using the KnittingEL syntax. The
           pattern is for a simple 4x4 in square knitted in stockinette stitch.</p><p>Create a file name <code class="code">simple-square.kel</code>. We will start by defining the
             <code class="code">pattern</code> element, the root element for all KnitML patterns. Since we're not
           internationalizing this pattern, we'll specify that it was written in <code class="code">'en'</code>
@@ -369,7 +369,7 @@ Hilera 2: Todo del reves
 Repite hileras 1-2 hasta que la pieza mida 4 in.
 ...</pre><p>
         </p><p>Note that the header information (i.e. the parts of the pattern written in English)
-          would always be written in English unless you internationalized them. See <a class="xref" href="#internationalization" title="Chapter&nbsp;5.&nbsp;Internationalization">Chapter&nbsp;5, <i>Internationalization</i></a> for more information.</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e556"></a>Improving the Pattern</h2></div></div></div><p>Our simple square pattern renders fine. There are, however, a couple of quirks that we
+          would always be written in English unless you internationalized them. See <a class="xref" href="#internationalization" title="Chapter&nbsp;5.&nbsp;Internationalization">Chapter&nbsp;5, <i>Internationalization</i></a> for more information.</p></div><div class="sect1" title="Improving the Pattern"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e556"></a>Improving the Pattern</h2></div></div></div><p>Our simple square pattern renders fine. There are, however, a couple of quirks that we
           can eliminate. The first is that there are not line breaks where you would expect them to
           be in a traditional pattern. You can fix this by adding section elements to break the
           pattern up into logical paragraphs.</p><pre class="programlisting">Pattern 'en' {
@@ -457,19 +457,19 @@ Row 1: Bind off all stitches</pre><p>Alternatively,
 Finish It Off!
 --------------
 Next Row: Bind off all stitches</pre><p>
-        </p></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.d0e315" href="#d0e315" class="para">1</a>] </sup>Even parameters can be on a different line if parentheses are explicitly
+        </p></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a id="ftn.d0e315" href="#d0e315" class="para">1</a>] </sup>Even parameters can be on a different line if parentheses are explicitly
               specified. Map arguments delineated by [] can also be split across lines. However, a
-              row which uses the colon syntax must be completely defined on the same line.</p></div><div class="footnote"><p><sup>[<a name="ftn.d0e474" href="#d0e474" class="para">2</a>] </sup>Note that using a colon here has a slightly different implication than using it
-              with the <code class="code">row</code> family of functions, as was previously discussed.</p></div><div class="footnote"><p><sup>[<a name="ftn.d0e536" href="#d0e536" class="para">3</a>] </sup>Also note that the bind off row is labeled as Row 25. That's because the pattern's
+              row which uses the colon syntax must be completely defined on the same line.</p></div><div class="footnote"><p><sup>[<a id="ftn.d0e474" href="#d0e474" class="para">2</a>] </sup>Note that using a colon here has a slightly different implication than using it
+              with the <code class="code">row</code> family of functions, as was previously discussed.</p></div><div class="footnote"><p><sup>[<a id="ftn.d0e536" href="#d0e536" class="para">3</a>] </sup>Also note that the bind off row is labeled as Row 25. That's because the pattern's
               row gauge is set to 6 rows per inch, and the repeat was done for 4 inches. That would
-              make the next row knit row 25.</p></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e611"></a>Chapter&nbsp;4.&nbsp;The XML Pattern</h2></div></div></div><p>TODO</p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="internationalization"></a>Chapter&nbsp;5.&nbsp;Internationalization</h2></div></div></div><p>TODO</p></div></div><div class="part" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e621"></a>Part&nbsp;III.&nbsp;Customizing and Extending KnitML</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#d0e624">6. Customizing the Pattern Renderer</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e627">Overview</a></span></dt><dt><span class="sect1"><a href="#personalizing-patterns">Personalizing Patterns</a></span></dt><dt><span class="sect1"><a href="#adding-support-for-a-new-language">Adding Support for a New Language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#d0e755">Configuring your Environment</a></span></dt><dt><span class="sect2"><a href="#d0e789">Handling Plurals</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d0e874">7. Integrating with APIs</a></span></dt></dl></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e624"></a>Chapter&nbsp;6.&nbsp;Customizing the Pattern Renderer</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e627">Overview</a></span></dt><dt><span class="sect1"><a href="#personalizing-patterns">Personalizing Patterns</a></span></dt><dt><span class="sect1"><a href="#adding-support-for-a-new-language">Adding Support for a New Language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#d0e755">Configuring your Environment</a></span></dt><dt><span class="sect2"><a href="#d0e789">Handling Plurals</a></span></dt></dl></dd></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e627"></a>Overview</h2></div></div></div><p>The <code class="code">operations</code> resource bundle used to render patterns is embedded in the
+              make the next row knit row 25.</p></div></div></div><div class="chapter" title="Chapter&nbsp;4.&nbsp;The XML Pattern"><div class="titlepage"><div><div><h2 class="title"><a name="d0e611"></a>Chapter&nbsp;4.&nbsp;The XML Pattern</h2></div></div></div><p>TODO</p></div><div class="chapter" title="Chapter&nbsp;5.&nbsp;Internationalization"><div class="titlepage"><div><div><h2 class="title"><a name="internationalization"></a>Chapter&nbsp;5.&nbsp;Internationalization</h2></div></div></div><p>TODO</p></div></div><div class="part" title="Part&nbsp;III.&nbsp;Customizing and Extending KnitML"><div class="titlepage"><div><div><h1 class="title"><a name="d0e621"></a>Part&nbsp;III.&nbsp;Customizing and Extending KnitML</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#d0e624">6. Customizing the Pattern Renderer</a></span></dt><dd><dl><dt><span class="sect1"><a href="#d0e627">Overview</a></span></dt><dt><span class="sect1"><a href="#personalizing-patterns">Personalizing Patterns</a></span></dt><dt><span class="sect1"><a href="#adding-support-for-a-new-language">Adding Support for a New Language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#d0e755">Configuring your Environment</a></span></dt><dt><span class="sect2"><a href="#d0e789">Handling Plurals</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d0e874">7. Integrating with APIs</a></span></dt></dl></div><div class="chapter" title="Chapter&nbsp;6.&nbsp;Customizing the Pattern Renderer"><div class="titlepage"><div><div><h2 class="title"><a name="d0e624"></a>Chapter&nbsp;6.&nbsp;Customizing the Pattern Renderer</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#d0e627">Overview</a></span></dt><dt><span class="sect1"><a href="#personalizing-patterns">Personalizing Patterns</a></span></dt><dt><span class="sect1"><a href="#adding-support-for-a-new-language">Adding Support for a New Language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#d0e755">Configuring your Environment</a></span></dt><dt><span class="sect2"><a href="#d0e789">Handling Plurals</a></span></dt></dl></dd></dl></div><div class="sect1" title="Overview"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e627"></a>Overview</h2></div></div></div><p>The <code class="code">operations</code> resource bundle used to render patterns is embedded in the
             <code class="code">knitml-pattern-renderer.jar</code> file. For your reference, the master resource
           bundle file has been copied to <code class="code">KNITML_HOME/conf/local-operations.properties</code>.
           If you open it, you will see a list of name / value pairs, each separated by an equals
           sign and delineated by line. Each entry constitutes a phrase in a knitting pattern, with
           parameters supplied to it by the renderer and referenced by <code class="code">{0}</code> (for the
           first parameter), <code class="code">{1}</code> (for the second parameter), etc. You will base any
-          customizations you make to the renderer on this file.</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="personalizing-patterns"></a>Personalizing Patterns</h2></div></div></div><p>As knitters are a diverse group of individuals, knitters often use different notations
+          customizations you make to the renderer on this file.</p></div><div class="sect1" title="Personalizing Patterns"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="personalizing-patterns"></a>Personalizing Patterns</h2></div></div></div><p>As knitters are a diverse group of individuals, knitters often use different notations
           and conventions to express the same technique. Sometimes terms vary regionally differ, and
           other times the techniques vary slightly but produce the same result.</p><p>Knitting a stitch so that it is twisted is a good example of a technique which can be
           described using different terms. Most knitters know this technique by the term "knitting
@@ -502,7 +502,7 @@ Next Row: Bind off all stitches</pre><p>
         </p><p>and it would look like this<sup>[<a name="d0e738" href="#ftn.d0e738" class="footnote">5</a>]</sup>:</p><p>
           </p><pre class="programlisting">Row 1: k 12 sts, yrn, k 1 st</pre><p>
         </p><p>There are several more examples of personalizations in the
-            <code class="code">custom-operations.properties</code> file.</p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="adding-support-for-a-new-language"></a>Adding Support for a New Language</h2></div></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e755"></a>Configuring your Environment</h3></div></div></div><p>To add a new language to the renderer, copy
+            <code class="code">custom-operations.properties</code> file.</p></div><div class="sect1" title="Adding Support for a New Language"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="adding-support-for-a-new-language"></a>Adding Support for a New Language</h2></div></div></div><div class="sect2" title="Configuring your Environment"><div class="titlepage"><div><div><h3 class="title"><a name="d0e755"></a>Configuring your Environment</h3></div></div></div><p>To add a new language to the renderer, copy
               <code class="code">KNITML_HOME/conf/local-operations.properties</code> to a file named
               <code class="code">operations.properties</code> in the same directory. Next, tell the pattern
             renderer to use the local <code class="code">operations</code> resource bundle rather than the one
@@ -512,12 +512,12 @@ Next Row: Bind off all stitches</pre><p>
             the <code class="code">messageSource.basename</code> property.</p><p>Next, open the <code class="code">operations.properties</code> file you just created and
             translate the values (to the right of the equal signs) to the target language. The name
             of each entry aims to be fairly intuitive. Ine the case of more complex entries, a
-            comment (a line starting with <code class="code">#</code>) appears above the entry.</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e789"></a>Handling Plurals</h3></div></div></div><p>In short, every language has a set of plural forms. Many western languages use one
+            comment (a line starting with <code class="code">#</code>) appears above the entry.</p></div><div class="sect2" title="Handling Plurals"><div class="titlepage"><div><div><h3 class="title"><a name="d0e789"></a>Handling Plurals</h3></div></div></div><p>In short, every language has a set of plural forms. Many western languages use one
             form for the number 1, and a second form for everything else. This is by no means
             universal. Chinese, for instance, has only one plural form, while Scottish Gaelic has
             three and Irish has five! While there is no standard for dealing with this issue,
             Mozilla has developed a very practical approach to solving the problem, therefore we
-            will adopt the same strategy here. Consult <a class="link" href="https://developer.mozilla.org/en/Localization_and_Plurals">Localization
+            will adopt the same strategy here. Consult <a class="link" href="https://developer.mozilla.org/en/Localization_and_Plurals" target="_top">Localization
               and Plurals</a> to determine your language's plural rule number.<sup>[<a name="d0e797" href="#ftn.d0e797" class="footnote">6</a>]</sup>. Once you have determined the plural rule number to use, set the number as
             the value of the <code class="code">knitml.pattern-renderer.plural-rule</code> property at the top of
             the file. </p><p>Each entry in the <code class="code">operations</code> file that ends with <code class="code">.$$$</code>
@@ -550,16 +550,16 @@ Next Row: Bind off all stitches</pre><p>
           </p><p>This specifies that the <code class="code">$$1</code> entry renders first, then the
             <code class="code">$$0</code>, so it will render something like <code class="code">Over 1 stitch, cross next 2
               stitches</code>.</p><p>A <code class="code">$$order</code> value of <code class="code">01</code> in this case is the same as the
-            default behavior (which is what happens if you do not provide the property).</p></div></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.d0e657" href="#d0e657" class="para">4</a>] </sup>In fact, the associated entries in the <code class="code">operations.properties</code> file
+            default behavior (which is what happens if you do not provide the property).</p></div></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a id="ftn.d0e657" href="#d0e657" class="para">4</a>] </sup>In fact, the associated entries in the <code class="code">operations.properties</code> file
               that render a twisted knit stitch are tagged "through-trailing-loop" and are described
               as such in the XML form. This is because it is more accurate, not because it is a more
-              common term.</p></div><div class="footnote"><p><sup>[<a name="ftn.d0e738" href="#d0e738" class="para">5</a>] </sup>Plurals are covered in the next section of this chapter.</p></div><div class="footnote"><p><sup>[<a name="ftn.d0e797" href="#d0e797" class="para">6</a>] </sup>Most Western languages use plural rule #1. French uses either rule #1 or rule
-                #2, depending on the region.</p></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e874"></a>Chapter&nbsp;7.&nbsp;Integrating with APIs</h2></div></div></div><p>This chapter will discuss writing your own software to integrate with KnitML's public
+              common term.</p></div><div class="footnote"><p><sup>[<a id="ftn.d0e738" href="#d0e738" class="para">5</a>] </sup>Plurals are covered in the next section of this chapter.</p></div><div class="footnote"><p><sup>[<a id="ftn.d0e797" href="#d0e797" class="para">6</a>] </sup>Most Western languages use plural rule #1. French uses either rule #1 or rule
+                #2, depending on the region.</p></div></div></div><div class="chapter" title="Chapter&nbsp;7.&nbsp;Integrating with APIs"><div class="titlepage"><div><div><h2 class="title"><a name="d0e874"></a>Chapter&nbsp;7.&nbsp;Integrating with APIs</h2></div></div></div><p>This chapter will discuss writing your own software to integrate with KnitML's public
         APIs. This chapter will primarily be intended for programmers wishing to integrate their own
         knitting application with KnitML interfaces. A separate programmer's guide may be written
-        instead.</p></div></div><div class="appendix" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e879"></a>Appendix&nbsp;A.&nbsp;The Specification</h2></div></div></div><p>This section will detail the KnitML specification. For now, behavior is described fairly
-      accurately in the <a class="link" href="schema/pattern-0.4.xsd.html">XML Schema</a>.</p></div><div class="appendix" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e887"></a>Appendix&nbsp;B.&nbsp;Knitting Expression Language Reference</h2></div></div></div><p>
-      </p><div class="table"><a name="el-function-table"></a><p class="title"><b>Table&nbsp;B.1.&nbsp;Defined Expression Language Functions</b></p><div class="table-contents"><table summary="Defined Expression Language Functions" width="100%" border="1"><colgroup><col align="left"><col align="left"><col align="left"><col align="left"><col align="left"></colgroup><thead><tr><th align="left">Function</th><th align="left">Parameters</th><th align="left">Description</th><th align="left">Example</th><th align="left">XML Equivalent</th></tr></thead><tbody><tr><td align="left">applyNextRow</td><td align="left">ref as <a class="link" href="#idref-type">IDREF</a>
+        instead.</p></div></div><div class="appendix" title="Appendix&nbsp;A.&nbsp;The Specification"><div class="titlepage"><div><div><h2 class="title"><a name="d0e879"></a>Appendix&nbsp;A.&nbsp;The Specification</h2></div></div></div><p>This section will detail the KnitML specification. For now, behavior is described fairly
+      accurately in the <a class="link" href="schema/pattern-0.4.xsd.html" target="_top">XML Schema</a>.</p></div><div class="appendix" title="Appendix&nbsp;B.&nbsp;Knitting Expression Language Reference"><div class="titlepage"><div><div><h2 class="title"><a name="d0e887"></a>Appendix&nbsp;B.&nbsp;Knitting Expression Language Reference</h2></div></div></div><p>
+      </p><div class="table"><a name="el-function-table"></a><p class="title"><b>Table&nbsp;B.1.&nbsp;Defined Expression Language Functions</b></p><div class="table-contents"><table summary="Defined Expression Language Functions" width="100%" border="1"><colgroup><col align="left" class="Function"><col align="left" class="Parameters"><col align="left" class="Description"><col align="left" class="Example"><col align="left" class="XML Equivalent"></colgroup><thead><tr><th align="left">Function</th><th align="left">Parameters</th><th align="left">Description</th><th align="left">Example</th><th align="left">XML Equivalent</th></tr></thead><tbody><tr><td align="left">applyNextRow</td><td align="left">ref as <a class="link" href="#idref-type">IDREF</a>
               </td><td align="left">Use the next row for the given block instruction</td><td align="left">
                 <code class="code">applyNextRow 'my'</code>
               </td><td align="left">
@@ -825,6 +825,10 @@ k3 tbl</pre>
                 <code class="code">k2tog</code>
               </td><td align="left">
                 <code class="code">&lt;decrease type="k2tog"/&gt;</code>
+              </td></tr><tr><td align="left">k3tog</td><td align="left">(none)</td><td align="left">Knit next three stitches together</td><td align="left">
+                <code class="code">k3tog</code>
+              </td><td align="left">
+                <code class="code">&lt;double-decrease type="k3tog"/&gt;</code>
               </td></tr><tr><td align="left">kfb</td><td align="left">(none)</td><td align="left">Knit to the front and back of the next stitch.</td><td align="left">
                 <code class="code">kfb</code>
               </td><td align="left">
@@ -933,10 +937,18 @@ k3 tbl</pre>
                 <pre class="programlisting">&lt;repeat until="end"&gt;
   &lt;purl/&gt;
 &lt;/repeat&gt;</pre>
-              </td></tr><tr><td align="left">p2tog</td><td align="left">(none)</td><td align="left">Purl next two stitches together</td><td align="left">
+              </td></tr><tr><td align="left">p2tog</td><td align="left">number as <a class="link" href="#integer-type">Integer</a> (optional)</td><td align="left">Purl next two stitches together</td><td align="left">
                 <code class="code">p2tog</code>
               </td><td align="left">
                 <code class="code">&lt;decrease type="p2tog"/&gt;</code>
+              </td></tr><tr><td align="left">p3tog</td><td align="left">number as <a class="link" href="#integer-type">Integer</a> (optional)</td><td align="left">Purl next three stitches together</td><td align="left">
+                <code class="code">p3tog</code>
+              </td><td align="left">
+                <code class="code">&lt;double-decrease type="p3tog"/&gt;</code>
+              </td></tr><tr><td align="left">passPreviousStitchOver</td><td align="left">number as <a class="link" href="#integer-type">Integer</a> (optional)</td><td align="left">Pass the stitch worked 2 stitches ago over the stitch just worked.</td><td align="left">
+                <code class="code">passPreviousStitchOver</code>
+              </td><td align="left">
+                <code class="code">&lt;pass-previous-stitch-over/&gt;</code>
               </td></tr><tr><td align="left">pattern</td><td align="left">languageCode as <a class="link" href="#string-type">String</a> (optional)</td><td align="left">The pattern written in the specified ISO language code</td><td align="left">
                 <code class="code">pattern 'en' {...}</code>
               </td><td align="left">
@@ -967,6 +979,10 @@ k3 tbl</pre>
                 <code class="code">pm</code>
               </td><td align="left">
                 <code class="code">&lt;place-marker/&gt;</code>
+              </td></tr><tr><td align="left">ppso</td><td align="left">number as <a class="link" href="#integer-type">Integer</a> (optional)</td><td align="left">Alias for passPreviousStitchOver</td><td align="left">
+                <code class="code">ppso</code>
+              </td><td align="left">
+                <code class="code">&lt;pass-previous-stitch-over/&gt;</code>
               </td></tr><tr><td align="left">purl</td><td align="left">(same as p)</td><td align="left">alias for p</td><td align="left">
                 <code class="code">purl 10</code>
               </td><td align="left">
@@ -1016,13 +1032,14 @@ k3 tbl</pre>
                 <code class="code">round {...}</code>
               </td><td align="left">
                 <code class="code">&lt;row type="round"&gt;...&lt;/row&gt;</code>
-              </td></tr><tr><td rowspan="5" align="left">row</td><td rowspan="5" align="left">
+              </td></tr><tr><td rowspan="6" align="left">row</td><td rowspan="6" align="left">
                 <p>yarnRef as <a class="link" href="#idref-type">IDREF</a>, number as <a class="link" href="#integer-type">Integer</a>, numbers as List&lt;Integer&gt;,
                     <span class="emphasis"><em>informSide</em></span>, <span class="emphasis"><em>doNotAssignNumber</em></span>,
+                    <span class="emphasis"><em>and (all|following) (even|odd) (rows|rounds)</em></span>,
                   xmlAttributes as <a class="link" href="#map-type">Map</a>
                 </p>
                 <p>(all parameters optional)</p>
-              </td><td rowspan="5" align="left">A row in the pattern</td><td align="left">
+              </td><td rowspan="6" align="left">A row in the pattern</td><td align="left">
                 <code class="code">row 'y1' 1 {...}</code>
               </td><td align="left">
                 <code class="code">&lt;row yarn-ref="y1" number="1"&gt;...&lt;/row&gt;</code>
@@ -1030,6 +1047,10 @@ k3 tbl</pre>
                 <code class="code">row [1,3,5] {...}</code>
               </td><td align="left">
                 <code class="code">&lt;row number="1 3 5"&gt;...&lt;/row&gt;</code>
+              </td></tr><tr><td align="left">
+                <code class="code">row 1 and following odd rows {...}</code>
+              </td><td align="left">
+                <code class="code">&lt;row number="1" subsequent="odd"&gt;...&lt;/row&gt;</code>
               </td></tr><tr><td align="left">
                 <code class="code">row doNotAssignNumber {...}</code>
               </td><td align="left">
@@ -1048,6 +1069,10 @@ k3 tbl</pre>
               </td><td align="left">
                 <pre class="programlisting">&lt;row-gauge unit="row/in"&gt;3.5
                   &lt;/row-gauge&gt;</pre>
+              </td></tr><tr><td align="left">s2kp</td><td align="left">(same as cdd)</td><td align="left">Center double decrease</td><td align="left">
+                <code class="code">s2kp</code>
+              </td><td align="left">
+                <code class="code">&lt;double-decrease type="cdd"/&gt;</code>
               </td></tr><tr><td align="left">section</td><td align="left">
                 <span class="emphasis"><em>resetRowCount</em></span> (optional)</td><td align="left">A logical grouping of operations in a pattern. Can be interpreted as a
                 paragraph. The resetRowCount parameter sets the next row back to row 1.</td><td align="left">
@@ -1095,6 +1120,10 @@ k3 tbl</pre>
                 <code class="code">ssk</code>
               </td><td align="left">
                 <code class="code">&lt;decrease type="ssk"/&gt;</code>
+              </td></tr><tr><td align="left">sssk</td><td align="left">(none)</td><td align="left">Slip-slip-slip-knit</td><td align="left">
+                <code class="code">sssk</code>
+              </td><td align="left">
+                <code class="code">&lt;double-decrease type="sssk"/&gt;</code>
               </td></tr><tr><td rowspan="4" align="left">state</td><td rowspan="4" align="left">stitchNumber as <a class="link" href="#integer-type">Integer</a>,
                 stitches as <a class="link" href="#stitch-type">Stitch</a>, stateDescription as <a class="link" href="#state-description-type">StateDescription...</a> (all parameters
                 optional in any order) </td><td rowspan="4" align="left">State the number of stitches left in the row, or state the number
@@ -1182,7 +1211,7 @@ state unworked</pre>
               </td></tr><tr><td align="left">useNeedle</td><td align="left">
                 <span class="emphasis"><em>quietly</em></span> (optional), needle as <a class="link" href="#idref-type">IDREF</a>
               </td><td align="left">Use the specified needle for knitting. "Quietly" indicates that this is a
-                directive for the computer, not something that should be rendererd in a pattern.</td><td align="left">
+                directive for the computer, not something that should be rendered in a pattern.</td><td align="left">
                 <code class="code">useNeedle 'n1' quietly</code>
               </td><td align="left">
                 <pre class="programlisting">&lt;use-needles silent="true"&gt;
@@ -1202,6 +1231,21 @@ state unworked</pre>
                 <code class="code">usingNeedle 'needle1' {...}</code>
               </td><td align="left">
                 <code class="code">&lt;using-needle ref="needle1"&gt; ... &lt;/using-needle&gt;</code>
+              </td></tr><tr><td rowspan="2" align="left">work</td><td rowspan="2" align="left">
+                <p><span class="emphasis"><em>even</em></span>, <span class="italic">for</span>, number as
+                    <a class="link" href="#integer-type">Integer</a>, stitches as <a class="link" href="#stitch-type">Stitch</a>, <span class="emphasis"><em>with</em></span>, yarnRef as
+                    <a class="link" href="#idref-type">IDREF</a>, repeatSpec as <a class="link" href="#repeat-type">Repeat</a></p>
+                <p>(all parameters optional)</p>
+              </td><td rowspan="2" align="left">Knit stitches which had been knit in the previous row, and purl
+                stitches which had been purled in the previous row. This instruction does not
+                increase or decrease.</td><td align="left">
+                <code class="code">work even for 5 sts</code>
+              </td><td align="left">
+                <code class="code">&lt;using-needle ref="needle1"&gt; ... &lt;/using-needle&gt;</code>
+              </td></tr><tr><td align="left"><code class="code">work to end</code></td><td align="left">
+                <pre class="programlisting">&lt;repeat until="end"&gt;
+  &lt;work-even/&gt;
+&lt;/repeat&gt;</pre>
               </td></tr><tr><td align="left">yarn</td><td align="left">
                 <p>id as <a class="link" href="#id-type">ID</a>, <span class="emphasis"><em>withKey</em></span>,
                     <span class="emphasis"><em>withLabel</em></span>, label as <a class="link" href="#string-type">String</a>, xmlAttributes as <a class="link" href="#map-type">Map</a>
@@ -1232,7 +1276,7 @@ state unworked</pre>
     </p><p>When an element or attribute name has a hyphen in it (such as
       <code class="code">instruction-group</code>), it must be in single quotes for the processor to interpret it
       correctly.</p><p>The following table shows a few examples of custom functions:</p><p>
-      </p><div class="table"><a name="custom-function-example-table"></a><p class="title"><b>Table&nbsp;B.2.&nbsp;Custom Function Examples</b></p><div class="table-contents"><table summary="Custom Function Examples" border="1"><colgroup><col><col></colgroup><thead><tr><th>KnittingEL</th><th>XML</th></tr></thead><tbody><tr><td>
+      </p><div class="table"><a name="custom-function-example-table"></a><p class="title"><b>Table&nbsp;B.2.&nbsp;Custom Function Examples</b></p><div class="table-contents"><table summary="Custom Function Examples" border="1"><colgroup><col class="c1"><col class="c2"></colgroup><thead><tr><th>KnittingEL</th><th>XML</th></tr></thead><tbody><tr><td>
                 <pre class="programlisting">author {
   'first-name' Jonathan
   'last-name' Whitall
@@ -1277,7 +1321,7 @@ state unworked</pre>
               </td></tr></tbody></table></div></div><p><br class="table-break">
     </p><p>Use the pre-defined functions whenever possible, but there may be times when you need
       maximum flexibility to express the resulting XML.</p><p>
-      </p><div class="table"><a name="d0e3159"></a><p class="title"><b>Table&nbsp;B.3.&nbsp;Expression Language Data Types</b></p><div class="table-contents"><table summary="Expression Language Data Types" border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Type</th><th>Form</th><th>Example</th></tr></thead><tbody><tr><td><a name="cross-type"></a>Cross</td><td>
+      </p><div class="table"><a name="d0e3338"></a><p class="title"><b>Table&nbsp;B.3.&nbsp;Expression Language Data Types</b></p><div class="table-contents"><table summary="Expression Language Data Types" border="1"><colgroup><col class="c1"><col class="c2"><col class="newCol3"></colgroup><thead><tr><th>Type</th><th>Form</th><th>Example</th></tr></thead><tbody><tr><td><a name="cross-type"></a>Cross</td><td>
                 <code class="code">('inFrontOf' | 'behind')</code>
               </td><td>
                 <code class="code">inFrontOf</code>
@@ -1311,14 +1355,15 @@ state unworked</pre>
                 <code class="code">('circ' | 'circular' | 'straight' | 'dpn')</code>
               </td><td>
                 <code class="code">circ</code>
-              </td></tr><tr><td rowspan="3"><a name="repeat-type"></a>Repeat</td><td rowspan="3">
-                <code class="code">('to'?, <a class="link" href="#integer-type">Integer</a>?, 'before'?, <a class="link" href="#until-type">Until</a>)</code> in any order</td><td>
+              </td></tr><tr><td rowspan="4"><a name="repeat-type"></a>Repeat</td><td rowspan="4">
+                <code class="code">('to'?, <a class="link" href="#integer-type">Integer</a>?, 'before'|'from'?,
+                    <a class="link" href="#until-type">Until</a>)</code> in any order</td><td>
                 <code class="code">to 2 before end</code>
               </td></tr><tr><td>
-                <code class="code">to end</code>
+                <code class="code">to 2 from end</code>
               </td></tr><tr><td>
-                <code class="code">8 times</code>
-              </td></tr><tr><td rowspan="5"><a name="repeat-inst-type"></a>RepeatInst</td><td rowspan="5">
+                <code class="code">to end</code>
+              </td></tr><tr><td><code class="code">8 times</code></td></tr><tr><td rowspan="5"><a name="repeat-inst-type"></a>RepeatInst</td><td rowspan="5">
                 <code class="code">('until'?, <a class="link" href="#until-inst-type">UntilInst</a>, (<a class="link" href="#decimal-type">Decimal</a> | <a class="link" href="#integer-type">Integer</a>)?, <a class="link" href="#stitch-type">Stitch</a>?, <a class="link" href="#length-unit-type">LengthUnit</a>?)</code> in any order</td><td>
                 <code class="code">until measures 4.5 in</code>
               </td></tr><tr><td>
