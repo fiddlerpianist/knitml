@@ -31,6 +31,7 @@ import com.knitml.core.model.directions.inline.Decrease;
 import com.knitml.core.model.directions.inline.FromStitchHolder;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
+import com.knitml.core.model.directions.inline.InlineCastOn;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
@@ -482,6 +483,10 @@ class ChartProducer implements Renderer {
 		throw new NotImplementedException();
 	}
 
+	public void renderCastOn(InlineCastOn castOn) {
+		throw new NotImplementedException();
+	}
+	
 	public void renderDeclareFlatKnitting(DeclareFlatKnitting spec) {
 		throw new NotImplementedException();
 	}

@@ -1,14 +1,9 @@
 package com.knitml.tools.runner
 
-import groovy.xml.MarkupBuilder
 
 import javax.xml.validation.*
 import javax.xml.transform.*
-import javax.xml.XMLConstants
-import javax.xml.transform.stream.StreamSource
 
-import org.xml.sax.EntityResolver
-import org.w3c.dom.ls.LSResourceResolver
 
 import org.apache.commons.cli.Option
 import org.apache.commons.cli.Options
@@ -17,19 +12,14 @@ import org.apache.commons.cli.CommandLineParser
 import org.apache.commons.cli.GnuParser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.jibx.runtime.BindingDirectory
 import org.jibx.runtime.IBindingFactory
-import org.jibx.runtime.IMarshallingContext
 import org.jibx.runtime.IUnmarshallingContext
 
 import com.knitml.core.model.Pattern
 
 import com.knitml.core.common.Parameters
-import com.knitml.core.xml.PluggableSchemaResolver
-import com.knitml.core.xml.EntityResolverWrapper
 import com.knitml.el.KelProgram
 import com.knitml.tools.runner.support.RunnerUtils
 import com.knitml.validation.ValidationProgram;

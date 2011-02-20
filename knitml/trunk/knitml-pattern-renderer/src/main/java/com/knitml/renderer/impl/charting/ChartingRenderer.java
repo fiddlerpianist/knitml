@@ -24,6 +24,7 @@ import com.knitml.core.model.directions.inline.Decrease;
 import com.knitml.core.model.directions.inline.FromStitchHolder;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
+import com.knitml.core.model.directions.inline.InlineCastOn;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
@@ -317,6 +318,10 @@ public class ChartingRenderer implements Renderer {
 	}
 
 	public void renderCastOn(CastOn castOn) {
+		delegate.renderCastOn(castOn);
+	}
+	
+	public void renderCastOn(InlineCastOn castOn) {
 		delegate.renderCastOn(castOn);
 	}
 

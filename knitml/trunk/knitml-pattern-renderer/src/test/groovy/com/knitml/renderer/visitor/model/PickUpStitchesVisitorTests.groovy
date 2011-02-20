@@ -46,8 +46,4 @@ class PickUpStitchesVisitorTests extends AbstractRenderingContextTests {
 		assertThat output, is ("with 'A', pick up 10 stitches knitwise")
 	}
 	
-	static void main(args) {
-		JUnitCore.main(PickUpStitchesVisitorTests.name)
-	}
-	
 }

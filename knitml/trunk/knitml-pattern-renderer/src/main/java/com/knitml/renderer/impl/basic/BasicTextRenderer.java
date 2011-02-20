@@ -45,6 +45,7 @@ import com.knitml.core.model.directions.inline.Decrease;
 import com.knitml.core.model.directions.inline.FromStitchHolder;
 import com.knitml.core.model.directions.inline.Increase;
 import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch;
+import com.knitml.core.model.directions.inline.InlineCastOn;
 import com.knitml.core.model.directions.inline.InlineInstruction;
 import com.knitml.core.model.directions.inline.InlineInstructionRef;
 import com.knitml.core.model.directions.inline.InlinePickUpStitches;
@@ -303,26 +304,6 @@ public class BasicTextRenderer implements Renderer {
 		writeSentence(operation);
 	}
 
-	public void renderCastOn(CastOn castOn) {
-		int numberToCastOn = castOn.getNumberOfStitches() == null ? 1 : castOn
-				.getNumberOfStitches();
-		String methodKey = castOn.getStyle();
-		// since method is currently free form text, there may not be an entry
-		// for it, so just use the key
-		String method = getMessageHelper().getMessageWithDefault(
-				"method.cast-on." + methodKey, methodKey);
-		String operation;
-		if (method == null) {
-			operation = getMessageHelper().getPluralizedMessage(
-					"operation.cast-on", numberToCastOn);
-		} else {
-			operation = getMessageHelper().getPluralizedMessage(
-					"operation.using-method.cast-on", numberToCastOn,
-					new Object[] { method, numberToCastOn });
-		}
-		writeSentence(operation);
-	}
-
 	public void renderInlineInstructionRef(InlineInstructionRef ref,
 			String label) {
 		// TODO check preferences here to see if we want a label or the full
@@ -354,7 +335,11 @@ public class BasicTextRenderer implements Renderer {
 		int numberToCastOn = castOn.getNumberOfStitches() == null ? 1 : castOn
 				.getNumberOfStitches();
 		String operation;
-		String method = getMessage("method.cast-on." + castOn.getStyle());
+		String method = null;
+		if (castOn.getStyle() != null) {
+			method = getMessageHelper().getMessageWithDefault(
+					"method.cast-on." + castOn.getStyle(), castOn.getStyle());
+		}
 		if (method == null) {
 			operation = getMessageHelper().getPluralizedMessage(
 					"operation.using-needles.cast-on", numberToCastOn,
@@ -916,6 +901,37 @@ public class BasicTextRenderer implements Renderer {
 		getOperationSetHelper().writeOperation(
 				getMessageHelper().getPluralizedMessageNoVarargs(
 						key.toString(), numberOfTimes, args.toArray()),
+				writeSentenceByDefault);
+	}
+
+	public void renderCastOn(InlineCastOn pickUpStitches) {
+		doRenderCastOn(new CastOn(pickUpStitches.getNumberOfStitches(),
+				pickUpStitches.getYarnIdRef(), pickUpStitches.getStyle()),
+				false);
+	}
+
+	public void renderCastOn(CastOn castOn) {
+		doRenderCastOn(castOn, true);
+	}
+
+	protected void doRenderCastOn(CastOn castOn, boolean writeSentenceByDefault) {
+		int numberToCastOn = castOn.getNumberOfStitches() == null ? 1 : castOn
+				.getNumberOfStitches();
+		String methodKey = castOn.getStyle();
+		// since method is currently free form text, there may not be an entry
+		// for it, so just use the key
+		String method = getMessageHelper().getMessageWithDefault(
+				"method.cast-on." + methodKey, methodKey);
+		String operation;
+		if (method == null) {
+			operation = getMessageHelper().getPluralizedMessage(
+					"operation.cast-on", numberToCastOn);
+		} else {
+			operation = getMessageHelper().getPluralizedMessage(
+					"operation.using-method.cast-on", numberToCastOn,
+					new Object[] { method, numberToCastOn });
+		}
+		getOperationSetHelper().writeOperation(operation,
 				writeSentenceByDefault);
 	}
 
