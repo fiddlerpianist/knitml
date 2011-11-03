@@ -88,7 +88,7 @@ public class RepeatInstructionTranslator implements IMarshaller, IUnmarshaller,
 		case UNTIL_STITCHES_REMAIN_ON_NEEDLES: {
 			ctx.startTag(this.index, untilTagName);
 			ctx.closeStartContent();
-			List<StitchesOnNeedle> needles = (List) repeatInstruction
+			List<StitchesOnNeedle> needles = (List<StitchesOnNeedle>) repeatInstruction
 					.getValue();
 			for (StitchesOnNeedle needle : needles) {
 				ctx.startTagAttributes(this.index, "needle");
@@ -103,7 +103,7 @@ public class RepeatInstructionTranslator implements IMarshaller, IUnmarshaller,
 		case UNTIL_EQUALS: {
 			ctx.startTag(this.index, untilTagName);
 			ctx.closeStartContent();
-			List<Expression> expressions = (List) repeatInstruction.getValue();
+			List<Expression> expressions = (List<Expression>) repeatInstruction.getValue();
 			for (Expression expression : expressions) {
 				if (expression instanceof IMarshallable) {
 					((IMarshallable) expression).marshal(ctx);

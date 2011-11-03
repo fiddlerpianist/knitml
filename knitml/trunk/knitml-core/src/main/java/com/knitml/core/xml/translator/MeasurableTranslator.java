@@ -54,7 +54,6 @@ public class MeasurableTranslator implements IMarshaller, IUnmarshaller,
 	 * @see org.jibx.runtime.IMarshaller#marshal(java.lang.Object,
 	 *      org.jibx.runtime.IMarshallingContext)
 	 */
-	@SuppressWarnings("unchecked")
 	public void marshal(Object obj, IMarshallingContext ictx)
 			throws JiBXException {
 
