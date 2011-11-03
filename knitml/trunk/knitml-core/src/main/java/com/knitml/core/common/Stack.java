@@ -13,7 +13,7 @@ public class Stack<E> {
 	private Method sizeMethod;
 
 	public Stack() {
-		Class stackClass = null;
+		Class<?> stackClass = null;
 		try {
 			// try using the JDK 1.6 new ArrayDeque implementation
 			stackClass = Class.forName("java.util.ArrayDeque");
