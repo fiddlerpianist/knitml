@@ -89,7 +89,7 @@ class RowsAndInstructionsTests {
 			</directions>
 		</pattern>'''
 		def pattern = unmarshalXml(xml)
-		def instruction = pattern.directions.operations[0]
+		Instruction instruction = pattern.directions.operations[0]
 		assertThat (instruction instanceof Instruction, is (true))
 		instruction.with {
 			assertThat id, is('thingy1')
