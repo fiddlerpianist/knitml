@@ -5,10 +5,8 @@
 		<groupId>com.knitml</groupId>
 		<version>0.6.0-SNAPSHOT</version>
 	</parent>
-	<groupId>com.knitml</groupId>
 	<artifactId>knitml-el</artifactId>
 	<name>KnitML Expression Language</name>
-	<version>0.6.0-SNAPSHOT</version>
 	<description>The KnitML Expression Language</description>
 	<repositories>
 		<repository>
