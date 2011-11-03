@@ -18,6 +18,23 @@ public class Pattern {
 	protected String languageCode;
 	protected String version;
 	
+	public Pattern(Directives directives,
+			GeneralInformation generalInformation, Supplies supplies,
+			Directions directions, String schemaLocation, String languageCode,
+			String version) {
+		this.directives = directives;
+		this.generalInformation = generalInformation;
+		this.supplies = supplies;
+		this.directions = directions;
+		this.schemaLocation = schemaLocation;
+		this.languageCode = languageCode;
+		this.version = version;
+	}
+
+	public Pattern(Directions directions) {
+		this.directions = directions;
+	}
+	
 	public Directives getDirectives() {
 		return directives;
 	}
