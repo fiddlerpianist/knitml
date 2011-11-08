@@ -12,6 +12,13 @@ public class BindOff implements DiscreteInlineOperation,
 	protected Wise type;
 	protected String yarnIdRef;
 
+	public BindOff(Integer numberOfStitches, Wise type, String yarnIdRef) {
+		super();
+		this.numberOfStitches = numberOfStitches;
+		this.type = type;
+		this.yarnIdRef = yarnIdRef;
+	}
+
 	public Integer getNumberOfStitches() {
 		return numberOfStitches;
 	}
