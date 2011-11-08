@@ -1001,7 +1001,7 @@
               'cable', etc.</xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
-        <xsd:attribute name="count-as-row" type="xsd:boolean" default="true">
+        <xsd:attribute name="count-as-row" type="xsd:boolean" default="false">
           <xsd:annotation>
             <xsd:documentation>Indicates whether the cast-on row counts as a row. If 'true' and
               knitting flat, the next row will be knitted on the "wrong" side.</xsd:documentation>
