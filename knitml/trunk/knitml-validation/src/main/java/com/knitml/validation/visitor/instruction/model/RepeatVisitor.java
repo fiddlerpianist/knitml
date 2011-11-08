@@ -79,7 +79,7 @@ public class RepeatVisitor extends AbstractPatternVisitor {
 	private void handleMarker(Repeat repeat, KnittingContext context)
 			throws KnittingEngineException {
 		boolean replaying = false;
-		for (int i = 0; getStitchesBeforeMarker(context) > 0; i++) {
+		while (getStitchesBeforeMarker(context) > 0) {
 			visitChildren(repeat, context);
 			if (!replaying) {
 				replaying = true;
