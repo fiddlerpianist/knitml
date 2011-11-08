@@ -10,6 +10,13 @@ public class BindOffAll implements InlineOperation {
 	protected String yarnIdRef;
 	protected boolean fastenOffLastStitch;
 	
+	public BindOffAll(Wise type, String yarnIdRef, boolean fastenOffLastStitch) {
+		super();
+		this.type = type;
+		this.yarnIdRef = yarnIdRef;
+		this.fastenOffLastStitch = fastenOffLastStitch;
+	}
+	
 	public boolean isFastenOffLastStitch() {
 		return fastenOffLastStitch;
 	}
