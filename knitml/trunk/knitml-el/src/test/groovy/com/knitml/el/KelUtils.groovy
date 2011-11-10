@@ -1,10 +1,11 @@
 package com.knitml.el
 
-import org.apache.commons.lang.StringUtilsimport com.knitml.core.common.Parameters
-import com.knitml.el.KelProgram
-
-import static com.knitml.core.xml.Schemas.CURRENT_PATTERN_SCHEMA
 import static com.knitml.core.model.Version.getCurrentVersionId
+import static com.knitml.core.xml.Schemas.CURRENT_PATTERN_SCHEMA
+
+import org.apache.commons.lang.StringUtils
+
+import com.knitml.core.common.Parameters
 
 class KelUtils {
 	

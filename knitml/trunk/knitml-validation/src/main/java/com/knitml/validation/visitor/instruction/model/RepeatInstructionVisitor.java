@@ -82,7 +82,7 @@ public class RepeatInstructionVisitor extends AbstractPatternVisitor {
 			throw new ValidationException(
 					"The value property of the RepeatInstruction object must be an integer when until is defined as ADDITIONAL_TIMES");
 		}
-		Measure measure = (Measure) value;
+		Measure<?,Length> measure = (Measure<?,Length>) value;
 		// validate that it's a Measure<Length>
 		measure.getUnit().asType(Length.class);
 		return measure;

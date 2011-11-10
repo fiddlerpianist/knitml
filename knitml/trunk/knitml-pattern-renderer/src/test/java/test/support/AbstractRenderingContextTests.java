@@ -12,8 +12,8 @@ import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.internal.runners.JUnit4ClassRunner;
 import org.junit.runner.RunWith;
+import org.junit.runners.BlockJUnit4ClassRunner;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 import com.knitml.core.model.Pattern;
@@ -35,7 +35,7 @@ import com.knitml.validation.visitor.instruction.Visitor;
 import com.knitml.validation.visitor.instruction.VisitorFactory;
 import com.knitml.validation.visitor.instruction.impl.DefaultVisitorFactory;
 
-@RunWith(JUnit4ClassRunner.class)
+@RunWith(BlockJUnit4ClassRunner.class)
 public abstract class AbstractRenderingContextTests extends AbstractDependencyInjectionSpringContextTests {
 
 	// initialized from Spring context

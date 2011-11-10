@@ -1,14 +1,11 @@
 package com.knitml.el
 
-import org.junit.Test
-import org.junit.BeforeClass
-import org.custommonkey.xmlunit.XMLUnit
-
-import com.knitml.core.common.Parameters
-import com.knitml.el.KelProgram
-
-import static org.custommonkey.xmlunit.XMLAssert.*
 import static com.knitml.el.KelUtils.toXml
+import static org.custommonkey.xmlunit.XMLAssert.*
+
+import org.custommonkey.xmlunit.XMLUnit
+import org.junit.BeforeClass
+import org.junit.Test
 
 class LanguageVZTests {
 	

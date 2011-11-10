@@ -6,20 +6,19 @@ import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertNull
 import static org.junit.Assert.assertThat
 import static test.support.JiBXUtils.parseXml
-import com.knitml.renderer.context.Optionsimport com.knitml.validation.context.impl.DefaultKnittingContextFactory
-import java.io.StringReader
 
 import org.junit.Before
 import org.junit.Test
-import org.junit.internal.runners.JUnit4ClassRunner
 import org.junit.runner.RunWith
+import org.junit.runners.BlockJUnit4ClassRunner
 
-import com.knitml.core.model.directions.inline.Repeat.Until
 import com.knitml.core.model.directions.block.Instruction
+import com.knitml.core.model.directions.inline.Repeat.Until
+import com.knitml.renderer.context.Options
 import com.knitml.renderer.context.RenderingContext
-import com.knitml.renderer.Renderer
+import com.knitml.validation.context.impl.DefaultKnittingContextFactory
 
-@RunWith(JUnit4ClassRunner.class)
+@RunWith(BlockJUnit4ClassRunner.class)
 public class ChartingAnalyzerHeaderTests {
 	
 	protected RenderingContext context

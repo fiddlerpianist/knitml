@@ -9,7 +9,6 @@ import static org.junit.Assert.assertTrue
 import static org.easymock.EasyMock.*
 
 import org.junit.Test
-import org.junit.internal.runners.JUnit4ClassRunner
 
 import test.support.AbstractKnittingContextTests
 
@@ -19,7 +18,6 @@ import com.knitml.engine.common.KnittingEngineException
 import com.knitml.engine.KnittingEngine
 import com.knitml.engine.Needle
 
-@RunWith(JUnit4ClassRunner)
 class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 	
 	@Test

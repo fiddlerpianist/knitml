@@ -14,11 +14,9 @@ import com.knitml.renderer.chart.symbol.impl.TextArtSymbolProvider
 
 import org.junit.Before
 import org.junit.Test
-import org.junit.internal.runners.JUnit4ClassRunner
 import org.junit.runner.RunWith
 
 
-@RunWith(JUnit4ClassRunner.class)
 class TextArtChartWriterTests {
 	
 	private ChartWriter chartWriter

@@ -1,31 +1,29 @@
 package com.knitml.renderer.impl.charting.analyzer
 
+import static com.knitml.core.model.directions.inline.Repeat.Until.TIMES
+import static com.knitml.renderer.context.ContextUtils.deriveInstructionInfo
 import static org.hamcrest.CoreMatchers.is
 import static org.hamcrest.CoreMatchers.not
+import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertNull
 import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
-import static org.junit.Assert.assertFalse
-import static com.knitml.core.model.directions.inline.Repeat.Until.TIMES
-import static com.knitml.renderer.context.ContextUtils.deriveInstructionInfo
 import static test.support.JiBXUtils.parseXml
-
-import com.knitml.renderer.context.Optionsimport com.knitml.renderer.context.InstructionInfo
-import com.knitml.validation.context.impl.DefaultKnittingContextFactory
-import java.io.StringReader
 
 import org.junit.Before
 import org.junit.Test
-import org.junit.internal.runners.JUnit4ClassRunner
 import org.junit.runner.RunWith
+import org.junit.runners.BlockJUnit4ClassRunner
 
-import com.knitml.core.model.directions.block.Instruction
 import com.knitml.core.model.Pattern
-import com.knitml.renderer.Renderer
+import com.knitml.core.model.directions.block.Instruction
+import com.knitml.renderer.context.InstructionInfo
+import com.knitml.renderer.context.Options
 import com.knitml.renderer.context.RenderingContext
+import com.knitml.validation.context.impl.DefaultKnittingContextFactory
 
-@RunWith(JUnit4ClassRunner.class)
+@RunWith(BlockJUnit4ClassRunner.class)
 public class ChartingAnalyzerBodyTests {
 	
 	protected RenderingContext context
