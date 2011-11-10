@@ -11,11 +11,9 @@ import test.support.AbstractRenderingContextTests
 
 import org.junit.Ignore 
 import org.junit.Test
-import org.junit.internal.runners.JUnit4ClassRunner
 import org.junit.runner.RunWith
 
 
-@RunWith(JUnit4ClassRunner.class)
 class ChartingRendererTests extends AbstractRenderingContextTests {
 	
 	@Override

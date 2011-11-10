@@ -5,27 +5,34 @@ Bundle-Description: Basic pattern rendering for KnitML files
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: com.knitml.core
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Require-Bundle: org.hamcrest.core;bundle-version="1.1.0",
- com.knitml.dependencies;bundle-version="0.6.0"
 Import-Package: javax.measure,
  javax.measure.converter,
  javax.measure.quantity,
  javax.measure.unit,
- org.junit;version="4.4.0",
+ org.apache.commons.collections15,
+ org.apache.commons.collections15.bidimap,
+ org.apache.commons.lang,
+ org.apache.commons.lang.math,
+ org.custommonkey.xmlunit,
+ org.jibx.extras;version="1.2.3",
+ org.jibx.runtime;version="1.2.3",
+ org.jibx.runtime.impl;version="1.2.3",
  org.slf4j;version="1.6.1",
  org.springframework.beans;version="2.5.6",
  org.springframework.core.io;version="2.5.6",
  org.springframework.core.io.support;version="2.5.6",
  org.springframework.util;version="2.5.6"
-Export-Package: com.knitml.core.common,
- com.knitml.core.converter,
- com.knitml.core.model;uses:="com.knitml.core.model.directions,com.knitml.core.model.header,com.knitml.core.model.directions.block",
- com.knitml.core.model.directions,
- com.knitml.core.model.directions.block,
- com.knitml.core.model.directions.expression,
- com.knitml.core.model.directions.information;uses:="com.knitml.core.model.directions",
- com.knitml.core.model.directions.inline,
- com.knitml.core.model.header,
- com.knitml.core.units,
- com.knitml.core.xml.translator;uses:="org.jibx.runtime,org.jibx.extras"
+Export-Package: com.knitml.core.common;version="0.6.0.BUILD-SNAPSHOT",
+ com.knitml.core.converter;version="0.6.0.BUILD-SNAPSHOT",
+ com.knitml.core.model;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.core.model.directions,com.knitml.core.model.header,com.knitml.core.model.directions.block",
+ com.knitml.core.model.directions;version="0.6.0.BUILD-SNAPSHOT",
+ com.knitml.core.model.directions.block;version="0.6.0.BUILD-SNAPSHOT",
+ com.knitml.core.model.directions.expression;version="0.6.0.BUILD-SNAPSHOT",
+ com.knitml.core.model.directions.information;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.core.model.directions",
+ com.knitml.core.model.directions.inline;version="0.6.0.BUILD-SNAPSHOT",
+ com.knitml.core.model.header;version="0.6.0.BUILD-SNAPSHOT",
+ com.knitml.core.units;version="0.6.0.BUILD-SNAPSHOT",
+ com.knitml.core.xml;version="0.6.0.BUILD-SNAPSHOT",
+ com.knitml.core.xml.translator;version="0.6.0.BUILD-SNAPSHOT";uses:="org.jibx.runtime,org.jibx.extras"
+Require-Bundle: org.junit
 
