@@ -32,7 +32,7 @@ public class Row implements BlockOperation, CompositeOperation {
 	protected Side side;
 	protected Boolean assignRowNumber = true;
 	protected boolean resetRowCount = false;
-	protected int[] numbers = new int[0];
+	protected int[] numbers = null;
 	protected RowDefinitionScope subsequent;
 	protected KnittingShape type; // "flat" or "round"
 	

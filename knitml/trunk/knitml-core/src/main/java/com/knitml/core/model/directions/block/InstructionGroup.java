@@ -17,6 +17,15 @@ public class InstructionGroup implements BlockOperation, CompositeOperation, Ide
 	// must be (atomic block operation | row | instruction)* OR section*
 	protected List<BlockOperation> operations;
 
+	public InstructionGroup(String id, String label, String messageKey, boolean resetRowCount, List<BlockOperation> operations) {
+		this.id = id;
+		this.label = label;
+		this.messageKey = messageKey;
+		this.resetRowCount = resetRowCount;
+		this.operations = operations;
+	}
+	
+	
 	public List<BlockOperation> getOperations() {
 		return operations;
 	}
