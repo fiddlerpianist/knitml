@@ -134,7 +134,7 @@ public class RowVisitor extends AbstractPatternVisitor {
 			row.setNumbers(new int[] { context.getEngine()
 					.getCurrentRowNumber() });
 			row.setAssignRowNumber(null);
-		} else if (row.getNumbers() != null
+		} else if (row.getNumbers() != null && row.getNumbers().length > 0
 				&& !(context.getPatternState().isWithinInstruction())) {
 			// if a number is specified and the row is not in the confines of an
 			// instruction, validate it against the expected row number
