@@ -15,8 +15,8 @@
     <xsd:complexType>
       <xsd:sequence>
         <xsd:element name="directives" type="DirectivesType" minOccurs="0"/>
-        <xsd:element name="general-information" type="GeneralInformationType"/>
-        <xsd:element name="supplies" type="SuppliesType"/>
+        <xsd:element name="general-information" type="GeneralInformationType" minOccurs="0"/>
+        <xsd:element name="supplies" type="SuppliesType" minOccurs="0"/>
         <xsd:element name="directions" type="DirectionsType"/>
       </xsd:sequence>
       <xsd:attribute ref="xml:lang" use="optional">

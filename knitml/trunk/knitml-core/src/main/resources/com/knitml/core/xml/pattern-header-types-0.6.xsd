@@ -237,7 +237,7 @@
 
     <xsd:complexType name="AuthorType">
         <xsd:annotation>
-            <xsd:documentation>The pattern designer's name..</xsd:documentation>
+            <xsd:documentation>The pattern designer's name.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="first-name" type="xsd:string">
