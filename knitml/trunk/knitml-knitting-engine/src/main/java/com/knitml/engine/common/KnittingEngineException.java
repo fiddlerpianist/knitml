@@ -1,29 +1,19 @@
 package com.knitml.engine.common;
 
-import java.util.Map;
+import java.util.Collections;
+import java.util.List;
 
-public class KnittingEngineException extends RuntimeException {
+import com.knitml.core.model.directions.DiscreteInlineOperation;
+
+public abstract class KnittingEngineException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer totalRowNumber;
-	private Integer localRowNumber;
-	private Map<String, Integer> instructionRepeatCounts;
+	private List<Object> locationBreadcrumb;
+	private DiscreteInlineOperation offendingOperation;
 	private String additionalInformation;
-
-	public void setAdditionalInformation(String path) {
-		this.additionalInformation = path;
-	}
-
-	public void setTotalRowNumber(Integer offendingRowNumber) {
-		this.totalRowNumber = offendingRowNumber;
-	}
-
-	public void setLocalRowNumber(Integer offendingRowNumber) {
-		this.localRowNumber = offendingRowNumber;
-	}
 
 	public KnittingEngineException() {
 		super();
@@ -41,35 +31,29 @@ public class KnittingEngineException extends RuntimeException {
 		super(cause);
 	}
 
-	@Override
-	public String getMessage() {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(super.getMessage());
-		if (instructionRepeatCounts != null) {
-			for (String id : instructionRepeatCounts.keySet()) {
-				buffer.append("\nAt repeat ").append(instructionRepeatCounts.get(id))
-						.append(" for instruction ID [").append(id).append("]");
-			}
-		}
-		if (totalRowNumber != null) {
-			buffer.append("\nAt execution of row "
-					+ totalRowNumber
-					+ (localRowNumber != null ? " (local row " + localRowNumber
-							+ ")" : "") + ": ");
-		}
-		if (additionalInformation != null) {
-			buffer.append("\nAdditional information: ").append(this.additionalInformation);
-		}
-		return buffer.toString();
+	public void setAdditionalInformation(String path) {
+		this.additionalInformation = path;
+	}
+
+	public List<Object> getLocationBreadcrumb() {
+		return (locationBreadcrumb == null ? null : Collections
+				.unmodifiableList(locationBreadcrumb));
 	}
 
 	public String getAdditionalInformation() {
 		return additionalInformation;
 	}
 
-	public void setInstructionRepeatCounts(
-			Map<String, Integer> instructionRepeatCounts) {
-		this.instructionRepeatCounts = instructionRepeatCounts;
+	public void setLocationBreadcrumb(List<Object> locationBreadcrumb) {
+		this.locationBreadcrumb = locationBreadcrumb;
+	}
+
+	public DiscreteInlineOperation getOffendingOperation() {
+		return offendingOperation;
+	}
+
+	public void setOffendingOperation(DiscreteInlineOperation offendingOperation) {
+		this.offendingOperation = offendingOperation;
 	}
 
 }

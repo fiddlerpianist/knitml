@@ -1,5 +1,7 @@
 package com.knitml.engine.common;
 
+import java.text.MessageFormat;
+
 
 public class WrongNumberOfNeedlesException extends KnittingEngineException {
 	
@@ -15,7 +17,7 @@ public class WrongNumberOfNeedlesException extends KnittingEngineException {
 
 	@Override
 	public String getMessage() {
-		return "Expected " + expected + " needles, but found " + actual;
+		return MessageFormat.format(Messages.getString("EXPECTED_VS_ACTUAL"), expected, actual); //$NON-NLS-1$
 	}
 	
 	

@@ -107,6 +107,7 @@ public class ValidationProgram {
 		}
 	}
 
+	@SuppressWarnings("nls")
 	public Pattern validate(Parameters parameters) throws SAXException,
 			JiBXException, IOException, KnittingEngineException {
 		KnittingContext context = contextFactory.createKnittingContext();
@@ -117,8 +118,7 @@ public class ValidationProgram {
 		Reader reader = parameters.getReader();
 		if (pattern == null && reader == null) {
 			throw new IllegalArgumentException(
-					"One of pattern or reader must be specified "
-							+ "in the Parameters object");
+					"One of pattern or reader must be specified in the Parameters object");
 		}
 
 		if (pattern == null) {
@@ -158,7 +158,7 @@ public class ValidationProgram {
 				IMarshallingContext mctx = factory.createMarshallingContext();
 				mctx.setOutput(writer);
 				mctx.getXmlWriter().setIndentSpaces(2, null, ' ');
-				mctx.getXmlWriter().writeXMLDecl("1.0", "UTF-8", null);
+				mctx.getXmlWriter().writeXMLDecl("1.0", "UTF-8", null); //$NON-NLS-1$ //$NON-NLS-2$
 				mctx.marshalDocument(pattern);
 			} finally {
 				if (writer != null) {

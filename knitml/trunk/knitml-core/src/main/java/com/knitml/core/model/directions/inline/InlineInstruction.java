@@ -33,6 +33,15 @@ public class InlineInstruction implements InlineOperation, CompositeOperation, I
 	public InlineInstruction() {
 	}
 	
+	public InlineInstruction(String id, String label, String messageKey,
+			List<InlineOperation> operations) {
+		super();
+		this.id = id;
+		this.label = label;
+		this.messageKey = messageKey;
+		this.operations = operations;
+	}
+
 	public InlineInstruction(InlineInstruction inlineInstructionToCopy, List<InlineOperation> operations) {
 		this.id = inlineInstructionToCopy.getId();
 		this.label = inlineInstructionToCopy.getLabel();

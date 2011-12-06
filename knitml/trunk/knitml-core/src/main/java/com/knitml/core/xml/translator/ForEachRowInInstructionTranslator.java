@@ -1,5 +1,6 @@
 package com.knitml.core.xml.translator;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,23 +47,23 @@ public class ForEachRowInInstructionTranslator implements IMarshaller, IUnmarsha
 
 		// make sure the parameters are as expected
 		if (!(obj instanceof ForEachRowInInstruction)) {
-			throw new JiBXException("Invalid object type for ref");
+			throw new JiBXException(MessageFormat.format(Messages.getString("INVALID_OBJ_TYPE"), "ref")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if (!(ictx instanceof MarshallingContext)) {
-			throw new JiBXException("Invalid object type for marshaller");
+			throw new JiBXException(Messages.getString("INVALID_OBJ_TYPE_FOR_MARSHALLER")); //$NON-NLS-1$
 		}
 		MarshallingContext ctx = (MarshallingContext) ictx;
 		ForEachRowInInstruction eachRow = (ForEachRowInInstruction) obj;
 
 		ctx.startTagAttributes(this.index, this.name);
-		ctx.attribute(this.index, "ref", eachRow.getRef().getId());
+		ctx.attribute(this.index, "ref", eachRow.getRef().getId()); //$NON-NLS-1$
 		ctx.closeStartContent();
 		List<InlineOperation> operations = eachRow.getOperations();
 		for (InlineOperation operation : operations) {
 			if (operation instanceof IMarshallable) {
 				((IMarshallable) operation).marshal(ctx);
 			} else {
-				throw new JiBXException("Expression is not marshallable");
+				throw new JiBXException(Messages.getString("ForEachRowInInstructionTranslator.EXPRESSION_NOT_MARSHALLABLE")); //$NON-NLS-1$
 			}
 		}
 		ctx.endTag(this.index, this.name);
@@ -95,10 +96,12 @@ public class ForEachRowInInstructionTranslator implements IMarshaller, IUnmarsha
 		if (!ctx.isAt(this.uri, this.name)) {
 			ctx.throwStartTagNameError(this.uri, this.name);
 		}
-		Object identifiable = ctx.attributeExistingIDREF(null, "ref", 0);
+		Object identifiable = ctx.attributeExistingIDREF(null, "ref", 0); //$NON-NLS-1$
 		if (!(identifiable instanceof Identifiable)) {
 			ctx
-					.throwException("Object with id on " + name + " element must be an Identifiable type");
+					.throwException(MessageFormat
+							.format(Messages.getString("IDENTIFIABLE_TYPE_REQUIRED"), //$NON-NLS-1$
+									name));  
 		}
 		ctx.parsePastStartTag(this.uri, this.name);
 		List<InlineOperation> operations = new ArrayList<InlineOperation>();
@@ -107,7 +110,7 @@ public class ForEachRowInInstructionTranslator implements IMarshaller, IUnmarsha
 			if (!(element instanceof InlineOperation)) {
 				ctx
 						.throwNameException(
-								"Contains an invalid element (i.e. not an InlineOperation)",
+								Messages.getString("ForEachRowInInstructionTranslator.HAS_INVALID_ELEMENT"), //$NON-NLS-1$
 								this.uri, this.name);
 			}
 			operations.add((InlineOperation)element);

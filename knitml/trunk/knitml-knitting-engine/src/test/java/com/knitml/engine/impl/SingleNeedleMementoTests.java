@@ -33,7 +33,7 @@ public class SingleNeedleMementoTests {
 
 	protected KnittingEngine engine;
 	protected KnittingFactory knittingFactory = new DefaultKnittingFactory();
-	protected Needle initialNeedle = knittingFactory.createNeedle("default",
+	protected Needle initialNeedle = knittingFactory.createNeedle("default", //$NON-NLS-1$
 			NeedleStyle.CIRCULAR);
 	private Object memento;
 
@@ -77,7 +77,7 @@ public class SingleNeedleMementoTests {
 		save();
 		engine.startNewRow();
 		Stitch stitch = engine.peekAtNextStitch();
-		assertEquals("n", stitch.getId());
+		assertEquals("n", stitch.getId()); //$NON-NLS-1$
 		assertEquals(StitchNature.KNIT, stitch.getCurrentNature());
 		restore();
 	}
@@ -92,7 +92,7 @@ public class SingleNeedleMementoTests {
 		engine.slip(39);
 		// check stitch "n"
 		Stitch stitch = engine.peekAtNextStitch();
-		assertEquals("n", stitch.getId());
+		assertEquals("n", stitch.getId()); //$NON-NLS-1$
 		assertEquals(StitchNature.PURL, stitch.getCurrentNature());
 	}
 
@@ -162,7 +162,7 @@ public class SingleNeedleMementoTests {
 
 	@Test
 	public void checkNeedleReturned() throws Exception {
-		Needle newNeedle = knittingFactory.createNeedle("new-needle",
+		Needle newNeedle = knittingFactory.createNeedle("new-needle", //$NON-NLS-1$
 				NeedleStyle.CIRCULAR);
 		List<Needle> needles = new ArrayList<Needle>();
 		needles.add(newNeedle);

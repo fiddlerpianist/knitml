@@ -1,36 +1,36 @@
 package com.knitml.validation.visitor.instruction.impl;
 
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
+import java.util.List;
 
 import org.jibx.runtime.ITrackSource;
 import org.springframework.aop.ThrowsAdvice;
 
+import com.knitml.core.model.directions.DiscreteInlineOperation;
+import com.knitml.engine.common.GenericKnittingEngineException;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 
 public class ElementDescriptionAfterThrowingAdvice implements ThrowsAdvice {
 	public void afterThrowing(Method method, Object[] args, Object target,
 			KnittingEngineException ex) throws KnittingEngineException {
-		if (method.getName().equals("visit")
-				&& ex.getAdditionalInformation() == null) {
+		if (method.getName().equals("visit") //$NON-NLS-1$
+				&& ex.getLocationBreadcrumb() == null
+				&& args[1] instanceof KnittingContext) {
+			KnittingContext context = (KnittingContext) args[1];
+			List<Object> breadcrumb = context.getPatternState().getLocationBreadcrumb();
+			ex.setLocationBreadcrumb(breadcrumb);
+			if (args[0] instanceof DiscreteInlineOperation) {
+				ex.setOffendingOperation((DiscreteInlineOperation)args[0]);
+			}
+
+			// XML document information stored by JiBX
 			if (args[0] instanceof ITrackSource
-					&& args[1] instanceof KnittingContext) {
+					&& ((ITrackSource) args[0]).jibx_getLineNumber() > 0) {
 				ITrackSource source = (ITrackSource) args[0];
-				KnittingContext context = (KnittingContext) args[1];
-				if (!(context.getPatternState()).isReplayMode()) {
-					StringBuffer sb = new StringBuffer();
-					sb.append("line ").append(source.jibx_getLineNumber())
-							.append(", column ").append(
-									source.jibx_getColumnNumber()).append(
-									" of XML document");
-					ex.setAdditionalInformation(sb.toString());
-					ex.setTotalRowNumber(context.getEngine()
-							.getTotalRowsCompleted() + 1);
-					ex.setLocalRowNumber(context.getEngine()
-							.getCurrentRowNumber());
-					ex.setInstructionRepeatCounts(context.getPatternState()
-							.getInstructionRepeatCounts());
-				}
+				String extraInfo = MessageFormat.format(Messages.getString("XML_DOCUMENT_POSITION"), source.jibx_getLineNumber(), source.jibx_getColumnNumber()); //$NON-NLS-1$
+				ex.setAdditionalInformation(extraInfo);
 			}
 		}
 		throw ex;
@@ -39,11 +39,10 @@ public class ElementDescriptionAfterThrowingAdvice implements ThrowsAdvice {
 	public void afterThrowing(Method method, Object[] args, Object target,
 			Exception ex) throws KnittingEngineException {
 		if (ex instanceof KnittingEngineException) {
-			afterThrowing(method, args, target, (KnittingEngineException)ex);
+			afterThrowing(method, args, target, (KnittingEngineException) ex);
 		} else {
-			afterThrowing(method, args, target, new KnittingEngineException(ex));
+			afterThrowing(method, args, target, new GenericKnittingEngineException(ex));
 		}
 	}
-
 
 }

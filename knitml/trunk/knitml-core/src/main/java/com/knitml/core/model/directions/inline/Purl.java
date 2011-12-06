@@ -24,9 +24,15 @@ public class Purl extends Knit {
 	}
 
 	@Override
+	public String toString() {
+		return "Purl" + (numberOfTimes != null ? " " + numberOfTimes : "")
+				+ (yarnIdRef != null ? " with yarn " + yarnIdRef : "")
+				+ (loopToWork != null ? " through " + loopToWork + " loop": "");
+	}
+	
+	@Override
 	public StitchNature getStitchNatureProduced() {
 		return StitchNature.PURL;
 	}
-	
-	
+
 }

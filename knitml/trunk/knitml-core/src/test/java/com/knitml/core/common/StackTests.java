@@ -9,6 +9,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.knitml.core.compatibility.Stack;
+
 public class StackTests {
 	@Test
 	public void createStackImplementation() throws Exception {

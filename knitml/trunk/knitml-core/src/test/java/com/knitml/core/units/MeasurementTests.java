@@ -29,9 +29,9 @@ public class MeasurementTests {
 		assertEquals("3 st/in", gauge.toString());
 		gauge = KnittingMeasure.valueOf("3", ROWS_PER_INCH);
 		assertEquals("3 row/in", gauge.toString());
-		gauge = KnittingMeasure.valueOf(3, STITCHES_PER_CENTIMETER);
+		gauge = KnittingMeasure.valueOf("3", STITCHES_PER_CENTIMETER);
 		assertEquals("3 st/cm", gauge.toString());
-		gauge = KnittingMeasure.valueOf(3, ROWS_PER_CENTIMETER);
+		gauge = KnittingMeasure.valueOf("3", ROWS_PER_CENTIMETER);
 		assertEquals("3 row/cm", gauge.toString());
 	}
 	

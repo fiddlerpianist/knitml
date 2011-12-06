@@ -30,7 +30,7 @@ public class RepeatInstructionTranslator implements IMarshaller, IUnmarshaller,
 	public RepeatInstructionTranslator() {
 		this.uri = null;
 		this.index = 0;
-		this.name = "repeat-instruction";
+		this.name = "repeat-instruction"; //$NON-NLS-1$
 	}
 
 	public RepeatInstructionTranslator(String uri, int index, String name) {
@@ -56,10 +56,10 @@ public class RepeatInstructionTranslator implements IMarshaller, IUnmarshaller,
 
 		// make sure the parameters are as expected
 		if (!(obj instanceof RepeatInstruction)) {
-			throw new JiBXException("Invalid object type for marshaller");
+			throw new JiBXException("Invalid object type for marshaller"); //$NON-NLS-1$
 		}
 		if (!(ictx instanceof MarshallingContext)) {
-			throw new JiBXException("Invalid object type for marshaller");
+			throw new JiBXException("Invalid object type for marshaller"); //$NON-NLS-1$
 		}
 
 		// start by generating start tag for container
@@ -68,7 +68,7 @@ public class RepeatInstructionTranslator implements IMarshaller, IUnmarshaller,
 		Identifiable ref = repeatInstruction.getRef();
 		if (ref != null) {
 			ctx.startTagAttributes(this.index, this.name);
-			ctx.attribute(this.index, "ref", ref.getId());
+			ctx.attribute(this.index, "ref", ref.getId()); //$NON-NLS-1$
 			ctx.closeStartContent();
 		}
 		String untilTagName = EnumUtils.fromEnum(repeatInstruction.getUntil());
@@ -91,11 +91,11 @@ public class RepeatInstructionTranslator implements IMarshaller, IUnmarshaller,
 			List<StitchesOnNeedle> needles = (List<StitchesOnNeedle>) repeatInstruction
 					.getValue();
 			for (StitchesOnNeedle needle : needles) {
-				ctx.startTagAttributes(this.index, "needle");
-				ctx.attribute(this.index, "ref", needle.getNeedle().getId());
+				ctx.startTagAttributes(this.index, "needle"); //$NON-NLS-1$
+				ctx.attribute(this.index, "ref", needle.getNeedle().getId()); //$NON-NLS-1$
 				ctx.closeStartContent();
 				ctx.content(needle.getNumberOfStitches());
-				ctx.endTag(this.index, "needle");
+				ctx.endTag(this.index, "needle"); //$NON-NLS-1$
 			}
 			ctx.endTag(this.index, untilTagName);
 			break;
@@ -108,7 +108,7 @@ public class RepeatInstructionTranslator implements IMarshaller, IUnmarshaller,
 				if (expression instanceof IMarshallable) {
 					((IMarshallable) expression).marshal(ctx);
 				} else {
-					throw new JiBXException("Expression is not marshallable");
+					throw new JiBXException("Expression is not marshallable"); //$NON-NLS-1$
 				}
 			}
 			ctx.endTag(this.index, untilTagName);
@@ -118,7 +118,7 @@ public class RepeatInstructionTranslator implements IMarshaller, IUnmarshaller,
 			if (repeatInstruction.getValue() instanceof IMarshallable) {
 				((IMarshallable) repeatInstruction.getValue()).marshal(ctx);
 			} else {
-				throw new JiBXException("Mapped value is not marshallable");
+				throw new JiBXException("Mapped value is not marshallable"); //$NON-NLS-1$
 			}
 			break;
 		}
@@ -154,69 +154,69 @@ public class RepeatInstructionTranslator implements IMarshaller, IUnmarshaller,
 		}
 
 		RepeatInstruction repeatInstruction = new RepeatInstruction();
-		Object instructionRef = ctx.attributeExistingIDREF(null, "ref", 0);
+		Object instructionRef = ctx.attributeExistingIDREF(null, "ref", 0); //$NON-NLS-1$
 		if (!(instructionRef instanceof Identifiable)) {
 			ctx
-					.throwException("Object with id on repeat-instruction element not defined");
+					.throwException("Object with id on repeat-instruction element not defined"); //$NON-NLS-1$
 		}
 		repeatInstruction.setRef((Identifiable) instructionRef);
 
 		// process all entries present in document
 		ctx.parsePastStartTag(uri, name);
-		if (ctx.isAt(uri, "until-desired-length")) {
+		if (ctx.isAt(uri, "until-desired-length")) { //$NON-NLS-1$
 			repeatInstruction
 					.setUntil(RepeatInstruction.Until.UNTIL_DESIRED_LENGTH);
 			ctx.skipElement();
-		} else if (ctx.isAt(uri, "until-stitches-remain")) {
+		} else if (ctx.isAt(uri, "until-stitches-remain")) { //$NON-NLS-1$
 			repeatInstruction
 					.setUntil(RepeatInstruction.Until.UNTIL_STITCHES_REMAIN);
 			repeatInstruction.setValue(ctx.parseElementInt(uri,
-					"until-stitches-remain"));
-		} else if (ctx.isAt(uri, "until-stitches-remain-on-needles")) {
+					"until-stitches-remain")); //$NON-NLS-1$
+		} else if (ctx.isAt(uri, "until-stitches-remain-on-needles")) { //$NON-NLS-1$
 			repeatInstruction
 					.setUntil(RepeatInstruction.Until.UNTIL_STITCHES_REMAIN_ON_NEEDLES);
 			List<StitchesOnNeedle> needles = new ArrayList<StitchesOnNeedle>();
 			repeatInstruction.setValue(needles);
-			ctx.parsePastStartTag(uri, "until-stitches-remain-on-needles");
-			while (ctx.isAt(uri, "needle")) {
-				Object needle = ctx.attributeExistingIDREF(null, "ref",
+			ctx.parsePastStartTag(uri, "until-stitches-remain-on-needles"); //$NON-NLS-1$
+			while (ctx.isAt(uri, "needle")) { //$NON-NLS-1$
+				Object needle = ctx.attributeExistingIDREF(null, "ref", //$NON-NLS-1$
 						this.index);
 				if (!(needle instanceof Needle)) {
 					ctx
-							.throwException("Object with ref on until-stitches-remain-on-needles element not defined");
+							.throwException("Object with ref on until-stitches-remain-on-needles element not defined"); //$NON-NLS-1$
 				}
-				ctx.parsePastStartTag(uri, "needle");
-				int numberOfStitches = ctx.parseContentInt(uri, "needle");
+				ctx.parsePastStartTag(uri, "needle"); //$NON-NLS-1$
+				int numberOfStitches = ctx.parseContentInt(uri, "needle"); //$NON-NLS-1$
 				StitchesOnNeedle stitchesOnNeedle = new StitchesOnNeedle(
 						(Needle) needle, numberOfStitches);
 				needles.add(stitchesOnNeedle);
 				// ctx.parsePastEndTag(uri, "needle");
 			}
-			ctx.parsePastEndTag(uri, "until-stitches-remain-on-needles");
-		} else if (ctx.isAt(uri, "until-measures")) {
+			ctx.parsePastEndTag(uri, "until-stitches-remain-on-needles"); //$NON-NLS-1$
+		} else if (ctx.isAt(uri, "until-measures")) { //$NON-NLS-1$
 			repeatInstruction.setUntil(RepeatInstruction.Until.UNTIL_MEASURES);
 			repeatInstruction.setValue(ctx.unmarshalElement());
-		} else if (ctx.isAt(uri, "additional-times")) {
+		} else if (ctx.isAt(uri, "additional-times")) { //$NON-NLS-1$
 			repeatInstruction
 					.setUntil(RepeatInstruction.Until.ADDITIONAL_TIMES);
 			repeatInstruction.setValue(ctx.parseElementInt(uri,
-					"additional-times"));
-		} else if (ctx.isAt(uri, "until-equals")) {
+					"additional-times")); //$NON-NLS-1$
+		} else if (ctx.isAt(uri, "until-equals")) { //$NON-NLS-1$
 			repeatInstruction.setUntil(RepeatInstruction.Until.UNTIL_EQUALS);
 			List<Expression> expressions = new ArrayList<Expression>();
 			repeatInstruction.setValue(expressions);
-			ctx.parsePastStartTag(uri, "until-equals");
+			ctx.parsePastStartTag(uri, "until-equals"); //$NON-NLS-1$
 			while (!ctx.isEnd()) {
 				Object element = ctx.unmarshalElement();
 				if (!(element instanceof Expression)) {
 					ctx
 							.throwNameException(
-									"Contains an invalid element (i.e. not an expression)",
-									this.uri, "until-equals");
+									"Contains an invalid element (i.e. not an expression)", //$NON-NLS-1$
+									this.uri, "until-equals"); //$NON-NLS-1$
 				}
 				expressions.add((Expression) element);
 			}
-			ctx.parsePastEndTag(uri, "until-equals");
+			ctx.parsePastEndTag(uri, "until-equals"); //$NON-NLS-1$
 		}
 		ctx.parsePastEndTag(uri, name);
 		return repeatInstruction;

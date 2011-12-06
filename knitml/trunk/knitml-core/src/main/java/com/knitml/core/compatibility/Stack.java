@@ -1,4 +1,4 @@
-package com.knitml.core.common;
+package com.knitml.core.compatibility;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

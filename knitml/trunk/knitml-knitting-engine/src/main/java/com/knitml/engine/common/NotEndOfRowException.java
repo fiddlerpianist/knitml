@@ -6,19 +6,22 @@ public class NotEndOfRowException extends KnittingEngineException {
 	 * 
 	 */
 	private static final long serialVersionUID = -4684339256072913056L;
+	
+	private Integer numberOfStitchesLeft;
 
-	public NotEndOfRowException() {
-		super();
+	public Integer getNumberOfStitchesLeft() {
+		return this.numberOfStitchesLeft;
 	}
 
-	public NotEndOfRowException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public NotEndOfRowException(String message) {
+	public NotEndOfRowException(String message, int numberOfStitchesLeft) {
 		super(message);
+		this.numberOfStitchesLeft = numberOfStitchesLeft;
 	}
 
+	public NotEndOfRowException(String message, int numberOfStitchesLeft, Throwable cause) {
+		super(message, cause);
+		this.numberOfStitchesLeft = numberOfStitchesLeft;
+	}
 	public NotEndOfRowException(Throwable cause) {
 		super(cause);
 	}

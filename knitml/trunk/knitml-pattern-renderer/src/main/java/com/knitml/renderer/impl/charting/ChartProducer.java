@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.collections15.BidiMap;
-import org.apache.commons.collections15.bidimap.DualHashBidiMap;
 import org.apache.commons.lang.NotImplementedException;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableBiMap;
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.LoopToWork;
 import com.knitml.core.common.Side;
-import com.knitml.core.common.Stack;
 import com.knitml.core.common.StitchesOnNeedle;
+import com.knitml.core.compatibility.Stack;
 import com.knitml.core.model.Pattern;
 import com.knitml.core.model.directions.block.CastOn;
 import com.knitml.core.model.directions.block.DeclareFlatKnitting;
@@ -40,10 +40,10 @@ import com.knitml.core.model.directions.inline.NoStitch;
 import com.knitml.core.model.directions.inline.PassPreviousStitchOver;
 import com.knitml.core.model.directions.inline.Purl;
 import com.knitml.core.model.directions.inline.Repeat;
+import com.knitml.core.model.directions.inline.Repeat.Until;
 import com.knitml.core.model.directions.inline.Slip;
 import com.knitml.core.model.directions.inline.SlipToStitchHolder;
 import com.knitml.core.model.directions.inline.WorkEven;
-import com.knitml.core.model.directions.inline.Repeat.Until;
 import com.knitml.core.model.header.GeneralInformation;
 import com.knitml.core.model.header.Needle;
 import com.knitml.core.model.header.Supplies;
@@ -74,16 +74,13 @@ import com.knitml.renderer.impl.charting.analyzer.RowInfo;
  */
 class ChartProducer implements Renderer {
 
-	private static BidiMap<ChartElement, ChartElement> symbolInverseMap = new DualHashBidiMap<ChartElement, ChartElement>();
-
-	static {
-		symbolInverseMap.put(ChartElement.P, ChartElement.K);
-		symbolInverseMap.put(ChartElement.P_TW, ChartElement.K_TW);
-		symbolInverseMap.put(ChartElement.P2TOG, ChartElement.K2TOG);
-		symbolInverseMap.put(ChartElement.P2TOG_TBL, ChartElement.K2TOG_TBL);
-		symbolInverseMap.put(ChartElement.SSP, ChartElement.SSK);
-		symbolInverseMap.put(ChartElement.SKP, ChartElement.SSP);
-	}
+	private static BiMap<ChartElement, ChartElement> symbolInverseMap = new ImmutableBiMap.Builder<ChartElement, ChartElement>()
+			.put(ChartElement.P, ChartElement.K)
+			.put(ChartElement.P_TW, ChartElement.K_TW)
+			.put(ChartElement.P2TOG, ChartElement.K2TOG)
+			.put(ChartElement.P2TOG_TBL, ChartElement.K2TOG_TBL)
+			.put(ChartElement.SSP, ChartElement.SSK)
+			.put(ChartElement.SKP, ChartElement.SSP).build();
 
 	// fields which should be set before calling begin() methods
 	private ChartWriterFactory chartWriterFactory;
@@ -216,7 +213,7 @@ class ChartProducer implements Renderer {
 	protected ChartElement inverse(ChartElement point) {
 		ChartElement element = symbolInverseMap.get(point);
 		if (element == null) {
-			element = symbolInverseMap.inverseBidiMap().get(point);
+			element = symbolInverseMap.inverse().get(point);
 		}
 		if (element == null) {
 			element = point;
@@ -486,7 +483,7 @@ class ChartProducer implements Renderer {
 	public void renderCastOn(InlineCastOn castOn) {
 		throw new NotImplementedException();
 	}
-	
+
 	public void renderDeclareFlatKnitting(DeclareFlatKnitting spec) {
 		throw new NotImplementedException();
 	}

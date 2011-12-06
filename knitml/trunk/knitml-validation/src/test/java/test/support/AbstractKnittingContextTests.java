@@ -10,8 +10,8 @@ import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 import org.junit.Before;
-import org.junit.internal.runners.JUnit4ClassRunner;
 import org.junit.runner.RunWith;
+import org.junit.runners.BlockJUnit4ClassRunner;
 
 import com.knitml.core.model.Pattern;
 import com.knitml.core.model.Version;
@@ -24,7 +24,7 @@ import com.knitml.validation.visitor.instruction.Visitor;
 import com.knitml.validation.visitor.instruction.VisitorFactory;
 import com.knitml.validation.visitor.instruction.impl.DefaultVisitorFactory;
 
-@RunWith(JUnit4ClassRunner.class)
+@RunWith(BlockJUnit4ClassRunner.class)
 public abstract class AbstractKnittingContextTests {
 
 	protected KnittingContextFactory knittingContextFactory;

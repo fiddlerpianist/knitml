@@ -28,7 +28,7 @@ public class NeedleImpositionTests {
 	protected DefaultKnittingEngine engine;
 	protected KnittingFactory knittingFactory = new DefaultKnittingFactory();
 	protected Needle imposingNeedle = knittingFactory.createNeedle(
-			"imposingNeedle", NeedleStyle.CIRCULAR);
+			"imposingNeedle", NeedleStyle.CIRCULAR); //$NON-NLS-1$
 
 	protected void knit(int numberOfStitches) throws KnittingEngineException {
 		for (int i = 0; i < numberOfStitches; i++) {
@@ -74,7 +74,7 @@ public class NeedleImpositionTests {
 		assertThat (engine.getCurrentNeedle(), is (not (imposingNeedle)));
 		assertThat (engine.getStitchesRemainingInRow(), is (10));
 		assertThat (engine.getTotalNumberOfStitchesInRow(), is (20));
-		verifyStitchOrder(engine.getCurrentNeedle(), "ABFGHIJKLMCDENOPQRST");
+		verifyStitchOrder(engine.getCurrentNeedle(), "ABFGHIJKLMCDENOPQRST"); //$NON-NLS-1$
 	}
 
 	@Test
@@ -91,8 +91,8 @@ public class NeedleImpositionTests {
 		assertThat (engine.getCurrentNeedle(), is (not (imposingNeedle)));
 		assertThat (engine.getStitchesRemainingInRow(), is (10));
 		assertThat (engine.getTotalNumberOfStitchesInRow(), is (18));
-		verifyStitchOrder(engine.getCurrentNeedle(), "ABFGHIJKCDENOPQRST");
-		verifyStitchOrder(imposingNeedle, "LM");
+		verifyStitchOrder(engine.getCurrentNeedle(), "ABFGHIJKCDENOPQRST"); //$NON-NLS-1$
+		verifyStitchOrder(imposingNeedle, "LM"); //$NON-NLS-1$
 	}
 
 	@Test
@@ -106,8 +106,8 @@ public class NeedleImpositionTests {
 		assertThat (engine.getCurrentNeedle(), is (not (imposingNeedle)));
 		assertThat (engine.getStitchesRemainingInRow(), is (12));
 		assertThat (engine.getTotalNumberOfStitchesInRow(), is (12));
-		verifyStitchOrder(engine.getCurrentNeedle(), "ABCDENOPQRST");
-		verifyStitchOrder(imposingNeedle, "FGHIJKLM");
+		verifyStitchOrder(engine.getCurrentNeedle(), "ABCDENOPQRST"); //$NON-NLS-1$
+		verifyStitchOrder(imposingNeedle, "FGHIJKLM"); //$NON-NLS-1$
 	}
 
 	
@@ -133,8 +133,8 @@ public class NeedleImpositionTests {
 		assertThat (engine.getCurrentNeedle(), is (not (imposingNeedle)));
 		assertThat (engine.getStitchesRemainingInRow(), is (10));
 		assertThat (engine.getTotalNumberOfStitchesInRow(), is (15));
-		verifyStitchOrder(engine.getCurrentNeedle(), "ABGIKCDENOPQRST");
-		verifyStitchOrder(imposingNeedle, "LM");
+		verifyStitchOrder(engine.getCurrentNeedle(), "ABGIKCDENOPQRST"); //$NON-NLS-1$
+		verifyStitchOrder(imposingNeedle, "LM"); //$NON-NLS-1$
 	}
 
 	@Test
@@ -149,8 +149,8 @@ public class NeedleImpositionTests {
 		assertThat (engine.getCurrentNeedle(), is (not (imposingNeedle)));
 		assertThat (engine.getStitchesRemainingInRow(), is (10));
 		assertThat (engine.getTotalNumberOfStitchesInRow(), is (18));
-		verifyStitchOrder(engine.getCurrentNeedle(), "ABFGHIJKCDENOPQRST");
-		verifyStitchOrder(imposingNeedle, "LM");
+		verifyStitchOrder(engine.getCurrentNeedle(), "ABFGHIJKCDENOPQRST"); //$NON-NLS-1$
+		verifyStitchOrder(imposingNeedle, "LM"); //$NON-NLS-1$
 	}
 	
 	

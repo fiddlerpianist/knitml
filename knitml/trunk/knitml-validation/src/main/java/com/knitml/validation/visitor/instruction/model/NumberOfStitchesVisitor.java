@@ -1,10 +1,13 @@
 package com.knitml.validation.visitor.instruction.model;
 
+import java.text.MessageFormat;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.knitml.core.model.directions.information.NumberOfStitches;
 import com.knitml.engine.common.KnittingEngineException;
+import com.knitml.validation.common.InvalidStructureException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
 
@@ -23,9 +26,9 @@ public class NumberOfStitchesVisitor extends AbstractPatternVisitor {
 				int actualNumberOfStitches = context.getEngine()
 						.getTotalNumberOfStitchesInRow();
 				if (expectedNumberOfStitches != actualNumberOfStitches) {
-					throw new KnittingEngineException("Expected "
-							+ expectedNumberOfStitches + " stitches but was "
-							+ actualNumberOfStitches);
+					throw new InvalidStructureException(MessageFormat.format(
+							Messages.getString("NumberOfStitchesVisitor.UNEXPECTED_STITCH_COUNT"), //$NON-NLS-1$
+							expectedNumberOfStitches, actualNumberOfStitches));
 				}
 			} else if (numberOfStitches.isInform()) {
 				numberOfStitches.setNumber(context.getEngine()

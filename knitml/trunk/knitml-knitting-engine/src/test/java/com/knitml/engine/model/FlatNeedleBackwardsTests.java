@@ -45,10 +45,10 @@ public class FlatNeedleBackwardsTests extends FlatNeedleTests {
 	public void addStitchesToBeginning() throws Exception {
 		List<Stitch> startingStitchesOnNeedle = new ArrayList<Stitch>(needle.getStitches());
 		List<Stitch> stitchesToAdd = new ArrayList<Stitch>();
-		stitchesToAdd.add(new DefaultStitch("AA"));
-		stitchesToAdd.add(new DefaultStitch("BB"));
-		stitchesToAdd.add(new DefaultStitch("CC"));
-		Stitch lastStitch = new DefaultStitch("DD");
+		stitchesToAdd.add(new DefaultStitch("AA")); //$NON-NLS-1$
+		stitchesToAdd.add(new DefaultStitch("BB")); //$NON-NLS-1$
+		stitchesToAdd.add(new DefaultStitch("CC")); //$NON-NLS-1$
+		Stitch lastStitch = new DefaultStitch("DD"); //$NON-NLS-1$
 		stitchesToAdd.add(lastStitch);
 		
 		// perform the operation  the needle
@@ -74,10 +74,10 @@ public class FlatNeedleBackwardsTests extends FlatNeedleTests {
 	public void addStitchesToEnd() throws Exception {
 		List<Stitch> startingStitchesOnNeedle = new ArrayList<Stitch>(needle.getStitches());
 		List<Stitch> stitchesToAdd = new ArrayList<Stitch>();
-		stitchesToAdd.add(new DefaultStitch("K"));
-		stitchesToAdd.add(new DefaultStitch("L"));
-		stitchesToAdd.add(new DefaultStitch("M"));
-		Stitch lastStitch = new DefaultStitch("N");
+		stitchesToAdd.add(new DefaultStitch("K")); //$NON-NLS-1$
+		stitchesToAdd.add(new DefaultStitch("L")); //$NON-NLS-1$
+		stitchesToAdd.add(new DefaultStitch("M")); //$NON-NLS-1$
+		Stitch lastStitch = new DefaultStitch("N"); //$NON-NLS-1$
 		stitchesToAdd.add(lastStitch);
 		
 		// perform the operation on the needle
@@ -120,7 +120,7 @@ public class FlatNeedleBackwardsTests extends FlatNeedleTests {
 		for (Stitch stitch : stitches) {
 			stitchNames.add(stitch.getId());
 		}
-		String[] expectedStitchArray = new String[] { "J","I","H","E","D","C","G","F","B","A" };
+		String[] expectedStitchArray = new String[] { "J","I","H","E","D","C","G","F","B","A" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$
 		assertThat(stitchNames.toArray(new String[0]), is (expectedStitchArray));
 	}
 	

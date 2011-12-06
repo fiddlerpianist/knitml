@@ -26,11 +26,11 @@ public class MultiNeedleMementoTests {
 
 	protected DefaultKnittingEngine engine;
 	protected KnittingFactory knittingFactory = new DefaultKnittingFactory();
-	protected Needle needle1 = knittingFactory.createNeedle("needle1",
+	protected Needle needle1 = knittingFactory.createNeedle("needle1", //$NON-NLS-1$
 			NeedleStyle.CIRCULAR);
-	protected Needle needle2 = knittingFactory.createNeedle("needle2",
+	protected Needle needle2 = knittingFactory.createNeedle("needle2", //$NON-NLS-1$
 			NeedleStyle.CIRCULAR);
-	protected Needle needle3 = knittingFactory.createNeedle("needle3",
+	protected Needle needle3 = knittingFactory.createNeedle("needle3", //$NON-NLS-1$
 			NeedleStyle.CIRCULAR);
 	private Object memento;
 
@@ -118,7 +118,7 @@ public class MultiNeedleMementoTests {
 		needles.add(needle1);
 		needles.add(needle2);
 		needles.add(needle3);
-		Needle needle4 = knittingFactory.createNeedle("needle4", NeedleStyle.CIRCULAR);
+		Needle needle4 = knittingFactory.createNeedle("needle4", NeedleStyle.CIRCULAR); //$NON-NLS-1$
 		Object needle4State = needle4.save();
 		needles.add(needle4);
 		engine.useNeedles(needles);

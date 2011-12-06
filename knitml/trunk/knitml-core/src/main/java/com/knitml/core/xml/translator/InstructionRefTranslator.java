@@ -41,16 +41,16 @@ public class InstructionRefTranslator implements IMarshaller, IUnmarshaller,
 
 		// make sure the parameters are as expected
 		if (!(obj instanceof InstructionRef)) {
-			throw new JiBXException("Invalid object type for instructionRef");
+			throw new JiBXException("Invalid object type for instructionRef"); //$NON-NLS-1$
 		}
 		if (!(ictx instanceof MarshallingContext)) {
-			throw new JiBXException("Invalid object type for marshaller");
+			throw new JiBXException("Invalid object type for marshaller"); //$NON-NLS-1$
 		}
 		MarshallingContext ctx = (MarshallingContext) ictx;
 		InstructionRef instructionRef = (InstructionRef) obj;
 
 		ctx.startTagAttributes(this.index, this.name);
-		ctx.attribute(this.index, "ref", instructionRef.getRef().getId());
+		ctx.attribute(this.index, "ref", instructionRef.getRef().getId()); //$NON-NLS-1$
 		ctx.closeStartEmpty();
 	}
 
@@ -79,10 +79,10 @@ public class InstructionRefTranslator implements IMarshaller, IUnmarshaller,
 		if (!ctx.isAt(this.uri, this.name)) {
 			ctx.throwStartTagNameError(this.uri, this.name);
 		}
-		Object identifiable = ctx.attributeExistingIDREF(null, "ref", 0);
+		Object identifiable = ctx.attributeExistingIDREF(null, "ref", 0); //$NON-NLS-1$
 		if (!(identifiable instanceof Identifiable)) {
 			ctx
-					.throwException("Object with id on " + name + " element must be an Identifiable type");
+					.throwException("Object with id on " + name + " element must be an Identifiable type"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		InstructionRef instructionRef = new InstructionRef((Identifiable)identifiable);
 		ctx.parsePastEndTag(this.uri, this.name);

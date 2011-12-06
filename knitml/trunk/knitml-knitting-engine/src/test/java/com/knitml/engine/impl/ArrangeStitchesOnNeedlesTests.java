@@ -28,7 +28,7 @@ public class ArrangeStitchesOnNeedlesTests {
 
 	protected KnittingEngine engine;
 	protected KnittingFactory knittingFactory = new DefaultKnittingFactory();
-	protected Needle initialNeedle = knittingFactory.createNeedle("default",
+	protected Needle initialNeedle = knittingFactory.createNeedle("default", //$NON-NLS-1$
 			NeedleStyle.CIRCULAR);
 	private static List<Stitch> expectedStitchOrder = new ArrayList<Stitch>(40);
 
@@ -40,7 +40,7 @@ public class ArrangeStitchesOnNeedlesTests {
 	
 	@BeforeClass
 	public static void setUpExpectedStitchOrder() {
-		String stitchesString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn";
+		String stitchesString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn"; //$NON-NLS-1$
 		for (int i=0; i < 40; i++) {
 			expectedStitchOrder.add(new DefaultStitch(String.valueOf(stitchesString.charAt(i))));
 		}
@@ -59,8 +59,8 @@ public class ArrangeStitchesOnNeedlesTests {
 	@Test
 	public void moveStitchesBackwards() throws Exception {
 		List<Needle> newNeedles = new ArrayList<Needle>();
-		newNeedles.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR));
-		newNeedles.add(knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR));
+		newNeedles.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
+		newNeedles.add(knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
 		newNeedles.add(initialNeedle);
 		engine.useNeedles(newNeedles);
 		engine.arrangeStitchesOnNeedles(new int[] { 10, 10, 20 });
@@ -71,13 +71,13 @@ public class ArrangeStitchesOnNeedlesTests {
 	@Test
 	public void moveStitchesBackwardsAgain() throws Exception {
 		List<Needle> newNeedles = new ArrayList<Needle>();
-		Needle needle2 = knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR); 
+		Needle needle2 = knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR);  //$NON-NLS-1$
 		newNeedles.add(needle2);
 		newNeedles.add(initialNeedle);
 		engine.useNeedles(newNeedles);
 		newNeedles.clear();
 		engine.arrangeStitchesOnNeedles(new int[] { 5, 35 });
-		Needle needle1 = knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR); 
+		Needle needle1 = knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR);  //$NON-NLS-1$
 		newNeedles.add(needle1);
 		newNeedles.add(needle2);
 		newNeedles.add(initialNeedle);
@@ -90,8 +90,8 @@ public class ArrangeStitchesOnNeedlesTests {
 	@Test(expected=WrongNumberOfNeedlesException.class)
 	public void rearrangeToNotEnoughNeedles() throws Exception {
 		List<Needle> newNeedles = new ArrayList<Needle>();
-		newNeedles.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR));
-		newNeedles.add(knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR));
+		newNeedles.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
+		newNeedles.add(knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
 		newNeedles.add(initialNeedle);
 		engine.useNeedles(newNeedles);
 		engine.arrangeStitchesOnNeedles(new int[] { 20, 20 });
@@ -101,8 +101,8 @@ public class ArrangeStitchesOnNeedlesTests {
 	public void moveStitchesForwards() throws Exception {
 		List<Needle> newNeedles = new ArrayList<Needle>();
 		newNeedles.add(initialNeedle);
-		newNeedles.add(knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR));
-		newNeedles.add(knittingFactory.createNeedle("needle3", NeedleStyle.CIRCULAR));
+		newNeedles.add(knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
+		newNeedles.add(knittingFactory.createNeedle("needle3", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
 		engine.useNeedles(newNeedles);
 		engine.arrangeStitchesOnNeedles(new int[] { 10, 10, 20 });
 		verifyStitchOrder(newNeedles);
@@ -113,8 +113,8 @@ public class ArrangeStitchesOnNeedlesTests {
 	public void moveStitchesForwardsAgain() throws Exception {
 		List<Needle> newNeedles = new ArrayList<Needle>();
 		newNeedles.add(initialNeedle);
-		newNeedles.add(knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR));
-		newNeedles.add(knittingFactory.createNeedle("needle3", NeedleStyle.CIRCULAR));
+		newNeedles.add(knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
+		newNeedles.add(knittingFactory.createNeedle("needle3", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
 		engine.useNeedles(newNeedles);
 		engine.arrangeStitchesOnNeedles(new int[] { 1, 1, 38 });
 		verifyStitchOrder(newNeedles);
@@ -125,8 +125,8 @@ public class ArrangeStitchesOnNeedlesTests {
 	public void moveStitchesToMiddle() throws Exception {
 		List<Needle> newNeedles = new ArrayList<Needle>();
 		newNeedles.add(initialNeedle);
-		newNeedles.add(knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR));
-		newNeedles.add(knittingFactory.createNeedle("needle3", NeedleStyle.CIRCULAR));
+		newNeedles.add(knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
+		newNeedles.add(knittingFactory.createNeedle("needle3", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
 		engine.useNeedles(newNeedles);
 		engine.arrangeStitchesOnNeedles(new int[] { 1, 38, 1 });
 		verifyStitchOrder(newNeedles);
@@ -136,9 +136,9 @@ public class ArrangeStitchesOnNeedlesTests {
 	@Test
 	public void moveStitchesFromMiddle() throws Exception {
 		List<Needle> newNeedles = new ArrayList<Needle>();
-		newNeedles.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR));
+		newNeedles.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
 		newNeedles.add(initialNeedle);
-		newNeedles.add(knittingFactory.createNeedle("needle3", NeedleStyle.CIRCULAR));
+		newNeedles.add(knittingFactory.createNeedle("needle3", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
 		engine.useNeedles(newNeedles);
 		engine.arrangeStitchesOnNeedles(new int[] { 12, 10, 18 });
 		verifyStitchOrder(newNeedles);

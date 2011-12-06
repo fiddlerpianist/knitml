@@ -17,8 +17,6 @@ Import-Package: com.knitml.core.common,
  com.knitml.core.model.header,
  com.knitml.core.units,
  com.knitml.core.xml.translator,
- org.apache.commons.collections,
- org.apache.commons.collections.list,
  org.apache.commons.lang,
  org.slf4j
 Export-Package: com.knitml.engine;version="0.6.0.BUILD-SNAPSHOT";

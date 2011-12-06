@@ -35,8 +35,7 @@ class MiscellaneousOperationTests {
 			</pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
-		assertThat (element instanceof CrossStitches, is (true))
-		element.with {
+		((CrossStitches)element).with {
 			assertThat type, is (CrossType.FRONT)
 			assertThat first, is (2)
 			assertThat next, is (3)

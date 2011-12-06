@@ -22,12 +22,11 @@ public class InstructionRefVisitor extends AbstractPatternVisitor {
 		PatternRepository repository = context.getPatternRepository();
 		// Visit the referenced instruction in the repository, NOT the one in the model
 		Instruction instruction = repository.getBlockInstruction(instructionRef.getRef().getId());
+		context.getPatternState().setAsCurrent(instruction);
 		context.getPatternState().setReplayMode(true);
-		try {
-			visitChild(instruction, context);
-		} finally {
-			context.getPatternState().setReplayMode(false);
-		}
+		visitChild(instruction, context);
+		context.getPatternState().setReplayMode(false);
+		context.getPatternState().clearCurrentInstruction();
 	}
 
 }

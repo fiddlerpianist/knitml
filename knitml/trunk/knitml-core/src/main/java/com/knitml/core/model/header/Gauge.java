@@ -13,6 +13,10 @@ public class Gauge {
 	protected Measurable<RowGauge> rowGauge;
 	protected Measurable<StitchGauge> stitchGauge;
 	
+	public Gauge() {
+		super();
+	}
+	
 	public Gauge(String swatchType, Measurable<RowGauge> rowGauge,
 			Measurable<StitchGauge> stitchGauge) {
 		super();

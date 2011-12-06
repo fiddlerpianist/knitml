@@ -26,22 +26,22 @@ import com.knitml.engine.settings.Direction;
 public abstract class FlatRowMultiNeedleTests extends FlatRowTests {
 
 	@SuppressWarnings("unused")
-	private final static String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	private final static String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"; //$NON-NLS-1$
 	protected KnittingFactory knittingFactory;
 
 	@Override
 	public void setUp() throws Exception {
 		knittingFactory = new DefaultKnittingFactory();
 		engine = new DefaultKnittingEngine(knittingFactory);
-		Needle needle1 = knittingFactory.createNeedle("needle1",
+		Needle needle1 = knittingFactory.createNeedle("needle1", //$NON-NLS-1$
 				NeedleStyle.DPN);
 		List<Needle> needlesToUse = new ArrayList<Needle>();
 		needlesToUse.add(needle1);
 		engine.useNeedles(needlesToUse);
 		engine.castOn(40, true);
-		needlesToUse.add(knittingFactory.createNeedle("needle2",
+		needlesToUse.add(knittingFactory.createNeedle("needle2", //$NON-NLS-1$
 				NeedleStyle.DPN));
-		needlesToUse.add(knittingFactory.createNeedle("needle3",
+		needlesToUse.add(knittingFactory.createNeedle("needle3", //$NON-NLS-1$
 				NeedleStyle.DPN));
 		engine.useNeedles(needlesToUse);
 		engine.arrangeStitchesOnNeedles(new int[] { 10, 10, 20 });
@@ -178,7 +178,7 @@ public abstract class FlatRowMultiNeedleTests extends FlatRowTests {
 	
 	@Test
 	public void transferStitchesToSpareNeedle() throws Exception {
-		Needle stitchHolder = knittingFactory.createNeedle("stitch-holder", NeedleStyle.CIRCULAR);
+		Needle stitchHolder = knittingFactory.createNeedle("stitch-holder", NeedleStyle.CIRCULAR); //$NON-NLS-1$
 		knit(8);
 		engine.transferStitchesToNeedle(stitchHolder, 4);
 		knit(28);
@@ -190,27 +190,27 @@ public abstract class FlatRowMultiNeedleTests extends FlatRowTests {
 		assertThat(engine.getTotalNumberOfStitchesOnCurrentNeedle(), is (8));
 
 		List<Stitch> firstNeedleStitches = engine.getCurrentNeedle().getStitches();
-		assertThat(firstNeedleStitches.get(0).getId(), is ("A"));
-		assertThat(firstNeedleStitches.get(1).getId(), is ("B"));
-		assertThat(firstNeedleStitches.get(2).getId(), is ("C"));
-		assertThat(firstNeedleStitches.get(3).getId(), is ("D"));
-		assertThat(firstNeedleStitches.get(4).getId(), is ("E"));
-		assertThat(firstNeedleStitches.get(5).getId(), is ("F"));
-		assertThat(firstNeedleStitches.get(6).getId(), is ("G"));
-		assertThat(firstNeedleStitches.get(7).getId(), is ("H"));
+		assertThat(firstNeedleStitches.get(0).getId(), is ("A")); //$NON-NLS-1$
+		assertThat(firstNeedleStitches.get(1).getId(), is ("B")); //$NON-NLS-1$
+		assertThat(firstNeedleStitches.get(2).getId(), is ("C")); //$NON-NLS-1$
+		assertThat(firstNeedleStitches.get(3).getId(), is ("D")); //$NON-NLS-1$
+		assertThat(firstNeedleStitches.get(4).getId(), is ("E")); //$NON-NLS-1$
+		assertThat(firstNeedleStitches.get(5).getId(), is ("F")); //$NON-NLS-1$
+		assertThat(firstNeedleStitches.get(6).getId(), is ("G")); //$NON-NLS-1$
+		assertThat(firstNeedleStitches.get(7).getId(), is ("H")); //$NON-NLS-1$
 		
 		List<Stitch> stitchHolderStitches = stitchHolder.getStitches();
 		
-		assertThat(stitchHolderStitches.get(0).getId(), is ("I"));
-		assertThat(stitchHolderStitches.get(1).getId(), is ("J"));
-		assertThat(stitchHolderStitches.get(2).getId(), is ("K"));
-		assertThat(stitchHolderStitches.get(3).getId(), is ("L"));
+		assertThat(stitchHolderStitches.get(0).getId(), is ("I")); //$NON-NLS-1$
+		assertThat(stitchHolderStitches.get(1).getId(), is ("J")); //$NON-NLS-1$
+		assertThat(stitchHolderStitches.get(2).getId(), is ("K")); //$NON-NLS-1$
+		assertThat(stitchHolderStitches.get(3).getId(), is ("L")); //$NON-NLS-1$
 		
 		// go to the second needle
 		knit(10);
 		List<Stitch> secondNeedleStitches = engine.getCurrentNeedle().getStitches();
-		assertThat(secondNeedleStitches.get(0).getId(), is ("M"));
-		assertThat(secondNeedleStitches.get(1).getId(), is ("N"));
+		assertThat(secondNeedleStitches.get(0).getId(), is ("M")); //$NON-NLS-1$
+		assertThat(secondNeedleStitches.get(1).getId(), is ("N")); //$NON-NLS-1$
 		
 	}
 

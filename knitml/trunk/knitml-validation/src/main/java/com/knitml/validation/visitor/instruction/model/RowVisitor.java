@@ -5,6 +5,8 @@ import static com.knitml.core.common.Side.WRONG;
 import static com.knitml.engine.settings.Direction.BACKWARDS;
 import static com.knitml.engine.settings.Direction.FORWARDS;
 
+import java.text.MessageFormat;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +18,7 @@ import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.NotEndOfRowException;
 import com.knitml.engine.common.UnexpectedRowNumberException;
+import com.knitml.engine.common.UnexpectedSideException;
 import com.knitml.engine.common.WrongKnittingShapeException;
 import com.knitml.engine.settings.Direction;
 import com.knitml.validation.common.InvalidStructureException;
@@ -33,15 +36,14 @@ public class RowVisitor extends AbstractPatternVisitor {
 		// check for knitting shape and the validity of what is being requested
 		if (row.getType() != null && row.getType() != currentShape) {
 			throw new WrongKnittingShapeException(
-					"The shape specified in this row ("
-							+ EnumUtils.fromEnum(row.getType())
-							+ ") does not match the expected shape ("
-							+ EnumUtils.fromEnum(currentShape) + ")");
+					MessageFormat
+							.format(Messages.getString("RowVisitor.UNWRONG_SHAPE"), //$NON-NLS-1$
+									EnumUtils.fromEnum(row.getType()), EnumUtils.fromEnum(currentShape)));
 		}
 
 		// tell engine what to do with the current row
 		if (row.isResetRowCount()) {
-			log.debug("Resetting the row number and clearing instructions");
+			log.debug("Resetting the row number and clearing instructions"); //$NON-NLS-1$
 			context.getEngine().resetRowNumber();
 			context.getPatternRepository().clearLocalInstructions();
 		}
@@ -59,13 +61,13 @@ public class RowVisitor extends AbstractPatternVisitor {
 			// at the beginning
 			context.getEngine().incrementCurrentRowNumber();
 		}
-		
+
 		if (context.getEngine().getTotalNumberOfStitchesInRow() == 0) {
 			// We are starting with no stitches on the needles.
 			// When this is the case, we need to be told which side to start on
 			if (row.getSide() == null) {
 				throw new InvalidStructureException(
-						"When there are no stitches in the row, the row's side attribute must be specified");
+						Messages.getString("RowVisitor.ROW_SIDE_REQUIRED_WHEN_NO_STITCHES")); //$NON-NLS-1$
 			}
 			Side side = row.getSide();
 			KnittingEngine engine = context.getEngine();
@@ -94,31 +96,39 @@ public class RowVisitor extends AbstractPatternVisitor {
 				Side actualSide = direction == Direction.FORWARDS ? RIGHT
 						: WRONG;
 				if (actualSide != expectedSide) {
-					throw new KnittingEngineException("Expected "
-							+ expectedSide + " side of knitting but was "
-							+ actualSide);
+					throw new UnexpectedSideException(expectedSide, actualSide);
 				}
 			}
 
 		}
 
 		manageRowNumbers(row, context);
+		int rowNumberFromEngine = context.getEngine().getCurrentRowNumber();
+		context.getPatternState().setAsCurrent(row,
+				rowNumberFromEngine);
+		
+		if (!context.getPatternState().isReplayMode() && row.getNumbers() != null && row.getNumbers().length > 0) {
+			// if a row number is specified, validate it against the expected
+			// row number
+			validateCurrentRowNumber(row, rowNumberFromEngine, context);
+		}
 		visitChildren(row, context);
 		// clears any "fixed" row information which has been applied in this row
 		context.getPatternState().clearActiveRowsForInstructions();
 
-		
 		if (row.getFollowupInformation() != null) {
 			visitChild(row.getFollowupInformation(), context);
 		}
 
-		log.debug("Row {} completed: {} stitches", context.getEngine().getCurrentRowNumber(), context.getEngine().getTotalNumberOfStitchesInRow());
+		log.debug("Row {} completed: {} stitches", rowNumberFromEngine, context.getEngine() //$NON-NLS-1$
+				.getTotalNumberOfStitchesInRow());
 
 		// if we specify that this row is a complete row, OR if we get to the
 		// end of the row when we're finished, call endRow()
 		if (isNotShortRow || context.getEngine().isEndOfRow()) {
 			context.getEngine().endRow();
 		}
+		context.getPatternState().clearCurrentRow();
 	}
 
 	private void manageRowNumbers(Row row, KnittingContext context)
@@ -131,27 +141,38 @@ public class RowVisitor extends AbstractPatternVisitor {
 				&& (row.getNumbers() == null || row.getNumbers().length == 0)
 				&& (row.getAssignRowNumber() == null || row
 						.getAssignRowNumber() == true)) {
-			row.setNumbers(new int[] { context.getEngine()
-					.getCurrentRowNumber() });
+			row.setNumber(context.getEngine().getCurrentRowNumber());
 			row.setAssignRowNumber(null);
-		} else if (row.getNumbers() != null && row.getNumbers().length > 0
+		}
+	}
+
+	/**
+	 * 
+	 * @param row
+	 *            a Row with at least one row number specified
+	 * @param context
+	 *            the knitting context
+	 * @throws UnexpectedRowNumberException
+	 */
+	private void validateCurrentRowNumber(Row row, int engineRowNumber, KnittingContext context)
+			throws UnexpectedRowNumberException {
+		//
+		int[] numbers = row.getNumbers();
+		if (numbers.length > 1
 				&& !(context.getPatternState().isWithinInstruction())) {
-			// if a number is specified and the row is not in the confines of an
-			// instruction, validate it against the expected row number
-			int[] numbers = row.getNumbers();
-			if (numbers.length > 1) {
-				throw new InvalidStructureException(
-						"Multiple rows per element cannot be specified outside of an instruction element");
-			} else if (numbers[0] != context.getEngine().getCurrentRowNumber()) {
-				// you can manually reset the row count by setting a row's
-				// number to 1
-				if (numbers[0] != 1) {
-					throw new UnexpectedRowNumberException(context.getEngine()
-							.getCurrentRowNumber(), numbers[0]);
-				}
-				context.getEngine().resetRowNumber();
-				context.getEngine().incrementCurrentRowNumber();
+			throw new InvalidStructureException(
+					Messages.getString("RowVisitor.MULTIPLE_ROWS_NOT_ALLOWED_OUTSIDE_INSTRUCTION")); //$NON-NLS-1$
+		} else if (numbers[0] != engineRowNumber
+				&& (!context.getPatternState().isWithinInstruction() || context
+						.getPatternState().isAtFirstRowWithinInstruction())) {
+			// you can manually reset the row count by setting a row's
+			// number to 1
+			if (numbers[0] != 1) {
+				throw new UnexpectedRowNumberException(engineRowNumber,
+						numbers[0]);
 			}
+			context.getEngine().resetRowNumber();
+			context.getEngine().incrementCurrentRowNumber();
 		}
 	}
 

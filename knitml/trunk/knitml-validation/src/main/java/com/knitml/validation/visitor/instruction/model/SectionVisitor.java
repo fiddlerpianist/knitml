@@ -18,6 +18,8 @@ public class SectionVisitor extends AbstractPatternVisitor {
 	public void visit(Object element, KnittingContext context)
 			throws KnittingEngineException {
 		Section section = (Section) element;
+		section.setNumber(context.getPatternState().nextAvailableSectionNumber());
+		context.getPatternState().setAsCurrent(section);
 		if (section.getResetRowCount()) {
 			context.getEngine().resetRowNumber();
 			context.getPatternRepository().clearLocalInstructions();

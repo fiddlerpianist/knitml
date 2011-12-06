@@ -17,6 +17,7 @@
 package com.knitml.core.xml;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -58,7 +59,7 @@ public class PluggableSchemaResolver implements EntityResolver {
 	 * The location of the file that defines schema mappings.
 	 * Can be present in multiple JAR files.
 	 */
-	public static final String DEFAULT_SCHEMA_MAPPINGS_LOCATION = "META-INF/knitml.schemas";
+	public static final String DEFAULT_SCHEMA_MAPPINGS_LOCATION = "META-INF/knitml.schemas";  //$NON-NLS-1$
 
 
 	private static final Logger logger = LoggerFactory.getLogger(PluggableSchemaResolver.class);
@@ -93,7 +94,7 @@ public class PluggableSchemaResolver implements EntityResolver {
 	 * @see PropertiesLoaderUtils#loadAllProperties(String, ClassLoader)
 	 */
 	public PluggableSchemaResolver(ClassLoader classLoader, String schemaMappingsLocation) {
-		Assert.hasText(schemaMappingsLocation, "'schemaMappingsLocation' must not be empty");
+		Assert.hasText(schemaMappingsLocation, Messages.getString("PluggableSchemaResolver.SCHEMA_MAPPINGS_LOC_REQUIRED")); //$NON-NLS-1$
 		this.classLoader = classLoader;
 		this.schemaMappingsLocation = schemaMappingsLocation;
 	}
@@ -101,8 +102,7 @@ public class PluggableSchemaResolver implements EntityResolver {
 
 	public InputSource resolveEntity(String publicId, String systemId) throws IOException {
 		if (logger.isTraceEnabled()) {
-			logger.trace("Trying to resolve XML entity with public id [" + publicId +
-					"] and system id [" + systemId + "]");
+			logger.trace("Trying to resolve XML entity with public id [{}] and system id [{}]", publicId, systemId); //$NON-NLS-1$
 		}
 		if (systemId != null) {
 			String resourceLocation = getSchemaMapping(systemId);
@@ -112,7 +112,7 @@ public class PluggableSchemaResolver implements EntityResolver {
 				source.setPublicId(publicId);
 				source.setSystemId(systemId);
 				if (logger.isDebugEnabled()) {
-					logger.debug("Found XML schema [" + systemId + "] in classpath: " + resourceLocation);
+					logger.debug("Found XML schema [{}] in classpath: {}", systemId, resourceLocation); //$NON-NLS-1$
 				}
 				return source;
 			}
@@ -123,18 +123,19 @@ public class PluggableSchemaResolver implements EntityResolver {
 	protected String getSchemaMapping(String systemId) {
 		if (this.schemaMappings == null) {
 			if (logger.isDebugEnabled()) {
-				logger.debug("Loading schema mappings from [" + this.schemaMappingsLocation + "]");
+				logger.debug("Loading schema mappings from [{}]", this.schemaMappingsLocation); //$NON-NLS-1$
 			}
 			try {
 				this.schemaMappings =
 						PropertiesLoaderUtils.loadAllProperties(this.schemaMappingsLocation, this.classLoader);
 				if (logger.isDebugEnabled()) {
-					logger.debug("Loaded schema mappings: " + this.schemaMappings);
+					logger.debug("Loaded schema mappings: {}", this.schemaMappings); //$NON-NLS-1$
 				}
 			}
 			catch (IOException ex) {
-				throw new FatalBeanException(
-						"Unable to load schema mappings from location [" + this.schemaMappingsLocation + "]", ex);
+				throw new FatalBeanException(MessageFormat.format(
+						Messages.getString("PluggableSchemaResolver.UNSUCCESSFUL_MAPPINGS_LOAD"), //$NON-NLS-1$
+						this.schemaMappingsLocation), ex);
 			}
 		}
 		return this.schemaMappings.getProperty(systemId);

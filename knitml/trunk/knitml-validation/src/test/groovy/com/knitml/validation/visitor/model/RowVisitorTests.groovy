@@ -186,6 +186,9 @@ public class RowVisitorTests extends AbstractKnittingContextTests {
 		engine = knittingContext.engine
 		engine.with {
 			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
+			for (int i=1; i <= 4; i++) {
+				expect (currentRowNumber) . andReturn (i)
+			}
 			startNewRow(); knit 20; endRow()
 			startNewRow(); purl 20; endRow()
 			startNewRow(); knit 20; endRow()
@@ -211,6 +214,9 @@ public class RowVisitorTests extends AbstractKnittingContextTests {
 		engine = knittingContext.engine
 		engine.with {
 			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
+			for (int i=1; i <= 8; i++) {
+				expect (currentRowNumber) . andReturn (i)
+			}
 			startNewRow(); knit 20; endRow()
 			startNewRow(); purl 20; endRow()
 			startNewRow(); knit 20; endRow()
@@ -256,6 +262,104 @@ public class RowVisitorTests extends AbstractKnittingContextTests {
 				<knit>20</knit>
 			</row>
 			<row number="4" subsequent="even">
+				<purl>20</purl>
+			</row>
+		</instruction>
+		'''
+		verify engine
+	}
+	
+	@Test(expected=InvalidStructureException)
+	void processUnassignedRowNumbersWithinLocalInstruction() {
+		knittingContext.engine = createNiceMock(KnittingEngine)
+		engine = knittingContext.engine
+		expect (engine.totalNumberOfStitchesInRow) . andStubReturn (20)
+		replay engine
+		// expecting that this should be a global instruction (i.e., require a label or message-key)
+		processXml '''
+		<instruction id="thingy">
+			<row assign-row-number="false">
+				<knit>20</knit>
+			</row>
+			<row assign-row-number="false">
+				<purl>20</purl>
+			</row>
+		</instruction>
+		'''
+		verify engine
+	}
+
+	@Test
+	void processUnassignedRowNumbersWithinGlobalInstruction() {
+		knittingContext.engine = createNiceMock(KnittingEngine)
+		engine = knittingContext.engine
+		engine.with {
+			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
+			startNewRow(); knit 20; endRow()
+			startNewRow(); purl 20; endRow()
+		}
+		replay engine
+		processXml '''
+		<instruction id="thingy" label="Thingy">
+			<row assign-row-number="false">
+				<knit>20</knit>
+			</row>
+			<row assign-row-number="false">
+				<purl>20</purl>
+			</row>
+		</instruction>
+		'''
+		verify engine
+	}
+
+	@Test(expected=InvalidStructureException)
+	void processMixedRowNumberDeclarations1WithinInstruction() {
+		// expecting that this should be a global instruction (i.e., require a label or message-key)
+		processXml '''
+		<instruction id="thingy">
+			<row number="1">
+				<knit>20</knit>
+			</row>
+			<row>
+				<purl>20</purl>
+			</row>
+		</instruction>
+		'''
+	}
+
+	@Test(expected=InvalidStructureException)
+	void processMixedRowNumberDeclarations2WithinInstruction() {
+		// expecting that this should be a global instruction (i.e., require a label or message-key)
+		processXml '''
+		<instruction id="thingy">
+			<row>
+				<knit>20</knit>
+			</row>
+			<row number="2">
+				<purl>20</purl>
+			</row>
+		</instruction>
+		'''
+	}
+
+	@Test(expected=UnexpectedRowNumberException)
+	void processLocalInstructionWithRowNumberNotConsecutive() {
+		knittingContext.engine = createNiceMock(KnittingEngine)
+		engine = knittingContext.engine
+		engine.with {
+			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
+			expect (currentRowNumber) . andReturn (1).times(2)
+			expect (currentRowNumber) . andReturn (2).times(2)
+			startNewRow(); knit 20; endRow()
+		}
+		replay engine
+		processXml '''
+		<row number="1"><knit>20</knit></row>
+		<instruction id="thingy">
+			<row number="3">
+				<knit>20</knit>
+			</row>
+			<row number="4">
 				<purl>20</purl>
 			</row>
 		</instruction>

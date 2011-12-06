@@ -1,11 +1,12 @@
 package com.knitml.validation.context;
 
-import java.util.Map;
+import java.util.List;
 
-import com.knitml.core.model.Identifiable;
 import com.knitml.core.model.InstructionHolder;
 import com.knitml.core.model.directions.block.Instruction;
+import com.knitml.core.model.directions.block.InstructionGroup;
 import com.knitml.core.model.directions.block.Row;
+import com.knitml.core.model.directions.block.Section;
 import com.knitml.validation.common.InvalidStructureException;
 
 public interface PatternState {
@@ -13,25 +14,39 @@ public interface PatternState {
 	boolean isReplayMode();
 
 	void setReplayMode(boolean replay);
+	
+	
 
+	void setAsCurrent(InstructionGroup instructionGroup);
+	
+	void setAsCurrent(Section section);
+	
+	void setAsCurrent(Instruction instruction);
+	
+	void setAsCurrent(Row row, Integer currentlyExecutingRow);
+	
+	void clearCurrentRow();
+
+	void nextRepeatOfCurrentInstruction();
+
+	void clearCurrentInstruction();
+
+	public int nextAvailableSectionNumber();
+	
 	boolean isWithinInstruction();
-
-	void setWithinInstruction(boolean withinInstruction);
-
+	
+	public boolean isAtFirstRowWithinInstruction();
+	
+	List<Object> getLocationBreadcrumb();
+	
 	void useInstruction(Instruction instruction)
 			throws InvalidStructureException;
 
 	InstructionHolder getInstructionInUse(String id);
 
-	void removeRepeatCount(Identifiable instruction);
-
-	void incrementRepeatCount(Identifiable instruction);
-
 	int getHeaderRowNumber();
 
 	void setHeaderRowNumber(int newRowNumber);
-
-	Map<String, Integer> getInstructionRepeatCounts();
 
 	Row getActiveRowForInstruction(String instructionId);
 

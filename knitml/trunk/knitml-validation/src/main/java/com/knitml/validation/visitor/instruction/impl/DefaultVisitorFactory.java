@@ -3,7 +3,7 @@ package com.knitml.validation.visitor.instruction.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.common.Stack;
+import com.knitml.core.compatibility.Stack;
 import com.knitml.validation.visitor.instruction.NameResolver;
 import com.knitml.validation.visitor.instruction.Visitor;
 import com.knitml.validation.visitor.instruction.VisitorFactory;
@@ -37,7 +37,7 @@ public class DefaultVisitorFactory implements VisitorFactory {
 			}
 			return visitor;
 		} catch (Exception ex) {
-			log.error("Could not find visitor class for [" + object + "]");
+			log.error("Could not find visitor class for {}", object); //$NON-NLS-1$
 			return new ExceptionThrowingVisitor(ex);
 		}
 	}

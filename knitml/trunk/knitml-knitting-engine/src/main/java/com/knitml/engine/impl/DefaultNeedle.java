@@ -4,9 +4,11 @@ import static com.knitml.core.model.directions.StitchNature.KNIT;
 import static com.knitml.core.model.directions.StitchNature.PURL;
 import static com.knitml.core.model.directions.StitchNature.reverse;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -14,7 +16,6 @@ import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.commons.collections.list.TreeList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +43,7 @@ public class DefaultNeedle implements Needle {
 
 	@Override
 	public String toString() {
-		return "Needle [" + getId() + "]";
+		return MessageFormat.format(Messages.getString("DefaultNeedle.TO_STRING"), getId()); //$NON-NLS-1$
 	}
 
 	@Override
@@ -59,9 +60,7 @@ public class DefaultNeedle implements Needle {
 	private String id;
 	private NeedleStyle needleType;
 	private Direction direction = Direction.FORWARDS;
-	// FIXME if Collections generics for 3.2 ever comes out
-	@SuppressWarnings("unchecked")
-	private List<Stitch> stitches = new TreeList();
+	private List<Stitch> stitches = new LinkedList<Stitch>();
 	private ListIterator<Stitch> stitchCursor = stitches.listIterator();
 	// the marker falls BEFORE the index specified by its key on the needles
 	// (when knitting forward)
@@ -72,7 +71,7 @@ public class DefaultNeedle implements Needle {
 	private SortedMap<Integer, Marker> gaps = new TreeMap<Integer, Marker>();
 
 	private int lastStitchIndexReturned = -1;
-	
+
 	public DefaultNeedle(String id, NeedleStyle needleType,
 			KnittingFactory knittingFactory) {
 		this.id = id;
@@ -83,7 +82,7 @@ public class DefaultNeedle implements Needle {
 	public void restore(Object mementoObj) {
 		if (!(mementoObj instanceof DefaultNeedleMemento)) {
 			throw new IllegalArgumentException(
-					"Type to restore must be of type DefaultNeedleMemento");
+					Messages.getString("DefaultNeedle.WRONG_MEMENTO_TYPE")); //$NON-NLS-1$
 		}
 		DefaultNeedleMemento memento = (DefaultNeedleMemento) mementoObj;
 		this.direction = memento.getDirection();
@@ -106,7 +105,7 @@ public class DefaultNeedle implements Needle {
 			Object stitchMemento = stitch.save();
 			stitchMementos.put(stitch.getId(), stitchMemento);
 		}
-		List<Stitch> stitchesCopy = new ArrayList<Stitch>(this.stitches);
+		List<Stitch> stitchesCopy = new LinkedList<Stitch>(this.stitches);
 		SortedMap<Integer, Marker> markersCopy = new TreeMap<Integer, Marker>(
 				this.markers);
 		SortedMap<Integer, Marker> gapsCopy = new TreeMap<Integer, Marker>(
@@ -196,11 +195,12 @@ public class DefaultNeedle implements Needle {
 	protected void signalGap() {
 		try {
 			// setting the behavior to REMOVE will take care of any decreases
-			placeMarker(getKnittingFactory().createMarker(null,
-					MarkerBehavior.REMOVE), this.gaps);
+			placeMarker(
+					getKnittingFactory().createMarker(null,
+							MarkerBehavior.REMOVE), this.gaps);
 		} catch (CannotPutMarkerOnEndOfNeedleException ex) {
-			log
-					.warn("Request was made to signal a gap at the end of a needle. Ignoring");
+			log.warn(Messages
+					.getString("DefaultNeedle.IGNORING_REQUEST_TO_SIGNAL_GAP_AT_END")); //$NON-NLS-1$
 		}
 	}
 
@@ -208,9 +208,9 @@ public class DefaultNeedle implements Needle {
 			throws CannotPutMarkerOnEndOfNeedleException {
 		if (marker == null) {
 			throw new IllegalArgumentException(
-					"A marker must be supplied as an argument");
+					Messages.getString("DefaultNeedle.NO_MARKER_SUPPLIED")); //$NON-NLS-1$
 		}
-		if (isEndOfNeedle()) {
+		if (isEndOfNeedle() || isBeginningOfNeedle()) {
 			throw new CannotPutMarkerOnEndOfNeedleException();
 		}
 		if (direction == Direction.FORWARDS) {
@@ -297,10 +297,11 @@ public class DefaultNeedle implements Needle {
 			assert numberToDecrease <= stitchesToGap;
 		}
 		if (getStitchesRemaining() < (numberToDecrease + 1)) {
-			throw new NotEnoughStitchesException("Need at least "
-					+ (numberToDecrease + 1)
-					+ " stitches on the needle to decrease " + numberToDecrease
-					+ "; found " + getStitchesRemaining() + " stitch(es) left");
+			throw new NotEnoughStitchesException(
+					MessageFormat.format(
+							Messages.getString("DefaultNeedle.NOT_ENOUGH_STITCHES_FOR_DECREASE"), //$NON-NLS-1$
+							numberToDecrease), numberToDecrease + 1,
+					getStitchesRemaining());
 		}
 		if (direction == Direction.FORWARDS) {
 			for (int i = 0; i < numberToDecrease; i++) {
@@ -327,7 +328,8 @@ public class DefaultNeedle implements Needle {
 					&& getStitchesToNextMarker() <= numberOfStitches - 1;
 		} catch (NoMarkerFoundException ex) {
 			// this should not happen under this scenario
-			throw new RuntimeException("An unexpected internal error occurred",
+			throw new RuntimeException(
+					Messages.getString("DefaultNeedle.INTERNAL_ERROR"), //$NON-NLS-1$
 					ex);
 		}
 	}
@@ -351,7 +353,7 @@ public class DefaultNeedle implements Needle {
 			}
 		} catch (NoSuchElementException ex) {
 			throw new NotEnoughStitchesException(
-					"You have reached the end of the row");
+					Messages.getString("DefaultNeedle.UNEXPECTED_END_OF_ROW"), 1, 0); //$NON-NLS-1$
 		}
 	}
 
@@ -374,7 +376,7 @@ public class DefaultNeedle implements Needle {
 			}
 		} catch (NoSuchElementException ex) {
 			throw new NotEnoughStitchesException(
-					"You have reached the beginning of the row");
+					Messages.getString("DefaultNeedle.UNEXPECTED_BEGINNING_OF_ROW"), 1, 0); //$NON-NLS-1$
 		}
 	}
 
@@ -527,6 +529,7 @@ public class DefaultNeedle implements Needle {
 		} else {
 			stitchCursor = stitches.listIterator(stitches.size());
 		}
+		lastStitchIndexReturned = -1;
 	}
 
 	public void startAtEnd() {
@@ -535,6 +538,7 @@ public class DefaultNeedle implements Needle {
 		} else {
 			stitchCursor = stitches.listIterator();
 		}
+		lastStitchIndexReturned = -1;
 	}
 
 	/*
@@ -566,11 +570,15 @@ public class DefaultNeedle implements Needle {
 	 * com.knitml.validation.validation.engine.model.Needle#peekAtNextStitch()
 	 */
 	public Stitch peekAtNextStitch() {
+		Stitch stitch = null;
 		if (direction == Direction.FORWARDS) {
-			return stitches.get(stitchCursor.nextIndex());
+			stitch = stitchCursor.next();
+			stitchCursor.previous();
 		} else {
-			return stitches.get(stitchCursor.previousIndex());
+			stitch = stitchCursor.previous();
+			stitchCursor.next();
 		}
+		return stitch;
 	}
 
 	/*
@@ -711,16 +719,13 @@ public class DefaultNeedle implements Needle {
 	public List<Stitch> removeNStitchesFromBeginning(int number)
 			throws NeedlesInWrongDirectionException {
 		assertForwardsDirection();
-		@SuppressWarnings("unchecked")
-		List<Stitch> result = new TreeList(stitches.subList(0, number));
-		stitchCursor = stitches.listIterator(number);
-		while (stitchCursor.hasPrevious()) {
-			lastStitchIndexReturned = stitchCursor.previousIndex();
-			stitchCursor.previous();
+		List<Stitch> result = new ArrayList<Stitch>(stitches.subList(0, number));
+		stitchCursor = stitches.listIterator();
+		for (int i = 0; i < number; i++) {
+			stitchCursor.next();
 			stitchCursor.remove();
 		}
-		// reset list iterator
-		stitchCursor = stitches.listIterator();
+		lastStitchIndexReturned = -1;
 		return result;
 	}
 
@@ -731,20 +736,17 @@ public class DefaultNeedle implements Needle {
 	 * com.knitml.validation.validation.engine.model.Needle#removeNStitchesFromEnd
 	 * (int)
 	 */
-	@SuppressWarnings("unchecked")
 	public List<Stitch> removeNStitchesFromEnd(int number)
 			throws NeedlesInWrongDirectionException {
 		assertForwardsDirection();
-		List<Stitch> result = new TreeList(stitches.subList(stitches.size()
-				- number, stitches.size()));
-		stitchCursor = stitches.listIterator(stitches.size() - number);
-		while (stitchCursor.hasNext()) {
-			lastStitchIndexReturned = stitchCursor.nextIndex();
-			stitchCursor.next();
+		List<Stitch> result = new ArrayList<Stitch>(stitches.subList(
+				stitches.size() - number, stitches.size()));
+		stitchCursor = stitches.listIterator(stitches.size());
+		for (int i = 0; i < number; i++) {
+			stitchCursor.previous();
 			stitchCursor.remove();
 		}
-		// reset list iterator
-		stitchCursor = stitches.listIterator();
+		lastStitchIndexReturned = -1;
 		return result;
 	}
 
@@ -821,8 +823,8 @@ public class DefaultNeedle implements Needle {
 					}
 				}
 				if (behavior == MarkerBehavior.REMOVE) {
-					log
-							.info("A knit two together was executed between a stitch marker; removing marker");
+					log.info(Messages
+							.getString("DefaultNeedle.REMOVING_MARKER_BETWEEN_DECREASE")); //$NON-NLS-1$
 				} else if (behavior == MarkerBehavior.PLACE_BEFORE_STITCH_WORKED) {
 					placeMarker(removedMarker);
 				}
@@ -836,11 +838,13 @@ public class DefaultNeedle implements Needle {
 			return resultingStitch;
 		} catch (NoMarkerFoundException ex) {
 			// should not happen
-			throw new RuntimeException("An unexpected internal error occurred",
+			throw new RuntimeException(
+					Messages.getString("DefaultNeedle.INTERNAL_ERROR"), //$NON-NLS-1$
 					ex);
 		} catch (CannotPutMarkerOnEndOfNeedleException ex) {
 			// should not happen
-			throw new RuntimeException("An unexpected internal error occurred",
+			throw new RuntimeException(
+					Messages.getString("DefaultNeedle.INTERNAL_ERROR"), //$NON-NLS-1$
 					ex);
 		}
 	}
@@ -848,10 +852,11 @@ public class DefaultNeedle implements Needle {
 	public void increase(int numberToIncrease) {
 		increase(new Increase(numberToIncrease));
 	}
-	
+
 	public void increase(Increase increase) {
 		// TODO increase should know whether it was a knitted or purled increase
-		int numberToIncrease = increase.getNumberOfTimes() == null ? 1 : increase.getNumberOfTimes();
+		int numberToIncrease = increase.getNumberOfTimes() == null ? 1
+				: increase.getNumberOfTimes();
 		StitchNature stitchNature = increase.getStitchNatureProduced();
 		if (direction == Direction.FORWARDS) {
 			for (int i = 0; i < numberToIncrease; i++) {
@@ -885,58 +890,73 @@ public class DefaultNeedle implements Needle {
 		adjustMarkersAfterIncrease(1);
 	}
 
-	public void cross(int first, int next) throws NotEnoughStitchesException,
-			CannotWorkThroughMarkerException {
-		int stitchesAffected = first + next;
+	public void cross(int numberToCross, int numberCrossedOver)
+			throws NotEnoughStitchesException, CannotWorkThroughMarkerException {
+		int stitchesAffected = numberToCross + numberCrossedOver;
 		if (stitchesAffected > getStitchesRemaining()) {
-			throw new NotEnoughStitchesException("Need " + (first + next)
-					+ " but only found " + getStitchesRemaining());
+			throw new NotEnoughStitchesException(numberToCross
+					+ numberCrossedOver, getStitchesRemaining());
 		}
 		try {
 			if (hasMarkers() && getStitchesToNextMarker() > 0
 					&& getStitchesToNextMarker() < stitchesAffected) {
 				throw new CannotWorkThroughMarkerException(
-						"Cannot cross stitches through a marker");
+						Messages.getString("DefaultNeedle.CANNOT_CROSS_STITCHES_THROUGH_MARKER")); //$NON-NLS-1$
 			}
 		} catch (NoMarkerFoundException ex) {
 			// won't happen since we're checking whether there are markers to
 			// begin with
 			throw new RuntimeException(ex);
 		}
-		int nextStitchIndex = getNextStitchIndex();
 		if (getDirection() == Direction.FORWARDS) {
-			List<Stitch> unaffectedPartHead = stitches.subList(0,
-					nextStitchIndex);
-			List<Stitch> firstPart = stitches.subList(nextStitchIndex,
-					nextStitchIndex + first);
-			List<Stitch> nextPart = stitches.subList(nextStitchIndex + first,
-					nextStitchIndex + stitchesAffected);
-			List<Stitch> unaffectedPartTail = stitches.subList(nextStitchIndex
-					+ stitchesAffected, stitches.size());
-			List<Stitch> result = new ArrayList<Stitch>(stitches.size());
-			result.addAll(unaffectedPartHead);
-			result.addAll(nextPart);
-			result.addAll(firstPart);
-			result.addAll(unaffectedPartTail);
-			this.stitches = result;
-			this.stitchCursor = stitches.listIterator(nextStitchIndex);
+			// gather stitches to cross into a temporary list and remove from
+			// the master list
+			List<Stitch> firstPart = new ArrayList<Stitch>(numberToCross);
+			for (int i = 0; i < numberToCross; i++) {
+				Stitch stitch = stitchCursor.next();
+				firstPart.add(stitch);
+				stitchCursor.remove();
+			}
+			// the stitches to cross over are next, so walk past them
+			for (int i = 0; i < numberCrossedOver; i++) {
+				stitchCursor.next();
+			}
+			// now add the crossed stitches
+			for (Stitch stitch : firstPart) {
+				stitchCursor.add(stitch);
+			}
+			// now iterate to before the crossing
+			for (int i = 0; i < (numberToCross + numberCrossedOver); i++) {
+				lastStitchIndexReturned = stitchCursor.previousIndex();
+				stitchCursor.previous();
+			}
 		} else {
-			int baseIndex = nextStitchIndex + 1;
-			List<Stitch> unaffectedPartHead = stitches.subList(baseIndex,
-					stitches.size());
-			List<Stitch> firstPart = stitches.subList(baseIndex - first,
-					baseIndex);
-			List<Stitch> nextPart = stitches.subList(baseIndex
-					- stitchesAffected, baseIndex - first);
-			List<Stitch> unaffectedPartTail = stitches.subList(0, baseIndex
-					- stitchesAffected);
-			List<Stitch> result = new ArrayList<Stitch>(stitches.size());
-			result.addAll(unaffectedPartTail);
-			result.addAll(firstPart);
-			result.addAll(nextPart);
-			result.addAll(unaffectedPartHead);
-			this.stitches = result;
-			this.stitchCursor = stitches.listIterator(nextStitchIndex + 1);
+			// gather stitches to cross into a temporary list and remove from
+			// the master list
+			List<Stitch> firstPart = new ArrayList<Stitch>(numberToCross);
+			for (int i = 0; i < numberToCross; i++) {
+				Stitch stitch = stitchCursor.previous();
+				// add to beginning because the insertion order would be
+				// backwards otherwise
+				firstPart.add(0, stitch);
+				stitchCursor.remove();
+			}
+			// the stitches to cross over are next, so walk past them
+			for (int i = 0; i < numberCrossedOver; i++) {
+				stitchCursor.previous();
+			}
+			// now add the crossed stitches
+			for (Stitch stitch : firstPart) {
+				stitchCursor.add(stitch);
+			}
+			// now iterate to before the crossing
+			for (int i = 0; i < numberCrossedOver; i++) {
+				// we don't need to cross over the newly inserted stitches since
+				// we're already past them (the way list iterators work upon
+				// adding elements)
+				lastStitchIndexReturned = stitchCursor.nextIndex();
+				stitchCursor.next();
+			}
 		}
 	}
 

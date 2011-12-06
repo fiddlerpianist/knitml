@@ -10,6 +10,7 @@ import com.knitml.core.model.directions.block.ArrangeStitchesOnNeedles;
 import com.knitml.engine.Needle;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.WrongNumberOfNeedlesException;
+import com.knitml.validation.common.InvalidStructureException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.visitor.NeedleNotFoundException;
 import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
@@ -37,10 +38,10 @@ public class ArrangeStitchesOnNeedlesVisitor extends AbstractPatternVisitor {
 			int position = needlesInUse.indexOf(needle);
 			if (position != needlesInUse.lastIndexOf(needle)) {
 				// this means the needle is in the list twice. This is not allowed!
-				throw new KnittingEngineException("A needle cannot appear more than once for a specific <arrange-stitches-on-needle> command");
+				throw new InvalidStructureException(Messages.getString("ArrangeStitchesOnNeedlesVisitor.TOO_MANY_NEEDLES")); //$NON-NLS-1$
 			}
 			if (stitchesOnNeedle.getNumberOfStitches() == null) {
-				throw new KnittingEngineException("A stitch count for this needle must be specified");
+				throw new InvalidStructureException(Messages.getString("ArrangeStitchesOnNeedlesVisitor.NO_STITCH_COUNT_SPECIFIED")); //$NON-NLS-1$
 			}
 			stitchCountsOnNeedles[position] = stitchesOnNeedle.getNumberOfStitches();
 		}
