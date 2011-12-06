@@ -59,7 +59,7 @@ public class PatternRepository {
 	}
 
 	public void addYarn(Yarn yarn) {
-		if (yarn != null) {
+		if (yarn != null && yarn.getId() != null) {
 			yarns.put(yarn.getId(), yarn);
 		}
 	}

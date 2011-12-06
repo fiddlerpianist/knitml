@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.model.directions.block.Instruction;
 import com.knitml.core.model.directions.block.Row;
 import com.knitml.engine.common.KnittingEngineException;
+import com.knitml.validation.common.InvalidStructureException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.PatternRepository;
 import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;
@@ -24,22 +25,31 @@ public class InstructionVisitor extends AbstractPatternVisitor {
 		PatternRepository repository = context.getPatternRepository();
 		Instruction instruction = (Instruction)element;
 		String id = instruction.getId();
+		context.getPatternState().setAsCurrent(instruction);
 		if (repository.getBlockInstruction(id) == null) {
 			Instruction instructionToAdd = createExpandedRows(instruction);
 			if (!instructionToAdd.hasLabelOrMessageKey()) {
+				if (instructionToAdd.hasRows()) {
+					Row firstRow = instructionToAdd.getRows().get(0);
+					if (firstRow.getAssignRowNumber() != null && firstRow.getAssignRowNumber() == false) {
+						throw new InvalidStructureException("Instructions with unassigned rows numbers must have either a label or a message key"); //$NON-NLS-1$
+					}
+				}
 				context.getPatternRepository().addLocalBlockInstruction(id, instructionToAdd);
-				log.info("Just added local instruction [{}] to the pattern repository", id);
+				log.info("Just added local instruction [{}] to the pattern repository", id); //$NON-NLS-1$
 			} else {
 				context.getPatternRepository().addGlobalBlockInstruction(id, instructionToAdd);
-				log.info("Just added global instruction [{}] to the pattern repository", id);
+				log.info("Just added global instruction [{}] to the pattern repository", id); //$NON-NLS-1$
 			}
+			// don't use the original instruction passed in for tracing; use the one with the expanded rows
+			context.getPatternState().clearCurrentInstruction();
+			context.getPatternState().setAsCurrent(instructionToAdd);
 		}
-		context.getPatternState().setWithinInstruction(true);
 		if (!instruction.hasRows()) {
 			visitChild(instruction.getForEachRowInInstruction(), context);
 		} else {
 			Set<Row> rowsPlayed = new HashSet<Row>();
-			Instruction instructionToUse = repository.getBlockInstruction(id); 
+			Instruction instructionToUse = repository.getBlockInstruction(id);
 			for (Row row : instructionToUse.getRows()) {
 				if (rowsPlayed.contains(row)) {
 					context.getPatternState().setReplayMode(true);
@@ -51,7 +61,7 @@ public class InstructionVisitor extends AbstractPatternVisitor {
 				rowsPlayed.add(row);
 			}
 		}
-		context.getPatternState().setWithinInstruction(false);
+		context.getPatternState().clearCurrentInstruction();
 	}
 
 }

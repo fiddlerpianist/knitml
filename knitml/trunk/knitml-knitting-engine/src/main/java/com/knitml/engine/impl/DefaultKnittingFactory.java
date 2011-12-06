@@ -9,7 +9,7 @@ import com.knitml.engine.settings.MarkerBehavior;
 
 public class DefaultKnittingFactory implements KnittingFactory {
 
-	private final static String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	private final static String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"; //$NON-NLS-1$
 	private int currentCharIndex = 0;
 	private int numberOfChars = 1;
 
@@ -21,6 +21,10 @@ public class DefaultKnittingFactory implements KnittingFactory {
 		return needle;
 	}
 
+	public Marker createMarker() {
+		return new DefaultMarker();
+	}
+	
 	public Marker createMarker(String name, MarkerBehavior markerBehavior) {
 		return new DefaultMarker(markerBehavior);
 	}

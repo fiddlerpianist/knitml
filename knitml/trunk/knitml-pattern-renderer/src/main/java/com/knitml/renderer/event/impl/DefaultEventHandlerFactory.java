@@ -3,7 +3,7 @@ package com.knitml.renderer.event.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.common.Stack;
+import com.knitml.core.compatibility.Stack;
 import com.knitml.renderer.event.EventHandler;
 import com.knitml.renderer.event.EventHandlerFactory;
 import com.knitml.renderer.event.NameResolver;

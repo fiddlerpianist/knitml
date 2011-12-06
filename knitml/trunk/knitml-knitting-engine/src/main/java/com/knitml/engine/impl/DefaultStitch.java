@@ -2,6 +2,8 @@ package com.knitml.engine.impl;
 
 import static com.knitml.core.model.directions.StitchNature.KNIT;
 
+import java.text.MessageFormat;
+
 import org.apache.commons.lang.NullArgumentException;
 
 import com.knitml.core.model.directions.StitchNature;
@@ -20,14 +22,14 @@ public class DefaultStitch implements Stitch {
 
 	public DefaultStitch(String id) {
 		if (id == null) {
-			throw new NullArgumentException("id");
+			throw new NullArgumentException("id"); //$NON-NLS-1$
 		}
 		this.id = id;
 	}
 
 	@Override
 	public String toString() {
-		return "DefaultStitch " + (id == null ? "#" : id);
+		return MessageFormat.format(Messages.getString("DefaultStitch.TO_STRING"), id); //$NON-NLS-1$
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class DefaultStitch implements Stitch {
 	public void restore(Object mementoObj) {
 		if (!(mementoObj instanceof DefaultStitchMemento)) {
 			throw new IllegalArgumentException(
-					"Type to restore must be of type DefaultStitchMemento");
+					Messages.getString("DefaultStitch.WRONG_MEMENTO_TYPE")); //$NON-NLS-1$
 		}
 		DefaultStitchMemento memento = (DefaultStitchMemento) mementoObj;
 		this.history = memento.getHistory();

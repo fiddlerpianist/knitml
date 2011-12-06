@@ -35,8 +35,8 @@ public class UseNeedlesTests {
 	@Test(expected = WrongNeedleTypeException.class)
 	public void useAllStraightNeedles() throws Exception {
 		List<Needle> needles = new ArrayList<Needle>();
-		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.STRAIGHT));
-		needles.add(knittingFactory.createNeedle("needle2", NeedleStyle.STRAIGHT));
+		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.STRAIGHT)); //$NON-NLS-1$
+		needles.add(knittingFactory.createNeedle("needle2", NeedleStyle.STRAIGHT)); //$NON-NLS-1$
 		
 		knitter.useNeedles(needles);
 	}
@@ -44,15 +44,15 @@ public class UseNeedlesTests {
 	@Test(expected = WrongNeedleTypeException.class)
 	public void useNeedleMixture() throws Exception {
 		List<Needle> needles = new ArrayList<Needle>();
-		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.STRAIGHT));
-		needles.add(knittingFactory.createNeedle("needle2", NeedleStyle.DPN));
+		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.STRAIGHT)); //$NON-NLS-1$
+		needles.add(knittingFactory.createNeedle("needle2", NeedleStyle.DPN)); //$NON-NLS-1$
 		knitter.useNeedles(needles);
 	}
 
 	@Test(expected = WrongNeedleTypeException.class)
 	public void useStraightNeedleForRoundKnitting() throws Exception {
 		List<Needle> needles = new ArrayList<Needle>();
-		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.STRAIGHT));
+		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.STRAIGHT)); //$NON-NLS-1$
 		knitter.useNeedles(needles);
 		knitter.declareRoundKnitting();
 	}
@@ -60,7 +60,7 @@ public class UseNeedlesTests {
 	@Test(expected = WrongNeedleTypeException.class)
 	public void useDpnForRoundKnitting() throws Exception {
 		List<Needle> needles = new ArrayList<Needle>();
-		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.DPN));
+		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.DPN)); //$NON-NLS-1$
 		knitter.useNeedles(needles);
 		knitter.declareRoundKnitting();
 	}
@@ -70,16 +70,16 @@ public class UseNeedlesTests {
 			throws Exception {
 		List<Needle> needles = new ArrayList<Needle>();
 		knitter.declareRoundKnitting();
-		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.STRAIGHT));
+		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.STRAIGHT)); //$NON-NLS-1$
 		knitter.useNeedles(needles);
 	}
 
 	@Test
 	public void useAllDoublePointedNeedles() throws Exception {
 		List<Needle> needles = new ArrayList<Needle>();
-		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.DPN));
-		needles.add(knittingFactory.createNeedle("needle2", NeedleStyle.DPN));
-		needles.add(knittingFactory.createNeedle("needle3", NeedleStyle.DPN));
+		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.DPN)); //$NON-NLS-1$
+		needles.add(knittingFactory.createNeedle("needle2", NeedleStyle.DPN)); //$NON-NLS-1$
+		needles.add(knittingFactory.createNeedle("needle3", NeedleStyle.DPN)); //$NON-NLS-1$
 		knitter.useNeedles(needles);
 	}
 
@@ -98,15 +98,15 @@ public class UseNeedlesTests {
 	@Test
 	public void useAllCircularNeedles() throws Exception {
 		List<Needle> needles = new ArrayList<Needle>();
-		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR));
-		needles.add(knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR));
+		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
+		needles.add(knittingFactory.createNeedle("needle2", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
 		knitter.useNeedles(needles);
 	}
 
 	@Test
 	public void useOnlyOneCircularNeedle() throws Exception {
 		List<Needle> needles = new ArrayList<Needle>();
-		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR));
+		needles.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
 		knitter.useNeedles(needles);
 	}
 
@@ -152,7 +152,7 @@ public class UseNeedlesTests {
 		knitter.startNewRow();
 		knitter.knit();
 		List<Needle> needlesToUse = new ArrayList<Needle>();
-		needlesToUse.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR));
+		needlesToUse.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
 		knitter.useNeedles(needlesToUse);
 	}
 	
@@ -161,7 +161,7 @@ public class UseNeedlesTests {
 		knitter.castOn(1);
 		knitter.startNewRow();
 		List<Needle> needlesToUse = new ArrayList<Needle>();
-		needlesToUse.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR));
+		needlesToUse.add(knittingFactory.createNeedle("needle1", NeedleStyle.CIRCULAR)); //$NON-NLS-1$
 		knitter.useNeedles(needlesToUse);
 	}
 	

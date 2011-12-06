@@ -9,7 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.common.Stack;
+import com.knitml.core.compatibility.Stack;
 import com.knitml.core.model.directions.CompositeOperation;
 import com.knitml.core.model.directions.Operation;
 import com.knitml.core.model.directions.block.Instruction;

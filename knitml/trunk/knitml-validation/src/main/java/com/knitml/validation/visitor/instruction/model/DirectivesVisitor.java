@@ -29,7 +29,7 @@ public class DirectivesVisitor extends AbstractPatternVisitor {
 				.getInstructionDefinitions();
 		if (directives.getInstructionDefinitions() != null) {
 			pushNameResolver(new DefaultNameResolver(
-					"com.knitml.validation.visitor.definition.model"));
+					"com.knitml.validation.visitor.definition.model")); //$NON-NLS-1$
 			try {
 				for (Object instructionDefinition : instructionDefinitions) {
 					visitChild(instructionDefinition, context);

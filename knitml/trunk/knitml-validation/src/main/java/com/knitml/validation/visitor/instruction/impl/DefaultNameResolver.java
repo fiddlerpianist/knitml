@@ -10,7 +10,7 @@ import com.knitml.validation.visitor.instruction.Visitor;
 
 public class DefaultNameResolver implements NameResolver {
 	
-	private static final String DEFAULT_PACKAGE_NAME = "com.knitml.validation.visitor.instruction.model";
+	private static final String DEFAULT_PACKAGE_NAME = "com.knitml.validation.visitor.instruction.model"; //$NON-NLS-1$
 	private String packageName = DEFAULT_PACKAGE_NAME;
 	private Map<String, Class<Visitor>> cache = new WeakHashMap<String, Class<Visitor>>();
 	
@@ -28,7 +28,7 @@ public class DefaultNameResolver implements NameResolver {
 	public Class<Visitor> findVisitingClassFromClassName(Object object) throws ClassNotFoundException {
 		Class<Visitor> visitor = cache.get(object.getClass().getName());
 		if (visitor == null) {
-			visitor = (Class<Visitor>)Class.forName(packageName + "." + object.getClass().getSimpleName() + "Visitor");
+			visitor = (Class<Visitor>)Class.forName(packageName + "." + object.getClass().getSimpleName() + "Visitor"); //$NON-NLS-1$ //$NON-NLS-2$
 			cache.put(object.getClass().getName(), visitor);
 		}
 		return visitor; 

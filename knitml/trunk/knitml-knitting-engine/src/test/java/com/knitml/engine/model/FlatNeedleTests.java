@@ -76,7 +76,7 @@ public abstract class FlatNeedleTests {
 	}
 
 	protected void initializeNeedle() {
-		needle = new DefaultNeedle("default", NeedleStyle.STRAIGHT,
+		needle = new DefaultNeedle("default", NeedleStyle.STRAIGHT, //$NON-NLS-1$
 				new DefaultKnittingFactory());
 	}
 
@@ -96,7 +96,7 @@ public abstract class FlatNeedleTests {
 	@Test(expected = UnsupportedOperationException.class)
 	public void modifyStitches() throws Exception {
 		List<Stitch> stitches = needle.getStitches();
-		stitches.add(new DefaultStitch("blah"));
+		stitches.add(new DefaultStitch("blah")); //$NON-NLS-1$
 	}
 
 	@Test
@@ -406,6 +406,12 @@ public abstract class FlatNeedleTests {
 		needle.placeMarker(new DefaultMarker());
 	}
 
+	@Test(expected = CannotPutMarkerOnEndOfNeedleException.class)
+	public void placeMarkerAtBeginningOfNeedle() throws Exception {
+		needle.placeMarker(new DefaultMarker());
+		knit(10);
+	}
+	
 	@Test(expected = NoMarkerFoundException.class)
 	public void getNonExistentMarker() throws Exception {
 		needle.getStitchesToNextMarker();
@@ -687,8 +693,8 @@ public abstract class FlatNeedleTests {
 		for (Stitch stitch : stitches) {
 			stitchNames.add(stitch.getId());
 		}
-		String[] expectedStitchArray = new String[] { "A", "B", "C", "F", "G",
-				"H", "D", "E", "I", "J" };
+		String[] expectedStitchArray = new String[] { "A", "B", "C", "F", "G", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				"H", "D", "E", "I", "J" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		assertThat(stitchNames.toArray(new String[0]), is(expectedStitchArray));
 	}
 
@@ -731,11 +737,11 @@ public abstract class FlatNeedleTests {
 		List<Stitch> startingStitchesOnNeedle = new ArrayList<Stitch>(needle
 				.getStitches());
 		List<Stitch> stitchesToAdd = new ArrayList<Stitch>();
-		Stitch firstStitch = new DefaultStitch("AA");
+		Stitch firstStitch = new DefaultStitch("AA"); //$NON-NLS-1$
 		stitchesToAdd.add(firstStitch);
-		stitchesToAdd.add(new DefaultStitch("BB"));
-		stitchesToAdd.add(new DefaultStitch("CC"));
-		stitchesToAdd.add(new DefaultStitch("DD"));
+		stitchesToAdd.add(new DefaultStitch("BB")); //$NON-NLS-1$
+		stitchesToAdd.add(new DefaultStitch("CC")); //$NON-NLS-1$
+		stitchesToAdd.add(new DefaultStitch("DD")); //$NON-NLS-1$
 
 		// perform the operation on the needle
 		needle.addStitchesToBeginning(stitchesToAdd);
@@ -755,11 +761,11 @@ public abstract class FlatNeedleTests {
 		List<Stitch> startingStitchesOnNeedle = new ArrayList<Stitch>(needle
 				.getStitches());
 		List<Stitch> stitchesToAdd = new ArrayList<Stitch>();
-		Stitch firstStitch = new DefaultStitch("K");
+		Stitch firstStitch = new DefaultStitch("K"); //$NON-NLS-1$
 		stitchesToAdd.add(firstStitch);
-		stitchesToAdd.add(new DefaultStitch("L"));
-		stitchesToAdd.add(new DefaultStitch("M"));
-		stitchesToAdd.add(new DefaultStitch("N"));
+		stitchesToAdd.add(new DefaultStitch("L")); //$NON-NLS-1$
+		stitchesToAdd.add(new DefaultStitch("M")); //$NON-NLS-1$
+		stitchesToAdd.add(new DefaultStitch("N")); //$NON-NLS-1$
 
 		// perform the operation on the needle
 		needle.addStitchesToEnd(stitchesToAdd);

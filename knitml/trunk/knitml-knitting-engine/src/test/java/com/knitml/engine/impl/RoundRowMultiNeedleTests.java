@@ -100,7 +100,7 @@ public class RoundRowMultiNeedleTests extends FlatRowMultiNeedleTests {
 		engine.designateEndOfRow();
 		engine.arrangeStitchesOnNeedles(new int[] { 15, 5, 20 });
 		engine.startNewRow();
-		assertEquals("needle3", engine.getCurrentNeedle().getId());
+		assertEquals("needle3", engine.getCurrentNeedle().getId()); //$NON-NLS-1$
 		assertEquals(15, engine.getStitchesRemainingOnCurrentNeedle());
 		assertEquals(40, engine.getStitchesRemainingInRow());
 		knit(40);

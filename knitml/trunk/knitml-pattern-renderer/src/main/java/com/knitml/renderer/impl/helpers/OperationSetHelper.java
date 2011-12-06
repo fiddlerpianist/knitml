@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.knitml.core.common.Stack;
+import com.knitml.core.compatibility.Stack;
 import com.knitml.renderer.impl.helpers.OperationSet.Type;
 
 public class OperationSetHelper {

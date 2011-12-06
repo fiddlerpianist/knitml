@@ -20,7 +20,7 @@ public class InlineInstructionVisitor extends AbstractPatternVisitor {
 		String id = instruction.getId();
 		if (id != null && repository.getInlineInstruction(id) == null) {
 			context.getPatternRepository().addInlineInstruction(id, instruction);
-			log.info("Just added inline instruction [{}] to the pattern repository", id);
+			log.info("Just added inline instruction [{}] to the pattern repository", id); //$NON-NLS-1$
 		}
 		visitChildren(repository.getInlineInstruction(id), context);
 	}

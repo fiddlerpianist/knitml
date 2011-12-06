@@ -43,8 +43,21 @@ public class RendererProgram {
 	private RendererFactory rendererFactory = new BasicTextRendererFactory();
 	private EventHandlerFactory eventHandlerFactory = new DefaultEventHandlerFactory();
 
-	private KnittingContextFactory knittingCF = new DefaultKnittingContextFactory();
-	private VisitorFactory knittingVF = new SpringVisitorFactory();
+	public void setEventHandlerFactory(EventHandlerFactory eventHandlerFactory) {
+		this.eventHandlerFactory = eventHandlerFactory;
+	}
+
+	public void setKnittingContextFactory(
+			KnittingContextFactory knittingContextFactory) {
+		this.knittingContextFactory = knittingContextFactory;
+	}
+
+	public void setVisitorFactory(VisitorFactory visitorFactory) {
+		this.visitorFactory = visitorFactory;
+	}
+
+	private KnittingContextFactory knittingContextFactory = new DefaultKnittingContextFactory();
+	private VisitorFactory visitorFactory = new SpringVisitorFactory();
 
 	private Options options = new Options();
 
@@ -87,7 +100,7 @@ public class RendererProgram {
 		// set up the validation program by adding the rendering listener to it
 		List<PatternEventListener> listeners = new ArrayList<PatternEventListener>();
 		listeners.add(listener);
-		ValidationProgram processor = new ValidationProgram(knittingCF, knittingVF, listeners);
+		ValidationProgram processor = new ValidationProgram(knittingContextFactory, visitorFactory, listeners);
 
 		// run the validation with rendering attached as an event listener.
 		// The object returned contains any changes made by the validator.

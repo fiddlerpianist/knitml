@@ -34,7 +34,7 @@ public class MeasurableTranslator implements IMarshaller, IUnmarshaller,
 	public MeasurableTranslator() {
 		this.uri = null;
 		this.index = 0;
-		this.name = "measure";
+		this.name = "measure"; //$NON-NLS-1$
 	}
 
 	public MeasurableTranslator(String uri, int index, String name) {
@@ -59,16 +59,16 @@ public class MeasurableTranslator implements IMarshaller, IUnmarshaller,
 
 		// make sure the parameters are as expected
 		if (!(obj instanceof Measure)) {
-			throw new JiBXException("Invalid object type for marshaller");
+			throw new JiBXException("Invalid object type for marshaller"); //$NON-NLS-1$
 		}
 		if (!(ictx instanceof MarshallingContext)) {
-			throw new JiBXException("Invalid object type for marshaller");
+			throw new JiBXException("Invalid object type for marshaller"); //$NON-NLS-1$
 		}
 		MarshallingContext ctx = (MarshallingContext) ictx;
 		Measure<?,?> measure = (Measure<?,?>)obj;
 		
 		ctx.startTagAttributes(this.index, this.name);
-		ctx.attribute(this.index, "unit", measure.getUnit().toString());
+		ctx.attribute(this.index, "unit", measure.getUnit().toString()); //$NON-NLS-1$
 		ctx.closeStartContent();
 		ctx.content(String.valueOf(measure.getValue()));
 		ctx.endTag(this.index, this.name);
@@ -100,13 +100,13 @@ public class MeasurableTranslator implements IMarshaller, IUnmarshaller,
 			ctx.throwStartTagNameError(this.uri, this.name);
 		}
 
-		String unitString = ctx.attributeText(null, "unit");
+		String unitString = ctx.attributeText(null, "unit"); //$NON-NLS-1$
 		Unit<?> unit = null;
 		try {
 			unit = (Unit<?>) (UnitFormat.getInstance()
 					.parseObject(unitString));
 		} catch (ParseException ex) {
-			throw new JiBXException("Unable to parse unit element", ex);
+			throw new JiBXException("Unable to parse unit element", ex); //$NON-NLS-1$
 		}
 		//unit.asType(Length.class);
 		ctx.parsePastStartTag(this.uri, this.name);

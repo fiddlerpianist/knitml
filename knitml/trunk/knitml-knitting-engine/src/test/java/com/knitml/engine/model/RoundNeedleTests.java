@@ -34,7 +34,7 @@ public class RoundNeedleTests extends FlatNeedleTests {
 	
 	@Override
 	protected void initializeNeedle() {
-		needle = new DefaultNeedle("default", NeedleStyle.CIRCULAR, new DefaultKnittingFactory());
+		needle = new DefaultNeedle("default", NeedleStyle.CIRCULAR, new DefaultKnittingFactory()); //$NON-NLS-1$
 	}
 
 	@Override

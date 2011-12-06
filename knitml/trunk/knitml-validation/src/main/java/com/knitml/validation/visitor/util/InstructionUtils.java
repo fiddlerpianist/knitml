@@ -25,13 +25,18 @@ public class InstructionUtils {
 		} else {
 			List<Row> rows = instruction.getRows();
 			SortedMap<Integer, Row> rowNumberMap = new TreeMap<Integer, Row>();
+			boolean emptyRowNumbersFound = false;
 			for (Row row : rows) {
 				if (row.getNumbers() != null) {
+					if (emptyRowNumbersFound) {
+						throw new InvalidStructureException(
+								Messages.getString("InstructionUtils.CANNOT_MIX_UNDECLARED_WITH_DECLARED_ROWS")); //$NON-NLS-1$
+					}
 					for (Integer i : row.getNumbers()) {
 						Row previousRowInMap = rowNumberMap.put(i, row);
 						if (previousRowInMap != null) {
 							throw new InvalidStructureException(
-									"A row may only be defined once within an instruction");
+									Messages.getString("InstructionUtils.ROW_MUST_BE_WITHIN_INSTRUCTION")); //$NON-NLS-1$
 						}
 					}
 					if (row.getSubsequent() != null
@@ -39,9 +44,12 @@ public class InstructionUtils {
 						processSubsequentRowDefinition(row, instruction,
 								rowNumberMap);
 					}
-				} else if (!rowNumberMap.isEmpty()) {
-					throw new InvalidStructureException(
-							"Cannot mix undeclared row numbers with declared row numbers");
+				} else {
+					emptyRowNumbersFound = true;
+					if (!rowNumberMap.isEmpty()) {
+						throw new InvalidStructureException(
+								Messages.getString("InstructionUtils.CANNOT_MIX_UNDECLARED_WITH_DECLARED_ROWS")); //$NON-NLS-1$
+					}
 				}
 			}
 			if (rowNumberMap.isEmpty()) {
@@ -51,13 +59,14 @@ public class InstructionUtils {
 			}
 			if (!areRowsConsecutive(rowNumberMap.keySet())) {
 				throw new InvalidStructureException(
-						"Row numbers must be consecutive in this instruction");
+						Messages.getString("InstructionUtils.ROW_NUMBERS_NOT_CONSECUTIVE")); //$NON-NLS-1$
 			}
-			if (instruction.getRowCount() != null && instruction.getRowCount() != rowNumberMap.size()) {
+			if (instruction.getRowCount() != null
+					&& instruction.getRowCount() != rowNumberMap.size()) {
 				throw new InvalidStructureException(
-				"The rows within the instruction do not add up to the instruction's expected number of rows");
+						Messages.getString("InstructionUtils.ROW_SUM_MISMATCH")); //$NON-NLS-1$
 			}
-			
+
 			// get all values from the map into a list of rows; use that list of
 			// rows for processing
 			List<Row> newRows = new ArrayList<Row>(rowNumberMap.size());
@@ -71,7 +80,7 @@ public class InstructionUtils {
 		// do subsequent row processing here
 		if (instruction.getRowCount() == null) {
 			throw new InvalidStructureException(
-					"A rowCount must be provided on the encapsulating instruction if you a define a row as 'all even' or 'all odd'");
+					Messages.getString("InstructionUtils.NO_ROW_COUNT_SUPPLIED")); //$NON-NLS-1$
 		}
 
 		// get the last row number for this definition
@@ -131,7 +140,7 @@ public class InstructionUtils {
 		if (instruction.getLabel() == null
 				&& instruction.getMessageKey() == null) {
 			throw new InvalidStructureException(
-					"Expected a global instruction here, which requires either a message-key or a label attribute. Neither attribute was found");
+					Messages.getString("InstructionUtils.GLOBAL_INSTRUCTION_EXPECTED")); //$NON-NLS-1$
 		}
 		if (instruction.getRows() != null && !instruction.getRows().isEmpty()) {
 			Row firstRow = instruction.getRows().get(0);

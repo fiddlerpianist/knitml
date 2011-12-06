@@ -1,5 +1,6 @@
 package com.knitml.engine.impl;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -97,7 +98,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 
 	public DefaultKnittingEngine(KnittingFactory knittingFactory) {
 		this.knittingFactory = knittingFactory;
-		Needle needle = this.knittingFactory.createNeedle("default",
+		Needle needle = this.knittingFactory.createNeedle("default", //$NON-NLS-1$
 				NeedleStyle.CIRCULAR);
 		activeNeedles.add(needle);
 		allNeedles.add(needle);
@@ -130,7 +131,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	public void restore(Object mementoObj) {
 		if (!(mementoObj instanceof DefaultEngineMemento)) {
 			throw new IllegalArgumentException(
-					"Type to restore must be of type DefaultEngineMemento");
+					Messages.getString("DefaultKnittingEngine.1")); //$NON-NLS-1$
 		}
 		DefaultEngineMemento memento = (DefaultEngineMemento) mementoObj;
 		this.direction = memento.getDirection();
@@ -164,15 +165,15 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throws WrongNeedleTypeException, NotBetweenRowsException {
 		if (!isBetweenRows()) {
 			throw new NotBetweenRowsException(
-					"Must be between rows to designate new needles to use");
+					Messages.getString("DefaultKnittingEngine.2")); //$NON-NLS-1$
 		}
 		if (getDirection() == Direction.BACKWARDS) {
 			throw new IllegalStateException(
-					"Cannot use different needles while the work is being worked on the wrong side (implementation limitation)");
+					Messages.getString("DefaultKnittingEngine.3")); //$NON-NLS-1$
 		}
 		if (isImposedUpon()) {
 			throw new IllegalStateException(
-					"Cannot use different needles while the engine is being imposed upon by another needle");
+					Messages.getString("DefaultKnittingEngine.4")); //$NON-NLS-1$
 		}
 		validateNewNeedleConfiguration(newNeedles, intendedKnittingShape);
 		// we must define this variable here because we are altering the state
@@ -186,12 +187,12 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	public void transferStitchesToNeedle(Needle targetNeedle,
 			int numberToTransfer) {
 		if (isBetweenRows()) {
-			throw new NotEnoughStitchesException(
-					"Must be within a row to transfer active stitches to a needle");
+			throw new IllegalStateException(
+					Messages.getString("DefaultKnittingEngine.5")); //$NON-NLS-1$
 		}
 		if (isImposedUpon()) {
 			throw new IllegalStateException(
-					"Cannot transfer stitches to a new needle while the engine is being imposed upon by another needle");
+					Messages.getString("DefaultKnittingEngine.6")); //$NON-NLS-1$
 		}
 		List<Stitch> stitchesToAdd = new ArrayList<Stitch>();
 		for (int i = 0; i < numberToTransfer; i++) {
@@ -222,19 +223,19 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			IllegalArgumentException {
 		// perform null checks
 		if (newNeedles == null) {
-			throw new NullArgumentException("newNeedles");
+			throw new NullArgumentException("newNeedles"); //$NON-NLS-1$
 		}
 		if (intendedKnittingShape == null) {
-			throw new NullArgumentException("intendedKnittingShape");
+			throw new NullArgumentException("intendedKnittingShape"); //$NON-NLS-1$
 		}
 		if (!isBetweenRows()) {
 			throw new NotBetweenRowsException(
-					"Must be at the end or beginning of row");
+					Messages.getString("DefaultKnittingEngine.9")); //$NON-NLS-1$
 		}
 		if (intendedKnittingShape == KnittingShape.FLAT
 				&& newNeedles.size() > 1) {
 			log
-					.info("A request was made to knit flat using more than one needle");
+					.info("A request was made to knit flat using more than one needle"); //$NON-NLS-1$
 		}
 		int singlePointedCount = 0;
 		int dpnCount = 0;
@@ -244,7 +245,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		for (Needle needle : newNeedles) {
 			if (needle == null) {
 				throw new NullArgumentException(
-						"Each needle in the list of needles provided must not be null");
+						Messages.getString("DefaultKnittingEngine.11")); //$NON-NLS-1$
 			}
 			NeedleStyle needleType = needle.getNeedleType();
 			if (needleType == NeedleStyle.STRAIGHT) {
@@ -254,8 +255,9 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			} else if (needleType == NeedleStyle.CIRCULAR) {
 				circularCount++;
 			} else {
-				throw new IllegalArgumentException("NeedleType " + needleType
-						+ " not currently supported by this engine");
+				throw new IllegalArgumentException(MessageFormat
+						.format(Messages.getString("DefaultKnittingEngine.7"), //$NON-NLS-1$
+								needleType));
 			}
 			lastNeedle = needle;
 		}
@@ -263,21 +265,21 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				&& singlePointedCount > 0
 				&& lastNeedle.getNeedleType() != NeedleStyle.STRAIGHT) {
 			throw new WrongNeedleTypeException(
-					"Cannot knit with a single-pointed needle between other needles");
+					Messages.getString("DefaultKnittingEngine.14")); //$NON-NLS-1$
 		}
 		if (singlePointedCount > 1) {
 			throw new WrongNeedleTypeException(
-					"Cannot knit a row off of more than one single-pointed needle");
+					Messages.getString("DefaultKnittingEngine.15")); //$NON-NLS-1$
 		}
 		if (singlePointedCount > 0
 				&& intendedKnittingShape == KnittingShape.ROUND) {
 			throw new WrongNeedleTypeException(
-					"Cannot knit in the round with a single-pointed needle");
+					Messages.getString("DefaultKnittingEngine.16")); //$NON-NLS-1$
 		}
 		if (intendedKnittingShape == KnittingShape.ROUND && circularCount == 0
 				&& dpnCount < 2) {
 			throw new WrongNeedleTypeException(
-					"You need to have at least 2 dpns (or a circular needle) to knit in the round");
+					Messages.getString("DefaultKnittingEngine.17")); //$NON-NLS-1$
 		}
 	}
 
@@ -324,16 +326,16 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			WrongKnittingShapeException {
 
 		if (!hasNeedles()) {
-			throw new NoActiveNeedlesException("No needles currently in use");
+			throw new NoActiveNeedlesException(Messages.getString("DefaultKnittingEngine.18")); //$NON-NLS-1$
 		}
 		if (!isBetweenRows() && !isEndOfRow()) {
 			throw new NotEndOfRowException(
-					"Cannot start a new row until you reach the end of the current row");
+					Messages.getString("DefaultKnittingEngine.19"), getStitchesRemainingInRow()); //$NON-NLS-1$
 		}
 
 		if (longRow && getKnittingShape() != KnittingShape.ROUND) {
 			throw new WrongKnittingShapeException(
-					"You must be working in the round to knit long rows");
+					Messages.getString("DefaultKnittingEngine.20")); //$NON-NLS-1$
 		}
 		// if (getTotalNumberOfStitchesInRow() == 0) {
 		// throw new NotEnoughStitchesException(
@@ -356,12 +358,12 @@ public class DefaultKnittingEngine implements KnittingEngine {
 
 	public void endRow() throws NotEndOfRowException {
 		if (!isEndOfRow()) {
-			throw new NotEndOfRowException("There are "
-					+ getStitchesRemainingInRow() + " stitches left in the row");
+			throw new NotEndOfRowException(
+					Messages.getString("DefaultKnittingEngine.19"), getStitchesRemainingInRow()); //$NON-NLS-1$
 		}
 		if (isImposedUpon()) {
 			throw new IllegalStateException(
-					"Cannot end a row while the engine is being imposed upon by another needle");
+					Messages.getString("DefaultKnittingEngine.23")); //$NON-NLS-1$
 		}
 
 		totalRowsCompleted++;
@@ -379,12 +381,11 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		// FIXME remove this when we support row starts not at (0,0)
 		if (!startOfRow.equals(STITCH_0_0)) {
 			throw new IllegalStateException(
-					"The start of the row has been moved from the first stitch of the first needle. "
-							+ "You must call arrangeStitchesOnNeedle() before attempting to knit.");
+					Messages.getString("DefaultKnittingEngine.8")); //$NON-NLS-1$
 		}
 		if (isBetweenRows()) {
 			throw new CannotAdvanceNeedleException(
-					"The engine is not currently knitting a row, therefore you cannot advance the needle");
+					Messages.getString("DefaultKnittingEngine.26")); //$NON-NLS-1$
 		}
 
 		// never advance the needle if imposed upon; always impose upon the
@@ -418,7 +419,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	private void retreatNeedleIfNecessary() throws CannotRetreatNeedleException {
 		if (isBetweenRows()) {
 			throw new CannotRetreatNeedleException(
-					"The engine is not currently knitting a row, therefore you cannot retreat the needle");
+					Messages.getString("DefaultKnittingEngine.27")); //$NON-NLS-1$
 		}
 		// never retreat the needle if imposed upon; always impose upon the
 		// needle at currentNeedleIndex
@@ -446,7 +447,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	private void switchDirectionIfNecessary() {
 		if (isImposedUpon()) {
 			throw new IllegalStateException(
-					"Cannot switch direction while the engine is being imposed upon by another needle");
+					Messages.getString("DefaultKnittingEngine.28")); //$NON-NLS-1$
 		}
 
 		if (suppressDirectionSwitchingForNextRow) {
@@ -539,7 +540,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	public void turn() {
 		if (isImposedUpon()) {
 			throw new IllegalStateException(
-					"Cannot turn the work when the engine is being imposed upon by another needle");
+					Messages.getString("DefaultKnittingEngine.29")); //$NON-NLS-1$
 		}
 		if (getStitchesRemainingOnCurrentNeedle() > 0) {
 			getCurrentNeedle().turn();
@@ -559,11 +560,11 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		// must be knitting with the work facing forwards
 		if (!(/* this.shape == KnittingShape.ROUND && */getDirection() == Direction.FORWARDS)) {
 			throw new NeedlesInWrongDirectionException(
-					"Must be knitting with the right side facing to declare the start of the row");
+					Messages.getString("DefaultKnittingEngine.30")); //$NON-NLS-1$
 		}
 		if (isImposedUpon()) {
 			throw new IllegalStateException(
-					"Cannot designate the end of a row while the engine is being imposed upon by another needle");
+					Messages.getString("DefaultKnittingEngine.31")); //$NON-NLS-1$
 		}
 
 		// This method probably won't be called when the work is already at the
@@ -613,7 +614,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		try {
 			this.endRow();
 		} catch (NotEndOfRowException ex) {
-			throw new RuntimeException("Unexpected exception occurred", ex);
+			throw new RuntimeException(Messages.getString("DefaultKnittingEngine.32"), ex); //$NON-NLS-1$
 		}
 	}
 
@@ -623,11 +624,11 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	public void advanceNeedle() throws CannotAdvanceNeedleException {
 		if (!getCurrentNeedle().isEndOfNeedle()) {
 			throw new CannotAdvanceNeedleException(
-					"Must be at the end of needle to advance");
+					Messages.getString("DefaultKnittingEngine.33")); //$NON-NLS-1$
 		}
 		if (isImposedUpon()) {
 			throw new CannotAdvanceNeedleException(
-					"Cannot advance past a needle being imposed upon");
+					Messages.getString("DefaultKnittingEngine.34")); //$NON-NLS-1$
 		}
 		// it will be necessary to advance needle
 		advanceNeedleIfNecessary();
@@ -644,7 +645,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			NotBetweenRowsException, IllegalArgumentException {
 		if (knittingShape == KnittingShape.ROUND) {
 			log
-					.info("Request made to change to round knitting but engine was already knitting round");
+					.info(Messages.getString("DefaultKnittingEngine.35")); //$NON-NLS-1$
 			return;
 		}
 		validateNewNeedleConfiguration(this.activeNeedles, KnittingShape.ROUND);
@@ -670,7 +671,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			throws NotBetweenRowsException {
 		if (knittingShape == KnittingShape.FLAT) {
 			log
-					.info("Request made to change to flat knitting but engine was already knitting flat");
+					.info(Messages.getString("DefaultKnittingEngine.36")); //$NON-NLS-1$
 			return;
 		}
 		try {
@@ -682,10 +683,10 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			// should be valid flat
 			log
 					.warn(
-							"An unexpected condition occurred while declaring flat knitting",
+							Messages.getString("DefaultKnittingEngine.37"), //$NON-NLS-1$
 							ex);
 			throw new IllegalStateException(
-					"An unexpected internal error occurred while declaring flat knitting",
+					Messages.getString("DefaultKnittingEngine.38"), //$NON-NLS-1$
 					ex);
 		}
 
@@ -699,7 +700,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				suppressDirectionSwitchingForNextRow = true;
 			}
 		}
-		log.info("Changed engine to flat knitting");
+		log.info(Messages.getString("DefaultKnittingEngine.39")); //$NON-NLS-1$
 	}
 
 	/*
@@ -769,7 +770,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			IllegalArgumentException {
 		if (!isBetweenRows()) {
 			throw new NotBetweenRowsException(
-					"Must be at the beginning or end of a row to perform this operation");
+					Messages.getString("DefaultKnittingEngine.40")); //$NON-NLS-1$
 		}
 
 		Direction originalDirection = getDirection();
@@ -788,9 +789,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		}
 		if (totalStitches != getTotalNumberOfStitchesInRow()) {
 			throw new IllegalArgumentException(
-					"The total number of stitches specified by the integer array"
-							+ " must match the total number of stitches"
-							+ " currently on the needles");
+					Messages.getString("DefaultKnittingEngine.12")); //$NON-NLS-1$
 		}
 
 		// end validation section
@@ -804,7 +803,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 			int targetNumberOfStitches = stitchArray[i];
 			if (targetNumberOfStitches < 0) {
 				throw new IllegalArgumentException(
-						"Each needle must contain a non-negative number of stitches");
+						Messages.getString("DefaultKnittingEngine.44")); //$NON-NLS-1$
 			}
 			try {
 				if (stitchesOnCurrentNeedle > targetNumberOfStitches) {
@@ -816,7 +815,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				}
 			} catch (NeedlesInWrongDirectionException ex) {
 				// should not happen
-				throw new RuntimeException("An internal error occurred", ex);
+				throw new RuntimeException(Messages.getString("DefaultKnittingEngine.INTERNAL_ERROR"), ex); //$NON-NLS-1$
 			}
 		}
 		// FIXME when we support the start of a row not at (0,0)
@@ -881,7 +880,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		try {
 			advanceNeedleIfNecessary();
 		} catch (CannotAdvanceNeedleException ex) {
-			throw new NotEnoughStitchesException();
+			throw new NotEnoughStitchesException(1, 0);
 		}
 		getCurrentNeedle().removeNextStitch();
 	}
@@ -917,7 +916,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		try {
 			advanceNeedleIfNecessary();
 		} catch (CannotAdvanceNeedleException ex) {
-			throw new NotEnoughStitchesException();
+			throw new NotEnoughStitchesException(1, 0);
 		}
 		return getCurrentNeedle().peekAtNextStitch();
 	}
@@ -955,7 +954,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				}
 				imposeStitchesIfNecessary(numberOfTimes);
 			} catch (CannotAdvanceNeedleException ex) {
-				throw new NotEnoughStitchesException();
+				throw new NotEnoughStitchesException(1, 0);
 			}
 		}
 	}
@@ -971,7 +970,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				getCurrentNeedle().reverseSlip();
 			}
 		} catch (CannotRetreatNeedleException ex) {
-			throw new NotEnoughStitchesException();
+			throw new NotEnoughStitchesException(1, 0);
 		}
 	}
 
@@ -1007,7 +1006,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	 * @see com.knitml.validation.validation.engine.KnittingEngine#placeMarker()
 	 */
 	public void placeMarker() throws CannotPutMarkerOnEndOfNeedleException {
-		placeMarker(new DefaultMarker());
+		placeMarker(knittingFactory.createMarker());
 	}
 
 	public void placeMarker(Marker marker)
@@ -1113,16 +1112,14 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		try {
 			advanceNeedleIfNecessary();
 		} catch (CannotAdvanceNeedleException ex) {
-			throw new NotEnoughStitchesException();
+			throw new NotEnoughStitchesException(stitchesRequired, 0);
 		}
 
 		int stitchesOnCurrentNeedle = getCurrentNeedle().getStitchesRemaining();
 		if (stitchesRequired > stitchesOnCurrentNeedle) {
 			int nextNeedleIndex = getNextNeedleIndex();
 			if (nextNeedleIndex == -1) {
-				throw new NotEnoughStitchesException("This operation requires "
-						+ stitchesRequired + " stitches and there were only "
-						+ stitchesOnCurrentNeedle + " stitches available");
+				throw new NotEnoughStitchesException(stitchesRequired, stitchesOnCurrentNeedle);
 			}
 			transferStitches(nextNeedleIndex, getCurrentNeedleIndex(),
 					stitchesRequired - stitchesOnCurrentNeedle);
@@ -1152,7 +1149,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	private void resetCurrentNeedleIndex() {
 		if (isImposedUpon()) {
 			throw new IllegalStateException(
-					"Cannot change the needle index while the engine is being imposed upon by another needle");
+					Messages.getString("DefaultKnittingEngine.49")); //$NON-NLS-1$
 		}
 		if (!castingOn) {
 			assert currentNeedleIndex == -1;
@@ -1174,12 +1171,12 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		boolean countAsRow = castOn.isCountAsRow();
 
 		if (!hasNeedles()) {
-			throw new NoActiveNeedlesException("No needles currently in use");
+			throw new NoActiveNeedlesException(Messages.getString("DefaultKnittingEngine.50")); //$NON-NLS-1$
 		}
 
 		if (getTotalNumberOfStitchesInRow() != 0 && !castingOn) {
 			throw new StitchesAlreadyOnNeedleException(
-					"You cannot cast on stitches when there are active stitches on the needle. Use inline-cast-on instead to do this within a row.");
+					Messages.getString("DefaultKnittingEngine.51")); //$NON-NLS-1$
 		}
 
 		// all cast ons are done in the forwards direction
@@ -1203,7 +1200,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 				endRow();
 			} catch (NotEndOfRowException ex) {
 				// this shouldn't happen
-				throw new RuntimeException("Unexpected exception occurred: ",
+				throw new RuntimeException(Messages.getString("DefaultKnittingEngine.0"), //$NON-NLS-1$
 						ex);
 			}
 		} else {
@@ -1402,7 +1399,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 							currentNeedleIndex, 1);
 				} catch (NeedlesInWrongDirectionException ex) {
 					// shouldn't happen
-					throw new RuntimeException("Shouldn't happen", ex);
+					throw new RuntimeException("Shouldn't happen", ex); //$NON-NLS-1$
 				}
 				// issuing a transferStitches() causes the cursor to move
 				// back to the start of the needle. To compensate,
@@ -1417,7 +1414,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 							currentNeedleIndex, 1);
 				} catch (NeedlesInWrongDirectionException ex) {
 					// shouldn't happen
-					throw new RuntimeException("Shouldn't happen", ex);
+					throw new RuntimeException("Shouldn't happen", ex); //$NON-NLS-1$
 				}
 				// issuing a transferStitches() causes the cursor to move
 				// back to the start of the needle. To compensate,
@@ -1488,11 +1485,11 @@ public class DefaultKnittingEngine implements KnittingEngine {
 	public void imposeNeedle(Needle needleToImpose) {
 		if (this.currentNeedleIndex == -1) {
 			throw new NoActiveNeedlesException(
-					"Cannot impose a needle when no needles are active");
+					Messages.getString("DefaultKnittingEngine.55")); //$NON-NLS-1$
 		}
 		if (this.imposedNeedle != null) {
 			throw new IllegalStateException(
-					"Cannot impose a second needle onto the engine; one has already been imposed");
+					Messages.getString("DefaultKnittingEngine.56")); //$NON-NLS-1$
 		}
 		imposedNeedle = needleToImpose;
 		allNeedles.add(imposedNeedle);

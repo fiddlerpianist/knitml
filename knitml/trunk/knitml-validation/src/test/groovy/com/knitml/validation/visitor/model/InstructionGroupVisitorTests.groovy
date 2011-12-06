@@ -343,8 +343,4 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			'''
 		verify engine
 	}
-	
-	static void main(Object[] args) {
-		new JUnitCore().runClasses(InstructionGroupVisitorTests)
-	}
 }

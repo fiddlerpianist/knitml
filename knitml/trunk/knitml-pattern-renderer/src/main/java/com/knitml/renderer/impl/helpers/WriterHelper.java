@@ -10,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.common.Stack;
+import com.knitml.core.compatibility.Stack;
 
 public class WriterHelper {
 

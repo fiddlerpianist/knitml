@@ -83,4 +83,24 @@ public class KnittingMeasure<Q extends Quantity> extends Measure<String, Q> {
         return new KnittingMeasure<Q>(stringValue, unit);
 	}
 
+    public static <Q extends Quantity> Measure<Double, Q> valueOf(
+            double doubleValue, Unit<Q> unit) {
+    	throw new UnsupportedOperationException();
+    }
+
+    public static <Q extends Quantity> Measure<Long, Q> valueOf(
+            long longValue, Unit<Q> unit) {
+    	throw new UnsupportedOperationException();
+    }
+
+    public static <Q extends Quantity> Measure<Float, Q> valueOf(
+            float floatValue, Unit<Q> unit) {
+    	throw new UnsupportedOperationException();
+    }
+
+    public static <Q extends Quantity> Measure<java.lang.Integer, Q> valueOf(
+            int intValue, Unit<Q> unit) {
+    	throw new UnsupportedOperationException();
+    }
+    
 }

@@ -1,5 +1,7 @@
 package com.knitml.core.xml.translator;
 
+import java.text.MessageFormat;
+
 import org.jibx.runtime.IAliasable;
 import org.jibx.runtime.IMarshaller;
 import org.jibx.runtime.IMarshallingContext;
@@ -41,16 +43,16 @@ public class ApplyNextRowTranslator implements IMarshaller, IUnmarshaller,
 
 		// make sure the parameters are as expected
 		if (!(obj instanceof ApplyNextRow)) {
-			throw new JiBXException("Invalid object type for instructionRef");
+			throw new JiBXException(MessageFormat.format(Messages.getString("INVALID_OBJ_TYPE"), "instructionRef")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if (!(ictx instanceof MarshallingContext)) {
-			throw new JiBXException("Invalid object type for marshaller");
+			throw new JiBXException(Messages.getString("INVALID_OBJ_TYPE_FOR_MARSHALLER")); //$NON-NLS-1$
 		}
 		MarshallingContext ctx = (MarshallingContext) ictx;
 		ApplyNextRow applyNextRow = (ApplyNextRow) obj;
 
 		ctx.startTagAttributes(this.index, this.name);
-		ctx.attribute(this.index, "instruction-ref", applyNextRow.getInstructionRef().getId());
+		ctx.attribute(this.index, "instruction-ref", applyNextRow.getInstructionRef().getId()); //$NON-NLS-1$
 		ctx.closeStartEmpty();
 	}
 
@@ -79,10 +81,12 @@ public class ApplyNextRowTranslator implements IMarshaller, IUnmarshaller,
 		if (!ctx.isAt(this.uri, this.name)) {
 			ctx.throwStartTagNameError(this.uri, this.name);
 		}
-		Object identifiable = ctx.attributeExistingIDREF(null, "instruction-ref", 0);
+		Object identifiable = ctx.attributeExistingIDREF(null, "instruction-ref", 0); //$NON-NLS-1$
 		if (!(identifiable instanceof Identifiable)) {
 			ctx
-					.throwException("Object with id on " + name + " element must be an Identifiable type");
+					.throwException(MessageFormat
+							.format(Messages.getString("IDENTIFIABLE_TYPE_REQUIRED"), //$NON-NLS-1$
+									name));  
 		}
 		ApplyNextRow applyNextRow = new ApplyNextRow((Identifiable)identifiable);
 		ctx.parsePastEndTag(this.uri, this.name);

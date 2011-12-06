@@ -51,53 +51,53 @@ public class RowTranslator implements IMarshaller, IUnmarshaller, IAliasable {
 
 		// make sure the parameters are as expected
 		if (!(obj instanceof Row)) {
-			throw new JiBXException("Invalid object type for row");
+			throw new JiBXException("Invalid object type for row"); //$NON-NLS-1$
 		}
 		if (!(ictx instanceof MarshallingContext)) {
-			throw new JiBXException("Invalid object type for marshaller");
+			throw new JiBXException("Invalid object type for marshaller"); //$NON-NLS-1$
 		}
 		MarshallingContext ctx = (MarshallingContext) ictx;
 		Row row = (Row) obj;
 		ctx.startTagAttributes(this.index, this.name);
 
 		if (row.getYarnIdRef() != null) {
-			ctx.attribute(this.index, "yarn-ref", row.getYarnIdRef());
+			ctx.attribute(this.index, "yarn-ref", row.getYarnIdRef()); //$NON-NLS-1$
 		}
 		if (row.isInformSide()) {
-			ctx.attribute(this.index, "inform-side", Boolean.TRUE.toString());
+			ctx.attribute(this.index, "inform-side", Boolean.TRUE.toString()); //$NON-NLS-1$
 		}
 		if (row.isShortRow()) {
-			ctx.attribute(this.index, "short", Boolean.TRUE.toString());
+			ctx.attribute(this.index, "short", Boolean.TRUE.toString()); //$NON-NLS-1$
 		}
 		if (row.isLongRow()) {
-			ctx.attribute(this.index, "long", Boolean.TRUE.toString());
+			ctx.attribute(this.index, "long", Boolean.TRUE.toString()); //$NON-NLS-1$
 		}
 		if (row.getSide() != null) {
 			ctx
-					.attribute(this.index, "side", EnumUtils.fromEnum(row
+					.attribute(this.index, "side", EnumUtils.fromEnum(row //$NON-NLS-1$
 							.getSide()));
 		}
 		if (row.getAssignRowNumber() != null
 				&& row.getAssignRowNumber().equals(Boolean.FALSE)) {
-			ctx.attribute(this.index, "assign-row-number", Boolean.FALSE
+			ctx.attribute(this.index, "assign-row-number", Boolean.FALSE //$NON-NLS-1$
 					.toString());
 		}
 		if (row.isResetRowCount()) {
-			ctx.attribute(this.index, "reset-row-count", Boolean.TRUE
+			ctx.attribute(this.index, "reset-row-count", Boolean.TRUE //$NON-NLS-1$
 					.toString());
 		}
 		if (row.getNumbers() != null && row.getNumbers().length > 0) {
-			ctx.attribute(this.index, "number", DataConversion
+			ctx.attribute(this.index, "number", DataConversion //$NON-NLS-1$
 					.serializeIntArray(row.getNumbers()));
 		}
 		if (row.getSubsequent() != null) {
 			ctx
-					.attribute(this.index, "subsequent", EnumUtils.fromEnum(row
+					.attribute(this.index, "subsequent", EnumUtils.fromEnum(row //$NON-NLS-1$
 							.getSubsequent()));
 		}
 		if (row.getType() != null) {
 			ctx
-					.attribute(this.index, "type", EnumUtils.fromEnum(row
+					.attribute(this.index, "type", EnumUtils.fromEnum(row //$NON-NLS-1$
 							.getType()));
 		}
 
@@ -110,7 +110,7 @@ public class RowTranslator implements IMarshaller, IUnmarshaller, IAliasable {
 			if (operation instanceof IMarshallable) {
 				((IMarshallable) operation).marshal(ctx);
 			} else {
-				throw new JiBXException("Element is not marshallable");
+				throw new JiBXException("Element is not marshallable"); //$NON-NLS-1$
 			}
 		}
 		if (row.getFollowupInformation() != null) {
@@ -150,35 +150,35 @@ public class RowTranslator implements IMarshaller, IUnmarshaller, IAliasable {
 		boolean assignRowNumber = true;
 		int[] numbers = null;
 
-		if (ctx.hasAttribute(null, "assign-row-number")) {
-			assignRowNumber = ctx.attributeBoolean(null, "assign-row-number");
+		if (ctx.hasAttribute(null, "assign-row-number")) { //$NON-NLS-1$
+			assignRowNumber = ctx.attributeBoolean(null, "assign-row-number"); //$NON-NLS-1$
 		}
-		if (ctx.hasAttribute(null, "number")) {
+		if (ctx.hasAttribute(null, "number")) { //$NON-NLS-1$
 			numbers = DataConversion.deserializeIntArray(ctx.attributeText(
-					null, "number"));
+					null, "number")); //$NON-NLS-1$
 		}
 		Row row = new Row(assignRowNumber, numbers);
 
-		row.setYarnIdRef(getAttribute(ctx, "yarn-ref"));
+		row.setYarnIdRef(getAttribute(ctx, "yarn-ref")); //$NON-NLS-1$
 		row.setInformSide(false);
-		if (ctx.hasAttribute(null, "inform-side")) {
-			row.setInformSide(ctx.attributeBoolean(null, "inform-side"));
+		if (ctx.hasAttribute(null, "inform-side")) { //$NON-NLS-1$
+			row.setInformSide(ctx.attributeBoolean(null, "inform-side")); //$NON-NLS-1$
 		}
 		row.setShortRow(false);
-		if (ctx.hasAttribute(null, "short")) {
-			row.setShortRow(ctx.attributeBoolean(null, "short"));
+		if (ctx.hasAttribute(null, "short")) { //$NON-NLS-1$
+			row.setShortRow(ctx.attributeBoolean(null, "short")); //$NON-NLS-1$
 		}
-		if (ctx.hasAttribute(null, "long")) {
-			row.setLongRow(ctx.attributeBoolean(null, "long"));
+		if (ctx.hasAttribute(null, "long")) { //$NON-NLS-1$
+			row.setLongRow(ctx.attributeBoolean(null, "long")); //$NON-NLS-1$
 		}
-		row.setSide(EnumUtils.toEnum(getAttribute(ctx, "side"), Side.class));
+		row.setSide(EnumUtils.toEnum(getAttribute(ctx, "side"), Side.class)); //$NON-NLS-1$
 		row.setResetRowCount(false);
-		if (ctx.hasAttribute(null, "reset-row-count")) {
-			row.setResetRowCount(ctx.attributeBoolean(null, "reset-row-count"));
+		if (ctx.hasAttribute(null, "reset-row-count")) { //$NON-NLS-1$
+			row.setResetRowCount(ctx.attributeBoolean(null, "reset-row-count")); //$NON-NLS-1$
 		}
-		row.setSubsequent(EnumUtils.toEnum(getAttribute(ctx, "subsequent"),
+		row.setSubsequent(EnumUtils.toEnum(getAttribute(ctx, "subsequent"), //$NON-NLS-1$
 				RowDefinitionScope.class));
-		row.setType(EnumUtils.toEnum(getAttribute(ctx, "type"),
+		row.setType(EnumUtils.toEnum(getAttribute(ctx, "type"), //$NON-NLS-1$
 				KnittingShape.class));
 		ctx.parsePastStartTag(this.uri, this.name);
 
@@ -193,7 +193,7 @@ public class RowTranslator implements IMarshaller, IUnmarshaller, IAliasable {
 				if (!(element instanceof InlineOperation)) {
 					ctx
 							.throwNameException(
-									"Contains an invalid element (i.e. not an InlineOperation)",
+									"Contains an invalid element (i.e. not an InlineOperation)", //$NON-NLS-1$
 									this.uri, this.name);
 				}
 				operations.add((InlineOperation) element);

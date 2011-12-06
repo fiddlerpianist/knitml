@@ -53,7 +53,7 @@ class RepeatInstructionVisitorTests extends AbstractKnittingContextTests {
 
 	@Test
 	void processUntilMeasuresDocument() {
-		knittingContext.patternRepository.rowGauge = KnittingMeasure.valueOf(10, Units.ROWS_PER_INCH)
+		knittingContext.patternRepository.rowGauge = KnittingMeasure.valueOf("10", Units.ROWS_PER_INCH)
 		processXml '''
 		<instruction-group id="cuff" label="Make the Cuff">
 			<instruction id="cuff-round">

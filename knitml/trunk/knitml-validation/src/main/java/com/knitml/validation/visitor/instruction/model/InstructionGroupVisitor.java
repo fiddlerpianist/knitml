@@ -17,20 +17,13 @@ public class InstructionGroupVisitor extends AbstractPatternVisitor {
 	public void visit(Object element, KnittingContext context)
 			throws KnittingEngineException {
 		InstructionGroup instructionGroup = (InstructionGroup)element;
+		context.getPatternState().setAsCurrent(instructionGroup);
 		if (instructionGroup.getResetRowCount()) {
 			context.getEngine().resetRowNumber();
 			context.getPatternRepository().clearLocalInstructions();
 		}
-//		int rowsCompletedBeforeInstruction = context.getEngine().getTotalRowsCompleted();
+		
 		visitChildren(instructionGroup, context);
-//		int rowsCompletedAfterInstruction = context.getEngine().getTotalRowsCompleted();
-//		String id = instructionGroup.getId();
-//		if (id != null) {
-//			if (repository.getInstructionInfo(id) == null) {
-//				repository.addInstructionInfo(new InstructionInfo(element,rowsCompletedAfterInstruction - rowsCompletedBeforeInstruction));
-//				log.info("Added instruction ID [{}] to the store", id);
-//			}
-//		}
 	}
 
 }

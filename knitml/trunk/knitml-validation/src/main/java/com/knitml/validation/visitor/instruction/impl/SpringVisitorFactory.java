@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.ProxyFactory;
 
-import com.knitml.core.common.Stack;
+import com.knitml.core.compatibility.Stack;
 import com.knitml.validation.visitor.instruction.NameResolver;
 import com.knitml.validation.visitor.instruction.Visitor;
 import com.knitml.validation.visitor.instruction.VisitorFactory;
@@ -36,8 +36,7 @@ public class SpringVisitorFactory implements VisitorFactory {
 			proxyFactory.setTarget(target);
 			return (Visitor) proxyFactory.getProxy(this.getClass().getClassLoader());
 		} catch (Exception ex) {
-			log.info("Could not find visitor class for element named ["
-					+ instance.getClass() + "]");
+			log.info("Could not find visitor class for element named [{}]",instance.getClass());
 			return new ExceptionThrowingVisitor(ex);
 		}
 	}

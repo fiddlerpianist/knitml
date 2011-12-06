@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.model.directions.inline.UsingNeedle;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.Needle;
+import com.knitml.engine.common.GenericKnittingEngineException;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.visitor.NeedleNotFoundException;
@@ -27,7 +28,7 @@ public class UsingNeedleVisitor extends AbstractPatternVisitor {
 		visitChildren(operation, context);
 		KnittingEngine engine = context.getEngine();
 		if (!engine.isEndOfRow() && engine.getStitchesRemainingOnCurrentNeedle() != 0) {
-			throw new KnittingEngineException("<using-needle> instruction either does not take work to end of that needle or takes it past the needle");
+			throw new GenericKnittingEngineException(Messages.getString("UsingNeedleVisitor.0")); //$NON-NLS-1$
 		}
 		
 		if (!engine.isEndOfRow()) {
