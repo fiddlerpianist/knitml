@@ -36,9 +36,9 @@ public class NotEnoughStitchesException extends KnittingEngineException {
 
 	@Override
 	public String getMessage() {
-		return new StringBuilder(super.getMessage())
-				.append("; ").append( //$NON-NLS-1$
-				MessageFormat.format(
+		return new StringBuilder(
+				super.getMessage() == null ? "" : super.getMessage() + "; ") //$NON-NLS-1$ //$NON-NLS-2$
+				.append(MessageFormat.format(
 						Messages.getString("REQUIRED_VS_AVAILABLE"), //$NON-NLS-1$
 						this.stitchesRequired, this.stitchesAvailable))
 				.toString();

@@ -95,11 +95,15 @@ public class Row implements BlockOperation, CompositeOperation {
 		this.yarnIdRef = row.getYarnIdRef();
 		this.informSide = row.isInformSide();
 		this.shortRow = row.isShortRow();
+		this.longRow = row.isLongRow();
 		this.side = row.getSide();
 		this.assignRowNumber = row.getAssignRowNumber();
 		this.resetRowCount = row.isResetRowCount();
 		this.numbers = row.getNumbers();
+		this.subsequent = row.getSubsequent();
 		this.type = row.getType();
+		this.information = row.getInformation();
+		this.followupInformation = row.getFollowupInformation();
 		this.operations = operations;
 	}
 	

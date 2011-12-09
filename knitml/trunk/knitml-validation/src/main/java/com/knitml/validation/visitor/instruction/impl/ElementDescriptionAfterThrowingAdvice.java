@@ -7,7 +7,7 @@ import java.util.List;
 import org.jibx.runtime.ITrackSource;
 import org.springframework.aop.ThrowsAdvice;
 
-import com.knitml.core.model.directions.DiscreteInlineOperation;
+import com.knitml.core.model.directions.Operation;
 import com.knitml.engine.common.GenericKnittingEngineException;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
@@ -21,8 +21,8 @@ public class ElementDescriptionAfterThrowingAdvice implements ThrowsAdvice {
 			KnittingContext context = (KnittingContext) args[1];
 			List<Object> breadcrumb = context.getPatternState().getLocationBreadcrumb();
 			ex.setLocationBreadcrumb(breadcrumb);
-			if (args[0] instanceof DiscreteInlineOperation) {
-				ex.setOffendingOperation((DiscreteInlineOperation)args[0]);
+			if (args[0] instanceof Operation) {
+				ex.setOffendingOperation((Operation)args[0]);
 			}
 
 			// XML document information stored by JiBX

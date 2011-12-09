@@ -3,6 +3,7 @@ package com.knitml.validation.visitor.definition.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,77 +50,76 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 
 		repository.addGlobalBlockInstruction(mergedInstruction.getId(),
 				performPhysicalMerge(mergedInstruction, repository));
-		log
-				.info(
-						"Just added instruction ID [{}] to the pattern repository",
-						id);
+		log.info("Just added instruction ID [{}] to the pattern repository", id);
 	}
 
-// TODO largely superfluous, or did this do something that the renderer's MergedInstructionVisitor didn't?
-//	private Instruction createNewInstruction(
-//			MergedInstruction mergedInstruction, PatternRepository repository)
-//			throws InvalidStructureException {
-//		List<InstructionRef> instructionRefs = mergedInstruction
-//				.getInstructions();
-//
-//		// create a list of the actual instructions, walking through each
-//		// instruction and determining
-//		// the target row size for the merged instruction
-//		List<Instruction> instructions = new ArrayList<Instruction>(
-//				instructionRefs.size());
-//		int targetRowSize = 0;
-//		for (InstructionRef instructionRef : instructionRefs) {
-//			Instruction instruction = repository
-//					.getBlockInstruction(instructionRef.getRef().getId());
-//			int currentRowSize = instruction.getRows().size();
-//			if (mergedInstruction.getMergePoint() == MergePoint.ROW) {
-//				// a ROW merge point means that all instructions must have the
-//				// same number of rows
-//				if (targetRowSize > 0 && targetRowSize != currentRowSize) {
-//					throw new ValidationException(
-//							"Row sizes must match for merging instructions at the row level");
-//				} else if (targetRowSize == 0) {
-//					// initialize the target row size
-//					targetRowSize = currentRowSize;
-//				}
-//			} else if (mergedInstruction.getMergePoint() == MergePoint.END) {
-//				// an END merge point simply means combine the instructions
-//				// together at the ends
-//				targetRowSize += instruction.getRows().size();
-//			}
-//			instructions.add(instruction);
-//		}
-//		List<Row> newRows = new ArrayList<Row>(targetRowSize);
-//		// now merge the results into one instruction
-//		if (mergedInstruction.getMergePoint() == MergePoint.END) {
-//			for (Instruction instruction : instructions) {
-//				for (Row row : instruction.getRows()) {
-//					newRows.add(row);
-//				}
-//			}
-//		} else if (mergedInstruction.getMergePoint() == MergePoint.ROW) {
-//			for (int i = 0; i < targetRowSize; i++) {
-//				List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
-//				for (Instruction instruction : instructions) {
-//					Row currentRow = instruction.getRows().get(i);
-//					newOperations.addAll(currentRow.getOperations());
-//				}
-//				Row newRow = new Row(instructions.get(0).getRows().get(i),
-//						newOperations);
-//				newRows.add(newRow);
-//			}
-//		} else {
-//			throw new InvalidStructureException(
-//					"Merge point for a merged instruction was left unspecified");
-//		}
-//		return new Instruction(mergedInstruction.getId(), mergedInstruction
-//				.getLabel(), mergedInstruction.getMessageKey(), newRows);
-//	}
+	// TODO largely superfluous, or did this do something that the renderer's
+	// MergedInstructionVisitor didn't?
+	// private Instruction createNewInstruction(
+	// MergedInstruction mergedInstruction, PatternRepository repository)
+	// throws InvalidStructureException {
+	// List<InstructionRef> instructionRefs = mergedInstruction
+	// .getInstructions();
+	//
+	// // create a list of the actual instructions, walking through each
+	// // instruction and determining
+	// // the target row size for the merged instruction
+	// List<Instruction> instructions = new ArrayList<Instruction>(
+	// instructionRefs.size());
+	// int targetRowSize = 0;
+	// for (InstructionRef instructionRef : instructionRefs) {
+	// Instruction instruction = repository
+	// .getBlockInstruction(instructionRef.getRef().getId());
+	// int currentRowSize = instruction.getRows().size();
+	// if (mergedInstruction.getMergePoint() == MergePoint.ROW) {
+	// // a ROW merge point means that all instructions must have the
+	// // same number of rows
+	// if (targetRowSize > 0 && targetRowSize != currentRowSize) {
+	// throw new ValidationException(
+	// "Row sizes must match for merging instructions at the row level");
+	// } else if (targetRowSize == 0) {
+	// // initialize the target row size
+	// targetRowSize = currentRowSize;
+	// }
+	// } else if (mergedInstruction.getMergePoint() == MergePoint.END) {
+	// // an END merge point simply means combine the instructions
+	// // together at the ends
+	// targetRowSize += instruction.getRows().size();
+	// }
+	// instructions.add(instruction);
+	// }
+	// List<Row> newRows = new ArrayList<Row>(targetRowSize);
+	// // now merge the results into one instruction
+	// if (mergedInstruction.getMergePoint() == MergePoint.END) {
+	// for (Instruction instruction : instructions) {
+	// for (Row row : instruction.getRows()) {
+	// newRows.add(row);
+	// }
+	// }
+	// } else if (mergedInstruction.getMergePoint() == MergePoint.ROW) {
+	// for (int i = 0; i < targetRowSize; i++) {
+	// List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
+	// for (Instruction instruction : instructions) {
+	// Row currentRow = instruction.getRows().get(i);
+	// newOperations.addAll(currentRow.getOperations());
+	// }
+	// Row newRow = new Row(instructions.get(0).getRows().get(i),
+	// newOperations);
+	// newRows.add(newRow);
+	// }
+	// } else {
+	// throw new InvalidStructureException(
+	// "Merge point for a merged instruction was left unspecified");
+	// }
+	// return new Instruction(mergedInstruction.getId(), mergedInstruction
+	// .getLabel(), mergedInstruction.getMessageKey(), newRows);
+	// }
 
-	private Instruction performPhysicalMerge(MergedInstruction mergedInstruction,
-			PatternRepository repository) throws ValidationException, InvalidStructureException {
+	private Instruction performPhysicalMerge(
+			MergedInstruction mergedInstruction, PatternRepository repository)
+			throws ValidationException, InvalidStructureException {
 		KnittingShape mergedInstructionShape = null;
-		
+
 		List<InstructionRef> instructionRefs = mergedInstruction
 				.getInstructions();
 
@@ -140,7 +140,8 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 			if (mergedInstructionShape == null) {
 				mergedInstructionShape = instruction.getKnittingShape();
 			} else if (mergedInstructionShape != instruction.getKnittingShape()) {
-				throw new InvalidStructureException("Cannot merge instructions of different knitting shapes");
+				throw new InvalidStructureException(
+						"Cannot merge instructions of different knitting shapes");
 			}
 			int currentRowSize = instruction.getRows().size();
 			if (mergedInstruction.getMergePoint() == MergePoint.ROW) {
@@ -167,7 +168,8 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 			for (Instruction instruction : instructions) {
 				for (Row row : instruction.getRows()) {
 					if (row.getNumbers() != null && row.getNumbers().length > 1) {
-						throw new ValidationException("Cannot merge rows together with multiple row numbers per row element (not implemented at this time)");
+						throw new ValidationException(
+								"Cannot merge rows together with multiple row numbers per row element (not implemented at this time)");
 					}
 					Row newRow = new Row(row, row.getOperations());
 					newRow.setNumber(i);
@@ -183,27 +185,31 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 				InlineOperation lastOperation = null;
 				for (Instruction instruction : instructions) {
 					Row currentRow = instruction.getRows().get(i);
-					if (currentRow.getNumbers() != null && currentRow.getNumbers().length > 1) {
-						throw new ValidationException("Cannot merge rows together with multiple row numbers per row element (not implemented at this time)");
+					if (currentRow.getNumbers() != null
+							&& currentRow.getNumbers().length > 1) {
+						throw new ValidationException(
+								"Cannot merge rows together with multiple row numbers per row element (not implemented at this time)");
 					}
 					List<InlineOperation> currentOperations = currentRow
 							.getOperations();
 					if (lastOperation != null
-							&& currentOperations.get(0).equals(lastOperation)) {
+							&& isSemanticallyEquivalent(lastOperation,
+									currentOperations.get(0))) {
 						InlineOperation doubledOperation = null;
-						// Note that, because of inheritance, Purl has to be first
+						// Note that, because of inheritance, Purl has to be
+						// first
 						if (lastOperation instanceof Purl) {
 							Purl lastPurlOperation = (Purl) lastOperation;
-							doubledOperation = new Purl(lastPurlOperation
-									.getNumberOfTimes() * 2, lastPurlOperation
-									.getYarnIdRef(), lastPurlOperation
-									.getLoopToWork());
+							doubledOperation = new Purl(
+									lastPurlOperation.getNumberOfTimes() * 2,
+									lastPurlOperation.getYarnIdRef(),
+									lastPurlOperation.getLoopToWork());
 						} else if (lastOperation instanceof Knit) {
 							Knit lastKnitOperation = (Knit) lastOperation;
-							doubledOperation = new Knit(lastKnitOperation
-									.getNumberOfTimes() * 2, lastKnitOperation
-									.getYarnIdRef(), lastKnitOperation
-									.getLoopToWork());
+							doubledOperation = new Knit(
+									lastKnitOperation.getNumberOfTimes() * 2,
+									lastKnitOperation.getYarnIdRef(),
+									lastKnitOperation.getLoopToWork());
 						}
 						// we don't double anything other than knits and purls
 
@@ -232,7 +238,41 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 			throw new ValidationException(
 					"Merge point for a merged instruction was left unspecified");
 		}
-		return new Instruction(mergedInstruction.getId(), mergedInstruction
-				.getLabel(), mergedInstruction.getMessageKey(), mergedInstructionShape, newRows);
+		return new Instruction(mergedInstruction.getId(),
+				mergedInstruction.getLabel(),
+				mergedInstruction.getMessageKey(), mergedInstructionShape,
+				newRows);
+	}
+
+	private boolean isSemanticallyEquivalent(InlineOperation lastOperation,
+			InlineOperation thisOperation) {
+		if (!(lastOperation instanceof Knit)
+				|| !(thisOperation instanceof Knit)) {
+			return false;
+		}
+		return knitEquals((Knit) lastOperation, (Knit) thisOperation)
+				|| purlEquals((Knit) lastOperation, (Knit) thisOperation);
+	}
+
+	public boolean knitEquals(Knit first, Knit second) {
+		if (!(first instanceof Purl) && !(second instanceof Purl)) {
+			return (ObjectUtils.equals(second.getNumberOfTimes(),
+					first.getNumberOfTimes())
+					&& ObjectUtils.equals(second.getYarnIdRef(),
+							first.getYarnIdRef()) && ObjectUtils.equals(
+					second.getLoopToWork(), first.getLoopToWork()));
+		}
+		return false;
+	}
+
+	public boolean purlEquals(Knit first, Knit second) {
+		if (first instanceof Purl && second instanceof Purl) {
+			return (ObjectUtils.equals(second.getNumberOfTimes(),
+					first.getNumberOfTimes())
+					&& ObjectUtils.equals(second.getYarnIdRef(),
+							first.getYarnIdRef()) && ObjectUtils.equals(
+					second.getLoopToWork(), first.getLoopToWork()));
+		}
+		return false;
 	}
 }
