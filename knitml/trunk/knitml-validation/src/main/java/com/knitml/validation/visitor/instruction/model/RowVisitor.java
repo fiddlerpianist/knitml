@@ -35,10 +35,10 @@ public class RowVisitor extends AbstractPatternVisitor {
 		KnittingShape currentShape = context.getEngine().getKnittingShape();
 		// check for knitting shape and the validity of what is being requested
 		if (row.getType() != null && row.getType() != currentShape) {
-			throw new WrongKnittingShapeException(
-					MessageFormat
-							.format(Messages.getString("RowVisitor.UNWRONG_SHAPE"), //$NON-NLS-1$
-									EnumUtils.fromEnum(row.getType()), EnumUtils.fromEnum(currentShape)));
+			throw new WrongKnittingShapeException(MessageFormat.format(
+					Messages.getString("RowVisitor.WRONG_SHAPE"), //$NON-NLS-1$
+					EnumUtils.fromEnum(row.getType()),
+					EnumUtils.fromEnum(currentShape)));
 		}
 
 		// tell engine what to do with the current row
@@ -103,14 +103,15 @@ public class RowVisitor extends AbstractPatternVisitor {
 		}
 
 		manageRowNumbers(row, context);
-		int rowNumberFromEngine = context.getEngine().getCurrentRowNumber();
-		context.getPatternState().setAsCurrent(row,
-				rowNumberFromEngine);
-		
-		if (!context.getPatternState().isReplayMode() && row.getNumbers() != null && row.getNumbers().length > 0) {
+		int localRowNumberFromEngine = context.getEngine()
+				.getCurrentRowNumber();
+		context.getPatternState().setAsCurrent(row, localRowNumberFromEngine);
+
+		if (!context.getPatternState().isReplayMode()
+				&& row.getNumbers() != null && row.getNumbers().length > 0) {
 			// if a row number is specified, validate it against the expected
 			// row number
-			validateCurrentRowNumber(row, rowNumberFromEngine, context);
+			validateCurrentRowNumber(row, localRowNumberFromEngine, context);
 		}
 		visitChildren(row, context);
 		// clears any "fixed" row information which has been applied in this row
@@ -120,14 +121,15 @@ public class RowVisitor extends AbstractPatternVisitor {
 			visitChild(row.getFollowupInformation(), context);
 		}
 
-		log.debug("Row {} completed: {} stitches", rowNumberFromEngine, context.getEngine() //$NON-NLS-1$
-				.getTotalNumberOfStitchesInRow());
-
 		// if we specify that this row is a complete row, OR if we get to the
 		// end of the row when we're finished, call endRow()
 		if (isNotShortRow || context.getEngine().isEndOfRow()) {
 			context.getEngine().endRow();
 		}
+		log.debug(
+				"Row {} (local row {}) completed: {} stitches", new Object[] { context.getEngine().getTotalRowsCompleted(), localRowNumberFromEngine, context.getEngine() //$NON-NLS-1$
+								.getTotalNumberOfStitchesInRow() });
+
 		context.getPatternState().clearCurrentRow();
 	}
 
@@ -154,8 +156,8 @@ public class RowVisitor extends AbstractPatternVisitor {
 	 *            the knitting context
 	 * @throws UnexpectedRowNumberException
 	 */
-	private void validateCurrentRowNumber(Row row, int engineRowNumber, KnittingContext context)
-			throws UnexpectedRowNumberException {
+	private void validateCurrentRowNumber(Row row, int engineRowNumber,
+			KnittingContext context) throws UnexpectedRowNumberException {
 		//
 		int[] numbers = row.getNumbers();
 		if (numbers.length > 1

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.knitml.core.model.directions.DiscreteInlineOperation;
+import com.knitml.core.model.directions.Operation;
 
 public abstract class KnittingEngineException extends RuntimeException {
 
@@ -12,7 +13,7 @@ public abstract class KnittingEngineException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<Object> locationBreadcrumb;
-	private DiscreteInlineOperation offendingOperation;
+	private Operation offendingOperation;
 	private String additionalInformation;
 
 	public KnittingEngineException() {
@@ -48,11 +49,11 @@ public abstract class KnittingEngineException extends RuntimeException {
 		this.locationBreadcrumb = locationBreadcrumb;
 	}
 
-	public DiscreteInlineOperation getOffendingOperation() {
+	public Operation getOffendingOperation() {
 		return offendingOperation;
 	}
 
-	public void setOffendingOperation(DiscreteInlineOperation offendingOperation) {
+	public void setOffendingOperation(Operation offendingOperation) {
 		this.offendingOperation = offendingOperation;
 	}
 

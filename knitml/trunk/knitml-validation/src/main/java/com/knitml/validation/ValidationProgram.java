@@ -67,16 +67,25 @@ public class ValidationProgram {
 	 * Constructs the program with the specified listener, using defaults for its various factories.
 	 * 
 	 * @param listener
-	 * @param requestLineNumbers whether line numbers should be reported when 
+	 * @param traceability whether line numbers should be reported when 
 	 */
-	public ValidationProgram(PatternEventListener listener, boolean requestLineNumbers) {
-		if (requestLineNumbers) {
+	public ValidationProgram(PatternEventListener listener, boolean traceability) {
+		if (traceability) {
 			// supports line numbers for error reporting
 			visitorFactory = new SpringVisitorFactory();
 		}
 		listenerManager.addListener(listener);
 	}
 	
+	/**
+	 * Constructs the program with the specified listener, using defaults for its various factories.
+	 * 
+	 * @param listener
+	 * @param traceability whether line numbers should be reported when 
+	 */
+	public ValidationProgram(boolean traceability) {
+		this(null, traceability);
+	}
 	
 	/**
 	 * Constructs the program with the specified KnittingContextFactory and VisitorFactory
@@ -107,7 +116,6 @@ public class ValidationProgram {
 		}
 	}
 
-	@SuppressWarnings("nls")
 	public Pattern validate(Parameters parameters) throws SAXException,
 			JiBXException, IOException, KnittingEngineException {
 		KnittingContext context = contextFactory.createKnittingContext();
@@ -118,7 +126,7 @@ public class ValidationProgram {
 		Reader reader = parameters.getReader();
 		if (pattern == null && reader == null) {
 			throw new IllegalArgumentException(
-					"One of pattern or reader must be specified in the Parameters object");
+					"One of pattern or reader must be specified in the Parameters object"); //$NON-NLS-1$
 		}
 
 		if (pattern == null) {

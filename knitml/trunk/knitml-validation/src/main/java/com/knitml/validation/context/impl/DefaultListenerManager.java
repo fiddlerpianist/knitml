@@ -11,7 +11,9 @@ public class DefaultListenerManager implements ListenerManager {
 	List<PatternEventListener> listeners = new ArrayList<PatternEventListener>();
 
 	public void addListener(PatternEventListener listener) {
-		listeners.add(listener);
+		if (listener != null) {
+			listeners.add(listener);
+		}
 	}
 
 	public void fireBegin(Object event, KnittingContext context) {
