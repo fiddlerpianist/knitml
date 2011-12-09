@@ -53,5 +53,10 @@ public class Repeat implements InlineOperation, CompositeOperation {
 	public void setOperations(List<InlineOperation> operations) {
 		this.operations = operations;
 	}
+
+	@Override
+	public String toString() {
+		return "Repeat " + this.operations + ", until [" + (this.value != null ? this.value + " " : "") + this.until + "]";
+	}
 	
 }

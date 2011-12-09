@@ -1,7 +1,5 @@
 package com.knitml.core.model.directions.inline;
 
-import org.apache.commons.lang.ObjectUtils;
-
 import com.knitml.core.common.LoopToWork;
 import com.knitml.core.model.directions.DiscreteInlineOperation;
 import com.knitml.core.model.directions.StitchNature;
@@ -44,17 +42,17 @@ public class Knit implements DiscreteInlineOperation, StitchNatureProducer {
 		return 0;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof Knit && !(obj instanceof Purl)) {
-			Knit that = (Knit) obj;
-			return (ObjectUtils.equals(this.numberOfTimes, that.numberOfTimes)
-					&& ObjectUtils.equals(this.yarnIdRef, that.yarnIdRef) && ObjectUtils
-						.equals(this.loopToWork, that.loopToWork));
-		}
-		return false;
-	}
-
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (obj instanceof Knit && !(obj instanceof Purl)) {
+//			Knit that = (Knit) obj;
+//			return (ObjectUtils.equals(this.numberOfTimes, that.numberOfTimes)
+//					&& ObjectUtils.equals(this.yarnIdRef, that.yarnIdRef) && ObjectUtils
+//						.equals(this.loopToWork, that.loopToWork));
+//		}
+//		return false;
+//	}
+//
 	@Override
 	public String toString() {
 		return "Knit" + (numberOfTimes != null ? " " + numberOfTimes : "")
