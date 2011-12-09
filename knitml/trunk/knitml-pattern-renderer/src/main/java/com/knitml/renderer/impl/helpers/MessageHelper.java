@@ -104,13 +104,16 @@ public class MessageHelper {
 			Range rowRange, Yarn yarn) {
 		StringBuffer key = new StringBuffer();
 		if (ROUND.equals(knittingShape)) {
-			key.append("operation.round.range");
+			key.append("operation.round");
 		} else {
-			key.append("operation.row.range");
+			key.append("operation.row");
 		}
 		List<Object> values = new ArrayList<Object>(3);
 		values.add(rowRange.getMinimumInteger());
-		values.add(rowRange.getMaximumInteger());
+		if (rowRange.getMinimumInteger() < rowRange.getMaximumInteger()) {
+			key.append(".range");
+			values.add(rowRange.getMaximumInteger());
+		}
 
 		if (yarn != null && yarn.getSymbol() != null) {
 			key.append(".with-yarn");
