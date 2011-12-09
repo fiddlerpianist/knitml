@@ -1,7 +1,5 @@
 package com.knitml.core.model.directions.inline;
 
-import org.apache.commons.lang.ObjectUtils;
-
 import com.knitml.core.model.directions.DiscreteInlineOperation;
 
 public class WorkEven implements DiscreteInlineOperation {
@@ -35,14 +33,14 @@ public class WorkEven implements DiscreteInlineOperation {
 		return 0;
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof WorkEven) {
-			WorkEven that = (WorkEven) obj;
-			return (ObjectUtils.equals(this.numberOfTimes, that.numberOfTimes)
-					&& ObjectUtils.equals(this.yarnIdRef, that.yarnIdRef));
-		}
-		return false;
-	}
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (obj instanceof WorkEven) {
+//			WorkEven that = (WorkEven) obj;
+//			return (ObjectUtils.equals(this.numberOfTimes, that.numberOfTimes)
+//					&& ObjectUtils.equals(this.yarnIdRef, that.yarnIdRef));
+//		}
+//		return false;
+//	}
 
 }
