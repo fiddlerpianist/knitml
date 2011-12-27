@@ -96,7 +96,9 @@ public class InstructionUtils {
 			// strange like that
 			nextRowNumber = lastRowNumberForThisDefinition + 1;
 		}
-		while (nextRowNumber <= instruction.getRowCount()) {
+		// determine if the row for the instruction starts on any number other than 1
+		int offset = instruction.getRows().get(0).getNumbers()[0] - 1;
+		while (nextRowNumber <= (instruction.getRowCount() + offset)) {
 			rowNumberMap.put(nextRowNumber, row);
 			nextRowNumber += 2;
 		}

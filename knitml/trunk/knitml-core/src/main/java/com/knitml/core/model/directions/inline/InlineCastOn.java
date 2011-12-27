@@ -49,9 +49,9 @@ public class InlineCastOn implements DiscreteInlineOperation, StitchNatureProduc
 		this.numberOfStitches = numberOfStitches;
 	}
 
-	public InlineCastOn(int numberOfStitches, String style) {
+	public InlineCastOn(int numberOfStitches, String yarnIdRef) {
 		this.numberOfStitches = numberOfStitches;
-		this.style = style;
+		this.yarnIdRef = yarnIdRef;
 	}
 
 	public StitchNature getStitchNatureProduced() {

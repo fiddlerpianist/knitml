@@ -13,6 +13,9 @@ public class ForEachRowInInstruction implements BlockOperation, CompositeOperati
 	protected Identifiable ref;
 	protected List<InlineOperation> operations = new ArrayList<InlineOperation>();
 	
+	public ForEachRowInInstruction() {
+	}
+	
 	public ForEachRowInInstruction(Identifiable instructionRef, List<InlineOperation> operations) {
 		this.ref = instructionRef;
 		this.operations = operations;

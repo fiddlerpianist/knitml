@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bundle-Version: 0.6.0.BUILD-SNAPSHOT
+Bundle-Version: 0.6.0.M1
 Bundle-Name: KnitML Pattern Renderer
 Bundle-Description: Basic pattern rendering for KnitML files
 Bundle-ManifestVersion: 2

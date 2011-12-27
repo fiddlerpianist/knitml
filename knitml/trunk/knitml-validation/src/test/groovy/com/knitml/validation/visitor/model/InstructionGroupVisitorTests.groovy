@@ -28,6 +28,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			expect (knittingShape) . andStubReturn (KnittingShape.FLAT)
 			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
 			expect (currentRowNumber) . andStubReturn (1)
+			expect (totalRowsCompleted) . andStubReturn (1)
 			startNewRow(); knit 5; knit 15; endRow()
 			startNewRow(); purl 15; purl 5;	endRow()
 			startNewRow(); knit 5; knit 15; endRow()
@@ -72,6 +73,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			expect (knittingShape) . andStubReturn (KnittingShape.FLAT)
 			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
 			expect (currentRowNumber) . andStubReturn (1)
+			expect (totalRowsCompleted) . andStubReturn (1)
 			startNewRow(); knit 5; purl 15; endRow()
 			startNewRow(); purl 5; knit 15;	endRow()
 			startNewRow(); knit 5; purl 15; endRow()
@@ -122,6 +124,7 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 			expect (knittingShape) . andStubReturn (KnittingShape.FLAT)
 			expect (totalNumberOfStitchesInRow) . andStubReturn (20)
 			expect (currentRowNumber) . andStubReturn 1
+			expect (totalRowsCompleted) . andStubReturn 1
 			castOn castOnSpec
 			startNewRow()
 			expect (stitchesRemainingInRow) . andReturn 8

@@ -16,7 +16,7 @@ public class ExceptionThrowingVisitor implements Visitor {
 	}
 
 	public void visit(Object operation, KnittingContext context) {
-		throw new NoVisitorFoundException("No visitor found in classpath for [" + operation + "]: original exception " + t.getMessage(), t);
+		throw new NoVisitorFoundException("No visitor found in classpath for [" + operation + "]: original exception " + t.getMessage(), t); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 }

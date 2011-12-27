@@ -18,7 +18,7 @@ public class StitchHolderVisitor extends AbstractPatternVisitor {
 		StitchHolder stitchHolder = (StitchHolder)element;
 		Needle stitchHolderNeedle = context.getKnittingFactory().createNeedle(stitchHolder.getId(), NeedleStyle.CIRCULAR);
 		context.getPatternRepository().addNeedle(stitchHolderNeedle);
-		log.debug("Added stitch holder [" + stitchHolderNeedle + "] to the pattern repository");
+		log.debug("Added stitch holder [{}] to the pattern repository", stitchHolderNeedle); //$NON-NLS-1$
 	}
 
 }

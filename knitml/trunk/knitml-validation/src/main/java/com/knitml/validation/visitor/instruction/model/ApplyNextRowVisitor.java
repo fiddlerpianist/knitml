@@ -28,7 +28,8 @@ public class ApplyNextRowVisitor extends AbstractPatternVisitor {
 		// Find which instruction we are attempting to apply the next row of.
 		// First, see if the row to apply has been "fixed" to the currently executing row
 		Row rowToApply = state.getActiveRowForInstruction(id);
-		if (rowToApply == null) { // change test condition
+		if (rowToApply == null) {
+			// this is the first occurrence of apply-next-row in this instruction
 			InstructionHolder holder = state.getInstructionInUse(id);
 			if (holder == null) {
 				state.useInstruction(repository.getBlockInstruction(id));

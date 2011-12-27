@@ -71,6 +71,13 @@ public class Instruction implements BlockOperation, Identifiable,
 		this.rows = rows;
 	}
 	
+	public Instruction(String id, String label, String messageKey, ForEachRowInInstruction forEachRow) {
+		this.id = id;
+		this.label = label;
+		this.messageKey = messageKey;
+		this.forEachRowInInstruction = forEachRow;
+	}
+	
 	public Instruction(String id, String label, String messageKey, List<Row> rows) {
 		this.id = id;
 		this.label = label;

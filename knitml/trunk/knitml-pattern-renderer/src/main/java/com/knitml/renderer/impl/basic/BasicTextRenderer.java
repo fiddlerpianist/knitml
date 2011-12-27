@@ -247,7 +247,7 @@ public class BasicTextRenderer implements Renderer {
 		}
 		getWriterHelper().writeSentence(
 				getMessage("operation.arrange-stitches-on-needles",
-						buildList(needles)), false,
+						buildNeedleList(needles)), false,
 				getMessageHelper().shouldCapitalizeSentences());
 		writeNewLine();
 		getWriterHelper().incrementIndent();
@@ -261,8 +261,10 @@ public class BasicTextRenderer implements Renderer {
 				continue;
 			}
 			StringBuffer sb = new StringBuffer();
-			sb.append(StringUtils.capitalize(stitchesOnNeedle.getNeedle()
-					.toString()));
+			String needleLabel = ContextUtils.deriveLabel(
+					stitchesOnNeedle.getNeedle(),
+					this.renderingContext.getPatternRepository());
+			sb.append(StringUtils.capitalize(needleLabel));
 			sb.append(": ");
 			sb.append(getNumberOfStitchesMessage(stitchesOnThisNeedle, true));
 			writeLine(sb.toString());
@@ -300,8 +302,18 @@ public class BasicTextRenderer implements Renderer {
 			return;
 		}
 		String operation = getMessage("operation.use-needles",
-				buildList(needles));
+				buildNeedleList(needles));
 		writeSentence(operation);
+	}
+
+	public String buildNeedleList(List<Needle> needles) {
+		List<String> needleTexts = new ArrayList<String>(needles.size());
+		for (Needle needle : needles) {
+			String needleText = ContextUtils.deriveLabel(needle,
+					this.renderingContext.getPatternRepository());
+			needleTexts.add(needleText);
+		}
+		return buildList(needleTexts);
 	}
 
 	public void renderInlineInstructionRef(InlineInstructionRef ref,
@@ -343,14 +355,13 @@ public class BasicTextRenderer implements Renderer {
 		if (method == null) {
 			operation = getMessageHelper().getPluralizedMessage(
 					"operation.using-needles.cast-on", numberToCastOn,
-					new Object[] { buildList(needles), numberToCastOn });
+					new Object[] { buildNeedleList(needles), numberToCastOn });
 		} else {
-			operation = getMessageHelper()
-					.getPluralizedMessage(
-							"operation.using-needles.using-method.cast-on",
-							numberToCastOn,
-							new Object[] { buildList(needles), method,
-									numberToCastOn });
+			operation = getMessageHelper().getPluralizedMessage(
+					"operation.using-needles.using-method.cast-on",
+					numberToCastOn,
+					new Object[] { buildNeedleList(needles), method,
+							numberToCastOn });
 		}
 		writeSentence(operation);
 	}
@@ -618,8 +629,9 @@ public class BasicTextRenderer implements Renderer {
 			InstructionInfo instructionInfo) {
 		String instructionIdentifier = instructionInfo.getLabel();
 		if (instructionIdentifier == null) {
-			instructionIdentifier = buildRowRangeString(instructionInfo
-					.getKnittingShape(), instructionInfo.getRowRange());
+			instructionIdentifier = buildRowRangeString(
+					instructionInfo.getKnittingShape(),
+					instructionInfo.getRowRange());
 		}
 		renderRepeatInstructionInternal(repeatInstruction,
 				instructionIdentifier);
@@ -646,7 +658,9 @@ public class BasicTextRenderer implements Renderer {
 				throw new ValidationException(
 						"Expecting a unit of measure for repeat-instruction's value");
 			}
+			@SuppressWarnings("rawtypes")
 			Measure originalMeasure = (Measure) repeatInstruction.getValue();
+			@SuppressWarnings("rawtypes")
 			Measure newMeasure;
 			if (renderingContext.getOptions().getFabricMeasurementUnit() != null) {
 				newMeasure = originalMeasure.to(renderingContext.getOptions()
@@ -775,7 +789,9 @@ public class BasicTextRenderer implements Renderer {
 
 	public void beginUsingNeedle(Needle needle) {
 		OperationSet needleOperationSet = new OperationSet(Type.USING_NEEDLE);
-		needleOperationSet.setHead(capitalize(needle
+		String needleText = ContextUtils.deriveLabel(needle,
+				this.renderingContext.getPatternRepository());
+		needleOperationSet.setHead(capitalize(needleText
 				+ getMessage("operation.group-end-punctuation") + " "));
 		OperationSet currentOperationSet = getOperationSetHelper()
 				.getCurrentOperationSet();
@@ -874,9 +890,10 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public void renderPickUpStitches(InlinePickUpStitches pickUpStitches) {
-		doRenderPickUpStitches(new PickUpStitches(pickUpStitches
-				.getNumberOfTimes(), pickUpStitches.getYarnIdRef(),
-				pickUpStitches.getType()), false);
+		doRenderPickUpStitches(
+				new PickUpStitches(pickUpStitches.getNumberOfTimes(),
+						pickUpStitches.getYarnIdRef(), pickUpStitches.getType()),
+				false);
 	}
 
 	public void renderPickUpStitches(PickUpStitches pickUpStitches) {
@@ -984,7 +1001,7 @@ public class BasicTextRenderer implements Renderer {
 
 	public void renderGraftStitchesTogether(List<Needle> needles) {
 		writeSentence(getMessage("operation.graft-stitches-together",
-				buildList(needles)));
+				buildNeedleList(needles)));
 	}
 
 	public void renderApplyNextRow(ApplyNextRow applyNextRow, String label) {
@@ -1046,9 +1063,9 @@ public class BasicTextRenderer implements Renderer {
 					resolvedList.add(details.toString());
 				}
 			}
-			result.append(" [").append(
-					getMessageHelper().buildList(resolvedList, true)).append(
-					"]");
+			result.append(" [")
+					.append(getMessageHelper().buildList(resolvedList, true))
+					.append("]");
 		}
 		return result.append(getMessage("operation.group-end-punctuation"))
 				.append(" ").toString();
@@ -1075,7 +1092,7 @@ public class BasicTextRenderer implements Renderer {
 		return getMessageHelper().getMessage(code, args);
 	}
 
-	private String buildList(List<?> objects) {
+	private String buildList(List<String> objects) {
 		return getMessageHelper().buildList(objects, false);
 	}
 

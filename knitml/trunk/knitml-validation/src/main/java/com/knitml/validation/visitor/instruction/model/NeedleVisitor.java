@@ -16,7 +16,7 @@ public class NeedleVisitor extends AbstractPatternVisitor {
 		Needle needle = (Needle)element;
 		com.knitml.engine.Needle engineNeedle = context.getKnittingFactory().createNeedle(needle.getId(), needle.getType().getStyle());
 		context.getPatternRepository().addNeedle(engineNeedle);
-		log.debug("Added needle [" + engineNeedle + "] to the pattern repository");
+		log.debug("Added needle [{}] to the pattern repository", engineNeedle); //$NON-NLS-1$
 	}
 
 }
