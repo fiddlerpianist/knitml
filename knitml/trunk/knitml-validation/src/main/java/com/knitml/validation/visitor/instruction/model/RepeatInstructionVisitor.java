@@ -1,5 +1,6 @@
 package com.knitml.validation.visitor.instruction.model;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class RepeatInstructionVisitor extends AbstractPatternVisitor {
 				.getBlockInstruction(identifiable.getId());
 		if (instruction == null) {
 			throw new NoInstructionFoundException(
-					"Could not find instruction for [repeat-instruction]");
+					Messages.getString("RepeatInstructionVisitor.NO_INSTRUCTION_FOUND")); //$NON-NLS-1$
 		}
 		Until until = operation.getUntil();
 		Object value = operation.getValue();
@@ -77,7 +78,7 @@ public class RepeatInstructionVisitor extends AbstractPatternVisitor {
 	private Measurable<Length> getRequiredLength(Object value) {
 		if (value == null || !(value instanceof Measure)) {
 			throw new ValidationException(
-					"The value property of the RepeatInstruction object must be an integer when until is defined as ADDITIONAL_TIMES");
+					Messages.getString("RepeatInstructionVisitor.EXPECTING_INTEGER_FOR_VALUE")); //$NON-NLS-1$
 		}
 		Measure<?, Length> measure = (Measure<?, Length>) value;
 		// validate that it's a Measure<Length>
@@ -88,7 +89,7 @@ public class RepeatInstructionVisitor extends AbstractPatternVisitor {
 	private Integer getRequiredInteger(Object value) {
 		if (value == null || !(value instanceof Integer)) {
 			throw new ValidationException(
-					"The value property of the RepeatInstruction object must be an integer when until is defined as ADDITIONAL_TIMES");
+					Messages.getString("RepeatInstructionVisitor.EXPECTING_INTEGER_FOR_VALUE")); //$NON-NLS-1$
 		}
 		return (Integer) value;
 	}
@@ -99,7 +100,7 @@ public class RepeatInstructionVisitor extends AbstractPatternVisitor {
 
 		if (!(value instanceof List)) {
 			throw new ValidationException(
-					"A RepeatInstruction element must specify a list of expressions when Until is set to UNTIL_EQUALS");
+					Messages.getString("RepeatInstructionVisitor.NO_EXPRESSIONS_SPECIFIED")); //$NON-NLS-1$
 		}
 		List<Expression> expressions = (List<Expression>) value;
 
@@ -116,7 +117,7 @@ public class RepeatInstructionVisitor extends AbstractPatternVisitor {
 
 		if (!(value instanceof List)) {
 			throw new ValidationException(
-					"A RepeatInstruction element must specify a list of needles when Until is set to UNTIL_STITCHES_REMAIN_ON_NEEDLES");
+					Messages.getString("RepeatInstructionVisitor.NO_NEEDLES_SPECIFIED")); //$NON-NLS-1$
 		}
 		List<StitchesOnNeedle> stitchesOnNeedles = (List<StitchesOnNeedle>) value;
 
@@ -131,8 +132,9 @@ public class RepeatInstructionVisitor extends AbstractPatternVisitor {
 			Integer targetNumberOfStitches = stitchesOnNeedle
 					.getNumberOfStitches();
 			if (targetNumberOfStitches == null) {
-				throw new ValidationException(engineNeedle.toString()
-						+ " must specify a value for the stitch count");
+				throw new ValidationException(MessageFormat.format(
+						Messages.getString("RepeatInstructionVisitor.NO_STITCH_COUNT_SPECIFIED"), //$NON-NLS-1$
+						engineNeedle.toString()));
 			}
 			needlesToStitches.put(engineNeedle, targetNumberOfStitches);
 		}
@@ -169,15 +171,15 @@ public class RepeatInstructionVisitor extends AbstractPatternVisitor {
 		Measurable<RowGauge> rowGauge = context.getPatternRepository()
 				.getRowGauge();
 		if (rowGauge == null) {
-			log.warn("The UNTIL_MEASURES specification cannot be fully processed "
-					+ "because a row gauge was not specified in the pattern");
+			log.warn("The UNTIL_MEASURES specification cannot be fully processed " //$NON-NLS-1$
+					+ "because a row gauge was not specified in the pattern"); //$NON-NLS-1$
 		} else {
 			double untilMeasuresInches = targetMeasurement
 					.doubleValue(Units.INCH);
 			double rowsPerInch = rowGauge.doubleValue(Units.ROWS_PER_INCH);
 			int repeats = (int) Math.ceil((untilMeasuresInches * rowsPerInch)
 					/ instructionToRepeat.getRows().size());
-			log.info("Repeating instruction {} times", String.valueOf(repeats));
+			log.info("Repeating instruction {} times", String.valueOf(repeats)); //$NON-NLS-1$
 			for (int i = 0; i < repeats - 1; i++) {
 				context.getPatternState().nextRepeatOfCurrentInstruction();
 				visitChild(instructionToRepeat, context);
@@ -196,7 +198,7 @@ public class RepeatInstructionVisitor extends AbstractPatternVisitor {
 
 	private void handleUntilDesiredLength(Instruction instructionToRepeat,
 			KnittingContext context) {
-		log.warn("An UNTIL_DESIRED_LENGTH parameter on a RepeatInstruction was specified. This means that the engine will not replay this instruction.");
+		log.warn("An UNTIL_DESIRED_LENGTH parameter on a RepeatInstruction was specified. This means that the engine will not replay this instruction."); //$NON-NLS-1$
 	}
 
 	private void handleAdditionalTimes(int numberOfRepeats,

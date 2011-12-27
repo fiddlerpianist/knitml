@@ -3,7 +3,6 @@ package com.knitml.engine.common;
 import java.util.Collections;
 import java.util.List;
 
-import com.knitml.core.model.directions.DiscreteInlineOperation;
 import com.knitml.core.model.directions.Operation;
 
 public abstract class KnittingEngineException extends RuntimeException {

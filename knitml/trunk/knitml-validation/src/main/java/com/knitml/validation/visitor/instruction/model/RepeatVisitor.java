@@ -26,7 +26,7 @@ public class RepeatVisitor extends AbstractPatternVisitor {
 		Until until = repeat.getUntil();
 		if (until == null) {
 			throw new ValidationException(
-					"A repeat element must have an [until] attribute defined");
+					Messages.getString("RepeatVisitor.UNTIL_ATTRIBUTE_REQUIRED")); //$NON-NLS-1$
 		}
 		Integer value = repeat.getValue();
 		switch (until) {
@@ -61,18 +61,18 @@ public class RepeatVisitor extends AbstractPatternVisitor {
 	private void validatePositive(Integer value) throws ValidationException {
 		if (value == null) {
 			throw new ValidationException(
-					"Repeat instruction must have a value in this context");
+					Messages.getString("RepeatVisitor.VALUE_REQUIRED")); //$NON-NLS-1$
 		}
 		if (value <= 0) {
 			throw new ValidationException(
-					"Repeat instruction must have a positive value attribute in this context");
+					Messages.getString("RepeatVisitor.POSITIVE_VALUE_REQUIRED")); //$NON-NLS-1$
 		}
 	}
 
 	private void validateNull(Integer value) throws ValidationException {
 		if (value != null) {
 			throw new ValidationException(
-					"Repeat instruction must not have a value in this context");
+					Messages.getString("RepeatVisitor.NO_VALUE_ALLOWED")); //$NON-NLS-1$
 		}
 	}
 

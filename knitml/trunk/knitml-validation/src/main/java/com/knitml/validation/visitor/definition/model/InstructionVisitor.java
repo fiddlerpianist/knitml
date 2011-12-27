@@ -26,14 +26,14 @@ public class InstructionVisitor extends AbstractPatternVisitor {
 		if (repository.getBlockInstruction(id) == null) {
 			// validate this instruction
 			if (instruction.getKnittingShape() == null) {
-				throw new InvalidStructureException("An instruction definition (i.e., when it's in the header) must have a 'shape' attribute defined");
+				throw new InvalidStructureException(Messages.getString("InstructionVisitor.SHAPE_ATTRIBUTE_REQUIRED")); //$NON-NLS-1$
 			}
 			Instruction instructionToAdd = createExpandedRows(instruction);
 			validateInstructionAsGlobal(instructionToAdd);
 			context.getPatternRepository().addGlobalBlockInstruction(id,
 					instructionToAdd);
 			log.info(
-					"Just added instruction ID [{}] to the pattern repository",
+					"Just added instruction ID [{}] to the pattern repository", //$NON-NLS-1$
 					id);
 		}
 		if (instruction.hasRows()) {

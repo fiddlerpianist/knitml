@@ -36,7 +36,7 @@ public class SpringVisitorFactory implements VisitorFactory {
 			proxyFactory.setTarget(target);
 			return (Visitor) proxyFactory.getProxy(this.getClass().getClassLoader());
 		} catch (Exception ex) {
-			log.info("Could not find visitor class for element named [{}]",instance.getClass());
+			log.info("Could not find visitor class for element named [{}]",instance.getClass()); //$NON-NLS-1$
 			return new ExceptionThrowingVisitor(ex);
 		}
 	}

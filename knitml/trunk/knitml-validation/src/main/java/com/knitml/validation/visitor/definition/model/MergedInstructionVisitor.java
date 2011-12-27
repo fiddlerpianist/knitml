@@ -1,5 +1,6 @@
 package com.knitml.validation.visitor.definition.model;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,21 +37,22 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 		String id = mergedInstruction.getId();
 		// the instruction should not be in the repository yet
 		if (repository.getBlockInstruction(id) != null) {
-			throw new ValidationException("An instruction with ID [" + id
-					+ "] has already been defined");
+			throw new ValidationException(MessageFormat.format(
+					Messages.getString("MergedInstructionVisitor.INSTRUCTION_ALREADY_DEFINED"), //$NON-NLS-1$
+					id));
 		}
 
 		if (mergedInstruction.getLabel() == null
 				&& mergedInstruction.getMessageKey() == null) {
 			throw new InvalidStructureException(
-					"Expected the merged instruction ["
-							+ id
-							+ "] to be a global instruction, which requires either a message-key or a label attribute. Neither attribute was found");
+					MessageFormat
+							.format(Messages.getString("MergedInstructionVisitor.EXPECTED_GLOBAL_INSTRUCTION"), //$NON-NLS-1$
+									id));
 		}
 
 		repository.addGlobalBlockInstruction(mergedInstruction.getId(),
 				performPhysicalMerge(mergedInstruction, repository));
-		log.info("Just added instruction ID [{}] to the pattern repository", id);
+		log.info("Just added instruction ID [{}] to the pattern repository", id); //$NON-NLS-1$
 	}
 
 	// TODO largely superfluous, or did this do something that the renderer's
@@ -134,14 +136,14 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 					.getBlockInstruction(instructionRef.getRef().getId());
 			if (!(identifiable instanceof Instruction)) {
 				throw new ValidationException(
-						"The instruction-refs can only refer to block instruction elements with rows (or physically merged merge-instructions");
+						Messages.getString("MergedInstructionVisitor.ONLY_BLOCK_INSTRUCTIONS_ALLOWED")); //$NON-NLS-1$
 			}
 			Instruction instruction = (Instruction) identifiable;
 			if (mergedInstructionShape == null) {
 				mergedInstructionShape = instruction.getKnittingShape();
 			} else if (mergedInstructionShape != instruction.getKnittingShape()) {
 				throw new InvalidStructureException(
-						"Cannot merge instructions of different knitting shapes");
+						Messages.getString("MergedInstructionVisitor.DIFFERENT_SHAPES_CANNOT_BE_MERGED")); //$NON-NLS-1$
 			}
 			int currentRowSize = instruction.getRows().size();
 			if (mergedInstruction.getMergePoint() == MergePoint.ROW) {
@@ -149,7 +151,7 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 				// same number of rows
 				if (targetRowSize > 0 && targetRowSize != currentRowSize) {
 					throw new ValidationException(
-							"Row sizes must match for merging instructions at the row level");
+							Messages.getString("MergedInstructionVisitor.SAME_ROW_SIZES_REQUIRED_FOR_ROW_MERGE")); //$NON-NLS-1$
 				} else if (targetRowSize == 0) {
 					// initialize the target row size
 					targetRowSize = currentRowSize;
@@ -169,7 +171,7 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 				for (Row row : instruction.getRows()) {
 					if (row.getNumbers() != null && row.getNumbers().length > 1) {
 						throw new ValidationException(
-								"Cannot merge rows together with multiple row numbers per row element (not implemented at this time)");
+								Messages.getString("MergedInstructionVisitor.MULTIPLE_ROWS_PER_ELEMENT_NOT_SUPPORTED")); //$NON-NLS-1$
 					}
 					Row newRow = new Row(row, row.getOperations());
 					newRow.setNumber(i);
@@ -188,7 +190,7 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 					if (currentRow.getNumbers() != null
 							&& currentRow.getNumbers().length > 1) {
 						throw new ValidationException(
-								"Cannot merge rows together with multiple row numbers per row element (not implemented at this time)");
+								Messages.getString("MergedInstructionVisitor.MULTIPLE_ROWS_PER_ELEMENT_NOT_SUPPORTED")); //$NON-NLS-1$
 					}
 					List<InlineOperation> currentOperations = currentRow
 							.getOperations();
@@ -236,7 +238,7 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 			}
 		} else {
 			throw new ValidationException(
-					"Merge point for a merged instruction was left unspecified");
+					Messages.getString("MergedInstructionVisitor.MERGE_POINT_ATTRIBUTE_REQUIRED")); //$NON-NLS-1$
 		}
 		return new Instruction(mergedInstruction.getId(),
 				mergedInstruction.getLabel(),

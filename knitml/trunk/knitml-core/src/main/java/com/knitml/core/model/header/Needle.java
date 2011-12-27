@@ -37,6 +37,16 @@ public class Needle implements Identifiable {
 		return id;
 	}
 	
+	public Needle() {
+	}
+	
+	public Needle(String id, NeedleType type, String label, String messageKey) {
+		this.id = id;
+		this.type = type;
+		this.label = label;
+		this.messageKey = messageKey;
+	}
+
 	@Override
 	public String toString() {
 		return getLabel();
