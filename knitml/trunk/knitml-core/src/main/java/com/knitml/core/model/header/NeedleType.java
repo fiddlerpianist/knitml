@@ -21,6 +21,10 @@ public class NeedleType {
 	protected String brand;
 	protected List<Needle> needles = new ArrayList<Needle>();
 	
+	public NeedleType() {
+		super();
+	}
+	
 	public void setNeedles(List<Needle> needles) {
 		this.needles = needles;
 	}
@@ -47,6 +51,11 @@ public class NeedleType {
 
 	public String getBrand() {
 		return brand;
+	}
+	public void afterPropertiesSet() {
+		for (Needle needle : needles) {
+			needle.setType(this);
+		}
 	}
 
 }

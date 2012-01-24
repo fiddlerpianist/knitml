@@ -20,8 +20,8 @@ class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests 
 	@Test
 	void twoRowsFromLocalInstruction() {
 		processXml PATTERN_START_TAG + '''
-				<directions>
-					<instruction-group id="ig1">
+				<pattern:directions>
+					<pattern:instruction-group id="ig1">
 						<cast-on>1</cast-on>
 						<instruction id="instruction1">
 							<row number="1"><knit/></row>
@@ -35,9 +35,9 @@ class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests 
 						<repeat-instruction ref="instruction2">
 							<additional-times>2</additional-times>
 						</repeat-instruction>
-					</instruction-group>
-				</directions>
-			</pattern>
+					</pattern:instruction-group>
+				</pattern:directions>
+			</pattern:pattern>
 			'''
 		assertThat output.trim(), endsWith ('Rows 3,4: Purl' + LINE_SEPARATOR +
 				                            'Repeat rows 3-4 2 additional times.');
@@ -46,8 +46,8 @@ class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests 
 	@Test
 	void twoRowsFromGlobalInstruction() {
 		processXml PATTERN_START_TAG + '''
-				<directions>
-					<instruction-group id="ig1">
+				<pattern:directions>
+					<pattern:instruction-group id="ig1">
 						<cast-on>1</cast-on>
 						<instruction id="instruction1" label="Sunny Day Stitch">
 							<row number="1"><knit/></row>
@@ -62,9 +62,9 @@ class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests 
 						<repeat-instruction ref="instruction2">
 							<additional-times>2</additional-times>
 						</repeat-instruction>
-					</instruction-group>
-				</directions>
-			</pattern>
+					</pattern:instruction-group>
+				</pattern:directions>
+			</pattern:pattern>
 			'''
 		assertThat output.trim(), endsWith ('Rows 2,3: Purl' + LINE_SEPARATOR +
 				                            'Repeat rows 2-3 2 additional times.');
@@ -73,8 +73,8 @@ class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests 
 	@Test(expected=ValidationException)
 	void lookupInstructionOutOfScope() {
 		processXml PATTERN_START_TAG + '''
-				<directions>
-					<instruction-group id="ig1">
+				<pattern:directions>
+					<pattern:instruction-group id="ig1">
 						<cast-on>1</cast-on>
 						<instruction id="instruction1">
 							<row number="1"><knit/></row>
@@ -86,14 +86,10 @@ class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests 
 								<repeat until="end"><purl/></repeat>
 							</for-each-row-in-instruction>
 						</instruction>
-					</instruction-group>
-				</directions>
-			</pattern>
+					</pattern:instruction-group>
+				</pattern:directions>
+			</pattern:pattern>
 			'''
-	}
-	
-	static void main(args) {
-		JUnitCore.main(ForEachRowInInstructionVisitorTests.name)
 	}
 	
 }

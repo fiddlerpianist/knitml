@@ -39,7 +39,7 @@ Import-Package: com.google.common.collect;version="10.0.0",
  org.springframework.context,
  org.springframework.context.support,
  org.springframework.core.io
-Export-Package: com.knitml.renderer;version="0.6.0.BUILD-SNAPSHOT";
+Export-Package: com.knitml.renderer;version="0.6.0.M1";
   uses:="com.knitml.core.model,
    com.knitml.core.model.directions.information,
    com.knitml.core.model.directions.inline,
@@ -47,16 +47,16 @@ Export-Package: com.knitml.renderer;version="0.6.0.BUILD-SNAPSHOT";
    com.knitml.core.common,
    com.knitml.renderer.context,
    com.knitml.core.model.directions.block",
- com.knitml.renderer.chart;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.core.common",
- com.knitml.renderer.chart.advisor;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer.chart,com.knitml.renderer.chart.stylesheet,com.knitml.renderer.chart.symbol",
- com.knitml.renderer.chart.advisor.impl;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer.chart.advisor",
- com.knitml.renderer.chart.stylesheet;version="0.6.0.BUILD-SNAPSHOT",
- com.knitml.renderer.chart.symbol;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer.chart,com.knitml.renderer.common",
- com.knitml.renderer.chart.symbol.impl;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer.chart,com.knitml.renderer.chart.symbol",
- com.knitml.renderer.chart.writer;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer.chart,com.knitml.renderer.chart.symbol",
- com.knitml.renderer.chart.writer.impl;version="0.6.0.BUILD-SNAPSHOT",
- com.knitml.renderer.common;version="0.6.0.BUILD-SNAPSHOT",
- com.knitml.renderer.context;version="0.6.0.BUILD-SNAPSHOT";
+ com.knitml.renderer.chart;version="0.6.0.M1";uses:="com.knitml.core.common",
+ com.knitml.renderer.chart.advisor;version="0.6.0.M1";uses:="com.knitml.renderer.chart,com.knitml.renderer.chart.stylesheet,com.knitml.renderer.chart.symbol",
+ com.knitml.renderer.chart.advisor.impl;version="0.6.0.M1";uses:="com.knitml.renderer.chart.advisor",
+ com.knitml.renderer.chart.stylesheet;version="0.6.0.M1",
+ com.knitml.renderer.chart.symbol;version="0.6.0.M1";uses:="com.knitml.renderer.chart,com.knitml.renderer.common",
+ com.knitml.renderer.chart.symbol.impl;version="0.6.0.M1";uses:="com.knitml.renderer.chart,com.knitml.renderer.chart.symbol",
+ com.knitml.renderer.chart.writer;version="0.6.0.M1";uses:="com.knitml.renderer.chart,com.knitml.renderer.chart.symbol",
+ com.knitml.renderer.chart.writer.impl;version="0.6.0.M1",
+ com.knitml.renderer.common;version="0.6.0.M1",
+ com.knitml.renderer.context;version="0.6.0.M1";
   uses:="com.knitml.core.model.directions.inline,
    org.springframework.core.io,
    org.springframework.context,
@@ -68,12 +68,12 @@ Export-Package: com.knitml.renderer;version="0.6.0.BUILD-SNAPSHOT";
    com.knitml.validation.context,
    org.apache.commons.lang.math,
    com.knitml.core.model.directions.block",
- com.knitml.renderer.event;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer",
- com.knitml.renderer.event.impl;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer,com.knitml.renderer.event,com.knitml.core.common",
- com.knitml.renderer.impl.basic;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer.plural,org.springframework.context.support,com.knitml.renderer.impl.helpers",
- com.knitml.renderer.impl.charting;version="0.6.0.BUILD-SNAPSHOT";uses:="test.support",
- com.knitml.renderer.impl.charting.analyzer;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer.context",
- com.knitml.renderer.impl.helpers;version="0.6.0.BUILD-SNAPSHOT";
+ com.knitml.renderer.event;version="0.6.0.M1";uses:="com.knitml.renderer",
+ com.knitml.renderer.event.impl;version="0.6.0.M1";uses:="com.knitml.renderer,com.knitml.renderer.event,com.knitml.core.common",
+ com.knitml.renderer.impl.basic;version="0.6.0.M1";uses:="com.knitml.renderer.plural,org.springframework.context.support,com.knitml.renderer.impl.helpers",
+ com.knitml.renderer.impl.charting;version="0.6.0.M1";uses:="test.support",
+ com.knitml.renderer.impl.charting.analyzer;version="0.6.0.M1";uses:="com.knitml.renderer.context",
+ com.knitml.renderer.impl.helpers;version="0.6.0.M1";
   uses:="com.knitml.renderer.plural,
    org.springframework.context,
    com.knitml.core.model.header,
@@ -81,7 +81,7 @@ Export-Package: com.knitml.renderer;version="0.6.0.BUILD-SNAPSHOT";
    org.slf4j,
    com.knitml.renderer.context,
    org.apache.commons.lang.math",
- com.knitml.renderer.impl.html;version="0.6.0.BUILD-SNAPSHOT";
+ com.knitml.renderer.impl.html;version="0.6.0.M1";
   uses:="com.knitml.core.model,
    com.knitml.renderer,
    com.knitml.renderer.chart.stylesheet,
@@ -89,23 +89,23 @@ Export-Package: com.knitml.renderer;version="0.6.0.BUILD-SNAPSHOT";
    com.knitml.renderer.impl.helpers,
    org.springframework.context,
    com.knitml.renderer.context",
- com.knitml.renderer.listener;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer.event,com.knitml.renderer,com.knitml.validation.context",
- com.knitml.renderer.plural;version="0.6.0.BUILD-SNAPSHOT",
- com.knitml.renderer.plural.impl;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer.plural",
- com.knitml.renderer.program;version="0.6.0.BUILD-SNAPSHOT";
+ com.knitml.renderer.listener;version="0.6.0.M1";uses:="com.knitml.renderer.event,com.knitml.renderer,com.knitml.validation.context",
+ com.knitml.renderer.plural;version="0.6.0.M1",
+ com.knitml.renderer.plural.impl;version="0.6.0.M1";uses:="com.knitml.renderer.plural",
+ com.knitml.renderer.program;version="0.6.0.M1";
   uses:="com.knitml.core.model,
    com.knitml.renderer,
    com.knitml.core.common,
    com.knitml.renderer.context",
- com.knitml.renderer.util;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer,com.knitml.renderer.context",
- com.knitml.renderer.visitor.controller;version="0.6.0.BUILD-SNAPSHOT";
+ com.knitml.renderer.util;version="0.6.0.M1";uses:="com.knitml.renderer,com.knitml.renderer.context",
+ com.knitml.renderer.visitor.controller;version="0.6.0.M1";
   uses:="com.knitml.renderer,
    com.knitml.renderer.event,
    com.knitml.core.model.directions.inline,
    com.knitml.core.model.directions,
    com.knitml.core.model.directions.block",
- com.knitml.renderer.visitor.definition.model;version="0.6.0.BUILD-SNAPSHOT";uses:="com.knitml.renderer,com.knitml.renderer.event.impl",
- com.knitml.renderer.visitor.model;version="0.6.0.BUILD-SNAPSHOT";uses:="test.support"
+ com.knitml.renderer.visitor.definition.model;version="0.6.0.M1";uses:="com.knitml.renderer,com.knitml.renderer.event.impl",
+ com.knitml.renderer.visitor.model;version="0.6.0.M1";uses:="test.support"
 Require-Bundle: org.junit
 Bundle-Vendor: KnitML
 

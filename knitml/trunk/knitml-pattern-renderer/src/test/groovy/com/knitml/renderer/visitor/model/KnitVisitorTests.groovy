@@ -28,7 +28,7 @@ class KnitVisitorTests extends AbstractRenderingContextTests {
 	void knit() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<knit xmlns="http://www.knitml.com/schema/pattern"/>', Knit
+		processXml '<knit xmlns="http://www.knitml.com/schema/operations"/>', Knit
 		assertThat output, is ('k1')
 	}
 
@@ -36,7 +36,7 @@ class KnitVisitorTests extends AbstractRenderingContextTests {
 	void knitOne() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<knit xmlns="http://www.knitml.com/schema/pattern">1</knit>', Knit
+		processXml '<knit xmlns="http://www.knitml.com/schema/operations">1</knit>', Knit
 		assertThat output, is ('k1')
 	}
 	
@@ -44,7 +44,7 @@ class KnitVisitorTests extends AbstractRenderingContextTests {
 	void knitOnly() {
 		renderingContext.engine.castOn 5
 		processXml '''
-		<row number="1" xmlns="http://www.knitml.com/schema/pattern">
+		<row number="1" xmlns="http://www.knitml.com/schema/operations">
 			<repeat until="end">
 				<knit/>
 			</repeat>
@@ -57,7 +57,7 @@ class KnitVisitorTests extends AbstractRenderingContextTests {
 	void knitWithYarnOne() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<knit yarn-ref="yarn1" xmlns="http://www.knitml.com/schema/pattern">1</knit>', Knit
+		processXml '<knit yarn-ref="yarn1" xmlns="http://www.knitml.com/schema/operations">1</knit>', Knit
 		assertThat output, is ('k1 (A)')
 	}
 
@@ -65,7 +65,7 @@ class KnitVisitorTests extends AbstractRenderingContextTests {
 	void knitWithYarnsOneAndTwo() {
 		renderingContext.engine.castOn 2
 		processXml '''
-		<row number="1" xmlns="http://www.knitml.com/schema/pattern">
+		<row number="1" xmlns="http://www.knitml.com/schema/operations">
 			<knit yarn-ref="yarn1">1</knit>
 			<knit yarn-ref="yarn2">1</knit>
 		</row>

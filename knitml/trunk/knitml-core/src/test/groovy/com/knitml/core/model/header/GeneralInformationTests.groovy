@@ -5,29 +5,18 @@ package com.knitml.core.model.header
 
 import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
-import static test.support.JiBXTestUtils.unmarshalXml
 import static test.support.JiBXTestUtils.marshalXmlAndCompare
+import static test.support.JiBXTestUtils.unmarshalXml
 
 import javax.measure.Measure
 
 import org.custommonkey.xmlunit.XMLUnit
-
-import org.junit.Test
-import org.junit.Ignore
 import org.junit.BeforeClass
-import org.junit.internal.runners.JUnit4ClassRunner
-import org.junit.runner.JUnitCore
-import org.junit.runner.RunWith
+import org.junit.Test
 
-import com.knitml.core.units.Units
 import com.knitml.core.model.Pattern
-import com.knitml.core.common.Side
-import com.knitml.core.common.Wise
-import com.knitml.core.common.LoopToWork
-import com.knitml.core.common.YarnPosition
-import com.knitml.core.common.NeedleStyle
+import com.knitml.core.units.Units
 
-@RunWith(JUnit4ClassRunner)
 class GeneralInformationTests {
 	@BeforeClass
 	static void setUp() {
@@ -36,25 +25,25 @@ class GeneralInformationTests {
 	@Test
 	void pimpedOutGeneralInformation() {
 		def xml = '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
-			<general-information xml:lang="en">
-				<name>Basic socks</name>
-				<description>A basic sock pattern with 2x2 ribbing</description>
-				<dimensions>8 inches by 11 inches</dimensions>
-				<gauge type="stockinette">
-					<stitch-gauge unit="st/in">8</stitch-gauge>
-					<row-gauge unit="row/in">12</row-gauge>
-				</gauge>
-				<techniques>
-					<technique>knitting-in-the-round</technique>
-				</techniques>
-				<author>
-					<first-name>Jonathan</first-name>
-					<last-name>Whitall</last-name>
-				</author>
-				<copyright-info>Copyright 2008</copyright-info>
-			</general-information>
-		</pattern>
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			<pattern:general-information xml:lang="en">
+				<pattern:name>Basic socks</pattern:name>
+				<pattern:description>A basic sock pattern with 2x2 ribbing</pattern:description>
+				<pattern:dimensions>8 inches by 11 inches</pattern:dimensions>
+				<pattern:gauge type="stockinette">
+					<pattern:stitch-gauge unit="st/in">8</pattern:stitch-gauge>
+					<pattern:row-gauge unit="row/in">12</pattern:row-gauge>
+				</pattern:gauge>
+				<pattern:techniques>
+					<pattern:technique>knitting-in-the-round</pattern:technique>
+				</pattern:techniques>
+				<pattern:author>
+					<pattern:first-name>Jonathan</pattern:first-name>
+					<pattern:last-name>Whitall</pattern:last-name>
+				</pattern:author>
+				<pattern:copyright-info>Copyright 2008</pattern:copyright-info>
+			</pattern:general-information>
+		</pattern:pattern>
 		'''
 		Pattern pattern = unmarshalXml(xml)
 		def genInfo = pattern.generalInformation
@@ -88,16 +77,12 @@ class GeneralInformationTests {
 	@Test
 	void minimalGeneralInformation() {
 		def xml = '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
-			<general-information/>
-		</pattern>
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			<pattern:general-information/>
+		</pattern:pattern>
 		'''
 		Pattern pattern = unmarshalXml(xml)
 		marshalXmlAndCompare(pattern,xml)
-	}
-	
-	static void main(args) {
-		JUnitCore.main(GeneralInformationTests.name)
 	}
 	
 }

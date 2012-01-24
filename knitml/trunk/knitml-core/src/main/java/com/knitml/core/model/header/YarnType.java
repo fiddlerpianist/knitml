@@ -59,6 +59,10 @@ public class YarnType {
 	public List<Yarn> getYarns() {
 		return yarns;
 	}
-
+	public void afterPropertiesSet() {
+		for (Yarn yarn : yarns) {
+			yarn.setYarnType(this);
+		}
+	}
 	
 }

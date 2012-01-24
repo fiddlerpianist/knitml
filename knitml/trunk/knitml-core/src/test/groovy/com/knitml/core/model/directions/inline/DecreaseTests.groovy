@@ -35,14 +35,14 @@ class DecreaseTests {
 	@Test
 	void decrease() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
 					<row>
 						<decrease yarn-ref="yarn0" type="ssk"/>
 						<decrease>5</decrease>
 					</row>
-				  </directions>
-			</pattern>'''
+				  </pattern:directions>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		element.with {
@@ -64,14 +64,14 @@ class DecreaseTests {
 	@Test
 	void doubleDecrease() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
 					<row>
 						<double-decrease yarn-ref="yarn0" type="cdd"/>
 						<double-decrease>5</double-decrease>
 					</row>
-				  </directions>
-			</pattern>'''
+				  </pattern:directions>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		element.with {
@@ -92,13 +92,13 @@ class DecreaseTests {
 	@Test
 	void bindOffTen() {
 		def xml = '''
-				<pattern xmlns="http://www.knitml.com/schema/pattern">
-				  <directions>
+				<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				  <pattern:directions>
 				  	<row>
 				  		<bind-off yarn-ref="yarn1">10</bind-off>
 				  	</row>
-				  </directions>
-				</pattern>'''
+				  </pattern:directions>
+				</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		element.with {
@@ -111,13 +111,13 @@ class DecreaseTests {
 	@Test
 	void bindOffAll() {
 		def xml = '''
-				<pattern xmlns="http://www.knitml.com/schema/pattern">
-				  <directions>
+				<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				  <pattern:directions>
 				  	<row>
 				  		<bind-off-all type="purlwise" yarn-ref="yarn1"/>
 				  	</row>
-				  </directions>
-				</pattern>'''
+				  </pattern:directions>
+				</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		element.with {
@@ -131,14 +131,14 @@ class DecreaseTests {
 	@Test
 	void bindOffAllWithNoFastenOff() {
 		def xml = '''
-				<pattern xmlns="http://www.knitml.com/schema/pattern">
-				  <directions>
+				<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				  <pattern:directions>
 				  	<row>
 				  		<bind-off-all type="purlwise" yarn-ref="yarn1"
                                       fasten-off-last-stitch="false"/>
 				  	</row>
-				  </directions>
-				</pattern>'''
+				  </pattern:directions>
+				</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		element.with {

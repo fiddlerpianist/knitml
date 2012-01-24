@@ -99,7 +99,7 @@ class InstructionVisitorTests extends AbstractKnittingContextTests {
 	@Test
 	void processInstructionGroup() {
 		def pattern = processXml ('''
-			<instruction-group id="cuff" label="Make the Cuff">
+			<pattern:instruction-group id="cuff" label="Make the Cuff">
 				<instruction id="purl-to-end">
 					<row>
 						<repeat until="end">
@@ -115,7 +115,7 @@ class InstructionVisitorTests extends AbstractKnittingContextTests {
 						</repeat>
 					</row>
 				</instruction>
-			</instruction-group>
+			</pattern:instruction-group>
 		''')
 		// note that we are not saving instruction groups at this time
 		assertThat knittingContext.patternRepository.getBlockInstruction('cuff'), is (null)

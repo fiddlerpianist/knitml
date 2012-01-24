@@ -31,7 +31,7 @@ class RepeatInstructionVisitorTests extends AbstractKnittingContextTests {
 	@Test
 	void processAdditionalTimesDocument() {
 		processXml '''
-		<instruction-group id="cuff">
+		<pattern:instruction-group id="cuff">
 			<instruction id="cuff-round">
 				<row>
 					<repeat until="end">
@@ -43,7 +43,7 @@ class RepeatInstructionVisitorTests extends AbstractKnittingContextTests {
 			<repeat-instruction ref="cuff-round">
 				<additional-times>9</additional-times>
 			</repeat-instruction>
-		</instruction-group>
+		</pattern:instruction-group>
 		'''
 		engine.with {
 			assertTrue betweenRows
@@ -55,7 +55,7 @@ class RepeatInstructionVisitorTests extends AbstractKnittingContextTests {
 	void processUntilMeasuresDocument() {
 		knittingContext.patternRepository.rowGauge = KnittingMeasure.valueOf("10", Units.ROWS_PER_INCH)
 		processXml '''
-		<instruction-group id="cuff" label="Make the Cuff">
+		<pattern:instruction-group id="cuff" label="Make the Cuff">
 			<instruction id="cuff-round">
 				<row>
 					<repeat until="end">
@@ -67,7 +67,7 @@ class RepeatInstructionVisitorTests extends AbstractKnittingContextTests {
 			<repeat-instruction ref="cuff-round">
 				<until-measures unit="in">1.5</until-measures>
 			</repeat-instruction>
-		</instruction-group>
+		</pattern:instruction-group>
 		'''
 		engine.with {
 			assertTrue betweenRows
@@ -94,7 +94,7 @@ class RepeatInstructionVisitorTests extends AbstractKnittingContextTests {
 			// we added 2 set up rows
 			numberOfSetUpRows += 2
 			processXml '''
-				<instruction-group id="make-toe">
+				<pattern:instruction-group id="make-toe">
 					<instruction id="toe-rows">
 						<row>
 							<repeat until="before-marker" value="3">
@@ -121,7 +121,7 @@ class RepeatInstructionVisitorTests extends AbstractKnittingContextTests {
 					<repeat-instruction ref="toe-rows">
 						<until-stitches-remain>20</until-stitches-remain>
 					</repeat-instruction>
-				</instruction-group>
+				</pattern:instruction-group>
 			'''
 			assertTrue betweenRows
 			assertThat currentRowNumber, is (5 + numberOfSetUpRows)

@@ -18,13 +18,13 @@ class CastOnVisitorTests extends AbstractRenderingContextTests {
 	
 	@Test
 	void castOnIdentifiedKey() {
-		processXml '<cast-on style="long-tail" xmlns="http://www.knitml.com/schema/pattern">5</cast-on>', CastOn
+		processXml '<cast-on style="long-tail" xmlns="http://www.knitml.com/schema/operations">5</cast-on>', CastOn
 		assertThat output, startsWith ('Using the long-tail method, cast on 5')
 	}
 
 	@Test
 	void castOnUnidentifiedKey() {
-		processXml '<cast-on style="filbert" xmlns="http://www.knitml.com/schema/pattern">5</cast-on>', CastOn
+		processXml '<cast-on style="filbert" xmlns="http://www.knitml.com/schema/operations">5</cast-on>', CastOn
 		assertThat output, startsWith ('Using the filbert method, cast on 5')
 	}
 	
@@ -35,7 +35,7 @@ class CastOnVisitorTests extends AbstractRenderingContextTests {
 			engine.startNewRow()
 		}
 		
-		processXml '<inline-cast-on xmlns="http://www.knitml.com/schema/pattern">5</inline-cast-on>', InlineCastOn
+		processXml '<inline-cast-on xmlns="http://www.knitml.com/schema/operations">5</inline-cast-on>', InlineCastOn
 		assertThat output.trim(), is ('cast on 5 stitches')
 	}
 	

@@ -25,8 +25,8 @@ class ApplyNextRowVisitorTests extends AbstractKnittingContextTests {
 		// after the first row, there should be 20 sts left
 		// after the fourth row, there should be 8 sts left
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="top-decrease" shape="flat" label="Top Decrease">
 							<row>
 								<knit>4</knit>
@@ -45,9 +45,9 @@ class ApplyNextRowVisitorTests extends AbstractKnittingContextTests {
 								<decrease type="p2tog"/>
 							</row>
 						</instruction>
-					</instruction-definitions>
-				</directives>
-				<directions>
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions>
 					<cast-on>24</cast-on>
 					<instruction id="body-repeat">
 						<row>
@@ -65,8 +65,8 @@ class ApplyNextRowVisitorTests extends AbstractKnittingContextTests {
 					<information>
 						<number-of-stitches	number="8"/>
 					</information>
-				</directions>
-			</pattern>
+				</pattern:directions>
+			</pattern:pattern>
 			'''
 	}
 
@@ -75,8 +75,8 @@ class ApplyNextRowVisitorTests extends AbstractKnittingContextTests {
 	void applyNextRowMultipleTimesWithinCurrentRowUsingForEachRowInInstruction() {
 		// after execution, there should be 8 sts left
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="top-decrease" shape="flat" label="Top Decrease">
 							<row>
 								<knit>4</knit>
@@ -95,9 +95,9 @@ class ApplyNextRowVisitorTests extends AbstractKnittingContextTests {
 								<decrease type="p2tog"/>
 							</row>
 						</instruction>
-					</instruction-definitions>
-				</directives>
-				<directions>
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions>
 					<cast-on>24</cast-on>
 					<instruction id="body-repeat">
 						<for-each-row-in-instruction ref="top-decrease">
@@ -109,8 +109,8 @@ class ApplyNextRowVisitorTests extends AbstractKnittingContextTests {
 					<information>
 						<number-of-stitches	number="8"/>
 					</information>
-				</directions>
-			</pattern>
+				</pattern:directions>
+			</pattern:pattern>
 			'''
 	}
 

@@ -36,8 +36,8 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 		}
 		replay engine
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="knit-purl" label="Knit / Purl" shape="flat">
 							<row><knit>5</knit></row>
 							<row><purl>15</purl></row>
@@ -50,17 +50,17 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 							<instruction-ref ref="knit-purl"/>
 							<instruction-ref ref="purl-knit"/>
 						</merged-instruction>
-					</instruction-definitions>
-				</directives>
-				<directions>
-					<instruction-group id="ig1">
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions>
+					<pattern:instruction-group id="ig1">
 						<instruction-ref ref="merged1"/>
 						<repeat-instruction ref="merged1">
 							<additional-times>1</additional-times>
 						</repeat-instruction>
-					</instruction-group>
-				</directions>
-			</pattern>
+					</pattern:instruction-group>
+				</pattern:directions>
+			</pattern:pattern>
 			'''
 		verify engine
 	}
@@ -81,8 +81,8 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 		}
 		replay engine
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="knit-purl" label="Knit / Purl" shape="flat">
 							<row>
 								<knit>5</knit>
@@ -99,17 +99,17 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 							<instruction-ref ref="knit-purl"/>
 							<instruction-ref ref="purl-knit"/>
 						</merged-instruction>
-					</instruction-definitions>
-				</directives>
-				<directions>
-					<instruction-group id="ig1">
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions>
+					<pattern:instruction-group id="ig1">
 						<instruction-ref ref="merged1"/>
 						<repeat-instruction ref="merged1">
 							<additional-times>1</additional-times>
 						</repeat-instruction>
-					</instruction-group>
-				</directions>
-			</pattern>
+					</pattern:instruction-group>
+				</pattern:directions>
+			</pattern:pattern>
 			'''
 		verify engine
 	}
@@ -145,8 +145,8 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 		}
 		replay engine
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<inline-instruction id="k2p2-ribbing" label="k2p2 rib">
 							<knit>2</knit>
 							<purl>2</purl>
@@ -166,15 +166,15 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 								</repeat>
 							</row>
 						</instruction>
-					</instruction-definitions>
-				</directives>
-				<directions>
-					<instruction-group id="ig1">
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions>
+					<pattern:instruction-group id="ig1">
 						<cast-on>8</cast-on>
 						<instruction-ref ref="garter-ribbing"/>
-					</instruction-group>
-				</directions>
-			</pattern>
+					</pattern:instruction-group>
+				</pattern:directions>
+			</pattern:pattern>
 			'''
 		verify engine
 	}
@@ -210,8 +210,8 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 		}
 		replay engine
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="garter-ribbing" label="garter rib" shape="flat">
 							<row>
 								<knit>2</knit>
@@ -235,10 +235,10 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 								<purl>6</purl>
 							</row>
 						</instruction>
-					</instruction-definitions>
-				</directives>
-				<directions>
-					<instruction-group id="ig1">
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions>
+					<pattern:instruction-group id="ig1">
 						<cast-on>12</cast-on>
 						<instruction id="hybrid-pattern">
 							<for-each-row-in-instruction ref="body-pattern">
@@ -249,9 +249,9 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 						<repeat-instruction ref="hybrid-pattern">
 							<additional-times>1</additional-times>
 						</repeat-instruction>
-					</instruction-group>
-				</directions>
-			</pattern>
+					</pattern:instruction-group>
+				</pattern:directions>
+			</pattern:pattern>
 			'''
 		verify engine
 	}
@@ -273,17 +273,17 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 		}
 		replay engine
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="test-instruction" label="test instruction" shape="flat">
 							<row/>
 							<row/>
 							<row/>
 						</instruction>
-					</instruction-definitions>
-				</directives>
-				<directions>
-					<instruction-group id="ig1">
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions>
+					<pattern:instruction-group id="ig1">
 						<cast-on>8</cast-on>
 						<instruction id="hybrid-pattern">
 							<for-each-row-in-instruction ref="test-instruction">
@@ -293,9 +293,9 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 						<repeat-instruction ref="hybrid-pattern">
 							<additional-times>1</additional-times>
 						</repeat-instruction>
-					</instruction-group>
-				</directions>
-			</pattern>
+					</pattern:instruction-group>
+				</pattern:directions>
+			</pattern:pattern>
 			'''
 		verify engine
 	}
@@ -317,8 +317,8 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 		}
 		replay engine
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="test-instruction-target" label="test instruction target" shape="flat">
 							<row/>
 							<row/>
@@ -327,10 +327,10 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 						<instruction id="test-instruction" label="test instruction" shape="flat">
 							<for-each-row-in-instruction ref="test-instruction-target"/>
 						</instruction>
-					</instruction-definitions>
-				</directives>
-				<directions>
-					<instruction-group id="ig1">
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions>
+					<pattern:instruction-group id="ig1">
 						<cast-on>8</cast-on>
 						<instruction id="final-instruction">
 							<for-each-row-in-instruction ref="test-instruction">
@@ -340,9 +340,9 @@ class InstructionGroupVisitorTests extends AbstractKnittingContextTests {
 						<repeat-instruction ref="final-instruction">
 							<additional-times>1</additional-times>
 						</repeat-instruction>
-					</instruction-group>
-				</directions>
-			</pattern>
+					</pattern:instruction-group>
+				</pattern:directions>
+			</pattern:pattern>
 			'''
 		verify engine
 	}

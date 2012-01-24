@@ -24,126 +24,126 @@ class IncreaseHandlerTests extends AbstractRenderingContextTests {
 	@Test
 	void m1() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="m1" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="m1" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('M1')
 	}
 	
 	@Test
 	void m1p() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="m1p" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="m1p" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('M1 (purled)')
 	}
 	
 	@Test
 	void m1a() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="m1a" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="m1a" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('M1A')
 	}
 	
 	@Test
 	void m1t() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="m1t" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="m1t" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('M1T')
 	}
 	
 	@Test
 	void m1l() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="m1l" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="m1l" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('M1L')
 	}
 	
 	@Test
 	void m1r() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="m1r" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="m1r" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('M1R')
 	}
 	
 	@Test
 	void m1lp() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="m1lp" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="m1lp" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('M1L (purled)')
 	}
 	
 	@Test
 	void m1rp() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="m1rp" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="m1rp" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('M1R (purled)')
 	}
 	
 	@Test
 	void kll() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="kll" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="kll" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('kll inc')
 	}
 	
 	@Test
 	void krl() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="krl" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="krl" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('krl inc')
 	}
 	
 	@Test
 	void pll() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="pll" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="pll" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('pll inc')
 	}
 	
 	@Test
 	void prl() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="prl" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="prl" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('prl inc')
 	}
 	
 	@Test
 	void kfb() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="kfb" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="kfb" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('kfb')
 	}
 
 	@Test
 	void pfb() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="pfb" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="pfb" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('pfb')
 	}
 	
 	@Test
 	void moss() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="moss" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="moss" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('moss inc')
 	}
 
 	@Test
 	void decorative() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="decorative" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="decorative" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('decorative inc')
 	}
 
 	@Test
 	void yo() {
 		renderingContext.engine.startNewRow()
-		processXml '<increase type="yo" xmlns="http://www.knitml.com/schema/pattern"/>', Increase
+		processXml '<increase type="yo" xmlns="http://www.knitml.com/schema/operations"/>', Increase
 		assertThat output, is ('yo')
 	}
 	
 	@Test
 	void increaseIntoNextStitch() {
 		processXml '''
-		<row xmlns="http://www.knitml.com/schema/pattern">
+		<row xmlns="http://www.knitml.com/schema/operations">
 		  <increase-into-next-stitch>
 		    <knit>1</knit>
 		    <purl>1</purl>

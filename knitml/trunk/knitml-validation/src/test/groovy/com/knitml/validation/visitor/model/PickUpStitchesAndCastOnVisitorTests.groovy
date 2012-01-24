@@ -37,28 +37,34 @@ class PickUpStitchesAndCastOnVisitorTests extends AbstractKnittingContextTests {
 	@Test
 	void inlinePickUpStitchesWithSpecifiedYarn() {
 		processXml PATTERN_START_TAG + '''
-		<supplies>
-			<yarns>
-				<yarn-type id="lornas" brand="Lorna's Laces" category="Shepherd Sock" weight="fingering"/>
-				<yarn id="main-color" typeref="lornas">
-					<total-weight unit="g">100</total-weight>
-					<color name="watercolor"/>
-				</yarn>
-			</yarns>
-			<needles>
-				<needle-type id="needle-type1" type="circular"/> 
-				<needle id="needle1" typeref="needle-type1"/>
-			</needles>
-			<accessories/>
-		</supplies>
-		<directions>
+		<pattern:supplies>
+			<pattern:yarn-types>
+				<pattern:yarn-type id="lornas" brand="Lorna's Laces" category="Shepherd Sock" weight="fingering">
+					<pattern:yarns>
+						<common:yarn id="main-color">
+							<common:total-weight unit="g">100</common:total-weight>
+							<common:color name="watercolor"/>
+						</common:yarn>
+					</pattern:yarns>
+				</pattern:yarn-type>
+			</pattern:yarn-types>
+			<pattern:needle-types>
+				<pattern:needle-type id="needle-type1" type="circular"> 
+					<pattern:needles>
+						<common:needle id="needle1" typeref="needle-type1"/>
+					</pattern:needles>
+				</pattern:needle-type>
+			</pattern:needle-types>
+			<pattern:accessories/>
+		</pattern:supplies>
+		<pattern:directions>
 			<cast-on yarn-ref="main-color">20</cast-on>
 			<row>
 				<inline-pick-up-stitches yarn-ref="main-color" type="knitwise">10</inline-pick-up-stitches>
 				<knit>20</knit>
 		  	</row>
-    	</directions>
-      </pattern>
+    	</pattern:directions>
+      </pattern:pattern>
 	  '''
 	  assertThat engine.totalNumberOfStitchesInRow, is (30)
 	}
@@ -76,28 +82,34 @@ class PickUpStitchesAndCastOnVisitorTests extends AbstractKnittingContextTests {
 	@Test
 	void inlineCastOnWithSpecifiedYarn() {
 		processXml PATTERN_START_TAG + '''
-		<supplies>
-			<yarns>
-				<yarn-type id="lornas" brand="Lorna's Laces" category="Shepherd Sock" weight="fingering"/>
-				<yarn id="main-color" typeref="lornas">
-					<total-weight unit="g">100</total-weight>
-					<color name="watercolor"/>
-				</yarn>
-			</yarns>
-			<needles>
-				<needle-type id="needle-type1" type="circular"/> 
-				<needle id="needle1" typeref="needle-type1"/>
-			</needles>
-			<accessories/>
-		</supplies>
-		<directions>
+		<pattern:supplies>
+			<pattern:yarn-types>
+				<pattern:yarn-type id="lornas" brand="Lorna's Laces" category="Shepherd Sock" weight="fingering">
+					<pattern:yarns>
+						<common:yarn id="main-color">
+							<common:total-weight unit="g">100</common:total-weight>
+							<common:color name="watercolor"/>
+						</common:yarn>
+					</pattern:yarns>
+				</pattern:yarn-type>
+			</pattern:yarn-types>
+			<pattern:needle-types>
+				<pattern:needle-type id="needle-type1" type="circular"> 
+					<pattern:needles>
+						<common:needle id="needle1" typeref="needle-type1"/>
+					</pattern:needles>
+				</pattern:needle-type>
+			</pattern:needle-types>
+			<pattern:accessories/>
+		</pattern:supplies>
+		<pattern:directions>
 			<cast-on yarn-ref="main-color">20</cast-on>
 			<row>
 				<inline-cast-on yarn-ref="main-color" style="backwards-loop">10</inline-cast-on>
 				<knit>20</knit>
 		  	</row>
-    	</directions>
-      </pattern>
+    	</pattern:directions>
+      </pattern:pattern>
 	  '''
 	  assertThat engine.totalNumberOfStitchesInRow, is (30)
 	}

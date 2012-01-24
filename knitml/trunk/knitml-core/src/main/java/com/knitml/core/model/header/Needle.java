@@ -52,10 +52,8 @@ public class Needle implements Identifiable {
 		return getLabel();
 	}
 	
-	public void afterPropertiesSet() {
-		if (type == null) {
-			throw new ValidationException("No needle type was able to be found for this needle", this);
-		}
+	public void setType(NeedleType type) {
+		this.type = type;
 	}
 
 }

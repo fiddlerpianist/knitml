@@ -18,7 +18,7 @@ class InformationVisitorTests extends AbstractRenderingContextTests {
 	@Test
 	void numberOfStitchesAtRowEnd() {
 		processXml PATTERN_START_TAG + '''
-				<directions>
+				<pattern:directions>
 					<cast-on>5</cast-on>
 					<row number="1">
 						<knit>5</knit>
@@ -26,15 +26,15 @@ class InformationVisitorTests extends AbstractRenderingContextTests {
 							<number-of-stitches number="5" inform="true"/>
 						</followup-information>
 					</row>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		assertThat output.trim(), endsWith ('5 stitches in row.')
 	}
 
 	@Test
 	void numberOfStitchesAtRowEndWithinInstruction() {
 		processXml PATTERN_START_TAG + '''
-				<directions>
+				<pattern:directions>
 					<cast-on>5</cast-on>
 					<instruction id="inst-1">
 					    <row number="1">
@@ -44,15 +44,15 @@ class InformationVisitorTests extends AbstractRenderingContextTests {
 						    </followup-information>
 					    </row>
 					</instruction>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		assertThat output.trim(), endsWith ('5 stitches in row.')
 	}
 	
 	@Test
 	void messageAtRowEnd() {
 		processXml PATTERN_START_TAG + '''
-				<directions>
+				<pattern:directions>
 					<cast-on>5</cast-on>
 					<row number="1">
 						<knit>5</knit>
@@ -60,15 +60,15 @@ class InformationVisitorTests extends AbstractRenderingContextTests {
 							<message label="This row is tricky."/>
 						</followup-information>
 					</row>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		assertThat output.trim(), endsWith ('This row is tricky.')
 	}
 
 	@Test
 	void messageAtRowEndWithinInstruction() {
 		processXml PATTERN_START_TAG + '''
-				<directions>
+				<pattern:directions>
 					<cast-on>5</cast-on>
 					<instruction id="inst-1">
 					    <row number="1">
@@ -78,8 +78,8 @@ class InformationVisitorTests extends AbstractRenderingContextTests {
 						    </followup-information>
 					    </row>
 					</instruction>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		assertThat output.trim(), endsWith ('This row is tricky.')
 	}
 	
@@ -87,11 +87,11 @@ class InformationVisitorTests extends AbstractRenderingContextTests {
 	void numberOfStitchesOutsideOfRow() {
 		renderingContext.engine.castOn 5
 		processXml '''
-		<section xmlns="http://www.knitml.com/schema/pattern">
+		<pattern:section xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations">
 			<information>
 				<number-of-stitches number="5"/>
 			</information>
-		</section>''', Section
+		</pattern:section>''', Section
 		assertThat output.trim(), is ('5 stitches in row.')
 	}
 	

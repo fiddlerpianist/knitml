@@ -13,7 +13,6 @@ import org.custommonkey.xmlunit.XMLUnit
 import org.junit.Test
 import org.junit.Ignore
 import org.junit.BeforeClass
-import org.junit.internal.runners.JUnit4ClassRunner
 import org.junit.runner.JUnitCore
 import org.junit.runner.RunWith
 
@@ -25,7 +24,6 @@ import com.knitml.core.common.YarnPosition
 import com.knitml.core.common.SlipDirection
 import com.knitml.core.model.directions.inline.SlipToStitchHolder
 
-@RunWith(JUnit4ClassRunner)
 class KnitPurlSlipTests {
 	@BeforeClass
 	static void setUp() {
@@ -34,12 +32,12 @@ class KnitPurlSlipTests {
 	
 	void template() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
 					<row>
 					</row>
-				  </directions>
-			</pattern>'''
+				  </pattern:directions>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		element.with {
@@ -50,14 +48,14 @@ class KnitPurlSlipTests {
 	@Test
 	void knit() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
 					<row>
 						<knit yarn-ref="knit0" loop-to-work="leading"/>
 						<knit>5</knit>
 					</row>
-				  </directions>
-			</pattern>'''
+				  </pattern:directions>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		element.with {
@@ -77,14 +75,14 @@ class KnitPurlSlipTests {
 	@Test
 	void purl() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
 					<row>
 						<purl yarn-ref="knit0" loop-to-work="leading"/>
 						<purl>5</purl>
 					</row>
-				  </directions>
-			</pattern>'''
+				  </pattern:directions>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		element.with {
@@ -104,14 +102,14 @@ class KnitPurlSlipTests {
 	@Test
 	void workEven() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
 					<row>
 						<work-even yarn-ref="knit0"/>
 						<work-even>5</work-even>
 					</row>
-			  </directions>
-			</pattern>'''
+			  </pattern:directions>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		element.with {
@@ -129,14 +127,14 @@ class KnitPurlSlipTests {
 	@Test
 	void slip() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
 					<row>
 						<slip type="knitwise" yarn-position="front" />
 						<slip type="purlwise" yarn-position="back" direction="reverse">5</slip>
 					</row>
-				  </directions>
-			</pattern>'''
+				  </pattern:directions>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		element.with {
@@ -158,20 +156,20 @@ class KnitPurlSlipTests {
 	@Test
 	void slipToStitchHolder() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <supplies>
-			    <yarns/>
-			    <needles/>
-                <accessories>
-              	  <stitch-holder id="stitch-holder-1" label="Stitch Holder 1"/>
-                </accessories>
-              </supplies>
-			  <directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:supplies>
+			    <pattern:yarn-types/>
+			    <pattern:needle-types/>
+                <pattern:accessories>
+              	  <common:stitch-holder id="stitch-holder-1" label="Stitch Holder 1"/>
+                </pattern:accessories>
+              </pattern:supplies>
+			  <pattern:directions>
 					<row>
 						<slip-to-stitch-holder ref="stitch-holder-1">25</slip-to-stitch-holder>
 					</row>
-				  </directions>
-			</pattern>'''
+				  </pattern:directions>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		assertThat element instanceof SlipToStitchHolder, is (true)
@@ -185,14 +183,14 @@ class KnitPurlSlipTests {
 	@Test
 	void noStitch() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
 					<row>
 						<no-stitch/>
 						<no-stitch>5</no-stitch>
 					</row>
-				  </directions>
-			</pattern>'''
+				  </pattern:directions>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		element.with {
@@ -203,10 +201,6 @@ class KnitPurlSlipTests {
 			assertThat numberOfStitches, is (5)
 		}
 		marshalXmlAndCompare(pattern,xml)
-	}
-	
-	static void main(args) {
-		JUnitCore.main(KnitPurlSlipTests.name)
 	}
 	
 }

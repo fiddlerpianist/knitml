@@ -23,8 +23,8 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	@Test
 	public void flatChart() {
 		processXml PATTERN_START_TAG + '''
-			<directives>
-				<instruction-definitions>
+			<pattern:directives>
+				<pattern:instruction-definitions>
 					<instruction id="inst1" label="Stockinette Stitch" shape="flat"> 
 						<row> 
 							<purl>2</purl>
@@ -35,9 +35,9 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 							<purl>2</purl>
 						</row>
 					</instruction>
-				</instruction-definitions>
-			</directives>
-		 </pattern>'''
+				</pattern:instruction-definitions>
+			</pattern:directives>
+		 </pattern:pattern>'''
 		 
 		 assertThat renderer.graph, is ([[P,P,K_TW,K_TW],[K,K,P_TW,P_TW]])
 	}
@@ -45,8 +45,8 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	@Test
 	public void flatChartStartingOnWrongSide() {
 		processXml PATTERN_START_TAG + '''
-			<directives>
-				<instruction-definitions>
+			<pattern:directives>
+				<pattern:instruction-definitions>
 					<instruction id="inst1" label="Stockinette Stitch" shape="flat">
 						<row side="wrong">
 							<purl>2</purl>
@@ -57,9 +57,9 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 							<purl>2</purl>
 						</row>
 					</instruction>
-				</instruction-definitions>
-			</directives>
-		 </pattern>'''
+				</pattern:instruction-definitions>
+			</pattern:directives>
+		 </pattern:pattern>'''
 		 
 		 assertThat renderer.graph, is ([[P_TW,P_TW,K,K],[K_TW,K_TW,P,P]])
 	}
@@ -68,8 +68,8 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	@Test
 	public void flatChartWithWorkEven() {
 		processXml PATTERN_START_TAG + '''
-			<directives>
-				<instruction-definitions>
+			<pattern:directives>
+				<pattern:instruction-definitions>
 					<instruction id="inst1" label="Stockinette Stitch" shape="flat"> 
 						<row> 
 							<knit>2</knit>
@@ -79,9 +79,9 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 							<work-even>4</work-even>
 						</row>
 					</instruction>
-				</instruction-definitions>
-			</directives>
-		 </pattern>'''
+				</pattern:instruction-definitions>
+			</pattern:directives>
+		 </pattern:pattern>'''
 
 		 assertThat renderer.graph, is ([[K,K,P,P],[K,K,P,P]])
 	}
@@ -89,8 +89,8 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	@Test
 	public void flatChartWithWorkEvenWithRepeat() {
 		processXml PATTERN_START_TAG + '''
-			<directives>
-				<instruction-definitions>
+			<pattern:directives>
+				<pattern:instruction-definitions>
 					<instruction id="inst1" label="Stockinette Stitch" shape="flat"> 
 						<row> 
 							<knit>2</knit>
@@ -102,9 +102,9 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 							</repeat>
 						</row>
 					</instruction>
-				</instruction-definitions>
-			</directives>
-		 </pattern>'''
+				</pattern:instruction-definitions>
+			</pattern:directives>
+		 </pattern:pattern>'''
 
 		 assertThat renderer.graph, is ([[K,K,P,P],[K,K,P,P]])
 	}
@@ -113,8 +113,8 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	@Test
 	public void roundChart() {
 		processXml PATTERN_START_TAG + '''
-			<directives>
-				<instruction-definitions>
+			<pattern:directives>
+				<pattern:instruction-definitions>
 					<instruction id="inst1" label="Stockinette Stitch" shape="round"> 
 						<row> 
 							<knit>4</knit>
@@ -123,9 +123,9 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 							<knit>4</knit>
 						</row>
 					</instruction>
-				</instruction-definitions>
-			</directives>
-		 </pattern>'''
+				</pattern:instruction-definitions>
+			</pattern:directives>
+		 </pattern:pattern>'''
 
 		 assertThat renderer.graph, is ([[K,K,K,K],[K,K,K,K]])
 	}
@@ -133,8 +133,8 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	@Test
 	public void roundChartWithWorkEven() {
 		processXml PATTERN_START_TAG + '''
-			<directives>
-				<instruction-definitions>
+			<pattern:directives>
+				<pattern:instruction-definitions>
 					<instruction id="inst1" label="Stockinette Stitch" shape="round"> 
 						<row> 
 							<knit>2</knit>
@@ -144,9 +144,9 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 							<work-even>4</work-even>
 						</row>
 					</instruction>
-				</instruction-definitions>
-			</directives>
-		 </pattern>'''
+				</pattern:instruction-definitions>
+			</pattern:directives>
+		 </pattern:pattern>'''
 
 		 assertThat renderer.graph, is ([[K,K,P,P],[K,K,P,P]])
 	}
@@ -155,8 +155,8 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	@Test
 	public void asymmetricFlatChart() {
 		processXml PATTERN_START_TAG + '''
-			<directives>
-				<instruction-definitions>
+			<pattern:directives>
+				<pattern:instruction-definitions>
 					<instruction id="inst1" label="2x2 Ribbing" shape="flat"> 
 						<row>
 							<repeat until="times" value="2">
@@ -171,9 +171,9 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 							</repeat>
 						</row>
 					</instruction>
-				</instruction-definitions>
-			</directives>
-		 </pattern>'''
+				</pattern:instruction-definitions>
+			</pattern:directives>
+		 </pattern:pattern>'''
 
 		 assertThat renderer.graph, is ([[K,K,P,P,K,K,P,P],
 		                                 [K,K,P,P,K,K,P,P]]);
@@ -183,8 +183,8 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	public void laceWithEqualRows() {
 		// reminiscient of the nutkin2 sample
 		processXml PATTERN_START_TAG + '''
-			<directives>
-				<instruction-definitions>
+			<pattern:directives>
+				<pattern:instruction-definitions>
 					<instruction id="nutkin2" label="Nutkin 2" shape="round"> 
 						<row>
 							<purl>2</purl>
@@ -211,9 +211,9 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 							<purl>2</purl>
 						</row>
 					</instruction>
-				</instruction-definitions>
-			</directives>
-		 </pattern>'''
+				</pattern:instruction-definitions>
+			</pattern:directives>
+		 </pattern:pattern>'''
 
 		 assertThat renderer.graph, is ([[P,P,YO,K,K,K,SSK,K,K,K,K,K,K,K,K,K2TOG,K,K,K,YO,P,P],
 		                                 [P,P,K,YO,K,K,K,SSK,K,K,K,K,K,K,K2TOG,K,K,K,YO,K,P,P]]);

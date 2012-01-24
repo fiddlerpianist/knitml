@@ -24,17 +24,20 @@ class UseNeedlesVisitorTests extends AbstractKnittingContextTests {
 	void useTwoNeedles() {
 		engine.with {
 			processXml PATTERN_START_TAG + '''
-				<supplies>
-					<yarns/>
-					<needles>
-						<needle-type id="needle-type1" type="circular"/> 
-						<needle id="needle1" typeref="needle-type1"/>
-						<needle id="needle2" typeref="needle-type1"/>
-					</needles>
-					<accessories/>
-				</supplies>
-				<directions>
-					<instruction-group id="thing1">
+				<pattern:supplies>
+					<pattern:yarn-types/>
+					<pattern:needle-types>
+						<pattern:needle-type id="needle-type1" type="circular">
+							<pattern:needles>
+								<common:needle id="needle1"/>
+								<common:needle id="needle2"/>
+							</pattern:needles>
+						</pattern:needle-type>
+					</pattern:needle-types>
+					<pattern:accessories/>
+				</pattern:supplies>
+				<pattern:directions>
+					<pattern:instruction-group id="thing1">
 						<use-needles>
 							<needle ref="needle1"/>
 						</use-needles>
@@ -43,9 +46,9 @@ class UseNeedlesVisitorTests extends AbstractKnittingContextTests {
 							<needle ref="needle1"/>
 							<needle ref="needle2"/>
 						</use-needles>
-					</instruction-group>
-            	</directions>
-            </pattern>
+					</pattern:instruction-group>
+            	</pattern:directions>
+            </pattern:pattern>
 
 			'''
 			assertThat numberOfNeedles, is(2)
@@ -75,26 +78,25 @@ class UseNeedlesVisitorTests extends AbstractKnittingContextTests {
 	@Test(expected=NoActiveNeedlesException)
 	void doNotSpecifyAnyNeedles() {
 		processXml PATTERN_START_TAG + '''
-				<supplies>
-					<yarns/>
-					<needles>
-						<needle-type id="needle-type1" type="circular"/> 
-						<needle id="needle1" typeref="needle-type1"/>
-						<needle id="needle2" typeref="needle-type1"/>
-					</needles>
-					<accessories/>
-				</supplies>
-				<directions>
+				<pattern:supplies>
+					<pattern:yarn-types/>
+					<pattern:needle-types>
+						<pattern:needle-type id="needle-type1" type="circular">
+							<pattern:needles>
+								<common:needle id="needle1"/>
+								<common:needle id="needle2"/>
+							</pattern:needles>
+						</pattern:needle-type>
+					</pattern:needle-types>
+					<pattern:accessories/>
+				</pattern:supplies>
+				<pattern:directions>
 					<row>
             			<knit/>
             		</row>
-            	</directions>
-            </pattern>
+            	</pattern:directions>
+            </pattern:pattern>
             '''
 	}
 
-	static void main(args) {
-		JUnitCore.main(UseNeedlesVisitorTests.name)
-	}
-	
 }

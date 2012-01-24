@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pattern:pattern xml:lang="" version=""
+	xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common"
+	xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.knitml.com/schema/pattern pattern-0.6.xsd">
+	<pattern:directives type="">
+		<pattern:message-sources>
+			<pattern:message-source>thingy</pattern:message-source>
+		</pattern:message-sources>
+		<pattern:instruction-definitions>
+			<instruction id="sadjk" label="" message-key=""
+				row-count="0" shape="flat">
+				<row>
+					<knit />
+				</row>
+			</instruction>
+		</pattern:instruction-definitions>
+	</pattern:directives>
+	<pattern:general-information xml:lang="dkl">
+		<pattern:name>pattern:name</pattern:name>
+		<pattern:description>pattern:description</pattern:description>
+		<pattern:dimensions>pattern:dimensions</pattern:dimensions>
+		<pattern:gauge type="">
+			<pattern:stitch-gauge unit="st/in">0.0</pattern:stitch-gauge>
+			<pattern:row-gauge unit="row/in">0.0</pattern:row-gauge>
+		</pattern:gauge>
+		<pattern:techniques>
+			<pattern:technique>pattern:technique</pattern:technique>
+		</pattern:techniques>
+		<pattern:author>
+			<pattern:first-name>pattern:first-name</pattern:first-name>
+			<pattern:last-name>pattern:last-name</pattern:last-name>
+		</pattern:author>
+		<pattern:copyright-info />
+	</pattern:general-information>
+	<pattern:supplies>
+		<pattern:yarn-types>
+			<pattern:yarn-type brand="" catalog-id="" category=""
+				id="idvalue0" subcategory="" weight="">
+				<pattern:yarns>
+					<common:yarn id="aklgiqewq" label="" message-key=""
+						symbol="" />
+				</pattern:yarns>
+			</pattern:yarn-type>
+		</pattern:yarn-types>
+		<pattern:needle-types>
+			<pattern:needle-type brand="" id="idvalue1" type="straight">
+				<pattern:needles>
+					<common:needle id="wqkflf" label="" message-key="" />
+				</pattern:needles>
+			</pattern:needle-type>
+		</pattern:needle-types>
+		<pattern:accessories />
+	</pattern:supplies>
+	<pattern:directions>
+		<cast-on>64</cast-on>
+	</pattern:directions>
+</pattern:pattern>

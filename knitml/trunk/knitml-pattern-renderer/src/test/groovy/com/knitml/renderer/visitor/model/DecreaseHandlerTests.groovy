@@ -24,21 +24,21 @@ class DecreaseHandlerTests extends AbstractRenderingContextTests {
 	@Test
 	void k2tog() {
 		renderingContext.engine.startNewRow()
-		processXml '<decrease type="k2tog" xmlns="http://www.knitml.com/schema/pattern"/>', Decrease
+		processXml '<decrease type="k2tog" xmlns="http://www.knitml.com/schema/operations"/>', Decrease
 		assertThat output, is ('k2tog')
 	}
 	
 	@Test
 	void sssk() {
 		renderingContext.engine.startNewRow()
-		processXml '<double-decrease type="sssk" xmlns="http://www.knitml.com/schema/pattern"/>', DoubleDecrease
+		processXml '<double-decrease type="sssk" xmlns="http://www.knitml.com/schema/operations"/>', DoubleDecrease
 		assertThat output, is ('sssk')
 	}
 	
 	@Test
 	void passPreviousStitchOverOnce() {
 		processXml '''
-		<row xmlns="http://www.knitml.com/schema/pattern">
+		<row xmlns="http://www.knitml.com/schema/operations">
 		  <knit>3</knit>
 		  <pass-previous-stitch-over/>
 		</row>''', Row
@@ -48,7 +48,7 @@ class DecreaseHandlerTests extends AbstractRenderingContextTests {
 	@Test
 	void passPreviousStitchOverTwice() {
 		processXml '''
-		<row xmlns="http://www.knitml.com/schema/pattern">
+		<row xmlns="http://www.knitml.com/schema/operations">
 		  <knit>3</knit>
 		  <pass-previous-stitch-over>2</pass-previous-stitch-over>
 		</row>''', Row

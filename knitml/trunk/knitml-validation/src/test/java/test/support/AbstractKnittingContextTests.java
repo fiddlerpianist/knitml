@@ -32,12 +32,12 @@ public abstract class AbstractKnittingContextTests {
 	protected KnittingEngine engine;
 	protected KnittingContext knittingContext;
 
-	protected static final String PATTERN_START_TAG = "<pattern xmlns=\"http://www.knitml.com/schema/pattern\" version=\"" + Version.getCurrentVersionId() + "\">"; //$NON-NLS-1$ //$NON-NLS-2$
-	private static final String DIRECTIONS_START_TAG = "<directions>"; //$NON-NLS-1$
-	private static final String INSTRUCTION_GROUP_START_TAG = "<instruction-group id=\"ig1\">"; //$NON-NLS-1$
-	private static final String PATTERN_END_TAG = "</pattern>"; //$NON-NLS-1$
-	private static final String DIRECTIONS_END_TAG = "</directions>"; //$NON-NLS-1$
-	private static final String INSTRUCTION_GROUP_END_TAG = "</instruction-group>"; //$NON-NLS-1$
+	protected static final String PATTERN_START_TAG = "<pattern:pattern xmlns:pattern=\"http://www.knitml.com/schema/pattern\" xmlns:common=\"http://www.knitml.com/schema/common\" xmlns=\"http://www.knitml.com/schema/operations\" version=\"" + Version.getCurrentVersionId() + "\">"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String DIRECTIONS_START_TAG = "<pattern:directions>"; //$NON-NLS-1$
+	private static final String INSTRUCTION_GROUP_START_TAG = "<pattern:instruction-group id=\"ig1\">"; //$NON-NLS-1$
+	private static final String PATTERN_END_TAG = "</pattern:pattern>"; //$NON-NLS-1$
+	private static final String DIRECTIONS_END_TAG = "</pattern:directions>"; //$NON-NLS-1$
+	private static final String INSTRUCTION_GROUP_END_TAG = "</pattern:instruction-group>"; //$NON-NLS-1$
 
 	private static final String ROW_PREFIX = PATTERN_START_TAG
 			+ DIRECTIONS_START_TAG + INSTRUCTION_GROUP_START_TAG;
@@ -63,12 +63,12 @@ public abstract class AbstractKnittingContextTests {
 	protected Pattern parseXml(String xml) throws JiBXException {
 		StringBuffer xmlToUse = new StringBuffer();
 		String testXml = xml.trim();
-		if (testXml.startsWith("<row") || testXml.startsWith("<section") || testXml.startsWith("<instruction ")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if (testXml.startsWith("<row") || testXml.startsWith("<pattern:section") || testXml.startsWith("<instruction ")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			xmlToUse.append(ROW_PREFIX).append(xml).append(ROW_SUFFIX);
-		} else if (testXml.startsWith("<instruction-group")) { //$NON-NLS-1$
+		} else if (testXml.startsWith("<pattern:instruction-group")) { //$NON-NLS-1$
 			xmlToUse.append(INSTRUCTION_GROUP_PREFIX).append(xml).append(
 					INSTRUCTION_GROUP_SUFFIX);
-		} else if (testXml.startsWith("<directions")) { //$NON-NLS-1$
+		} else if (testXml.startsWith("<pattern:directions")) { //$NON-NLS-1$
 			xmlToUse.append(DIRECTIONS_PREFIX).append(xml).append(
 					DIRECTIONS_SUFFIX);
 		} else {
