@@ -24,18 +24,18 @@ class SuppliesAccessoriesVisitorTests extends AbstractRenderingContextTests {
 	
 	@Test
 	void noAccessories() {
-		processXml '''<supplies xmlns="http://www.knitml.com/schema/pattern"><yarns/><needles/><accessories/></supplies>''', Supplies
+		processXml '''<supplies xmlns="http://www.knitml.com/schema/pattern"><yarn-types/><needle-types/><accessories/></supplies>''', Supplies
 		assertThat output, is (StringUtils.EMPTY)
 	}
 	
 	@Test
 	void oneStitchHolder() {
 		processXml '''
-        <supplies xmlns="http://www.knitml.com/schema/pattern">
-		  <yarns/>
-          <needles/>
+        <supplies xmlns="http://www.knitml.com/schema/pattern" xmlns:common="http://www.knitml.com/schema/common">
+		  <yarn-types/>
+          <needle-types/>
           <accessories>
-            <stitch-holder id="sh1"/>
+            <common:stitch-holder id="sh1"/>
           </accessories>
         </supplies>''', Supplies
 		assertThat output, startsWith (ACCESSORIES_HEADER + "1 stitch holder")
@@ -44,19 +44,15 @@ class SuppliesAccessoriesVisitorTests extends AbstractRenderingContextTests {
 	@Test
 	void twoStitchHolders() {
 		processXml '''
-        <supplies xmlns="http://www.knitml.com/schema/pattern">
-		  <yarns/>
-          <needles/>
+        <supplies xmlns="http://www.knitml.com/schema/pattern" xmlns:common="http://www.knitml.com/schema/common">
+		  <yarn-types/>
+          <needle-types/>
           <accessories>
-            <stitch-holder id="sh1"/>
-            <stitch-holder id="sh2"/>
+            <common:stitch-holder id="sh1"/>
+            <common:stitch-holder id="sh2"/>
           </accessories>
         </supplies>''', Supplies
 		assertThat output, startsWith (ACCESSORIES_HEADER + "2 stitch holders")
-	}
-	
-	static void main(args) {
-		JUnitCore.main(SuppliesAccessoriesVisitorTests.name)
 	}
 	
 }

@@ -29,21 +29,21 @@ class PurlVisitorTests extends AbstractRenderingContextTests {
 	@Test
 	void purl() {
 		renderingContext.engine.startNewRow()
-		processXml '<purl xmlns="http://www.knitml.com/schema/pattern"/>', Purl
+		processXml '<purl xmlns="http://www.knitml.com/schema/operations"/>', Purl
 		assertThat output, is ('p1')
 	}
 
 	@Test
 	void purlOne() {
 		renderingContext.engine.startNewRow()
-		processXml '<purl xmlns="http://www.knitml.com/schema/pattern">1</purl>', Purl
+		processXml '<purl xmlns="http://www.knitml.com/schema/operations">1</purl>', Purl
 		assertThat output, is ('p1')
 	}
 	
 	@Test
 	void purlOnly() {
 		processXml '''
-		<row number="1" xmlns="http://www.knitml.com/schema/pattern">
+		<row number="1" xmlns="http://www.knitml.com/schema/operations">
 			<repeat until="end">
 				<purl/>
 			</repeat>
@@ -55,14 +55,14 @@ class PurlVisitorTests extends AbstractRenderingContextTests {
 	@Test
 	void purlWithYarnOne() {
 		renderingContext.engine.startNewRow()
-		processXml '<purl yarn-ref="yarn1" xmlns="http://www.knitml.com/schema/pattern">1</purl>', Purl
+		processXml '<purl yarn-ref="yarn1" xmlns="http://www.knitml.com/schema/operations">1</purl>', Purl
 		assertThat output, is ('p1 (A)')
 	}
 
 	@Test
 	void purlWithYarnsOneAndTwo() {
 		processXml '''
-		<row number="1" xmlns="http://www.knitml.com/schema/pattern">
+		<row number="1" xmlns="http://www.knitml.com/schema/operations">
 			<purl yarn-ref="yarn1">1</purl>
 			<purl yarn-ref="yarn2">1</purl>
 		</row>

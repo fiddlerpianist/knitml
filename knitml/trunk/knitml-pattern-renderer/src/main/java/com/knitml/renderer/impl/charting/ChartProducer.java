@@ -362,6 +362,9 @@ class ChartProducer implements Renderer {
 			point = ChartElement.M1;
 		} else {
 			switch (increase.getType()) {
+			case M1:
+				point = ChartElement.M1;
+				break;
 			case YO:
 				point = ChartElement.YO;
 				break;
@@ -403,7 +406,8 @@ class ChartProducer implements Renderer {
 	}
 
 	public void beginInformation() {
-		throw new NotImplementedException();
+		// TODO figure out how to annotate this
+		//throw new NotImplementedException();
 	}
 
 	public void beginInlineInstructionDefinition(InlineInstruction instruction,
@@ -436,7 +440,8 @@ class ChartProducer implements Renderer {
 	}
 
 	public void endInformation() {
-		throw new NotImplementedException();
+		// TODO figure out how to annotate this
+		//throw new NotImplementedException();
 	}
 
 	public void endInlineInstructionDefinition(InlineInstruction instruction) {

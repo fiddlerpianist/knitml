@@ -30,19 +30,19 @@ class PickUpStitchesVisitorTests extends AbstractRenderingContextTests {
 	
 	@Test
 	void simplePickUpStitches() {
-		processXml '<inline-pick-up-stitches xmlns="http://www.knitml.com/schema/pattern">10</inline-pick-up-stitches>', InlinePickUpStitches
+		processXml '<inline-pick-up-stitches xmlns="http://www.knitml.com/schema/operations">10</inline-pick-up-stitches>', InlinePickUpStitches
 		assertThat output, is ('pick up 10 stitches')
 	}
 
 	@Test
 	void pickUpStitchesWithYarnRef() {
-		processXml '<inline-pick-up-stitches xmlns="http://www.knitml.com/schema/pattern" yarn-ref="yarn1">10</inline-pick-up-stitches>', InlinePickUpStitches
+		processXml '<inline-pick-up-stitches xmlns="http://www.knitml.com/schema/operations" yarn-ref="yarn1">10</inline-pick-up-stitches>', InlinePickUpStitches
 		assertThat output, is ("with 'A', pick up 10 stitches")
 	}
 
 	@Test
 	void pickUpStitchesWithYarnRefKnitwise() {
-		processXml '<inline-pick-up-stitches xmlns="http://www.knitml.com/schema/pattern" yarn-ref="yarn1" type="knitwise">10</inline-pick-up-stitches>', InlinePickUpStitches
+		processXml '<inline-pick-up-stitches xmlns="http://www.knitml.com/schema/operations" yarn-ref="yarn1" type="knitwise">10</inline-pick-up-stitches>', InlinePickUpStitches
 		assertThat output, is ("with 'A', pick up 10 stitches knitwise")
 	}
 	

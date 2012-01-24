@@ -23,16 +23,16 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 	@Test
 	void examineAssignedRowNumbersInHeaderInstruction() {
 		def pattern = processXml (PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="knit-purl" label="Knit / Purl Pattern" shape="flat">
 							<row><knit>5</knit></row>
 							<row><purl>15</purl></row>
 						</instruction>
-					</instruction-definitions>
-				</directives>
-				<directions/>
-			</pattern>
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions/>
+			</pattern:pattern>
 			''')
 		def instruction = pattern.directives.instructionDefinitions[0]
 		assertThat instruction.rows[0].numbers, not (null)
@@ -44,21 +44,21 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 	@Test(expected=InvalidStructureException)
 	void useInvalidGlobalInstruction() {
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="knit-purl" shape="flat"/>
-					</instruction-definitions>
-				</directives>
-				<directions/>
-			</pattern>
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions/>
+			</pattern:pattern>
 			'''
 	}
 
 	@Test
 	void useGlobalMergedInstruction() {
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="knit-purl" label="Knit / purl" shape="flat">
 							<row/>
 						</instruction>
@@ -69,18 +69,18 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 							<instruction-ref ref="knit-purl"/>
 							<instruction-ref ref="purl-knit"/>
 						</merged-instruction>
-					</instruction-definitions>
-				</directives>
-				<directions/>
-			</pattern>
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions/>
+			</pattern:pattern>
 			'''
 	}
 
 	@Test(expected=InvalidStructureException)
 	void useInvalidGlobalMergedInstruction() {
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="knit-purl" label="Knit / purl" shape="flat">
 							<row/>
 						</instruction>
@@ -91,49 +91,49 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 							<instruction-ref ref="knit-purl"/>
 							<instruction-ref ref="purl-knit"/>
 						</merged-instruction>
-					</instruction-definitions>
-				</directives>
-				<directions/>
-			</pattern>
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions/>
+			</pattern:pattern>
 			'''
 	}
 
 	@Test(expected=UnexpectedRowNumberException)
 	void useInvalidRowNumbersInHeaderInstruction() {
 		def pattern = processXml (PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="knit-purl" label="Test Pattern" shape="flat">
 							<row number="2"><knit>5</knit></row>
 							<row number="3"><knit>5</knit></row>
 						</instruction>
-					</instruction-definitions>
-				</directives>
-				<directions/>
-			</pattern>
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions/>
+			</pattern:pattern>
 			''')
 	}
 
 	@Test(expected=InvalidStructureException)
 	void instructionDefinitionWithNoShapeAttribute() {
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="knit-purl" label="Knit / purl">
 							<row/>
 						</instruction>
-					</instruction-definitions>
-				</directives>
-				<directions/>
-			</pattern>
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions/>
+			</pattern:pattern>
 			'''
 	}
 
 	@Test(expected=InvalidStructureException)
 	void mergedInstructionWithTwoDifferentShapes() {
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="knit-purl" label="Knit / purl" shape="flat">
 							<row/>
 						</instruction>
@@ -144,10 +144,10 @@ public class InstructionDefinitionVisitorTests extends AbstractKnittingContextTe
 							<instruction-ref ref="knit-purl"/>
 							<instruction-ref ref="purl-knit"/>
 						</merged-instruction>
-					</instruction-definitions>
-				</directives>
-				<directions/>
-			</pattern>
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions/>
+			</pattern:pattern>
 			'''
 	}
 }

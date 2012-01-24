@@ -4,8 +4,6 @@ import javax.measure.Measurable;
 import javax.measure.quantity.Length;
 import javax.measure.quantity.Mass;
 
-import com.knitml.core.common.ValidationException;
-
 
 /**
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)
@@ -80,11 +78,9 @@ public class Yarn {
 	public Measurable<Mass> getTotalWeight() {
 		return totalWeight;
 	}
-	
-	public void afterPropertiesSet() {
-		if (yarnType == null) {
-			throw new ValidationException("No yarn type was able to be found for this yarn", this);
-		}
+
+	public void setYarnType(YarnType yarnType) {
+		this.yarnType = yarnType;
 	}
 	
 }

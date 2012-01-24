@@ -2,6 +2,7 @@ package com.knitml.renderer.impl.charting.analyzer
 
 import static com.knitml.core.model.directions.inline.Repeat.Until.TIMES
 import static com.knitml.renderer.context.ContextUtils.deriveInstructionInfo
+import static test.support.AbstractRenderingContextTests.PATTERN_START_TAG
 import static org.hamcrest.CoreMatchers.is
 import static org.hamcrest.CoreMatchers.not
 import static org.junit.Assert.assertFalse
@@ -39,7 +40,7 @@ public class ChartingAnalyzerBodyTests {
 	@Test
 	public void simpleInstruction() {
 		Instruction instruction = parseXml ('''
-		<instruction id='inst1' xmlns="http://www.knitml.com/schema/pattern"> 
+		<instruction id='inst1' xmlns="http://www.knitml.com/schema/operations"> 
 			<row> 
 				<knit>2</knit>
 				<purl>2</purl>
@@ -59,7 +60,7 @@ public class ChartingAnalyzerBodyTests {
 	@Test
 	public void simpleInstructionWithExplicitRepeat() {
 		Instruction instruction = parseXml ('''
-		<instruction id='inst1' xmlns='http://www.knitml.com/schema/pattern'> 
+		<instruction id='inst1' xmlns='http://www.knitml.com/schema/operations'> 
 			<row> 
 				<repeat until='times' value='4'>
 		         <knit>2</knit>
@@ -77,7 +78,7 @@ public class ChartingAnalyzerBodyTests {
 	public void simpleInstructionWithContextualRepeat() {
 		context.engine.castOn 16
 		Instruction instruction = parseXml ('''
-		<instruction id='inst1' xmlns='http://www.knitml.com/schema/pattern'> 
+		<instruction id='inst1' xmlns='http://www.knitml.com/schema/operations'> 
 			<row> 
 				<repeat until='end'>
 		         <knit>2</knit>
@@ -101,7 +102,7 @@ public class ChartingAnalyzerBodyTests {
 		// ensure not processable
 		context.engine.castOn 4
 		Instruction instruction = parseXml ('''
-		<instruction id='inst1' xmlns='http://www.knitml.com/schema/pattern'> 
+		<instruction id='inst1' xmlns='http://www.knitml.com/schema/operations'> 
 			<row> 
 		         <knit>2</knit>
 		         <turn/>
@@ -118,8 +119,8 @@ public class ChartingAnalyzerBodyTests {
 	public void instructionWithApplyNextRow() {
 		context.engine.castOn 4
 		Pattern pattern = parseXml ('''
-		<pattern xmlns='http://www.knitml.com/schema/pattern'>
-			<directions>
+		<pattern:pattern xmlns:pattern='http://www.knitml.com/schema/pattern' xmlns='http://www.knitml.com/schema/operations'>
+			<pattern:directions>
 				<instruction id='ref-inst'>
 					<row>
 						<knit>4</knit>
@@ -130,8 +131,8 @@ public class ChartingAnalyzerBodyTests {
 						<apply-next-row instruction-ref="ref-inst"/>
 		         	</row>
 		         </instruction>
-		    </directions>
-		 </pattern>''', Pattern)
+		    </pattern:directions>
+		 </pattern:pattern>''', Pattern)
 		InstructionInfo instructionInfo = deriveInstructionInfo(pattern.directions.operations[0], "Ref Instruction")
 		context.patternRepository.addGlobalInstruction(instructionInfo)
 		Analysis analysis = analyzer.analyzeInstruction(pattern.directions.operations[1],null,false)
@@ -143,7 +144,7 @@ public class ChartingAnalyzerBodyTests {
 		// ensure not processable
 		context.engine.castOn 4
 		Instruction instruction = parseXml ('''
-		<instruction id='inst1' xmlns='http://www.knitml.com/schema/pattern'> 
+		<instruction id='inst1' xmlns='http://www.knitml.com/schema/operations'> 
 			<row>
 				<bind-off-all/>
 		    </row>
@@ -156,7 +157,7 @@ public class ChartingAnalyzerBodyTests {
 	public void instructionWithDesignateEndOfRow() {
 		context.engine.castOn 4
 		Instruction instruction = parseXml ('''
-		<instruction id='inst1' xmlns='http://www.knitml.com/schema/pattern'> 
+		<instruction id='inst1' xmlns='http://www.knitml.com/schema/operations'> 
 			<row>
 				<designate-end-of-row/>
 		    </row>
@@ -169,7 +170,7 @@ public class ChartingAnalyzerBodyTests {
 	public void chartableInstructionWithNewMarker() {
 		context.engine.castOn 12
 		Instruction instruction = parseXml ('''
-		<instruction id='inst1' xmlns='http://www.knitml.com/schema/pattern'> 
+		<instruction id='inst1' xmlns='http://www.knitml.com/schema/operations'> 
 			<row>
 				<knit>6</knit>
 				<place-marker/>
@@ -208,7 +209,7 @@ public class ChartingAnalyzerBodyTests {
 			endRow()
 		}
 		Instruction instruction = parseXml ('''
-		<instruction id='inst1' xmlns='http://www.knitml.com/schema/pattern'> 
+		<instruction id='inst1' xmlns='http://www.knitml.com/schema/operations'> 
 		    <row>
 		    	<repeat until="marker">
 		    		<knit/>
@@ -230,18 +231,20 @@ public class ChartingAnalyzerBodyTests {
 	@Test
 	public void instructionWithUsingNeedle() {
 		context.engine.castOn 4
-		Pattern pattern = parseXml ('''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
-		  <supplies>
-			<yarns/>
-			<needles>
-				<needle-type id="needle-type1" type="circular"/> 
-				<needle id="needle1" typeref="needle-type1"/>
-				<needle id="needle2" typeref="needle-type1"/>
-			</needles>
-			<accessories/>
-		  </supplies>
-		<directions>
+		Pattern pattern = parseXml (PATTERN_START_TAG + 
+'''		  <pattern:supplies>
+			<pattern:yarn-types/>
+			<pattern:needle-types>
+				<pattern:needle-type id="needle-type1" type="circular">
+					<pattern:needles> 
+						<common:needle id="needle1"/>
+						<common:needle id="needle2"/>
+					</pattern:needles> 
+				</pattern:needle-type>
+			</pattern:needle-types>
+			<pattern:accessories/>
+		  </pattern:supplies>
+		<pattern:directions>
 		 <instruction id="inst1">
 		  <row>
 		  	<using-needle ref="needle1">
@@ -249,8 +252,8 @@ public class ChartingAnalyzerBodyTests {
 		  	</using-needle>
 		  </row>
 		 </instruction>
-    	</directions>
-        </pattern>''', Pattern)
+    	</pattern:directions>
+        </pattern:pattern>''', Pattern)
 		Analysis analysis = analyzer.analyzeInstruction(pattern.directions.operations[0],null,false)
 		assertFalse analysis.isChartable()
 	}
@@ -259,8 +262,8 @@ public class ChartingAnalyzerBodyTests {
 	public void forEachRowInInstruction() {
 		context.engine.castOn 4
 		Pattern pattern = parseXml ('''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
-		<directions>
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations">
+		<pattern:directions>
 		 <instruction id="inst1">
 		  <row>
 		  	<knit>4</knit>
@@ -272,8 +275,8 @@ public class ChartingAnalyzerBodyTests {
 	 			<purl>2</purl>
 		 	</for-each-row-in-instruction>
 		 </instruction>
-    	</directions>
-        </pattern>''', Pattern)
+    	</pattern:directions>
+        </pattern:pattern>''', Pattern)
 		Analysis analysis = analyzer.analyzeInstruction(pattern.directions.operations[1],null,false)
 		assertFalse analysis.isChartable()
 	}
@@ -283,7 +286,7 @@ public class ChartingAnalyzerBodyTests {
 	public void instructionWithNoStitch() {
 		context.engine.castOn 4
 		Instruction instruction = parseXml ('''
-				<instruction id='inst1' xmlns="http://www.knitml.com/schema/pattern"> 
+				<instruction id='inst1' xmlns="http://www.knitml.com/schema/operations"> 
 					<row> 
 						<knit>2</knit>
 						<no-stitch>4</no-stitch>

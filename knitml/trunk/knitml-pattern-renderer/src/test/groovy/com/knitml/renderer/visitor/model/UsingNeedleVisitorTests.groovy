@@ -23,16 +23,19 @@ class UsingNeedleVisitorTests extends AbstractRenderingContextTests {
 	@Test
 	void basicUsingNeedle() {
 		processXml PATTERN_START_TAG + '''
-			<supplies>
-				<yarns/>
-				<needles>
-					<needle-type id="needle-type1" type="circular"/> 
-					<needle id="needle1" typeref="needle-type1" label="Needle 1"/>
-					<needle id="needle2" typeref="needle-type1" label="Needle 2"/>
-				</needles>
-				<accessories/>
-			</supplies>
-			<directions>
+			<pattern:supplies>
+				<pattern:yarn-types/>
+				<pattern:needle-types>
+					<pattern:needle-type id="needle-type1" type="circular">
+						<pattern:needles>
+							<common:needle id="needle1" label="Needle 1"/>
+							<common:needle id="needle2" label="Needle 2"/>
+						</pattern:needles>
+					</pattern:needle-type>
+				</pattern:needle-types>
+				<pattern:accessories/>
+			</pattern:supplies>
+			<pattern:directions>
 				<use-needles>
 					<needle ref="needle1"/>
 				</use-needles>
@@ -53,14 +56,10 @@ class UsingNeedleVisitorTests extends AbstractRenderingContextTests {
 						<purl>5</purl>
 					</using-needle>
 				</row>
-           	</directions>
-           </pattern>
+           	</pattern:directions>
+           </pattern:pattern>
 		'''
 		assertThat output.trim(), endsWith ('Row 1: ' + LINE_BREAK + '    Needle 1: k5' + LINE_BREAK + '    Needle 2: p5')
-	}
-	
-	static void main(args) {
-		JUnitCore.main(UsingNeedleVisitorTests.name)
 	}
 	
 }

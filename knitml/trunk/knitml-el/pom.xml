@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>knitml-parent</artifactId>
 		<groupId>com.knitml</groupId>
-		<version>0.6.0-SNAPSHOT</version>
+		<version>0.6.0.M1-SNAPSHOT</version>
 	</parent>
 	<artifactId>knitml-el</artifactId>
 	<name>KnitML Expression Language</name>

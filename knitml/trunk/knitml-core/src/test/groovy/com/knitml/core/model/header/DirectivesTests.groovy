@@ -20,14 +20,12 @@ import org.jibx.runtime.JiBXException
 import org.junit.Test
 import org.junit.Ignore
 import org.junit.BeforeClass
-import org.junit.internal.runners.JUnit4ClassRunner
 import org.junit.runner.JUnitCore
 import org.junit.runner.RunWith
 
 import com.knitml.core.units.Units
 import com.knitml.core.model.Pattern
 
-@RunWith(JUnit4ClassRunner)
 class DirectivesTests {
 	@BeforeClass
 	static void setUp() {
@@ -37,9 +35,9 @@ class DirectivesTests {
 	@Test
 	void mergedInstruction() {
 		def xml = '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
-			<directives>
-				<instruction-definitions>
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			<pattern:directives>
+				<pattern:instruction-definitions>
 					<instruction id="thingy1" shape="flat"/>
 					<instruction id="thingy2" shape="round"/>
 					<instruction id="thingy3"/>
@@ -47,9 +45,9 @@ class DirectivesTests {
 						<instruction-ref ref="thingy1"/>
 						<instruction-ref ref="thingy2"/>
 					</merged-instruction>
-				</instruction-definitions>
-			</directives>
-		</pattern>
+				</pattern:instruction-definitions>
+			</pattern:directives>
+		</pattern:pattern>
 		'''
 		Pattern pattern = unmarshalXml(xml)
 		def instruction1 = pattern.directives.instructionDefinitions[0]
@@ -74,7 +72,7 @@ class DirectivesTests {
 	void invalidMergedInstruction() {
 		// invalid because required attributes are missing
 		def xml = '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
 			<directives>
 				<instruction-definitions>
 					<instruction id="thingy1"/>
@@ -85,7 +83,7 @@ class DirectivesTests {
 					</merged-instruction>
 				</instruction-definitions>
 			</directives>
-		</pattern>
+		</pattern:pattern>
 		'''
 		unmarshalXml(xml)
 	}
@@ -93,14 +91,14 @@ class DirectivesTests {
 	@Test
 	void messageSources() {
 		def xml = '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
-			<directives>
-				<message-sources>
-					<message-source>thing1</message-source>
-					<message-source>thing2</message-source>
-				</message-sources>
-			</directives>
-		</pattern>
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			<pattern:directives>
+				<pattern:message-sources>
+					<pattern:message-source>thing1</pattern:message-source>
+					<pattern:message-source>thing2</pattern:message-source>
+				</pattern:message-sources>
+			</pattern:directives>
+		</pattern:pattern>
 		'''
 		Pattern pattern = unmarshalXml(xml)
 		assertThat pattern.directives.messageSources[0], is ('thing1')

@@ -15,7 +15,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 	void slip() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<slip xmlns="http://www.knitml.com/schema/pattern"/>', Slip
+		processXml '<slip xmlns="http://www.knitml.com/schema/operations"/>', Slip
 		assertThat output, is ('sl 1')
 	}
 
@@ -24,7 +24,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 	void slip1() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<slip xmlns="http://www.knitml.com/schema/pattern">1</slip>', Slip
+		processXml '<slip xmlns="http://www.knitml.com/schema/operations">1</slip>', Slip
 		assertThat output, is ('sl 1')
 	}
 
@@ -32,7 +32,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 	void slip3() {
 		renderingContext.engine.castOn 3
 		renderingContext.engine.startNewRow()
-		processXml '<slip xmlns="http://www.knitml.com/schema/pattern">3</slip>', Slip
+		processXml '<slip xmlns="http://www.knitml.com/schema/operations">3</slip>', Slip
 		assertThat output, is ('sl 3')
 	}
 
@@ -41,7 +41,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
 		renderingContext.engine.knit 1
-		processXml '<slip xmlns="http://www.knitml.com/schema/pattern" direction="reverse"/>', Slip
+		processXml '<slip xmlns="http://www.knitml.com/schema/operations" direction="reverse"/>', Slip
 		assertThat output, is ('sl 1 from RH to LH needle')
 	}
 
@@ -50,7 +50,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
 		renderingContext.engine.knit 1
-		processXml '<slip xmlns="http://www.knitml.com/schema/pattern" direction="reverse">1</slip>', Slip
+		processXml '<slip xmlns="http://www.knitml.com/schema/operations" direction="reverse">1</slip>', Slip
 		assertThat output, is ('sl 1 from RH to LH needle')
 	}
 
@@ -59,7 +59,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 		renderingContext.engine.castOn 3
 		renderingContext.engine.startNewRow()
 		renderingContext.engine.knit 3
-		processXml '<slip xmlns="http://www.knitml.com/schema/pattern" direction="reverse">3</slip>', Slip
+		processXml '<slip xmlns="http://www.knitml.com/schema/operations" direction="reverse">3</slip>', Slip
 		assertThat output, is ('sl 3 from RH to LH needle')
 	}
 
@@ -67,7 +67,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 	void slipKnitwise() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<slip type="knitwise" xmlns="http://www.knitml.com/schema/pattern"/>', Slip
+		processXml '<slip type="knitwise" xmlns="http://www.knitml.com/schema/operations"/>', Slip
 		assertThat output, is ('sl 1 knitwise')
 	}
 	
@@ -75,7 +75,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 	void slipKnitwiseWithYarnInBack() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<slip type="knitwise" yarn-position="back" xmlns="http://www.knitml.com/schema/pattern"/>', Slip
+		processXml '<slip type="knitwise" yarn-position="back" xmlns="http://www.knitml.com/schema/operations"/>', Slip
 		assertThat output, is ('sl 1 knitwise wyib')
 	}
 
@@ -83,7 +83,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 	void slipKnitwiseWithYarnInFront() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<slip type="knitwise" yarn-position="front" xmlns="http://www.knitml.com/schema/pattern"/>', Slip
+		processXml '<slip type="knitwise" yarn-position="front" xmlns="http://www.knitml.com/schema/operations"/>', Slip
 		assertThat output, is ('sl 1 knitwise wyif')
 	}
 
@@ -91,7 +91,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 	void slipPurlwise() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<slip type="purlwise" xmlns="http://www.knitml.com/schema/pattern"/>', Slip
+		processXml '<slip type="purlwise" xmlns="http://www.knitml.com/schema/operations"/>', Slip
 		assertThat output, is ('sl 1 purlwise')
 	}
 	
@@ -99,7 +99,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 	void slipPurlwiseWithYarnInBack() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<slip type="purlwise" yarn-position="back" xmlns="http://www.knitml.com/schema/pattern"/>', Slip
+		processXml '<slip type="purlwise" yarn-position="back" xmlns="http://www.knitml.com/schema/operations"/>', Slip
 		assertThat output, is ('sl 1 purlwise wyib')
 	}
 	
@@ -107,7 +107,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 	void slipPurlwiseWithYarnInFront() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<slip type="purlwise" yarn-position="front" xmlns="http://www.knitml.com/schema/pattern"/>', Slip
+		processXml '<slip type="purlwise" yarn-position="front" xmlns="http://www.knitml.com/schema/operations"/>', Slip
 		assertThat output, is ('sl 1 purlwise wyif')
 	}
 	
@@ -115,7 +115,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 	void slipYarnInBack() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<slip yarn-position="back" xmlns="http://www.knitml.com/schema/pattern"/>', Slip
+		processXml '<slip yarn-position="back" xmlns="http://www.knitml.com/schema/operations"/>', Slip
 		assertThat output, is ('sl 1 wyib')
 	}
 	
@@ -123,7 +123,7 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 	void slipYarnInFront() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<slip yarn-position="front" xmlns="http://www.knitml.com/schema/pattern"/>', Slip
+		processXml '<slip yarn-position="front" xmlns="http://www.knitml.com/schema/operations"/>', Slip
 		assertThat output, is ('sl 1 wyif')
 	}
 	

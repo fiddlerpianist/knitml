@@ -22,24 +22,24 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 	@Test
 	void inlineInstructionDefinition() {
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<inline-instruction id="cross-2-over-2" label="2/2 LC">
 							<cross-stitches first="2" next="2" type="front" />
 							<knit>4</knit>
 						</inline-instruction>
-					</instruction-definitions>
-				</directives>
-				<directions/>
-			</pattern>'''
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions/>
+			</pattern:pattern>'''
 		assertThat output, startsWith ('2/2 LC: cross next 2 stitches in front of following 2 stitches, k4')
 	}
 	
 	@Test
 	void instructionDefinition() {
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="sunny-day" label="Sunny Day Stitch" shape="round">
 							<row>
 								<knit>9</knit>
@@ -50,18 +50,18 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 								<purl>9</purl>
 							</row>
 						</instruction>
-					</instruction-definitions>
-				</directives>
-				<directions/>
-			</pattern>'''
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions/>
+			</pattern:pattern>'''
 		assertThat output, startsWith ('Sunny Day Stitch:' + LINE_BREAK + 'Row 1: k9, p1' + LINE_BREAK + 'Row 2: k1, p9')
 	}
 	
 	@Test
 	void instructionDefinitionWithReference() {
 		processXml PATTERN_START_TAG + '''
-				<directives>
-					<instruction-definitions>
+				<pattern:directives>
+					<pattern:instruction-definitions>
 						<instruction id="sunny-day" label="Sunny Day Stitch" shape="round">
 							<row>
 								<knit>9</knit>
@@ -72,9 +72,9 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 								<purl>9</purl>
 							</row>
 						</instruction>
-					</instruction-definitions>
-				</directives>
-				<directions>
+					</pattern:instruction-definitions>
+				</pattern:directives>
+				<pattern:directions>
 					<cast-on>20</cast-on>
 					<instruction id="next">
 					  <for-each-row-in-instruction ref="sunny-day">
@@ -83,16 +83,16 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 						<knit>5</knit>
 					  </for-each-row-in-instruction>
 					</instruction>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		assertThat output, containsString ('k5, work next row from Sunny Day Stitch instruction, k5')
 	}
 	
 	@Test
 	void mergedInstructionDefinition() {
 		processXml PATTERN_START_TAG + '''
-		  <directives>
-		    <instruction-definitions>
+		  <pattern:directives>
+		    <pattern:instruction-definitions>
 		      <instruction id="left-side" label="Blah 1" shape="round">
 		        <row>
 		          <purl>2</purl>
@@ -117,10 +117,10 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 		        <instruction-ref ref="left-side" />
 		        <instruction-ref ref="right-side" />
 		      </merged-instruction>
-		   </instruction-definitions>
-		 </directives>
-		<directions/>
-		</pattern>
+		   </pattern:instruction-definitions>
+		 </pattern:directives>
+		<pattern:directions/>
+		</pattern:pattern>
 		'''
 		assertThat output, containsString ('Merged Instruction:' + LINE_BREAK + 'Row 1: p2, yo, k3, ssk, k9, p2, k9, k2tog, k3, yo, p2')
 	}
@@ -128,8 +128,8 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 	@Test
 	void mergedInstructionDefinitionWithReference() {
 		processXml PATTERN_START_TAG + '''
-		  <directives>
-		    <instruction-definitions>
+		  <pattern:directives>
+		    <pattern:instruction-definitions>
 		      <instruction id="left-side" label="Blah 1" shape="round">
 		        <row>
 		          <purl>2</purl>
@@ -154,9 +154,9 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 		        <instruction-ref ref="left-side" />
 		        <instruction-ref ref="right-side" />
 		      </merged-instruction>
-		   </instruction-definitions>
-		 </directives>
-		<directions>
+		   </pattern:instruction-definitions>
+		 </pattern:directives>
+		<pattern:directions>
 			<cast-on>44</cast-on>
 			<join-in-round/>
 			<instruction id="next">
@@ -166,8 +166,8 @@ class InstructionDefinitionVisitorTests extends AbstractRenderingContextTests {
 				<knit>5</knit>
 			  </for-each-row-in-instruction>
 			</instruction>
-		</directions>
-		</pattern>
+		</pattern:directions>
+		</pattern:pattern>
 		'''
 		assertThat output, containsString ('k5, work next row from Merged Instruction instruction, k5')
 	}

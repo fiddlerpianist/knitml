@@ -19,7 +19,7 @@ import org.custommonkey.xmlunit.XMLUnit
 
 import org.junit.Test
 import org.junit.BeforeClass
-import org.junit.internal.runners.JUnit4ClassRunner
+import org.junit.runners.JUnit4
 import org.junit.runner.JUnitCore
 import org.junit.runner.RunWith
 
@@ -37,7 +37,6 @@ import com.knitml.core.common.Side
 import com.knitml.core.units.Units
 import com.knitml.core.common.ValidationException
 
-@RunWith(JUnit4ClassRunner)
 class RowsAndInstructionsTests {
 	@BeforeClass
 	static void setUp() {
@@ -47,11 +46,11 @@ class RowsAndInstructionsTests {
 	@Test
 	void directionsAndInstructionGroup() {
 		def xml = '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
-				  <directions>
-				    <instruction-group id="main" message-key="mk1" label="Do it" reset-row-count="true" />
-				  </directions>
-				</pattern>'''
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				  <pattern:directions>
+				    <pattern:instruction-group id="main" message-key="mk1" label="Do it" reset-row-count="true" />
+				  </pattern:directions>
+				</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		assertNotNull pattern.directions
 		InstructionGroup group = pattern.directions.operations[0]
@@ -66,15 +65,15 @@ class RowsAndInstructionsTests {
 	@Test(expected=ValidationException)
 	void anInstructionWithRowsAndAnEachRowOf() {
 		def xml = '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
-			<directions>
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			<pattern:directions>
 				<instruction id="thingy"/>
 				<instruction id="test">
 					<row/>
 					<for-each-row-in-instruction ref="thingy"/>
 				</instruction>
-			</directions>
-		</pattern>'''
+			</pattern:directions>
+		</pattern:pattern>'''
 		def pattern = unmarshalXml(xml)
 		marshalXmlAndCompare(pattern,xml)
 	}
@@ -82,12 +81,12 @@ class RowsAndInstructionsTests {
 	@Test
 	void anInstruction() {
 		def xml = '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
-			<directions>
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			<pattern:directions>
 				<instruction id="thingy1" shape="round" label="Label 1" message-key="label1" row-count="25"/>
 				<instruction id="thingy2"/>
-			</directions>
-		</pattern>'''
+			</pattern:directions>
+		</pattern:pattern>'''
 		def pattern = unmarshalXml(xml)
 		Instruction instruction = pattern.directions.operations[0]
 		assertThat (instruction instanceof Instruction, is (true))
@@ -112,12 +111,12 @@ class RowsAndInstructionsTests {
 	@Test
 	void anInstructionWithReference() {
 		def xml = '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
-			<directions>
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			<pattern:directions>
 				<instruction id="thingy"/>
 				<instruction-ref ref="thingy"/>
-			</directions>
-		</pattern>'''
+			</pattern:directions>
+		</pattern:pattern>'''
 		def pattern = unmarshalXml(xml)
 		def instruction = pattern.directions.operations[0]
 		assertThat (instruction instanceof Instruction, is (true))
@@ -132,16 +131,16 @@ class RowsAndInstructionsTests {
 	@Test
 	void twoRows() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-				<directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				<pattern:directions>
 					<row type="round" number="1 3 4 5"
 						assign-row-number="false" short="true"
                         long="true"
 						inform-side="true" yarn-ref="yarn1"
 						reset-row-count="true" side="right" subsequent="even" />
 					<row number="2"/>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		def pattern = unmarshalXml(xml)
 		
 		List<Row> rows = pattern.directions.operations
@@ -177,8 +176,8 @@ class RowsAndInstructionsTests {
 	@Test
 	void rowWithInformation() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-				<directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				<pattern:directions>
 					<row>
 					  <information>
 						<message label="Test"/>
@@ -188,8 +187,8 @@ class RowsAndInstructionsTests {
 					  	<number-of-stitches number="5"/>
 					  </followup-information>
 					</row>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		def pattern = unmarshalXml(xml)
 		
 		List<Row> rows = pattern.directions.operations
@@ -205,14 +204,14 @@ class RowsAndInstructionsTests {
 	@Test
 	void repeatInstructionAdditionalTimes() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-				<directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				<pattern:directions>
 					<instruction id="thingy"/>
 					<repeat-instruction ref="thingy">
 						<additional-times>3</additional-times>
 					</repeat-instruction>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		def pattern = unmarshalXml(xml)
 		
 		def repeatInstruction = pattern.directions.operations[1]
@@ -227,14 +226,14 @@ class RowsAndInstructionsTests {
 	@Test
 	void repeatInstructionUntilDesiredLength() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-				<directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				<pattern:directions>
 					<instruction id="thingy"/>
 					<repeat-instruction ref="thingy">
 						<until-desired-length/>
 					</repeat-instruction>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		def pattern = unmarshalXml(xml)
 		
 		def repeatInstruction = pattern.directions.operations[1]
@@ -249,14 +248,14 @@ class RowsAndInstructionsTests {
 	@Test
 	void repeatInstructionUntilStitchesRemain() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-				<directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				<pattern:directions>
 					<instruction id="thingy"/>
 					<repeat-instruction ref="thingy">
 						<until-stitches-remain>10</until-stitches-remain>
 					</repeat-instruction>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		def pattern = unmarshalXml(xml)
 		
 		def repeatInstruction = pattern.directions.operations[1]
@@ -271,17 +270,20 @@ class RowsAndInstructionsTests {
 	@Test
 	void repeatInstructionUntilStitchesRemainOnNeedles() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-				  <supplies>
-					<yarns/>
-					<needles>
-						<needle-type id="size1circ" type="circular"/>
-						<needle id="needle1" typeref="size1circ"/>
-						<needle id="needle2" typeref="size1circ"/>
-					</needles>
-					<accessories/>
-				  </supplies>
-				<directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				  <pattern:supplies>
+					<pattern:yarn-types/>
+					<pattern:needle-types>
+						<pattern:needle-type id="size1circ" type="circular">
+							<pattern:needles>
+								<common:needle id="needle1"/>
+								<common:needle id="needle2"/>
+							</pattern:needles>
+						</pattern:needle-type>
+					</pattern:needle-types>
+					<pattern:accessories/>
+				  </pattern:supplies>
+				<pattern:directions>
 					<instruction id="thingy"/>
 					<repeat-instruction ref="thingy">
 						<until-stitches-remain-on-needles>
@@ -289,8 +291,8 @@ class RowsAndInstructionsTests {
 							<needle ref="needle2">10</needle>
 						</until-stitches-remain-on-needles>
 					</repeat-instruction>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		def pattern = unmarshalXml(xml)
 		def needle1 = pattern.supplies.needles[0]
 		def needle2 = pattern.supplies.needles[1]
@@ -310,14 +312,14 @@ class RowsAndInstructionsTests {
 	@Test
 	void repeatInstructionUntilMeasures() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-				<directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				<pattern:directions>
 					<instruction id="thingy"/>
 					<repeat-instruction ref="thingy">
 						<until-measures unit="in">4</until-measures>
 					</repeat-instruction>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		def pattern = unmarshalXml(xml)
 		
 		def repeatInstruction = pattern.directions.operations[1]
@@ -334,16 +336,19 @@ class RowsAndInstructionsTests {
 	@Test
 	void repeatInstructionUntilEquals() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-				  <supplies>
-					<yarns/>
-					<needles>
-						<needle-type id="size1circ" type="circular"/>
-						<needle id="needle1" typeref="size1circ"/>
-					</needles>
-					<accessories/>
-				  </supplies>
-				<directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				  <pattern:supplies>
+					<pattern:yarn-types/>
+					<pattern:needle-types>
+						<pattern:needle-type id="size1circ" type="circular">
+							<pattern:needles>
+								<common:needle id="needle1"/>
+							</pattern:needles>
+						</pattern:needle-type>
+					</pattern:needle-types>
+					<pattern:accessories/>
+				  </pattern:supplies>
+				<pattern:directions>
 					<instruction id="thingy"/>
 					<repeat-instruction ref="thingy">
 						<until-equals>
@@ -353,8 +358,8 @@ class RowsAndInstructionsTests {
                           <value>50</value>
                         </until-equals>
 					</repeat-instruction>
-				</directions>
-			</pattern>'''
+				</pattern:directions>
+			</pattern:pattern>'''
 		def pattern = unmarshalXml(xml)
 		def needle1 = pattern.supplies.needles[0]
 		
@@ -373,21 +378,21 @@ class RowsAndInstructionsTests {
 	@Test
 	void section() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-				<directions>
-					<section>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				<pattern:directions>
+					<pattern:section>
 						<row number="1"/>
-					</section>
-					<section>
+					</pattern:section>
+					<pattern:section>
 						<row number="2"/>
 						<row number="3"/>
-					</section>
-					<section reset-row-count="true">
+					</pattern:section>
+					<pattern:section reset-row-count="true">
 						<row number="1"/>
 						<row number="2"/>
-					</section>
-				</directions>
-			</pattern>'''
+					</pattern:section>
+				</pattern:directions>
+			</pattern:pattern>'''
 		def pattern = unmarshalXml(xml)
 		
 		def sections = pattern.directions.operations
@@ -402,9 +407,9 @@ class RowsAndInstructionsTests {
 	@Test
 	void eachRow() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-				<directions>
-					<instruction-group id="ig1">
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				<pattern:directions>
+					<pattern:instruction-group id="ig1">
 						<instruction id="instruction1"/>
 						<instruction id="combined-instruction">
 							<for-each-row-in-instruction ref="instruction1">
@@ -412,9 +417,9 @@ class RowsAndInstructionsTests {
 								<purl/>
 							</for-each-row-in-instruction>
 						</instruction>
-					</instruction-group>
-				</directions>
-			</pattern>
+					</pattern:instruction-group>
+				</pattern:directions>
+			</pattern:pattern>
 		'''
 		Pattern pattern = unmarshalXml(xml)
 		assertNotNull pattern.directions
@@ -427,10 +432,6 @@ class RowsAndInstructionsTests {
 			assertThat ((operations[1] instanceof Purl), is (true))
 		}
 		marshalXmlAndCompare(pattern,xml)
-	}
-	
-	static void main(args) {
-		JUnitCore.main(RowsAndInstructionsTests.name)
 	}
 	
 }

@@ -34,7 +34,7 @@ public class ChartingAnalyzerHeaderTests {
 	@Test
 	public void simpleHeaderInstruction() throws Exception {
 		Instruction instruction = parseXml ('''
-		<instruction id='inst1' xmlns='http://www.knitml.com/schema/pattern'> 
+		<instruction id='inst1' xmlns='http://www.knitml.com/schema/operations'> 
 			<row> 
 				<knit>2</knit>
 				<purl>2</purl>
@@ -52,7 +52,7 @@ public class ChartingAnalyzerHeaderTests {
 	@Test
 	public void headerInstructionWithExplicitAndContextualRepeat() throws Exception {
 		Instruction instruction = parseXml ('''
-		<instruction id='inst1' xmlns='http://www.knitml.com/schema/pattern'> 
+		<instruction id='inst1' xmlns='http://www.knitml.com/schema/operations'> 
 			<row> 
 				<repeat until='times' value='3'>
 		         <knit>2</knit>
@@ -76,7 +76,7 @@ public class ChartingAnalyzerHeaderTests {
 	@Test
 	public void headerInstructionWithFirstRowContextualRepeat() throws Exception {
 		Instruction instruction = parseXml (''' 
-		<instruction id='inst1' xmlns='http://www.knitml.com/schema/pattern'> 
+		<instruction id='inst1' xmlns='http://www.knitml.com/schema/operations'> 
 			<row>
 				<repeat until='end'>
 		         <knit>2</knit>

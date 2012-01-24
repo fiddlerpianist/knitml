@@ -68,7 +68,7 @@ public class MeasurableTranslator implements IMarshaller, IUnmarshaller,
 		Measure<?,?> measure = (Measure<?,?>)obj;
 		
 		ctx.startTagAttributes(this.index, this.name);
-		ctx.attribute(this.index, "unit", measure.getUnit().toString()); //$NON-NLS-1$
+		ctx.attribute(0, "unit", measure.getUnit().toString()); //$NON-NLS-1$
 		ctx.closeStartContent();
 		ctx.content(String.valueOf(measure.getValue()));
 		ctx.endTag(this.index, this.name);

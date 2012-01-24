@@ -5,29 +5,19 @@ package com.knitml.core.model.header
 
 import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
-import static test.support.JiBXTestUtils.unmarshalXml
 import static test.support.JiBXTestUtils.marshalXmlAndCompare
+import static test.support.JiBXTestUtils.unmarshalXml
 
 import javax.measure.Measure
 
 import org.custommonkey.xmlunit.XMLUnit
-
-import org.junit.Test
-import org.junit.Ignore
 import org.junit.BeforeClass
-import org.junit.internal.runners.JUnit4ClassRunner
-import org.junit.runner.JUnitCore
-import org.junit.runner.RunWith
+import org.junit.Test
 
-import com.knitml.core.units.Units
-import com.knitml.core.model.Pattern
-import com.knitml.core.common.Side
-import com.knitml.core.common.Wise
-import com.knitml.core.common.LoopToWork
-import com.knitml.core.common.YarnPosition
 import com.knitml.core.common.NeedleStyle
+import com.knitml.core.model.Pattern
+import com.knitml.core.units.Units
 
-@RunWith(JUnit4ClassRunner)
 class SuppliesTests {
 	@BeforeClass
 	static void setUp() {
@@ -37,27 +27,32 @@ class SuppliesTests {
 	@Test
 	void yarns() {
 		def xml = '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
-			<supplies>
-				<yarns>
-					<yarn-type id="lornas-1" brand="Lorna's Laces" category="Shepherd Sock" subcategory="Plus 2" weight="fingering" catalog-id="33032">
-						<ball-length unit="yd">150</ball-length>
-						<ball-weight unit="g">50</ball-weight>
-						<thickness unit="wrap/in">16</thickness>
-					</yarn-type>
-					<yarn-type id="lornas-2"/>
-					<yarn id="main-color" typeref="lornas-1" message-key="yarn.main-color" symbol="MC">
-						<total-length unit="m">300</total-length>
-						<total-weight unit="g">100</total-weight>
-						<color name="watercolor" description="" number="233"/>
-					</yarn>
-					<yarn id="contrasting-color" typeref="lornas-1"/>
-					<yarn id="wacky-yarn" typeref="lornas-2"/>
-				</yarns>
-				<needles/>
-				<accessories/>
-			</supplies>
-		</pattern>
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			<pattern:supplies>
+				<pattern:yarn-types>
+					<pattern:yarn-type id="lornas-1" brand="Lorna's Laces" category="Shepherd Sock" subcategory="Plus 2" weight="fingering" catalog-id="33032">
+						<pattern:ball-length unit="yd">150</pattern:ball-length>
+						<pattern:ball-weight unit="g">50</pattern:ball-weight>
+						<pattern:thickness unit="wrap/in">16</pattern:thickness>
+						<pattern:yarns>
+							<common:yarn id="main-color" message-key="yarn.main-color" symbol="MC">
+								<common:total-length unit="m">300</common:total-length>
+								<common:total-weight unit="g">100</common:total-weight>
+								<common:color name="watercolor" description="" number="233"/>
+							</common:yarn>
+							<common:yarn id="contrasting-color"/>
+						</pattern:yarns>
+					</pattern:yarn-type>
+					<pattern:yarn-type id="lornas-2">
+						<pattern:yarns>
+							<common:yarn id="wacky-yarn"/>
+						</pattern:yarns>
+					</pattern:yarn-type>
+				</pattern:yarn-types>
+				<pattern:needle-types/>
+				<pattern:accessories/>
+			</pattern:supplies>
+		</pattern:pattern>
 		'''
 		Pattern pattern = unmarshalXml(xml)
 		def yarnTypes = pattern.supplies.yarnTypes
@@ -143,22 +138,27 @@ class SuppliesTests {
 	@Test
 	void needles() {
 		def xml = '''
-		<pattern xmlns="http://www.knitml.com/schema/pattern">
-			<supplies>
-				<yarns/>
-				<needles>
-					<needle-type id="size1circ" type="circular" brand="Addi Turbo">
-						<length unit="in">24</length>
-						<size unit="US">000</size>
-					</needle-type>
-					<needle-type id="size2circ" type="straight"/>
-					<needle id="needle1" typeref="size1circ" message-key="needle.needle1"/>
-					<needle id="needle2" typeref="size1circ" message-key="needle.needle2"/>
-					<needle id="needle3" typeref="size2circ"/>
-				</needles>
-				<accessories/>
-			</supplies>
-		</pattern>
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			<pattern:supplies>
+				<pattern:yarn-types/>
+				<pattern:needle-types>
+					<pattern:needle-type id="size1circ" type="circular" brand="Addi Turbo">
+						<pattern:needles>
+								<common:needle id="needle1" message-key="needle.needle1"/>
+								<common:needle id="needle2" message-key="needle.needle2"/>
+						</pattern:needles>
+						<pattern:length unit="in">24</pattern:length>
+						<pattern:size unit="US">000</pattern:size>
+					</pattern:needle-type>
+					<pattern:needle-type id="size2circ" type="straight">
+						<pattern:needles>
+							<common:needle id="needle3"/>
+						</pattern:needles>
+					</pattern:needle-type>
+				</pattern:needle-types>
+				<pattern:accessories/>
+			</pattern:supplies>
+		</pattern:pattern>
 		'''
 		Pattern pattern = unmarshalXml(xml)
 		def needleTypes = pattern.supplies.needleTypes
@@ -212,16 +212,16 @@ class SuppliesTests {
 	@Test
 	void stitchHolders() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <supplies>
-			    <yarns/>
-			    <needles/>
-                <accessories>
-              	  <stitch-holder id="stitch-holder-1" label="Stitch Holder 1" message-key="stitch-holder.stitch-holder-1"/>
-              	  <stitch-holder id="stitch-holder-2"/>
-                </accessories>
-              </supplies>
-			</pattern>'''
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:supplies>
+			    <pattern:yarn-types/>
+			    <pattern:needle-types/>
+                <pattern:accessories>
+              	  <common:stitch-holder id="stitch-holder-1" label="Stitch Holder 1" message-key="stitch-holder.stitch-holder-1"/>
+              	  <common:stitch-holder id="stitch-holder-2"/>
+                </pattern:accessories>
+              </pattern:supplies>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def stitchHolders = pattern.supplies.stitchHolders
 		stitchHolders[0].with {
@@ -235,10 +235,6 @@ class SuppliesTests {
 			assertThat label, is (null)
 		}
 		marshalXmlAndCompare(pattern,xml)
-	}
-	
-	static void main(args) {
-		JUnitCore.main(SuppliesTests.name)
 	}
 	
 }

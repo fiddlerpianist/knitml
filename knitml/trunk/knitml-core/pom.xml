@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>knitml-parent</artifactId>
 		<groupId>com.knitml</groupId>
-		<version>0.6.0-SNAPSHOT</version>
+		<version>0.6.0.M1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>knitml-core</artifactId>
@@ -99,5 +99,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<groupId>com.knitml</groupId>
+	<version>0.6.0.M1-SNAPSHOT</version>
 </project>

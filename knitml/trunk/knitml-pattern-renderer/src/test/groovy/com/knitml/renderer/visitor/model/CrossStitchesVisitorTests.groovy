@@ -26,13 +26,13 @@ class CrossStitchesVisitorTests extends AbstractRenderingContextTests {
 	
 	@Test
 	void crossInFront() {
-		processXml '<cross-stitches xmlns="http://www.knitml.com/schema/pattern" first="2" next="2" type="front"/>', CrossStitches
+		processXml '<cross-stitches xmlns="http://www.knitml.com/schema/operations" first="2" next="2" type="front"/>', CrossStitches
 		assertThat output, is ('cross next 2 stitches in front of following 2 stitches')
 	}
 
 	@Test
 	void crossInBack() {
-		processXml '<cross-stitches xmlns="http://www.knitml.com/schema/pattern" first="2" next="2" type="back"/>', CrossStitches
+		processXml '<cross-stitches xmlns="http://www.knitml.com/schema/operations" first="2" next="2" type="back"/>', CrossStitches
 		assertThat output, is ('cross next 2 stitches behind following 2 stitches')
 	}
 	

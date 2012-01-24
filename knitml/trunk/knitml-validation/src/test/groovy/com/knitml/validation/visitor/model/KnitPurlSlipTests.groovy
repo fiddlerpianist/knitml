@@ -70,20 +70,20 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 	@Test
 	void slipToHolder() {
 		processXml PATTERN_START_TAG + '''
-			  <supplies>
-			    <yarns/>
-			    <needles/>
-                <accessories>
-              	  <stitch-holder id="sh1"/>
-                </accessories>
-              </supplies>
-			  <directions>
+			  <pattern:supplies>
+			    <pattern:yarn-types/>
+			    <pattern:needle-types/>
+                <pattern:accessories>
+              	  <common:stitch-holder id="sh1"/>
+                </pattern:accessories>
+              </pattern:supplies>
+			  <pattern:directions>
                 <row>
 		  		  <knit>10</knit>
 		  		  <slip-to-stitch-holder ref="sh1">10</slip-to-stitch-holder>
 		  	    </row>
-              </directions>
-          </pattern>
+              </pattern:directions>
+          </pattern:pattern>
 	    '''
 		assertThat engine.totalNumberOfStitchesInRow, is (10)
 	}
@@ -91,14 +91,14 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 	@Test
 	void workFromHolderOnRightSide() {
 		processXml PATTERN_START_TAG + '''
-			  <supplies>
-			    <yarns/>
-			    <needles/>
-                <accessories>
-              	  <stitch-holder id="sh1"/>
-                </accessories>
-              </supplies>
-			  <directions>
+			  <pattern:supplies>
+			    <pattern:yarn-types/>
+			    <pattern:needle-types/>
+                <pattern:accessories>
+              	  <common:stitch-holder id="sh1"/>
+                </pattern:accessories>
+              </pattern:supplies>
+			  <pattern:directions>
                 <row>
 		  		  <knit>10</knit>
 		  		  <slip-to-stitch-holder ref="sh1">10</slip-to-stitch-holder>
@@ -112,8 +112,8 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 		  		    <knit>10</knit>
 		  		  </from-stitch-holder>
 		  	    </row>
-              </directions>
-          </pattern>
+              </pattern:directions>
+          </pattern:pattern>
 	    '''
 		assertThat engine.totalNumberOfStitchesInRow, is (20)
 	}
@@ -121,14 +121,14 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 	@Test
 	void workFromHolderOnWrongSide() {
 		processXml PATTERN_START_TAG + '''
-			  <supplies>
-			    <yarns/>
-			    <needles/>
-                <accessories>
-              	  <stitch-holder id="sh1"/>
-                </accessories>
-              </supplies>
-			  <directions>
+			  <pattern:supplies>
+			    <pattern:yarn-types/>
+			    <pattern:needle-types/>
+                <pattern:accessories>
+              	  <common:stitch-holder id="sh1"/>
+                </pattern:accessories>
+              </pattern:supplies>
+			  <pattern:directions>
                 <row>
 		  		  <knit>10</knit>
 		  		  <slip-to-stitch-holder ref="sh1">10</slip-to-stitch-holder>
@@ -139,8 +139,8 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 		  		    <knit>10</knit>
 		  		  </from-stitch-holder>
 		  	    </row>
-              </directions>
-          </pattern>
+              </pattern:directions>
+          </pattern:pattern>
 	    '''
 		assertThat engine.totalNumberOfStitchesInRow, is (20)
 	}
@@ -148,14 +148,14 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 	@Test
 	void bindOffOnHolder() {
 		processXml PATTERN_START_TAG + '''
-			  <supplies>
-			    <yarns/>
-			    <needles/>
-                <accessories>
-              	  <stitch-holder id="sh1"/>
-                </accessories>
-              </supplies>
-			  <directions>
+			  <pattern:supplies>
+			    <pattern:yarn-types/>
+			    <pattern:needle-types/>
+                <pattern:accessories>
+              	  <common:stitch-holder id="sh1"/>
+                </pattern:accessories>
+              </pattern:supplies>
+			  <pattern:directions>
 			    <declare-round-knitting/>
                 <row>
 		  		  <knit>10</knit>
@@ -168,8 +168,8 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 		  	    		<knit>5</knit>
 		  	    	</from-stitch-holder>
 		  	    </row>
-              </directions>
-          </pattern>
+              </pattern:directions>
+          </pattern:pattern>
 	    '''
 		assertThat engine.totalNumberOfStitchesInRow, is (15)
 	}
@@ -178,14 +178,14 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 	@Test
 	void workFromStitchHolderWithNoStitchesInRow() {
 		processXml PATTERN_START_TAG + '''
-			  <supplies>
-			    <yarns/>
-			    <needles/>
-                <accessories>
-              	  <stitch-holder id="sh1"/>
-                </accessories>
-              </supplies>
-			  <directions>
+			  <pattern:supplies>
+			    <pattern:yarn-types/>
+			    <pattern:needle-types/>
+                <pattern:accessories>
+              	  <common:stitch-holder id="sh1"/>
+                </pattern:accessories>
+              </pattern:supplies>
+			  <pattern:directions>
                 <row>
 		  		  <slip-to-stitch-holder ref="sh1">20</slip-to-stitch-holder>
 		  	    </row>
@@ -194,8 +194,8 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 		  		    <knit>20</knit>
 		  		  </from-stitch-holder>
 		  	    </row>
-              </directions>
-          </pattern>
+              </pattern:directions>
+          </pattern:pattern>
 	    '''
 		assertThat engine.totalNumberOfStitchesInRow, is (20)
 	}
@@ -253,7 +253,7 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 	@Test
 	void workRibbingThenWorkEven() {
 		processXml PATTERN_START_TAG + '''
-		  <directions>
+		  <pattern:directions>
 			<row>
 		  		<knit>10</knit>
 		  		<purl>10</purl>
@@ -261,8 +261,8 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 		  	<row>
 		  		<work-even>20</work-even>
 		  	</row>
-		  </directions>
-        </pattern>
+		  </pattern:directions>
+        </pattern:pattern>
     	'''
 		assertThat engine.totalNumberOfStitchesInRow, is (20)
 		engine.startNewRow()

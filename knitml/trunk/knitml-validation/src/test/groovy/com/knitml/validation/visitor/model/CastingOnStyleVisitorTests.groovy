@@ -17,9 +17,9 @@ class CastingOnStyleVisitorTests extends AbstractKnittingContextTests {
 	@Test
 	void simpleCastOn() {
 		processXml '''
-		  <directions>
+		  <pattern:directions>
 			<cast-on>20</cast-on>
-		  </directions>
+		  </pattern:directions>
 	    '''
 	    engine.with {
 		  assertThat totalNumberOfStitchesInRow, is (20)
@@ -30,10 +30,10 @@ class CastingOnStyleVisitorTests extends AbstractKnittingContextTests {
 	@Test
 	void multipleCastOns() {
 		processXml '''
-		  <directions>
+		  <pattern:directions>
 			<cast-on>20</cast-on>
 			<cast-on>10</cast-on>
-		  </directions>
+		  </pattern:directions>
 	    '''
 	    engine.with {
 		  assertThat totalNumberOfStitchesInRow, is (30)
@@ -44,9 +44,9 @@ class CastingOnStyleVisitorTests extends AbstractKnittingContextTests {
 	@Test
 	void simplePickUpStitches() {
 		processXml '''
-		  <directions>
+		  <pattern:directions>
 			<pick-up-stitches>20</pick-up-stitches>
-		  </directions>
+		  </pattern:directions>
 	    '''
 	    engine.with {
 		  assertThat totalNumberOfStitchesInRow, is (20)
@@ -57,7 +57,7 @@ class CastingOnStyleVisitorTests extends AbstractKnittingContextTests {
 	@Test
 	void castOnPickUpStitchesCastOn() {
 		processXml '''
-		  <directions>
+		  <pattern:directions>
 			<cast-on>10</cast-on>
 			<pick-up-stitches>20</pick-up-stitches>
 			<cast-on>10</cast-on>
@@ -71,7 +71,7 @@ class CastingOnStyleVisitorTests extends AbstractKnittingContextTests {
 			<row>
 				<knit>40</knit>
 			</row>
-		  </directions>
+		  </pattern:directions>
 	    '''
 	    assertThat engine.totalNumberOfStitchesInRow, is (40)
 	}

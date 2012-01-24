@@ -34,14 +34,14 @@ class IncreaseTests {
 	@Test
 	void increase() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
 					<row>
 						<increase yarn-ref="yarn0" type="m1a"/>
 						<increase>5</increase>
 					</row>
-				  </directions>
-			</pattern>'''
+				  </pattern:directions>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		element.with {
@@ -61,16 +61,16 @@ class IncreaseTests {
 	@Test
 	void increaseIntoNextStitch() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
 					<row>
 						<increase-into-next-stitch>
 							<knit>2</knit>
 							<purl>2</purl>
 						</increase-into-next-stitch>
 					</row>
-				  </directions>
-			</pattern>'''
+				  </pattern:directions>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0].operations[0]
 		assertThat ((element instanceof IncreaseIntoNextStitch), is (true))
@@ -88,14 +88,14 @@ class IncreaseTests {
 	@Test
 	void pickUpStitches() {
 		def xml = '''
-			<pattern xmlns="http://www.knitml.com/schema/pattern">
-			  <directions>
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
 					<row>
 						<inline-pick-up-stitches>10</inline-pick-up-stitches>
 						<inline-pick-up-stitches type="purlwise" yarn-ref="yarn0">15</inline-pick-up-stitches>
 					</row>
-				  </directions>
-			</pattern>'''
+				  </pattern:directions>
+			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def row = pattern.directions.operations[0]
 		row.operations[0].with {
@@ -114,12 +114,12 @@ class IncreaseTests {
 	@Test
 	void castOn() {
 		def xml = '''
-				<pattern xmlns="http://www.knitml.com/schema/pattern">
-				  <directions>
+				<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				  <pattern:directions>
 				  	<inline-cast-on yarn-ref="yarn1" style="backwards-loop">10</inline-cast-on>
 				  	<inline-cast-on>5</inline-cast-on>
-				  </directions>
-				</pattern>'''
+				  </pattern:directions>
+				</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
 		def element = pattern.directions.operations[0]
 		element.with {

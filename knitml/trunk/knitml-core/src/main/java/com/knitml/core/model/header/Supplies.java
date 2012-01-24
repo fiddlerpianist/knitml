@@ -1,27 +1,29 @@
 package com.knitml.core.model.header;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Supplies {
 
 	protected List<YarnType> yarnTypes = new ArrayList<YarnType>();
-	protected List<Yarn> yarns = new ArrayList<Yarn>();
 	protected List<NeedleType> needleTypes = new ArrayList<NeedleType>();
-	protected List<Needle> needles = new ArrayList<Needle>();
 	protected List<StitchHolder> stitchHolders = new ArrayList<StitchHolder>();
+
+	private List<Yarn> yarns = new ArrayList<Yarn>();
+	private List<Needle> needles = new ArrayList<Needle>();
 	
 	public List<YarnType> getYarnTypes() {
 		return yarnTypes;
-	}
-	public List<Yarn> getYarns() {
-		return yarns;
 	}
 	public List<NeedleType> getNeedleTypes() {
 		return needleTypes;
 	}
 	public List<Needle> getNeedles() {
 		return needles;
+	}
+	public List<Yarn> getYarns() {
+		return yarns;
 	}
 
 	public List<StitchHolder> getStitchHolders() {
@@ -30,35 +32,30 @@ public class Supplies {
 	
 	protected void afterPropertiesSet() {
 		for (YarnType yarnType : getYarnTypes()) {
-			List<Yarn> yarns = new ArrayList<Yarn>();
-			for (Yarn yarn : getYarns()) {
-				if (yarnType.equals(yarn.getYarnType())) {
-					yarns.add(yarn);
-				}
+			for (Yarn yarn : yarnType.getYarns()) {
+				this.yarns.add(yarn);
 			}
-			yarnType.setYarns(yarns);
 		}
+		//this.yarns = Collections.unmodifiableList(this.yarns);
+		
 		for (NeedleType needleType : getNeedleTypes()) {
-			List<Needle> needles = new ArrayList<Needle>();
-			for (Needle needle : getNeedles()) {
-				if (needleType.equals(needle.getType())) {
-					needles.add(needle);
-				}
+			for (Needle needle : needleType.getNeedles()) {
+				this.needles.add(needle);
 			}
-			needleType.setNeedles(needles);
 		}
+		//this.needles = Collections.unmodifiableList(this.needles);
 	}
 	
 	public boolean hasNeedles() {
-		return needles.size() > 0 || needleTypes.size() > 0;
+		return needleTypes.size() > 0;
 	}
 	public boolean hasYarns() {
-		return yarns.size() > 0 || yarnTypes.size() > 0;
+		return yarnTypes.size() > 0;
 	}
 	public boolean hasAccessories() {
 		return hasStitchHolders();
 	}
 	public boolean hasStitchHolders() {
-		return stitchHolders.size() > 0 || stitchHolders.size() > 0;
+		return stitchHolders.size() > 0;
 	}
 }

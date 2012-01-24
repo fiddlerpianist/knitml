@@ -16,21 +16,21 @@ class StitchHolderHandlerTests extends AbstractRenderingContextTests {
 	@Test
 	void slipToHolderSingular() {
 		processXml PATTERN_START_TAG + '''
-		  <supplies>
-			<yarns/>
-			<needles/>
-			<accessories>
-				<stitch-holder id="sh1"/>
-			</accessories>
-		  </supplies>
-		  <directions>
+		  <pattern:supplies>
+			<pattern:yarn-types/>
+			<pattern:needle-types/>
+			<pattern:accessories>
+				<common:stitch-holder id="sh1"/>
+			</pattern:accessories>
+		  </pattern:supplies>
+		  <pattern:directions>
 			<cast-on>10</cast-on>
 			<row>
 				<knit>9</knit>
 				<slip-to-stitch-holder ref="sh1">1</slip-to-stitch-holder>
 			</row>
-		  </directions>
-		</pattern>
+		  </pattern:directions>
+		</pattern:pattern>
 		'''
 		assertThat output.trim(), endsWith ('sl next st to holder')
 	}
@@ -38,21 +38,21 @@ class StitchHolderHandlerTests extends AbstractRenderingContextTests {
 	@Test
 	void slipToHolderPlural() {
 		processXml PATTERN_START_TAG + '''
-		  <supplies>
-			<yarns/>
-			<needles/>
-			<accessories>
-				<stitch-holder id="sh1"/>
-			</accessories>
-		  </supplies>
-		  <directions>
+		  <pattern:supplies>
+			<pattern:yarn-types/>
+			<pattern:needle-types/>
+			<pattern:accessories>
+				<common:stitch-holder id="sh1"/>
+			</pattern:accessories>
+		  </pattern:supplies>
+		  <pattern:directions>
 			<cast-on>10</cast-on>
 			<row>
 				<knit>5</knit>
 				<slip-to-stitch-holder ref="sh1">5</slip-to-stitch-holder>
 			</row>
-		  </directions>
-		</pattern>
+		  </pattern:directions>
+		</pattern:pattern>
 		'''
 		assertThat output.trim(), endsWith ('sl next 5 sts to holder')
 	}
@@ -60,27 +60,23 @@ class StitchHolderHandlerTests extends AbstractRenderingContextTests {
 	@Test
 	void slipToLabelledHolder() {
 		processXml PATTERN_START_TAG + '''
-		  <supplies>
-			<yarns/>
-			<needles/>
-			<accessories>
-				<stitch-holder id="sh1" label="Stitch Holder A"/>
-			</accessories>
-		  </supplies>
-		  <directions>
+		  <pattern:supplies>
+			<pattern:yarn-types/>
+			<pattern:needle-types/>
+			<pattern:accessories>
+				<common:stitch-holder id="sh1" label="Stitch Holder A"/>
+			</pattern:accessories>
+		  </pattern:supplies>
+		  <pattern:directions>
 			<cast-on>10</cast-on>
 			<row>
 				<knit>5</knit>
 				<slip-to-stitch-holder ref="sh1">5</slip-to-stitch-holder>
 			</row>
-		  </directions>
-		</pattern>
+		  </pattern:directions>
+		</pattern:pattern>
 		'''
 		assertThat output.trim(), endsWith ('sl next 5 sts to Stitch Holder A')
-	}
-	
-	static void main(args) {
-		JUnitCore.main(StitchHolderHandlerTests.name)
 	}
 	
 }

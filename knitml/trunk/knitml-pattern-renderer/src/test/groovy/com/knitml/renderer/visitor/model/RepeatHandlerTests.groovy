@@ -26,7 +26,7 @@ class RepeatHandlerTests extends AbstractRenderingContextTests {
 	@Test
 	void simpleRepeat() {
 		processXml '''
-			<row xmlns="http://www.knitml.com/schema/pattern" number="1">
+			<row xmlns="http://www.knitml.com/schema/operations" number="1">
 				<knit>5</knit>
 				<repeat until="end">
 					<knit />
@@ -38,7 +38,7 @@ class RepeatHandlerTests extends AbstractRenderingContextTests {
 	@Test
 	void nestedRepeat() {
 		processXml '''
-			<row xmlns="http://www.knitml.com/schema/pattern" number="1">
+			<row xmlns="http://www.knitml.com/schema/operations" number="1">
 				<repeat value="4" until="times">
 					<decrease type="k2tog" />
 					<repeat until="times" value="10">
@@ -55,7 +55,7 @@ class RepeatHandlerTests extends AbstractRenderingContextTests {
 	@Test
 	void repeatToEndWithNoDisplay() {
 		processXml '''
-			<row xmlns="http://www.knitml.com/schema/pattern" number="1">
+			<row xmlns="http://www.knitml.com/schema/operations" number="1">
 				<knit>60</knit>
 				<repeat until="end">
 					<knit />
@@ -67,7 +67,7 @@ class RepeatHandlerTests extends AbstractRenderingContextTests {
 	@Test
 	void increaseIntoNextStitchWithinRepeat() {
 		processXml '''
-		    <row xmlns="http://www.knitml.com/schema/pattern">
+		    <row xmlns="http://www.knitml.com/schema/operations">
 		      <repeat until="end">
 		      <increase-into-next-stitch>
 		        <knit>1</knit>
@@ -81,7 +81,7 @@ class RepeatHandlerTests extends AbstractRenderingContextTests {
 	@Test
 	void increaseIntoNextStitchWithinRepeatWithinInstruction() {
 		processXml '''
-		  <instruction id="inst-1" xmlns="http://www.knitml.com/schema/pattern">
+		  <instruction id="inst-1" xmlns="http://www.knitml.com/schema/operations">
 		    <row>
 		      <repeat until="end">
 		      <increase-into-next-stitch>
