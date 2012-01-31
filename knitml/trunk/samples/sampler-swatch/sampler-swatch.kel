@@ -24,15 +24,25 @@ Pattern "en" {
 		CopyrightInfo
 	}
 	Supplies {
-		Yarns {
-			YarnType 'wool' [brand:"Brown Sheep",category:"Lamb's Pride",weight:"worsted"]
-			YarnType 'cotton' [brand:"Cotton Classic",weight:"worsted"]
-			Yarn 'MC' [label:"Main Color",symbol:"MC",typeref:'wool']  { color "red" }
-			Yarn 'CC' [label:"Contrast Color",symbol:"CC",typeref:'cotton']  { color "yellow" }
+		YarnTypes {
+			YarnType 'wool' [brand:"Brown Sheep",category:"Lamb's Pride",weight:"worsted"] {
+				Yarns {
+					Yarn 'MC' [label:"Main Color",symbol:"MC"]  { color "red" }
+				}
+			}
+			YarnType 'cotton' [brand:"Cotton Classic",weight:"worsted"] {
+				Yarns {
+					Yarn 'CC' [label:"Contrast Color",symbol:"CC"]  { color "yellow" }
+				}
+			}
 		}
-		Needles {
-			NeedleType 'size1' { size: US 1 }
-			Needle 'needle1' [label:"Needle 1",typeref:'size1']
+		NeedleTypes {
+			NeedleType 'size1' {
+				size: US 1
+				Needles {
+					Needle 'needle1' [label:"Needle 1"]
+				}
+			}
 		}
 		Accessories
 	}

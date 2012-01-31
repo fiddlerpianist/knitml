@@ -30,20 +30,26 @@ Pattern "en" {
   }
   
   Supplies {
-    Yarns {
+    YarnTypes {
       YarnType 'yarn-type-1' [brand:"Tahki",category:"Soho Bulky Tweed"] {
         BallLength: 110 yd
         BallWeight: 100 g
-      }
-      Yarn 'main-color' [typeref:'yarn-type-1'] {
-        TotalLength: 990 yd
-        TotalWeight: 900 g
-        Color "discontinued color" [number:304]
+        Yarns {
+        	Yarn 'main-color' {
+	        	TotalLength: 990 yd
+    	    	TotalWeight: 900 g
+        		Color "discontinued color" [number:304]
+        	}
+      	}
       }
     }
-    Needles {
-      NeedleType 'needle-type-1' circular { size: 10 US }
-      Needle 'the-needle' [typeref:'needle-type-1']
+    NeedleTypes {
+      NeedleType 'needle-type-1' circular {
+      	Size: 10 US
+      	Needles {
+      		Needle 'the-needle'
+      	}
+      }
     }
     Accessories {
       StitchHolder 'st-holder-1' withLabel "holder 1"
