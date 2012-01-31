@@ -1,9 +1,8 @@
 package com.knitml.el
 
-import static com.knitml.el.KelUtils.toXml
+import static com.knitml.el.KelUtils.*
 import static org.custommonkey.xmlunit.XMLAssert.*
 
-import org.custommonkey.xmlunit.XMLUnit
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -11,8 +10,7 @@ class LanguageEHTests {
 	
 	@BeforeClass
 	static void setUp() {
-		XMLUnit.ignoreWhitespace = true
-		XMLUnit.ignoreComments = true
+		initXMLUnit()
 	}
 	
 	@Test

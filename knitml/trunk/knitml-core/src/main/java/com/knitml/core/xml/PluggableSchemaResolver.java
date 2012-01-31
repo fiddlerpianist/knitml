@@ -38,7 +38,7 @@ import org.xml.sax.InputSource;
  * <code>META-INF/spring.schemas</code> allowing for multiple files to exist on the
  * classpath at any one time.
  *
- * The format of <code>META-INF/spring.schemas</code> is a properties
+ * The format of <code>META-INF/knitml.schemas</code> is a properties
  * file where each line should be of the form <code>systemId=schema-location</code>
  * where <code>schema-location</code> should also be a schema file in the classpath.
  * Since systemId is commonly a URL, one must be careful to escape any ':' characters

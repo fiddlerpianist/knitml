@@ -1051,7 +1051,7 @@
 						</xsd:documentation>
 					</xsd:annotation>
 				</xsd:element>
-				<xsd:element name="until-measures" type="xsd:string">
+				<xsd:element name="until-measures" type="common:LengthType">
 					<xsd:annotation>
 						<xsd:documentation>Continue until the specified length has been
 							knit (using this

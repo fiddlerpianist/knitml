@@ -29,6 +29,7 @@ Import-Package: com.knitml.core.common,
  org.codehaus.groovy.runtime.powerassert;version="1.8.3",
  org.codehaus.groovy.runtime.typehandling;version="1.8.3",
  org.codehaus.groovy.runtime.wrappers;version="1.8.3",
+ org.custommonkey.xmlunit;version="1.3.0",
  org.slf4j,
  org.springframework.core.io,
  org.springframework.util

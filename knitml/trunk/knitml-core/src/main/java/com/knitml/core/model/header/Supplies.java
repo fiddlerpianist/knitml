@@ -10,8 +10,8 @@ public class Supplies {
 	protected List<NeedleType> needleTypes = new ArrayList<NeedleType>();
 	protected List<StitchHolder> stitchHolders = new ArrayList<StitchHolder>();
 
-	private List<Yarn> yarns = new ArrayList<Yarn>();
-	private List<Needle> needles = new ArrayList<Needle>();
+	private List<Yarn> yarns;
+	private List<Needle> needles;
 	
 	public List<YarnType> getYarnTypes() {
 		return yarnTypes;
@@ -31,19 +31,21 @@ public class Supplies {
 	}
 	
 	protected void afterPropertiesSet() {
+		this.yarns = new ArrayList<Yarn>();
 		for (YarnType yarnType : getYarnTypes()) {
 			for (Yarn yarn : yarnType.getYarns()) {
 				this.yarns.add(yarn);
 			}
 		}
-		//this.yarns = Collections.unmodifiableList(this.yarns);
+		this.yarns = Collections.unmodifiableList(this.yarns);
 		
+		this.needles = new ArrayList<Needle>();
 		for (NeedleType needleType : getNeedleTypes()) {
 			for (Needle needle : needleType.getNeedles()) {
 				this.needles.add(needle);
 			}
 		}
-		//this.needles = Collections.unmodifiableList(this.needles);
+		this.needles = Collections.unmodifiableList(this.needles);
 	}
 	
 	public boolean hasNeedles() {
