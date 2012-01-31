@@ -1,6 +1,6 @@
 package com.knitml.el
 
-import static com.knitml.el.KelUtils.toXml
+import static com.knitml.el.KelUtils.*
 import static org.custommonkey.xmlunit.XMLAssert.*
 
 import org.custommonkey.xmlunit.XMLUnit
@@ -11,17 +11,7 @@ class LanguageADTests {
 	
 	@BeforeClass
 	static void setUp() {
-		XMLUnit.ignoreWhitespace = true
-		XMLUnit.ignoreComments = true
-	}
-	
-	@Test
-	void pattern() {
-		String actual = toXml( '''
-			Pattern 'en' {}
-		''')
-		String expected = '''<pattern xml:lang="en" />'''
-        assertXMLEqual expected, actual
+		initXMLUnit()
 	}
 	
 	@Test

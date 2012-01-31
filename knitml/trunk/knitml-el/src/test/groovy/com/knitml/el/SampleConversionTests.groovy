@@ -1,6 +1,7 @@
 package com.knitml.el
 
 import static org.custommonkey.xmlunit.XMLAssert.*
+import static com.knitml.el.KelUtils.*
 
 import org.custommonkey.xmlunit.XMLUnit
 import org.junit.BeforeClass
@@ -10,11 +11,10 @@ import org.springframework.core.io.ClassPathResource
 import com.knitml.core.common.Parameters
 
 class SampleConversionTests {
-	
+
 	@BeforeClass
 	static void setUp() {
-		XMLUnit.ignoreWhitespace = true
-		XMLUnit.ignoreComments = true
+		initXMLUnitWithNamespace()
 	}
 
 	private void compareConvertedKelToXml(String pattern) {
@@ -26,7 +26,7 @@ class SampleConversionTests {
 		parameters.reader.close()
 		assertXMLEqual(acquireClassPathReader(pattern + ".xml"), new StringReader(parameters.writer.toString()))
 	}
-	
+
 	@Test
 	void basicSock() {
 		compareConvertedKelToXml 'basic-sock'
@@ -41,10 +41,9 @@ class SampleConversionTests {
 	void nutkin2() {
 		compareConvertedKelToXml 'nutkin2'
 	}
-	
+
 	private Reader acquireClassPathReader(String fileName) {
 		InputStream patternResourceStream = new ClassPathResource(fileName).getInputStream();
-        return new BufferedReader(new InputStreamReader(patternResourceStream))
+		return new BufferedReader(new InputStreamReader(patternResourceStream))
 	}
-	
 }
