@@ -4,5 +4,6 @@ http\://www.knitml.com/schema/pattern-header-types-0.4.xsd=com/knitml/core/xml/p
 http\://www.knitml.com/schema/pattern-0.5.xsd=com/knitml/core/xml/pattern-0.5.xsd
 http\://www.knitml.com/schema/pattern-header-types-0.5.xsd=com/knitml/core/xml/pattern-header-types-0.5.xsd
 http\://www.knitml.com/schema/pattern-0.6.xsd=com/knitml/core/xml/pattern-0.6.xsd
-http\://www.knitml.com/schema/pattern-header-types-0.6.xsd=com/knitml/core/xml/pattern-header-types-0.6.xsd
+http\://www.knitml.com/schema/operations-0.6.xsd=com/knitml/core/xml/operations-0.6.xsd
+http\://www.knitml.com/schema/common-0.6.xsd=com/knitml/core/xml/common-0.6.xsd
 http\://www.w3.org/2001/xml.xsd=com/knitml/core/xml/xml.xsd
