@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bundle-Version: 0.6.0.M1
+Bundle-Version: 0.6.0.M2
 Bundle-Name: KnitML Core
 Bundle-Description: KnitML Core and model
 Bundle-ManifestVersion: 2
@@ -21,19 +21,19 @@ Import-Package: com.google.common.collect;version="10.0.0",
  org.springframework.core.io;version="2.5.6",
  org.springframework.core.io.support;version="2.5.6",
  org.springframework.util;version="2.5.6"
-Export-Package: com.knitml.core.common;version="0.6.0.M1",
- com.knitml.core.compatibility;version="0.6.0.M1",
- com.knitml.core.converter;version="0.6.0.M1",
- com.knitml.core.model;version="0.6.0.M1";uses:="com.knitml.core.model.directions,com.knitml.core.model.header,com.knitml.core.model.directions.block",
- com.knitml.core.model.directions;version="0.6.0.M1",
- com.knitml.core.model.directions.block;version="0.6.0.M1",
- com.knitml.core.model.directions.expression;version="0.6.0.M1",
- com.knitml.core.model.directions.information;version="0.6.0.M1";uses:="com.knitml.core.model.directions",
- com.knitml.core.model.directions.inline;version="0.6.0.M1",
- com.knitml.core.model.header;version="0.6.0.M1",
- com.knitml.core.units;version="0.6.0.M1",
- com.knitml.core.xml;version="0.6.0.M1",
- com.knitml.core.xml.translator;version="0.6.0.M1";uses:="org.jibx.runtime,org.jibx.extras"
+Export-Package: com.knitml.core.common;version="0.6.0.M2",
+ com.knitml.core.compatibility;version="0.6.0.M2",
+ com.knitml.core.converter;version="0.6.0.M2",
+ com.knitml.core.model;version="0.6.0.M2";uses:="com.knitml.core.model.directions,com.knitml.core.model.header,com.knitml.core.model.directions.block",
+ com.knitml.core.model.directions;version="0.6.0.M2",
+ com.knitml.core.model.directions.block;version="0.6.0.M2",
+ com.knitml.core.model.directions.expression;version="0.6.0.M2",
+ com.knitml.core.model.directions.information;version="0.6.0.M2";uses:="com.knitml.core.model.directions",
+ com.knitml.core.model.directions.inline;version="0.6.0.M2",
+ com.knitml.core.model.header;version="0.6.0.M2",
+ com.knitml.core.units;version="0.6.0.M2",
+ com.knitml.core.xml;version="0.6.0.M2",
+ com.knitml.core.xml.translator;version="0.6.0.M2";uses:="org.jibx.runtime,org.jibx.extras"
 Require-Bundle: org.junit
 Bundle-Vendor: KnitML
 
