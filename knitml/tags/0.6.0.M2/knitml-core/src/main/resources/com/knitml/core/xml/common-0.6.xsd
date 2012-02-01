@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.knitml.com/schema/common"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.knitml.com/schema/common"
+	xml:lang="en" elementFormDefault="qualified">
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+		schemaLocation="http://www.w3.org/2001/xml.xsd" />
+
+	<xsd:element name="needle">
+		<xsd:complexType>
+			<xsd:annotation>
+				<xsd:documentation>A particular needle whose 'typeref' attribute
+					matches a previously
+					defined needle-type element.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:attribute name="id" type="id-type" use="required" />
+			<xsd:attributeGroup ref="labelAttrs" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="yarn">
+		<xsd:complexType>
+			<xsd:annotation>
+				<xsd:documentation>A particular yarn whose 'typeref' attribute
+					matches a previously
+					defined yarn-type element.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:all>
+				<xsd:element minOccurs="0" name="total-length" type="LengthType" />
+				<xsd:element minOccurs="0" name="total-weight" type="WeightType" />
+				<xsd:element minOccurs="0" name="color" type="ColorType" />
+			</xsd:all>
+			<xsd:attribute name="id" type="id-type" />
+			<xsd:attribute name="symbol" type="xsd:string" />
+			<xsd:attributeGroup ref="labelAttrs" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="stitch-holder">
+		<xsd:complexType>
+			<xsd:annotation>
+				<xsd:documentation>A holder of live stitches.</xsd:documentation>
+			</xsd:annotation>
+			<xsd:attribute name="id" type="id-type" use="required" />
+			<xsd:attributeGroup ref="labelAttrs" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:complexType name="LengthType">
+		<xsd:annotation>
+			<xsd:documentation>Represents a measurement where the unit is
+				length.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:decimal">
+				<xsd:attribute name="unit">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:NMTOKEN">
+							<xsd:enumeration value="cm" />
+							<xsd:enumeration value="m" />
+							<xsd:enumeration value="in" />
+							<xsd:enumeration value="yd" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="WeightType">
+		<xsd:annotation>
+			<xsd:documentation>Represents a measurement where the unit is
+				weight.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:decimal">
+				<xsd:attribute name="unit">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:NMTOKEN">
+							<xsd:enumeration value="g" />
+							<xsd:enumeration value="oz" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="ColorType">
+		<xsd:annotation>
+			<xsd:documentation>Represents a yarn's colorway.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="description" type="xsd:string">
+			<xsd:annotation>
+				<xsd:documentation>A description of the colorway.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="name" type="xsd:string">
+			<xsd:annotation>
+				<xsd:documentation>The name of the colorway.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="number" type="xsd:string">
+			<xsd:annotation>
+				<xsd:documentation>The number of the colorway.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="EmptyType">
+		<xsd:annotation>
+			<xsd:documentation>Represents elements with no content or attributes.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:complexType>
+
+	<xsd:attributeGroup name="labelAttrs">
+		<xsd:annotation>
+			<xsd:documentation>A label attribute provides a means by which to
+				assign text to different
+				operations. The 'message-key' attribute is a
+				key which is resolvable to a value
+				specific to
+				the user's language.
+				The 'label' attribute is the literal value of the
+				label written in
+				the
+				pattern's original language. Both can be provided.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="message-key" type="message-key-type" />
+		<xsd:attribute name="label" type="xsd:string" />
+	</xsd:attributeGroup>
+
+	<xsd:simpleType name="id-type">
+		<xsd:annotation>
+			<xsd:documentation>A unique identifier for a particular XML element.
+				Elements which have an ID
+				defined may be referred to elsewhere by
+				other elements as IDREFs.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:ID" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="message-key-type">
+		<xsd:annotation>
+			<xsd:documentation>A key which will be used for resolving text based
+				on the user's language.
+				The same key will have different values
+				associated to it, based on
+				language and country.
+				Used in conjunction
+				with rendering a pattern.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="idref-type">
+		<xsd:annotation>
+			<xsd:documentation>The XML Schema IDREF type. It's defined globally
+				in case the implementation
+				of KnitML IDs / IDREFs needs to change.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:IDREF" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="yarn-ref-type">
+		<xsd:annotation>
+			<xsd:documentation>The ID reference of the yarn to use (if more than
+				one yarn is valid in this
+				context). Usually specified for multi-color
+				knitting.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="idref-type" />
+	</xsd:simpleType>
+
+</xsd:schema>

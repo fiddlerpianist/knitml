@@ -1,0 +1,42 @@
+<binding>
+    <namespace uri="http://www.knitml.com/schema/common" prefix="common" default="none"/>
+    
+    <mapping name="yarn" class="com.knitml.core.model.header.Yarn" value-style="attribute"
+    		 ns="http://www.knitml.com/schema/common">
+        <structure name="total-length" field="totalLength" usage="optional"
+            type="com.knitml.core.units.KnittingMeasure"
+            marshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+            unmarshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+            ns="http://www.knitml.com/schema/common"/>
+        <structure name="total-weight" field="totalWeight" usage="optional"
+            type="com.knitml.core.units.KnittingMeasure"
+            marshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+            unmarshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+            ns="http://www.knitml.com/schema/common"/>
+        <structure name="color" field="color" usage="optional"
+            type="com.knitml.core.model.header.Color" value-style="attribute" ns="http://www.knitml.com/schema/common">
+            <value name="name" field="name" usage="optional"/>
+            <value name="description" field="description" usage="optional"/>
+            <value name="number" field="number" usage="optional"/>
+        </structure>
+        <value name="id" field="id" ident="def"/>
+        <value name="symbol" field="symbol" usage="optional"/>
+        <value name="message-key" field="messageKey" usage="optional"/>
+        <value name="label" field="label" usage="optional"/>
+        <!-- <value name="typeref" field="yarnType" ident="ref"/>  -->
+    </mapping>
+    <mapping name="needle" class="com.knitml.core.model.header.Needle" value-style="attribute"
+             ns="http://www.knitml.com/schema/common">
+        <value name="id" field="id" get-method="getId" ident="def"/>
+        <!-- <value name="typeref" field="type" ident="ref"/>  -->
+        <value name="message-key" field="messageKey" usage="optional"/>
+        <value name="label" field="label" usage="optional"/>
+    </mapping>
+    <mapping name="stitch-holder" class="com.knitml.core.model.header.StitchHolder" value-style="attribute"
+             ns="http://www.knitml.com/schema/common">
+        <value name="id" field="id" get-method="getId" ident="def"/>
+        <value name="message-key" field="messageKey" usage="optional"/>
+        <value name="label" field="label" usage="optional"/>
+    </mapping>
+        
+</binding>
