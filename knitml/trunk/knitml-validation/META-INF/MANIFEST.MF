@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bundle-Version: 0.6.0.M1
+Bundle-Version: 0.6.0.M2
 Bundle-Name: KnitML Validation
 Bundle-Description: Basic pattern rendering for KnitML files
 Bundle-ManifestVersion: 2
@@ -36,15 +36,15 @@ Import-Package: com.knitml.core.common,
  org.springframework.aop,
  org.springframework.aop.framework,
  org.springframework.core
-Export-Package: com.knitml.validation;version="0.6.0.M1",
- com.knitml.validation.common;version="0.6.0.M1",
- com.knitml.validation.context;version="0.6.0.M1",
- com.knitml.validation.context.impl;version="0.6.0.M1",
- com.knitml.validation.visitor;version="0.6.0.M1",
- com.knitml.validation.visitor.definition.model;version="0.6.0.M1",
- com.knitml.validation.visitor.instruction;version="0.6.0.M1",
- com.knitml.validation.visitor.instruction.impl;version="0.6.0.M1",
- com.knitml.validation.visitor.instruction.model;version="0.6.0.M1",
- com.knitml.validation.visitor.model;version="0.6.0.M1",
- com.knitml.validation.visitor.util;version="0.6.0.M1"
+Export-Package: com.knitml.validation;version="0.6.0.M2",
+ com.knitml.validation.common;version="0.6.0.M2",
+ com.knitml.validation.context;version="0.6.0.M2",
+ com.knitml.validation.context.impl;version="0.6.0.M2",
+ com.knitml.validation.visitor;version="0.6.0.M2",
+ com.knitml.validation.visitor.definition.model;version="0.6.0.M2",
+ com.knitml.validation.visitor.instruction;version="0.6.0.M2",
+ com.knitml.validation.visitor.instruction.impl;version="0.6.0.M2",
+ com.knitml.validation.visitor.instruction.model;version="0.6.0.M2",
+ com.knitml.validation.visitor.model;version="0.6.0.M2",
+ com.knitml.validation.visitor.util;version="0.6.0.M2"
 Require-Bundle: org.junit
