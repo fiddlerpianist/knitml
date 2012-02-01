@@ -1,0 +1,4 @@
+#Wed Sep 24 15:40:10 CDT 2008
+eclipse.preferences.version=1
+groovy.compiler.output.path=target/classes
+support.groovy=true

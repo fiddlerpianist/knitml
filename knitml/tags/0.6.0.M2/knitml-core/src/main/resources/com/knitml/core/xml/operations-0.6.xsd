@@ -1,0 +1,1581 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.knitml.com/schema/operations"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:common="http://www.knitml.com/schema/common"
+	targetNamespace="http://www.knitml.com/schema/operations" xml:lang="en"
+	elementFormDefault="qualified">
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+		schemaLocation="http://www.w3.org/2001/xml.xsd" />
+	<xsd:import namespace="http://www.knitml.com/schema/common"
+		schemaLocation="http://www.knitml.com/schema/common-0.6.xsd" />
+
+	<!-- Top-level element definitions -->
+	<xsd:element name="row" type="RowType"/>
+
+	<xsd:element name="instruction">
+		<xsd:complexType>
+			<xsd:annotation>
+				<xsd:documentation>A referenceable set of rows. The rows may be
+					specified explicitly, or they
+					may be derived by applying the logic in
+					the for-each-row-in-instruction
+					element across
+					another referenced
+					instruction. Instruction elements are block operations,
+					since they
+					are
+					defined outside of a single row.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:choice>
+				<xsd:sequence>
+					<xsd:element name="row" type="RowType" maxOccurs="unbounded" />
+				</xsd:sequence>
+				<xsd:element name="for-each-row-in-instruction" type="ForEachRowInInstructionType" />
+			</xsd:choice>
+			<xsd:attribute name="id" type="common:id-type" use="required" />
+			<xsd:attribute name="shape">
+				<xsd:annotation>
+					<xsd:documentation>Documents the shape of the work, i.e. whether it
+						is knit flat or in the
+						round. If the instruction appears in the
+						header (under an
+						&lt;instruction-definition&gt; element) then this
+						attribute must be
+						specified.
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="flat" />
+						<xsd:enumeration value="round" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="row-count" type="xsd:short">
+				<xsd:annotation>
+					<xsd:documentation>States the expected number of rows for this
+						instruction. This is only
+						mandatory if the rows contained within
+						this instruction use the "subsequent"
+						attribute to
+						extend their
+						definition to even or odd rows. It can be used without the
+						"subsequent"
+						attribute to validate expectations.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attributeGroup ref="common:labelAttrs" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="instruction-ref" type="InstructionRefType"/>
+
+	<xsd:element name="inline-instruction" type="InlineInstructionType"/>
+	
+	<xsd:element name="merged-instruction">
+		<xsd:complexType>
+			<xsd:annotation>
+				<xsd:documentation>Merges two or more instructions together. Useful
+					for splitting instructions
+					over 2 different needles, then bringing
+					them together later in the
+					pattern (or vice
+					versa).
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:sequence>
+				<xsd:element name="instruction-ref" type="InstructionRefType"
+					minOccurs="2" maxOccurs="unbounded" />
+			</xsd:sequence>
+			<xsd:attribute name="id" type="common:id-type" use="required" />
+			<xsd:attribute name="merge-point" use="required">
+				<xsd:annotation>
+					<xsd:documentation>Should the instructions be merged together at
+						the
+						end of each row, or
+						should they be merged at the end of each
+						instruction?
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="row" />
+						<xsd:enumeration value="end" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="type" use="required">
+				<xsd:annotation>
+					<xsd:documentation>Indicates if this merge is physical (i.e. will
+						always be rendered as one
+						instruction) or logical (i.e. may be
+						rendered by describing how to merge the
+						instructions
+						together).
+						Currently only 'physical' is supported by the
+						specification.
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="physical" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attributeGroup ref="common:labelAttrs" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="KnitType">
+		<xsd:annotation>
+			<xsd:documentation>The knit operation is defined as inserting the
+				right-hand needle from left
+				to right into the next stitch. The yarn
+				is behind the stitch for this
+				operation, and the
+				stitch is worked
+				through either the leading or the trailing loop.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+				<xsd:attribute name="loop-to-work">
+					<xsd:simpleType>
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[
+                leading: the side of the loop which is closest to the right-hand needle
+                trailing: the side of the loop which is farthest from the right-hand needle
+                ]]></xsd:documentation>
+						</xsd:annotation>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="leading" />
+							<xsd:enumeration value="trailing" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="PurlType">
+		<xsd:annotation>
+			<xsd:documentation>The purl operation is defined as inserting the
+				right-hand needle from right
+				to left into the next stitch. The yarn
+				is in front of the stitch for
+				this operation, and the
+				stitch is worked
+				through either the leading or the trailing loop.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+				<xsd:attribute name="loop-to-work">
+					<xsd:simpleType>
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[
+                leading: the side of the loop which is closest to the right-hand needle
+                trailing: the side of the loop which is farthest from the right-hand needle
+                ]]></xsd:documentation>
+						</xsd:annotation>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="leading" />
+							<xsd:enumeration value="trailing" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="WorkEvenType">
+		<xsd:annotation>
+			<xsd:documentation>The work-even operation is defined as working the
+				current stich(es) in the
+				same manner as they were worked in the row
+				below. If the stitch below
+				was knit, then this is
+				equivalent to a knit
+				operation. If it was purled, it is equivalent to a purl
+				operation.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="DecreaseType">
+		<xsd:annotation>
+			<xsd:documentation>Represents a single decrease in the pattern. The
+				content of this element
+				can indicate to repeat this decrease the
+				specified number of times. See
+				the various
+				enumeration values for the
+				'type' attribute below for more information
+				describing each
+				decrease
+				type.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+				<xsd:attribute name="type">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+                Indicates the type of decrease to perform. Note that the decrease names are defined assuming stitch mounts using Western knitting techniques.
+                Recognized decreases are:
+                ssk: slip-slip-knit (slip knitwise, slip knitwise, knit the 2 slipped stitches together through their now leading loops)
+                k2tog: knit 2 together (knit 2 stitches together)
+                ssp: slip-slip-purl (slip knitwise, slip knitwise, purl the 2 slipped stitches together through their now leading loops)
+                p2tog: purl 2 together (purl 2 stitches together)
+                skp: slip, knit, psso (slip 1 purlwise, knit 1, pass slipped stitch over knitted stitch)
+                k2tog-tbl: knit 2 together through their trailing loop
+                p2tog-tbl: purl 2 together through their trailing loop
+                ]]></xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="ssk" />
+							<xsd:enumeration value="k2tog" />
+							<xsd:enumeration value="ssp" />
+							<xsd:enumeration value="p2tog" />
+							<xsd:enumeration value="skp" />
+							<xsd:enumeration value="k2tog-tbl" />
+							<xsd:enumeration value="p2tog-tbl" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="DoubleDecreaseType">
+		<xsd:annotation>
+			<xsd:documentation>Represents a double decrease in the pattern. The
+				content of this element
+				can indicate to repeat this decrease the
+				specified number of times. See
+				the various
+				enumeration values for the
+				'type' attribute below for more information
+				describing each type
+				of
+				double decrease.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+				<xsd:attribute name="type">
+					<xsd:annotation>
+						<xsd:documentation xml:space="preserve"><![CDATA[
+                Indicates the type of double decrease to perform.
+                Recognized double decreases are:
+                cdd:        center double decrease (slip 2 sts together knitwise, k, pass slipped sts over)
+                sk2p:       slip 1 st knitwise, k2tog, pass slipped stitch over
+                k3tog:      knit 3 together
+                p3tog:      purl 3 together
+                sssk:       slip 3 stitches knitwise, return to working needle, then knit the stitches together
+                ]]></xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="cdd" />
+							<xsd:enumeration value="sk2p" />
+							<xsd:enumeration value="k3tog" />
+							<xsd:enumeration value="p3tog" />
+							<xsd:enumeration value="sssk" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="IncreaseType">
+		<xsd:annotation>
+			<xsd:documentation>Represents an increase in the pattern. The content
+				of this element can
+				indicate to repeat this increase the specified
+				number of times. See the
+				various enumeration
+				values for the 'type'
+				attribute below for more information describing each
+				type of increase
+				decrease.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+				<xsd:attribute name="type" use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+                Indicates the type of increase to perform.
+                Recognized increases are:
+                m1: generic knit increase (implied if type is not specified)
+                m1p: generic purled increase
+                m1a: make 1 away (put backwards loop on needle with tail facing away)
+                m1t: make 1 towards (put backwards loop on needle with tail facing towards)
+                m1l: make one left (insert left needle front-to-back between sts, knit through trailing loop)
+                m1r: make one right (insert left needle back-to-front between sts, knit through trailing loop)
+                m1lp: make one left purled (insert left needle front-to-back between sts, purl through trailing loop)
+                m1rp: make one right purled (insert left needle back-to-front between sts, purl through trailing loop)
+                kll: knit left loop (insert left needle into left loop of st two rows below last worked st, knit through trailing loop)
+                krl: knit right loop (insert right needle into right loop of st below next st, put on left needle, knit through leading loop)
+                pll: purl left loop (insert left needle into left loop of st two rows below last worked st, purl through trailing loop)
+                prl: purl right loop (insert right needle into right loop of st below next st, put on left needle, purl through leading loop)
+                kfb: knit front and back (knit through leading, then trailing loop of next st)
+                pfb: purl front and back (purl through leading, then trailing loop of next st)
+                moss: knit through leading loop, then purl through leading loop of same st
+                decorative: knit into strand between sts
+                yo: bring working yarn in front and wrap it from bottom to top around the needle
+                ]]></xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="m1" />
+							<xsd:enumeration value="m1p" />
+							<xsd:enumeration value="m1a" />
+							<xsd:enumeration value="m1t" />
+							<xsd:enumeration value="m1l" />
+							<xsd:enumeration value="m1r" />
+							<xsd:enumeration value="m1lp" />
+							<xsd:enumeration value="m1rp" />
+							<xsd:enumeration value="kll" />
+							<xsd:enumeration value="krl" />
+							<xsd:enumeration value="pll" />
+							<xsd:enumeration value="prl" />
+							<xsd:enumeration value="kfb" />
+							<xsd:enumeration value="pfb" />
+							<xsd:enumeration value="moss" />
+							<xsd:enumeration value="decorative" />
+							<xsd:enumeration value="yo" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="IncreaseIntoNextStitchType">
+		<xsd:annotation>
+			<xsd:documentation>Represents a series of increases by knitting
+				repeatedly into the next
+				stitch. This can be a sequence of knits and
+				purls. The number of elements
+				in the sequence
+				dictates the number of
+				stitches that were increased.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice maxOccurs="unbounded" minOccurs="0">
+			<xsd:element name="knit" type="KnitType" default="1" />
+			<xsd:element name="purl" type="PurlType" default="1" />
+		</xsd:choice>
+		<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+	</xsd:complexType>
+
+	<xsd:complexType name="SlipType">
+		<xsd:annotation>
+			<xsd:documentation>Represents moving a series of stitches from the
+				left to the right needle
+				without knitting them.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="type" default="purlwise">
+					<xsd:annotation>
+						<xsd:documentation>Designates if the stitch is slipped as if to
+							knit or as if to purl.
+							Default is purlwise.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="knitwise" />
+							<xsd:enumeration value="purlwise" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute name="yarn-position" default="back">
+					<xsd:annotation>
+						<xsd:documentation>Where the yarn is held when the stitches are
+							slipped. Default is
+							'back', which means that the yarn is to the
+							back of the work.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="front" />
+							<xsd:enumeration value="back" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute name="direction" default="forward">
+					<xsd:annotation>
+						<xsd:documentation>A value of forward indicates that the
+							stitch(es) is/are to be slipped
+							as if working forwards (from
+							needle holding stitches to work to
+							needle holding
+							stitches just
+							worked). A value of reverse indicates that the stitch(es)
+							are to
+							be
+							slipped as if working in reverse (from needle holding stitches
+							just
+							worked to needle
+							holding stitches to work).
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="forward" />
+							<xsd:enumeration value="reverse" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="PassPreviousStitchOverType">
+		<xsd:annotation>
+			<xsd:documentation>Represents passing the stitch worked two stitches
+				ago over the stitch just worked.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short" />
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="SlipToStitchHolderType">
+		<xsd:annotation>
+			<xsd:documentation>Represents moving a series of stitches from the
+				left needle to the
+				referenced stitch holder. The stitch holder acts
+				like an inactive
+				double-pointed
+				needle.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="ref" type="common:idref-type">
+					<xsd:annotation>
+						<xsd:documentation>The reference ID of the stitch holder to use.
+							It is invalid to slip
+							stitches onto a holder that is already
+							holding stitches.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="NoStitchType">
+		<xsd:annotation>
+			<xsd:documentation>Represents a series of "blank" spaces in a
+				pattern. Usually used for
+				grouping stitches together in a chart. A
+				no-stitch element does not change
+				the state of the
+				pattern at all, nor
+				is it officially part of the algorithm. Renderers are
+				free to ignore
+				it.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short" />
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="TurnType">
+		<xsd:annotation>
+			<xsd:documentation>Turn the work without working stitches.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="inform-unworked-stitches" type="xsd:boolean">
+			<xsd:annotation>
+				<xsd:documentation>Indicates that a pre-processor should calculate
+					the number of stitches
+					that haven't been worked in the row at the
+					time of turning and add this
+					value as the
+					'stitches-left' attribute.
+					If the 'stitches-left' attribute has already been
+					provided,
+					this has
+					no effect.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="stitches-left" type="xsd:short">
+			<xsd:annotation>
+				<xsd:documentation>The number of stitches left to work in the row
+					when the work is turned.
+					Indicates that a rendering program should
+					display this value. This value can
+					be calculated
+					by a pre-processor,
+					or it can be provided. If it is provided and
+					validation is
+					performed,
+					this number serves as an assertion.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="PickUpStitchesType">
+		<xsd:annotation>
+			<xsd:documentation>The number of stitches to pick up from the work.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+				<xsd:attribute name="type">
+					<xsd:annotation>
+						<xsd:documentation>Indicates whether the stitches are picked up
+							knitwise or purlwise.
+							Defaults to knitwise.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="knitwise" />
+							<xsd:enumeration value="purlwise" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="InlinePickUpStitchesType">
+		<xsd:annotation>
+			<xsd:documentation>The number of stitches to pick up from the work
+				within the current
+				row.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+				<xsd:attribute name="type">
+					<xsd:annotation>
+						<xsd:documentation>Indicates whether the stitches are picked up
+							knitwise or purlwise.
+							Defaults to knitwise.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="knitwise" />
+							<xsd:enumeration value="purlwise" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:group name="atomicInlineOperations">
+		<xsd:annotation>
+			<xsd:documentation>An atomic inline operation is a pattern direction
+				which occurs inside a row
+				element. This includes operations such as
+				knitting, purling, increases,
+				decreases, and
+				binding off. It excludes
+				elements which represent an aggregation of inline
+				operations (e.g.
+				repeat, using-needle).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="bind-off" type="BindOffType" />
+			<xsd:element name="bind-off-all" type="BindOffAllType" />
+			<xsd:element name="knit" type="KnitType" default="1" />
+			<xsd:element name="purl" type="PurlType" default="1" />
+			<xsd:element name="work-even" type="WorkEvenType"
+				default="1" />
+			<xsd:element name="decrease" type="DecreaseType" default="1" />
+			<xsd:element name="double-decrease" type="DoubleDecreaseType"
+				default="1" />
+			<xsd:element name="increase" type="IncreaseType" default="1" />
+			<xsd:element name="increase-into-next-stitch" type="IncreaseIntoNextStitchType" />
+			<xsd:element name="cross-stitches" type="CrossStitchesType" />
+			<xsd:element name="slip" type="SlipType" default="1" />
+			<xsd:element name="slip-to-stitch-holder" type="SlipToStitchHolderType" />
+			<xsd:element name="from-stitch-holder" type="FromStitchHolderType" />
+			<xsd:element name="pass-previous-stitch-over" type="PassPreviousStitchOverType"
+				default="1" />
+			<xsd:element name="no-stitch" type="NoStitchType"
+				default="1" />
+			<xsd:element name="turn" type="TurnType" />
+			<xsd:element name="place-marker" type="xsd:string" />
+			<xsd:element name="inline-cast-on" type="InlineCastOnType" />
+			<xsd:element name="inline-pick-up-stitches" type="InlinePickUpStitchesType" />
+			<xsd:element name="designate-end-of-row" type="xsd:string" />
+			<xsd:element name="remove-marker" type="xsd:string" />
+			<xsd:element name="inline-instruction-ref" type="InlineInstructionRefType" />
+			<xsd:element name="apply-next-row" type="ApplyNextRowType" />
+		</xsd:choice>
+	</xsd:group>
+
+	<xsd:group name="compositeInlineOperations">
+		<xsd:annotation>
+			<xsd:documentation>A composite inline operation groups together
+				atomic inline operations
+				within the context of a row. The meaning of
+				the operation applies to all
+				of its child
+				elements.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="repeat" type="RepeatType" />
+			<xsd:element name="using-needle" type="UsingNeedleType" />
+			<xsd:element name="inline-instruction" type="InlineInstructionType" />
+		</xsd:choice>
+	</xsd:group>
+
+	<xsd:group name="atomicBlockOperations">
+		<xsd:annotation>
+			<xsd:documentation>An atomic block operation is a pattern direction
+				which occurs outside of a
+				row element. This group includes operations
+				such as casting on, joining
+				stitches in the
+				round, and grafting. It
+				excludes elements which represent an aggregation
+				of block operations
+				(e.g. instruction, instruction-group, section).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="cast-on" type="CastOnType" />
+			<xsd:element name="pick-up-stitches" type="PickUpStitchesType" />
+			<xsd:element name="join-in-round" type="xsd:string" />
+			<xsd:element name="declare-flat-knitting" type="DeclareFlatKnittingType" />
+			<xsd:element name="declare-round-knitting" type="xsd:string" />
+			<xsd:element name="arrange-stitches-on-needles" type="ArrangeStitchesOnNeedlesType" />
+			<xsd:element name="use-needles" type="UseNeedlesType" />
+			<xsd:element name="graft-together" type="GraftTogetherType" />
+			<xsd:element name="label-needle" type="LabelNeedleType" />
+			<xsd:element name="repeat-instruction" type="RepeatInstructionType" />
+			<xsd:element name="information" type="InformationType" />
+			<xsd:element name="use-instruction" type="UseInstructionType" />
+		</xsd:choice>
+	</xsd:group>
+
+	<xsd:complexType name="LabelNeedleType">
+		<xsd:annotation>
+			<xsd:documentation>Labels the needle specified by the ref attribute
+				with either the literal
+				value of the label attribute or the
+				internationalized value that
+				corresponds to the
+				message-key attribute.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="ref" type="common:idref-type" />
+		<xsd:attributeGroup ref="common:labelAttrs" />
+	</xsd:complexType>
+
+	<xsd:complexType name="DeclareFlatKnittingType">
+		<xsd:annotation>
+			<xsd:documentation>Instructs the knitter to begin working flat. Only
+				valid if the knitter was
+				previously knitting in the round.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="next-row-side" use="required">
+					<xsd:annotation>
+						<xsd:documentation>When working flat after working in the round,
+							the next row can either
+							be a wrong side or right side row,
+							depending on the pattern.
+							Therefore this attribute
+							is required.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="right" />
+							<xsd:enumeration value="wrong" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="CompositeInlineOperationType">
+		<xsd:annotation>
+			<xsd:documentation>A reusable type which encompasses a series of
+				atomic inline
+				operations.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice maxOccurs="unbounded" minOccurs="0">
+			<xsd:group ref="atomicInlineOperations" />
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="InlineInstructionType">
+		<xsd:annotation>
+			<xsd:documentation>A referenceable set of inline operations (both
+				atomic and
+				composite).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice maxOccurs="unbounded" minOccurs="0">
+			<xsd:group ref="atomicInlineOperations" />
+			<xsd:group ref="compositeInlineOperations" />
+		</xsd:choice>
+		<xsd:attribute name="id" type="common:id-type" />
+		<xsd:attributeGroup ref="common:labelAttrs" />
+	</xsd:complexType>
+
+	<xsd:complexType name="ApplyNextRowType">
+		<xsd:annotation>
+			<xsd:documentation>Perform the operations specified in the next row
+				of the referenced
+				instruction. As an example, the first time this
+				element is applied to an 8-row
+				instruction,
+				row 1 would be applied.
+				The next time, row 2 would be applied. In other
+				words, a global
+				instance of the instruction is created, and each application of this
+				element
+				aplies the next
+				row in that instruction.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="instruction-ref" type="common:idref-type" />
+	</xsd:complexType>
+
+	<xsd:complexType name="RowType">
+		<xsd:annotation>
+			<xsd:documentation>A row (or round) of knitting. Processing through a
+				row's child elements
+				works all stitches on the current needles
+				sequentially. The end of the
+				row is reached when
+				the last stitch on
+				the needles for this row has been worked. The last
+				operation in this
+				row
+				must put the knitting at the end of the row, unless the 'short'
+				attribute has been set to
+				true.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="information" type="InformationType"
+				minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Represents information about this row.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:choice maxOccurs="unbounded" minOccurs="0">
+				<xsd:group ref="atomicInlineOperations" />
+				<xsd:group ref="compositeInlineOperations" />
+			</xsd:choice>
+			<xsd:element name="followup-information" type="InformationType"
+				minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Represents information about the row after it
+						has been
+						worked.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+		<xsd:attribute name="inform-side" type="xsd:boolean">
+			<xsd:annotation>
+				<xsd:documentation>Indicates that a pre-processor should calculate
+					the current knitting side
+					and add this value to the 'side'
+					attribute. If the 'side' attribute
+					has already been
+					provided, this
+					has no effect.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="side">
+			<xsd:annotation>
+				<xsd:documentation>The side of the work that is facing the knitter
+					when the row begins.
+					Indicates that a rendering program should
+					display this value. This value can
+					be calculated
+					by a pre-processor,
+					or it can be provided. If it is provided and
+					validation is
+					performed,
+					it serves as an assertion.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="right" />
+					<xsd:enumeration value="wrong" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="short" type="xsd:boolean" default="false">
+			<xsd:annotation>
+				<xsd:documentation>A row is short if there will be unworked stitches
+					after this row's
+					operations are executed. Unworked stitches may
+					occur at either the beginning
+					or the end of
+					the row. A row that is
+					short but is not marked that way is not valid.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="long" type="xsd:boolean" default="false">
+			<xsd:annotation>
+				<xsd:documentation>A row is long if the stitch operations it defines
+					run into the next row.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="assign-row-number" type="xsd:boolean">
+			<xsd:annotation>
+				<xsd:documentation>Informs a pre-processor that it should assign a
+					row number to the 'row'
+					attribute if none was provided.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="reset-row-count" type="reset-row-count-type" />
+		<xsd:attribute name="number">
+			<xsd:annotation>
+				<xsd:documentation>The row number(s). If this attribute takes the
+					form of a single number,
+					it must either be the number 1 or 1 plus
+					the last row number. If the
+					row number is 1, any
+					existing local
+					instructions (i.e. instructions that are only addressable by
+					their
+					row
+					numbers) are discarded and can no longer be referenced. A list
+					of row
+					numbers (in the form
+					of &quot;1 3 5&quot;) is only allowed if
+					this row is a child of an
+					instruction
+					element. Alternatively,
+					omitting this attribute tells a pre-processor that
+					it should
+					assign
+					the next logical row number to this attribute (unless the
+					assign-row-number
+					attribute is set to false, in which case it is
+					left alone).
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:list itemType="xsd:short" />
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="subsequent">
+			<xsd:annotation>
+				<xsd:documentation>Indicates whether this row is to be repeated for
+					all following even
+					or odd rows within this instruction. Only valid
+					when defined within
+					an instruction and
+					that instruction has its
+					"row-count" attribute defined. An unspecified
+					value is equivalent
+					to
+					"none", meaning that this row element only defines the row numbers
+					specified by the
+					"number" attribute.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="even" />
+					<xsd:enumeration value="odd" />
+					<xsd:enumeration value="none" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="type">
+			<xsd:annotation>
+				<xsd:documentation>The current shape of knitting, either 'flat' or
+					'round.' Specifying this
+					attribute informs the renderer to use the
+					appropriate row header for this
+					shape. If this
+					attribute is not
+					provided, a pre-processor should calculate this value. If
+					this
+					attribute
+					is provided and validation is performed, it serves as an
+					assertion.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="flat" />
+					<xsd:enumeration value="round" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="RepeatType">
+		<xsd:annotation>
+			<xsd:documentation>Repeat the child elements (inline operations) as
+				long as the 'until'
+				condition is not fulfilled.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="CompositeInlineOperationType">
+				<xsd:attribute name="id" type="common:id-type" />
+				<xsd:attribute name="until" use="required">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[Specifies the terminating condition of this repeat. Values are:
+              end: repeat to the end (of the block inline operation)
+              before end: repeat until the number of sts specified by 'value' + current position is end
+              before gap: repeat until the number of sts specified by 'value' + current position is a gap
+              before marker: repeat until the number of sts specified by 'value' + current position is a marker
+              marker: repeat until a marker is encountered
+              times: a declared number of times (total, not additional)
+              ]]>
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="end" />
+							<xsd:enumeration value="before-end" />
+							<xsd:enumeration value="before-gap" />
+							<xsd:enumeration value="before-marker" />
+							<xsd:enumeration value="marker" />
+							<xsd:enumeration value="times" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute name="value" type="xsd:short">
+					<xsd:annotation>
+						<xsd:documentation>The value which complements the evaluation of
+							the 'until'
+							expression.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="StitchCountType">
+		<xsd:annotation>
+			<xsd:documentation>The stitch count on the current needle(s) should
+				be rendered and/or
+				evaluated, depending on the context of this
+				element.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="needle" type="NeedleRefType" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="RepeatInstructionType">
+		<xsd:annotation>
+			<xsd:documentation>Repeat the child elements (block operations) as
+				long as the until condition
+				is not fulfilled. The condition will only
+				be checked per full
+				repetition of the instruction,
+				not partially
+				through an instruction repeat.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="until-desired-length" type="xsd:string">
+					<xsd:annotation>
+						<xsd:documentation>Continue until the length desired is achieved.
+							As this is subjective,
+							the behavior for a validator is undefined.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="until-stitches-remain" type="xsd:short">
+					<xsd:annotation>
+						<xsd:documentation>Continue until there are n number of active
+							stitches, specified by
+							the value of this element.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="until-stitches-remain-on-needles"
+					type="UntilStitchesRemainOnNeedlesType">
+					<xsd:annotation>
+						<xsd:documentation>Continue until there are n number of active
+							stitches on the specified
+							needles.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="until-measures" type="common:LengthType">
+					<xsd:annotation>
+						<xsd:documentation>Continue until the specified length has been
+							knit (using this
+							instruction repetition, not the total length of
+							the work).
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="additional-times" type="xsd:short">
+					<xsd:annotation>
+						<xsd:documentation>Continue until repeated the specified number of
+							times.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="until-equals" type="UntilEqualsType">
+					<xsd:annotation>
+						<xsd:documentation>Continue until the children of this element
+							equal each
+							other.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="ref" type="common:idref-type">
+			<xsd:annotation>
+				<xsd:documentation>A reference to the instruction to repeat.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="InformationType">
+		<xsd:annotation>
+			<xsd:documentation>Provides information about the pattern directions
+				without specifying
+				operations. Cannot be validated, but can be
+				rendered. Currently supports either
+				a message or
+				a number-of-stitches
+				element.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice maxOccurs="unbounded">
+			<xsd:element name="number-of-stitches" type="NumberOfStitchesType" />
+			<xsd:element name="message" type="MessageType" />
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="MessageType">
+		<xsd:annotation>
+			<xsd:documentation>Represents a message (i.e. textual information) in
+				the pattern. Follows
+				labelAttrs convention for internationalization.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attributeGroup ref="common:labelAttrs" />
+		<xsd:attribute ref="xml:lang">
+			<xsd:annotation>
+				<xsd:documentation>The language this message is written in (if there
+					is
+					content).
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="NumberOfStitchesType">
+		<xsd:annotation>
+			<xsd:documentation>Reports the number of stitches which are currently
+				active.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="number" type="xsd:short">
+			<xsd:annotation>
+				<xsd:documentation>The number of active stitches. Indicates that a
+					rendering program should
+					display this value. This value can be
+					calculated by a pre-processor, or it
+					can be
+					provided. If it is
+					provided and validation is performed, this number serves
+					as an
+					assertion.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="inform" type="xsd:boolean">
+			<xsd:annotation>
+				<xsd:documentation>Informs a pre-processor that it should calculate
+					the 'number' attribute
+					based on the current number of active
+					stitches.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="UsingNeedleType">
+		<xsd:annotation>
+			<xsd:documentation>Scope the number of active stitches to the
+				specified needle for the child
+				elements. This means, for instance,
+				that a repeat to end operation that falls
+				within a
+				using-needle
+				element will only take the work to the end of the needle, not to
+				the
+				end of the
+				row (although the last using-needle operation should).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice maxOccurs="unbounded" minOccurs="0">
+			<xsd:group ref="atomicInlineOperations" />
+			<xsd:group ref="compositeInlineOperations" />
+		</xsd:choice>
+		<xsd:attribute name="ref" type="common:idref-type">
+			<xsd:annotation>
+				<xsd:documentation>A reference to the needle to use.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="FromStitchHolderType">
+		<xsd:annotation>
+			<xsd:documentation>Work the stitches specified by the child elements
+				off of the stitch holder
+				specified.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice maxOccurs="unbounded" minOccurs="0">
+			<xsd:group ref="atomicInlineOperations" />
+			<xsd:group ref="compositeInlineOperations" />
+		</xsd:choice>
+		<xsd:attribute name="ref" type="common:idref-type">
+			<xsd:annotation>
+				<xsd:documentation>A reference to the stitch holder to use.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="GraftTogetherType">
+		<xsd:annotation>
+			<xsd:documentation>Graft together (i.e. kitchener stitch) all of the
+				stitches from the
+				specified needles.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" name="needle" type="NeedleRefType" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CastOnType">
+		<xsd:annotation>
+			<xsd:documentation>Cast on the specified number of stitches onto the
+				active
+				needle(s).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+				<xsd:attribute name="style" type="xsd:string">
+					<xsd:annotation>
+						<xsd:documentation>Free form text indicating the style of cast on,
+							e.g. 'long-tail',
+							'cable', etc.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="count-as-row" type="xsd:boolean"
+					default="false">
+					<xsd:annotation>
+						<xsd:documentation>Indicates whether the cast-on row counts as a
+							row. If 'true' and
+							knitting flat, the next row will be knitted on
+							the "wrong" side.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="InlineCastOnType">
+		<xsd:annotation>
+			<xsd:documentation>Cast on the specified number of stitches onto the
+				active needle(s) within
+				the current row.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+				<xsd:attribute name="style" type="xsd:string">
+					<xsd:annotation>
+						<xsd:documentation>Free form text indicating the style of cast on,
+							e.g. 'backward-loop',
+							'cable', etc.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="BindOffType">
+		<xsd:simpleContent>
+			<xsd:annotation>
+				<xsd:documentation>Bind off the specified number of stitches from
+					the active
+					needle(s).
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+				<xsd:attribute name="type" default="knitwise">
+					<xsd:annotation>
+						<xsd:documentation>Whether to bind off knitwise (knitting
+							stitches) or purlwise (purling
+							stitches) between passing the
+							worked stitches over. Default value is
+							'knitwise'.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="knitwise" />
+							<xsd:enumeration value="purlwise" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="BindOffAllType">
+		<xsd:annotation>
+			<xsd:documentation>Bind off all active stitches in the context (row
+				or
+				needle).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
+		<xsd:attribute name="type" default="knitwise">
+			<xsd:annotation>
+				<xsd:documentation>Whether to bind off knitwise (knitting stitches)
+					or purlwise (purling
+					stitches) between passing the worked stitches
+					over. Default value is
+					'knitwise'.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="knitwise" />
+					<xsd:enumeration value="purlwise" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="fasten-off-last-stitch" type="xsd:boolean"
+			default="true">
+			<xsd:annotation>
+				<xsd:documentation>Whether or not the operation should bind off the
+					one stitch
+					remaining.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="CrossStitchesType">
+		<xsd:annotation>
+			<xsd:documentation>Starting with the next active stitch, cross the
+				number of stitches
+				specified by the 'first' attribute in front of or
+				behind (specified by the
+				'type' attribute)
+				the number of stitches
+				specified by the 'next' attribute. Also known as
+				a "cable crossing"
+				or "twisting stitches." The next stitch to be worked is the same
+				stitch that was to be
+				worked before this operation began. In other
+				words, no stitches are
+				actually worked with an
+				active yarn. In order
+				to specify a "full" cable manuever, a subsequent
+				operation (or
+				several) would have to work 'first' + 'next' stitches.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="first" type="xsd:short">
+			<xsd:annotation>
+				<xsd:documentation>The stitches to cross over / under.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="type">
+			<xsd:annotation>
+				<xsd:documentation>The method by which the stiches are crossed. May
+					be 'front' or
+					'back'.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="front" />
+					<xsd:enumeration value="back" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="next" type="xsd:short">
+			<xsd:annotation>
+				<xsd:documentation>The stitches to be crossed over / under by the
+					stitches specified by
+					'first'.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="ArrangeStitchesOnNeedlesType">
+		<xsd:annotation>
+			<xsd:documentation>Starting with the next stitch to work, arrange the
+				stitches as specified by
+				the series of 'needle' elements to those
+				needles. The total number of
+				stitches specified by
+				'needle' elements
+				must match the total number of stitches currently active
+				in the
+				work.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" name="needle"
+				type="StitchesOnNeedleType" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="UntilStitchesRemainOnNeedlesType">
+		<xsd:annotation>
+			<xsd:documentation>Represents a conditional statement: until there
+				are n number of active
+				stitches on the specified needles.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" name="needle"
+				type="StitchesOnNeedleType" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="StitchesOnNeedleType">
+		<xsd:annotation>
+			<xsd:documentation>Represents the number of stitches on the needle
+				specified by the 'ref'
+				attribute.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:short">
+				<xsd:attribute name="ref" type="common:idref-type" />
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="UseNeedlesType">
+		<xsd:annotation>
+			<xsd:documentation>Make the needles specified by the children of this
+				element the active
+				needles. This is different than the using-needle
+				element, which only
+				specifies what specific
+				operations to perform on
+				an already active needle. This operation makes a
+				global change to
+				the
+				active needles.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="1" name="needle"
+				type="NeedleRefType" />
+		</xsd:sequence>
+		<xsd:attribute name="silent" type="xsd:boolean">
+			<xsd:annotation>
+				<xsd:documentation>When set to true, indicates that the operation
+					should not be rendered but
+					is merely a directive to a computer
+					program. If a cast-on element
+					immediately follows a
+					this element and
+					'silent' is set to true, the intent is that these
+					needles will be
+					used
+					for the cast on, and a renderer may choose to mention which
+					needles to
+					cast onto as part
+					of rendering the cast on operation
+					(rather than this one).
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="UntilEqualsType">
+		<xsd:annotation>
+			<xsd:documentation>Represents a conditional statement: until the
+				evaluation of each of the
+				child elements equal each other. Currently
+				only active stitch count
+				compared to a number is
+				valid, but this may
+				expand in subsequent specifications.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="stitch-count" type="StitchCountType" />
+			<xsd:element name="value" type="xsd:short" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="ForEachRowInInstructionType">
+		<xsd:annotation>
+			<xsd:documentation>For each row in the referenced instruction,
+				perform the child operations.
+				For example, if the referenced
+				instruction had three rows, the child
+				operations would be
+				performed
+				three times. Really only useful when used with one or more
+				apply-next-row child
+				elements, otherwise the exact same operations
+				would be repeated for each
+				row.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice maxOccurs="unbounded" minOccurs="0">
+			<xsd:group ref="atomicInlineOperations" />
+			<xsd:group ref="compositeInlineOperations" />
+		</xsd:choice>
+		<xsd:attribute name="ref" type="common:idref-type" />
+	</xsd:complexType>
+
+	<xsd:complexType name="UseInstructionType">
+		<xsd:annotation>
+			<xsd:documentation>Create an instance of an instruction to iterate
+				through with subsequent
+				apply-next-row elements. If this element is
+				not specified before an apply-next-row
+				occurs to
+				that instruction, an
+				instance is implicitly created.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="ref" type="common:idref-type" />
+		<xsd:attribute name="offset" type="xsd:short">
+			<xsd:annotation>
+				<xsd:documentation>Reserved for future use.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="InstructionRefType">
+		<xsd:attribute name="ref" type="common:idref-type" use="required">
+			<xsd:annotation>
+				<xsd:documentation>A reference to a block instruction previously
+					defined in the
+					pattern.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="InlineInstructionRefType">
+		<xsd:attribute name="ref" type="common:idref-type" use="required">
+			<xsd:annotation>
+				<xsd:documentation>A reference to an inline instruction previously
+					defined in the
+					pattern.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+
+
+
+
+
+
+	<xsd:complexType name="NeedleRefType">
+		<xsd:annotation>
+			<xsd:documentation>A reference to needle defined previously in the
+				pattern.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="ref" type="xsd:IDREF" />
+	</xsd:complexType>
+
+	<xsd:simpleType name="reset-row-count-type">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+ Whether the row count should be reset. Often pattern designers restart row numbering for a
+ particular section of the pattern, such as:
+     Row 1: Knit
+     Row 2: Purl
+     ...(some instructions here). Now do this:
+     Row 1: k2tog, k to end 
+     Row 2: p2tog, p to end
+ If this attribute isn't specified, the default is 'false'. 
+      ]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:boolean" />
+	</xsd:simpleType>
+
+
+</xsd:schema>
