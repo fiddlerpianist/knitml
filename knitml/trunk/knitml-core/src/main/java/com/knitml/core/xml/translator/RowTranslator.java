@@ -13,15 +13,15 @@ import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.MarshallingContext;
 import org.jibx.runtime.impl.UnmarshallingContext;
 
-import com.knitml.core.common.DataConversion;
 import com.knitml.core.common.EnumUtils;
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.RowDefinitionScope;
 import com.knitml.core.common.Side;
-import com.knitml.core.model.directions.InlineOperation;
-import com.knitml.core.model.directions.block.Row;
-import com.knitml.core.model.directions.information.FollowupInformation;
-import com.knitml.core.model.directions.information.Information;
+import com.knitml.core.model.operations.InlineOperation;
+import com.knitml.core.model.operations.block.FollowupInformation;
+import com.knitml.core.model.operations.block.Information;
+import com.knitml.core.model.operations.block.Row;
+import com.knitml.core.xml.DataConversion;
 
 public class RowTranslator implements IMarshaller, IUnmarshaller, IAliasable {
 

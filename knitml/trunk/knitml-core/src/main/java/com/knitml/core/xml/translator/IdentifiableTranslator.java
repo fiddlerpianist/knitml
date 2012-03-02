@@ -2,7 +2,7 @@ package com.knitml.core.xml.translator;
 
 import org.jibx.extras.IdRefMapperBase;
 
-import com.knitml.core.model.Identifiable;
+import com.knitml.core.model.common.Identifiable;
 
 public class IdentifiableTranslator extends IdRefMapperBase {
 

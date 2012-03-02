@@ -9,8 +9,8 @@ import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.MarshallingContext;
 import org.jibx.runtime.impl.UnmarshallingContext;
 
-import com.knitml.core.model.Identifiable;
-import com.knitml.core.model.directions.block.InstructionRef;
+import com.knitml.core.model.common.Identifiable;
+import com.knitml.core.model.operations.block.InstructionRef;
 
 public class InstructionRefTranslator implements IMarshaller, IUnmarshaller,
 		IAliasable {

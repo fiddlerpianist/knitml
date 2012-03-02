@@ -14,7 +14,7 @@ import org.custommonkey.xmlunit.XMLUnit
 import org.junit.BeforeClass
 import org.junit.Test
 
-import com.knitml.core.model.Pattern
+import com.knitml.core.model.pattern.Pattern;
 import com.knitml.core.units.Units
 
 class GeneralInformationTests {

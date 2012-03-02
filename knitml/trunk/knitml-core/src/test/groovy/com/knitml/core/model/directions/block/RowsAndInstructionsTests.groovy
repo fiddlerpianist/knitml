@@ -23,13 +23,13 @@ import org.junit.runners.JUnit4
 import org.junit.runner.JUnitCore
 import org.junit.runner.RunWith
 
-import com.knitml.core.model.directions.block.InstructionGroup
-import com.knitml.core.model.directions.block.Instruction
-import com.knitml.core.model.directions.block.Row
-import com.knitml.core.model.directions.inline.Knit
-import com.knitml.core.model.directions.inline.Purl
-import com.knitml.core.model.Pattern
-import com.knitml.core.model.directions.expression.StitchCount
+import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.operations.block.Row;
+import com.knitml.core.model.operations.expression.StitchCount;
+import com.knitml.core.model.operations.inline.Knit;
+import com.knitml.core.model.operations.inline.Purl;
+import com.knitml.core.model.pattern.InstructionGroup;
+import com.knitml.core.model.pattern.Pattern;
 
 import com.knitml.core.common.KnittingShape
 import com.knitml.core.common.RowDefinitionScope 

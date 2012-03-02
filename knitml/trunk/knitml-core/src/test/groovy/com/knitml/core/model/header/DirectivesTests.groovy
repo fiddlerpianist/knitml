@@ -24,7 +24,7 @@ import org.junit.runner.JUnitCore
 import org.junit.runner.RunWith
 
 import com.knitml.core.units.Units
-import com.knitml.core.model.Pattern
+import com.knitml.core.model.pattern.Pattern;
 
 class DirectivesTests {
 	@BeforeClass

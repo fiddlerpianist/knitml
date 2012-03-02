@@ -13,9 +13,19 @@ import org.custommonkey.xmlunit.XMLUnit
 import org.junit.Test
 import org.junit.BeforeClass
 
-import com.knitml.core.model.Pattern
 import com.knitml.core.common.CrossType
-import com.knitml.core.model.directions.inline.FromStitchHolder
+import com.knitml.core.model.operations.inline.ApplyNextRow;
+import com.knitml.core.model.operations.inline.CrossStitches;
+import com.knitml.core.model.operations.inline.FromStitchHolder;
+import com.knitml.core.model.operations.inline.InlineInstruction;
+import com.knitml.core.model.operations.inline.Knit;
+import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
+import com.knitml.core.model.operations.inline.PlaceMarker;
+import com.knitml.core.model.operations.inline.Purl;
+import com.knitml.core.model.operations.inline.RemoveMarker;
+import com.knitml.core.model.operations.inline.Repeat;
+import com.knitml.core.model.operations.inline.Slip;
+import com.knitml.core.model.pattern.Pattern;
 
 class MiscellaneousOperationTests {
 	@BeforeClass
@@ -291,6 +301,30 @@ class MiscellaneousOperationTests {
 		row.operations[1].with {
 			assertThat needle, is (needle2)
 			assertThat operations[0].numberOfTimes, is (10) 
+		}
+		marshalXmlAndCompare(pattern,xml)
+	}
+	
+	@Test
+	void stitchGroup() {
+		def xml = '''
+				<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+				  <pattern:directions>
+				  	<row>
+				  		<group size="5">
+				  			<slip>1</slip>
+							<knit>1</knit>
+						</group>
+				  	</row>
+				  </pattern:directions>
+				</pattern:pattern>'''
+		Pattern pattern = unmarshalXml(xml)
+		def row = pattern.directions.operations[0]
+				
+		row.operations[0].with {
+			assertThat size, is (5) 
+			assertThat ((operations[0] instanceof Slip), is (true))
+			assertThat ((operations[1] instanceof Knit), is (true))
 		}
 		marshalXmlAndCompare(pattern,xml)
 	}
