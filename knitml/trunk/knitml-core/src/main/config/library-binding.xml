@@ -1,0 +1,147 @@
+<binding track-source="true" add-constructors="true">
+	<namespace uri="http://www.w3.org/2001/XMLSchema-instance"
+		prefix="xsi" default="none" />
+	<namespace uri="http://www.knitml.com/schema/library" prefix="library"
+		default="none" />
+	<namespace uri="http://www.knitml.com/schema/operations"
+		prefix="" default="none" />
+	<namespace uri="http://www.knitml.com/schema/common" prefix="common"
+		default="none" />
+	<include path="block-operations.xml" />
+	<include path="../jibx/common.xml" />
+
+	<mapping name="library" class="com.knitml.core.library.Library"
+		value-style="attribute" ns="http://www.knitml.com/schema/library">
+		<value ns="http://www.w3.org/XML/1998/namespace" name="lang"
+			field="languageCode" style="attribute" usage="optional" />
+		<value name="schemaLocation" field="schemaLocation"
+			ns="http://www.w3.org/2001/XMLSchema-instance" usage="optional" />
+		<value name="version" field="version" usage="optional" />
+	</mapping>
+	<!-- Header -->
+	<mapping name="definitions" class="com.knitml.core.library.Definitions"
+		value-style="attribute" ns="http://www.knitml.com/schema/pattern">
+		<collection name="message-sources" field="messageSources"
+			type="java.util.ArrayList" item-type="java.lang.String" usage="optional"
+			ns="http://www.knitml.com/schema/pattern">
+			<value name="message-source" style="element"
+				ns="http://www.knitml.com/schema/pattern" />
+		</collection>
+		<collection name="instruction-definitions" field="instructionDefinitions"
+			type="java.util.ArrayList" usage="optional"
+			ns="http://www.knitml.com/schema/pattern" />
+	</mapping>
+	<mapping name="general-information" class="com.knitml.core.model.pattern.GeneralInformation"
+		value-style="element" ns="http://www.knitml.com/schema/pattern">
+		<value ns="http://www.w3.org/XML/1998/namespace" name="lang"
+			field="languageCode" style="attribute" usage="optional" />
+		<value name="name" field="patternName" ns="http://www.knitml.com/schema/pattern" usage="optional" />
+		<value name="description" field="description" ns="http://www.knitml.com/schema/pattern" usage="optional" />
+		<value name="dimensions" field="dimensions" ns="http://www.knitml.com/schema/pattern" usage="optional" />
+		<structure name="gauge" field="gauge" usage="optional"
+			ns="http://www.knitml.com/schema/pattern">
+			<value name="type" field="swatchType" usage="optional" style="attribute" />
+			<structure name="stitch-gauge" field="stitchGauge" usage="optional"
+				type="javax.measure.Measure" marshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+				unmarshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+				ns="http://www.knitml.com/schema/pattern" />
+			<structure name="row-gauge" field="rowGauge" usage="optional"
+				type="javax.measure.Measure" marshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+				unmarshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+				ns="http://www.knitml.com/schema/pattern" />
+		</structure>
+		<collection name="techniques" field="techniques" type="java.util.ArrayList"
+			item-type="java.lang.String" usage="optional" ns="http://www.knitml.com/schema/pattern">
+			<value name="technique" style="element" ns="http://www.knitml.com/schema/pattern"/>
+		</collection>
+		<structure name="author" field="author"
+			type="com.knitml.core.model.pattern.Author" usage="optional"
+			ns="http://www.knitml.com/schema/pattern">
+			<value name="first-name" field="firstName" usage="optional" ns="http://www.knitml.com/schema/pattern"/>
+			<value name="last-name" field="lastName" usage="optional" ns="http://www.knitml.com/schema/pattern"/>
+		</structure>
+		<value name="copyright-info" field="copyright" usage="optional" ns="http://www.knitml.com/schema/pattern"/>
+	</mapping>
+	<mapping name="supplies" class="com.knitml.core.model.pattern.Supplies"
+		post-set="afterPropertiesSet" ns="http://www.knitml.com/schema/pattern">
+		<structure name="yarn-types" ns="http://www.knitml.com/schema/pattern">
+			<collection field="yarnTypes" type="java.util.ArrayList"
+				item-type="com.knitml.core.model.common.YarnType" />
+		</structure>
+		<structure name="needle-types" ns="http://www.knitml.com/schema/pattern">
+			<collection field="needleTypes" type="java.util.ArrayList"
+				item-type="com.knitml.core.model.common.NeedleType" />
+		</structure>
+		<structure name="accessories" ns="http://www.knitml.com/schema/pattern">
+			<collection field="stitchHolders" type="java.util.ArrayList"
+				item-type="com.knitml.core.model.common.StitchHolder" />
+		</structure>
+	</mapping>
+	<mapping name="needle-type" class="com.knitml.core.model.common.NeedleType" ordered="false"
+		value-style="attribute" ns="http://www.knitml.com/schema/pattern" post-set="afterPropertiesSet">
+		<value name="id" field="id"/>
+		<value name="brand" field="brand" usage="optional" />
+		<value name="type" field="style" enum-value-method="getCanonicalName"
+			usage="optional" />
+		<structure name="length" field="length" usage="optional"
+			type="com.knitml.core.units.KnittingMeasure" marshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+			unmarshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+			ns="http://www.knitml.com/schema/pattern" />
+		<structure name="size" field="needleSize" usage="optional"
+			type="com.knitml.core.units.KnittingMeasure" marshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+			unmarshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+			ns="http://www.knitml.com/schema/pattern" />
+		<structure name="needles" ns="http://www.knitml.com/schema/pattern">
+			<collection field="needles" type="java.util.ArrayList"
+				item-type="com.knitml.core.model.common.Needle" ns="http://www.knitml.com/schema/pattern"/>
+		</structure>
+	</mapping>
+    <mapping name="yarn-type" class="com.knitml.core.model.common.YarnType" ordered="false"
+        value-style="attribute" ns="http://www.knitml.com/schema/pattern" post-set="afterPropertiesSet">
+        <structure name="ball-length" field="ballLength" usage="optional"
+            type="com.knitml.core.units.KnittingMeasure"
+            marshaller="com.knitml.core.xml.translator.BallLengthMeasurableTranslator"
+            unmarshaller="com.knitml.core.xml.translator.BallLengthMeasurableTranslator"
+            ns="http://www.knitml.com/schema/pattern"/>
+        <structure name="ball-weight" field="ballWeight" usage="optional"
+            type="com.knitml.core.units.KnittingMeasure"
+            marshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+            unmarshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+            ns="http://www.knitml.com/schema/pattern"/>
+        <structure name="thickness" field="thickness" usage="optional"
+            type="com.knitml.core.units.KnittingMeasure"
+            marshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+            unmarshaller="com.knitml.core.xml.translator.MeasurableTranslator"
+            ns="http://www.knitml.com/schema/pattern"/>
+        <structure name="availability" usage="optional"/>
+		<structure name="yarns" ns="http://www.knitml.com/schema/pattern">
+			<collection field="yarns" type="java.util.ArrayList"
+				item-type="com.knitml.core.model.common.Yarn" />
+		</structure>
+        <value name="id" field="id"/>
+        <value name="brand" field="brand" usage="optional"/>
+        <value name="category" field="category" usage="optional"/>
+        <value name="subcategory" field="subcategory" usage="optional"/>
+        <value name="catalog-id" field="catalogId" usage="optional"/>
+        <value name="weight" field="weight" usage="optional"/>
+    </mapping>
+	<mapping name="directions" class="com.knitml.core.model.pattern.Directions"
+		ns="http://www.knitml.com/schema/pattern">
+		<collection field="operations" type="java.util.ArrayList" />
+	</mapping>
+	<mapping name="instruction-group"
+		class="com.knitml.core.model.pattern.InstructionGroup"
+		value-style="attribute" ns="http://www.knitml.com/schema/pattern">
+		<collection field="operations" type="java.util.ArrayList" />
+		<value name="id" field="id" />
+		<value name="message-key" field="messageKey" usage="optional" />
+		<value name="label" field="label" usage="optional" />
+		<value name="reset-row-count" field="resetRowCount" default="false" />
+	</mapping>
+	<mapping name="section" class="com.knitml.core.model.pattern.Section"
+		value-style="attribute" ns="http://www.knitml.com/schema/pattern">
+		<collection field="operations" type="java.util.ArrayList" />
+		<value name="reset-row-count" field="resetRowCount" default="false" />
+	</mapping>
+
+</binding>

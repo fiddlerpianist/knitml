@@ -15,7 +15,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 
 import com.knitml.core.common.NeedleStyle
-import com.knitml.core.model.Pattern
+import com.knitml.core.model.pattern.Pattern;
 import com.knitml.core.units.Units
 
 class SuppliesTests {

@@ -14,11 +14,11 @@ import org.jibx.runtime.impl.MarshallingContext;
 import org.jibx.runtime.impl.UnmarshallingContext;
 
 import com.knitml.core.common.EnumUtils;
-import com.knitml.core.common.StitchesOnNeedle;
-import com.knitml.core.model.Identifiable;
-import com.knitml.core.model.directions.block.RepeatInstruction;
-import com.knitml.core.model.directions.expression.Expression;
-import com.knitml.core.model.header.Needle;
+import com.knitml.core.model.common.Identifiable;
+import com.knitml.core.model.common.Needle;
+import com.knitml.core.model.common.StitchesOnNeedle;
+import com.knitml.core.model.operations.block.RepeatInstruction;
+import com.knitml.core.model.operations.expression.Expression;
 
 public class RepeatInstructionTranslator implements IMarshaller, IUnmarshaller,
 		IAliasable {

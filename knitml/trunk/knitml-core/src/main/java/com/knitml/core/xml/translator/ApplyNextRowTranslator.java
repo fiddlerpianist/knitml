@@ -11,8 +11,8 @@ import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.MarshallingContext;
 import org.jibx.runtime.impl.UnmarshallingContext;
 
-import com.knitml.core.model.Identifiable;
-import com.knitml.core.model.directions.inline.ApplyNextRow;
+import com.knitml.core.model.common.Identifiable;
+import com.knitml.core.model.operations.inline.ApplyNextRow;
 
 public class ApplyNextRowTranslator implements IMarshaller, IUnmarshaller,
 		IAliasable {

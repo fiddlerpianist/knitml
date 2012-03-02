@@ -16,13 +16,13 @@ import org.junit.BeforeClass
 import org.junit.runner.JUnitCore
 import org.junit.runner.RunWith
 
-import com.knitml.core.model.Pattern
 import com.knitml.core.common.Side
 import com.knitml.core.common.Wise
 import com.knitml.core.common.LoopToWork
 import com.knitml.core.common.YarnPosition
 import com.knitml.core.common.SlipDirection
-import com.knitml.core.model.directions.inline.SlipToStitchHolder
+import com.knitml.core.model.operations.inline.SlipToStitchHolder;
+import com.knitml.core.model.pattern.Pattern;
 
 class KnitPurlSlipTests {
 	@BeforeClass

@@ -19,7 +19,9 @@ import org.junit.internal.runners.JUnit4ClassRunner
 import org.junit.runner.JUnitCore
 import org.junit.runner.RunWith
 
-import com.knitml.core.model.Pattern
+import com.knitml.core.model.operations.inline.Decrease;
+import com.knitml.core.model.operations.inline.DoubleDecrease;
+import com.knitml.core.model.pattern.Pattern;
 import com.knitml.core.common.Side
 import com.knitml.core.common.Wise
 import com.knitml.core.common.LoopToWork

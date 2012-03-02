@@ -1,0 +1,65 @@
+<library:library xmlns:library="http://www.knitml.com/schema/library"
+	xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common"
+	version="0.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.knitml.com/schema/library http://www.knitml.com/schema/library-0.6.xsd
+	    http://www.knitml.com/schema/operations http://www.knitml.com/schema/operations-0.6.xsd
+	    http://www.knitml.com/schema/common	http://www.knitml.com/schema/common-0.6.xsd">
+	<library:information>
+		<library:name>Export from KnitVisualizer - Cables with Two Colors In
+			Borders
+		</library:name>
+		<library:description>Cables with Two Colors in Borders Library
+		</library:description>
+	</library:information>
+	<library:directives>
+		<library:namespace
+			value="http://www.stitchmastery.com/knitml/charts/kv/CablesWithTwoColorsInBorders" />
+	</library:directives>
+	<library:definitions>
+		<instruction id="Chart1" label="Cables With Two Colors In Borders"
+			shape="round" row-count="14" starting-stitch-count="15">
+			<chart-info stereotype="cables">
+				<!-- I think the red box in this sample is intended to mean 'work in 
+					red color'; I don't think there's a good way to translate that in this case -->
+				<box id="Chart1-box" start-row="1" start-stitch="6" row-span="5"
+					stitch-span="14" rgb-color="BD260F" />
+			</chart-info>
+			<!-- I suspect that this example was attempting to show the knit stitches 
+				traveling across the chart. I'm pretty sure that information would be lost 
+				during conversion (and doesn't strike me as appropriate to put into KnitML 
+				anyways). However, using a chart stereotype of 'cables' may allow programs 
+				rendering the chart from KnitML to infer and decorate knitted stitches in 
+				a manner like this. (It's a long shot, but the stereotype can be used for 
+				other, more common, rendering decisions.) -->
+			<row number="1 5 9 13">
+				<!-- You wouldn't have to aggregate row numbers like this; this stuff 
+					is hard to derive from a purely visual representation. I mostly did it because 
+					I don't feel like typing out the whole chart :) -->
+				<purl>2</purl>
+				<group size="3">
+					<cross-stitches first="1" next="2" type="front" />
+					<purl>1</purl>
+					<knit>2</knit>
+				</group>
+				<purl>2</purl>
+				<group size="3">
+					<cross-stitches first="1" next="2" type="front" />
+					<purl>1</purl>
+					<knit>2</knit>
+				</group>
+				<purl>2</purl>
+				<group size="3">
+					<cross-stitches first="1" next="2" type="front" />
+					<purl>1</purl>
+					<knit>2</knit>
+				</group>
+			</row>
+			<row number="2 3 4 6 7 8 10 11 12 14">
+				<repeat until="times" value="3">
+					<purl>2</purl>
+					<knit>3</knit>
+				</repeat>
+			</row>
+		</instruction>
+	</library:definitions>
+</library:library>

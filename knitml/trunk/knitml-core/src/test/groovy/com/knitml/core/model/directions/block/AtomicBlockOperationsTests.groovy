@@ -17,7 +17,11 @@ import org.junit.runners.JUnit4
 
 import com.knitml.core.common.Side
 import com.knitml.core.common.Wise
-import com.knitml.core.model.Pattern
+import com.knitml.core.model.operations.block.DeclareFlatKnitting;
+import com.knitml.core.model.operations.block.DeclareRoundKnitting;
+import com.knitml.core.model.operations.block.JoinInRound;
+import com.knitml.core.model.operations.block.PickUpStitches;
+import com.knitml.core.model.pattern.Pattern;
 
 class AtomicBlockOperationsTests {
 	@BeforeClass

@@ -2,77 +2,77 @@
     <include path="common.xml"/>
     <!-- Knits, purls, and slips -->
     <mapping name="knit" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.Knit" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.Knit" ns="http://www.knitml.com/schema/operations">
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
         <value style="text" field="numberOfTimes" usage="optional"
-            serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
-            deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
+            serializer="com.knitml.core.xml.DataConversion.serializeNullableInteger"
+            deserializer="com.knitml.core.xml.DataConversion.deserializeNullableInteger"/>
         <value name="loop-to-work" field="loopToWork" enum-value-method="getCanonicalName" usage="optional"/>
     </mapping>
     <mapping name="purl" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.Purl" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.Purl" ns="http://www.knitml.com/schema/operations">
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
         <value style="text" field="numberOfTimes" usage="optional"
-            serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
-            deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
+            serializer="com.knitml.core.xml.DataConversion.serializeNullableInteger"
+            deserializer="com.knitml.core.xml.DataConversion.deserializeNullableInteger"/>
         <value name="loop-to-work" field="loopToWork" enum-value-method="getCanonicalName" usage="optional"/>
     </mapping>
     <mapping name="work-even" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.WorkEven" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.WorkEven" ns="http://www.knitml.com/schema/operations">
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
         <value style="text" field="numberOfTimes" usage="optional"
-            serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
-            deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
+            serializer="com.knitml.core.xml.DataConversion.serializeNullableInteger"
+            deserializer="com.knitml.core.xml.DataConversion.deserializeNullableInteger"/>
     </mapping>
     <mapping name="slip" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.Slip" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.Slip" ns="http://www.knitml.com/schema/operations">
         <value style="text" field="numberOfTimes" usage="optional"
-            serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
-            deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
+            serializer="com.knitml.core.xml.DataConversion.serializeNullableInteger"
+            deserializer="com.knitml.core.xml.DataConversion.deserializeNullableInteger"/>
         <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
         <value name="yarn-position" field="yarnPosition" enum-value-method="getCanonicalName" usage="optional"/>
         <value name="direction" field="direction" enum-value-method="getCanonicalName" usage="optional"/>
     </mapping>
     <mapping name="slip-to-stitch-holder" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.SlipToStitchHolder" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.SlipToStitchHolder" ns="http://www.knitml.com/schema/operations">
         <value style="text" field="numberOfStitches"/>
         <value name="ref" field="stitchHolder" ident="ref"/>
     </mapping>
     <mapping name="pass-previous-stitch-over" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.PassPreviousStitchOver" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.PassPreviousStitchOver" ns="http://www.knitml.com/schema/operations">
         <value style="text" field="numberOfTimes" usage="optional"
-            serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
-            deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
+            serializer="com.knitml.core.xml.DataConversion.serializeNullableInteger"
+            deserializer="com.knitml.core.xml.DataConversion.deserializeNullableInteger"/>
     </mapping>
     <mapping name="no-stitch" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.NoStitch" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.NoStitch" ns="http://www.knitml.com/schema/operations">
         <value style="text" field="numberOfStitches" usage="optional"
-            serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
-            deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
+            serializer="com.knitml.core.xml.DataConversion.serializeNullableInteger"
+            deserializer="com.knitml.core.xml.DataConversion.deserializeNullableInteger"/>
     </mapping>
     
     <!-- Increases / pick ups -->
     <mapping name="increase" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.Increase" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.Increase" ns="http://www.knitml.com/schema/operations">
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
         <value style="text" field="numberOfTimes" usage="optional"
-            serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
-            deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
+            serializer="com.knitml.core.xml.DataConversion.serializeNullableInteger"
+            deserializer="com.knitml.core.xml.DataConversion.deserializeNullableInteger"/>
         <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
     </mapping>
     <mapping name="increase-into-next-stitch" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.IncreaseIntoNextStitch" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.IncreaseIntoNextStitch" ns="http://www.knitml.com/schema/operations">
         <collection field="operations" type="java.util.ArrayList"/>
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
     </mapping>
-    <mapping name="inline-cast-on" class="com.knitml.core.model.directions.inline.InlineCastOn"
+    <mapping name="inline-cast-on" class="com.knitml.core.model.operations.inline.InlineCastOn"
         value-style="attribute" ns="http://www.knitml.com/schema/operations">
         <value name="style" field="style" usage="optional"/>
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
         <value style="text" field="numberOfStitches"/>
     </mapping>
     <mapping name="inline-pick-up-stitches" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.InlinePickUpStitches" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.InlinePickUpStitches" ns="http://www.knitml.com/schema/operations">
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
         <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
         <value style="text" field="numberOfTimes"/>
@@ -80,82 +80,87 @@
 
     <!-- Decreases / Bind offs -->
     <mapping name="decrease" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.Decrease" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.Decrease" ns="http://www.knitml.com/schema/operations">
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
         <value style="text" field="numberOfTimes" usage="optional"
-            serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
-            deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
+            serializer="com.knitml.core.xml.DataConversion.serializeNullableInteger"
+            deserializer="com.knitml.core.xml.DataConversion.deserializeNullableInteger"/>
         <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
     </mapping>
     <mapping name="double-decrease" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.DoubleDecrease" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.DoubleDecrease" ns="http://www.knitml.com/schema/operations">
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
         <value style="text" field="numberOfTimes" usage="optional"
-            serializer="com.knitml.core.common.DataConversion.serializeNullableInteger"
-            deserializer="com.knitml.core.common.DataConversion.deserializeNullableInteger"/>
+            serializer="com.knitml.core.xml.DataConversion.serializeNullableInteger"
+            deserializer="com.knitml.core.xml.DataConversion.deserializeNullableInteger"/>
         <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
     </mapping>
     <mapping name="bind-off" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.BindOff" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.BindOff" ns="http://www.knitml.com/schema/operations">
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
         <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
         <value style="text" field="numberOfStitches"/>
     </mapping>
     <mapping name="bind-off-all" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.BindOffAll" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.BindOffAll" ns="http://www.knitml.com/schema/operations">
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
         <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
         <value name="fasten-off-last-stitch" field="fastenOffLastStitch" default="true"/>
     </mapping>
 
     <!-- Markers -->
-    <mapping name="place-marker" class="com.knitml.core.model.directions.inline.PlaceMarker"
+    <mapping name="place-marker" class="com.knitml.core.model.operations.inline.PlaceMarker"
         value-style="attribute" ns="http://www.knitml.com/schema/operations"/>
-    <mapping name="remove-marker" class="com.knitml.core.model.directions.inline.RemoveMarker"
+    <mapping name="remove-marker" class="com.knitml.core.model.operations.inline.RemoveMarker"
         value-style="attribute" ns="http://www.knitml.com/schema/operations"/>
 
     <!-- Miscellany -->
     <mapping name="cross-stitches" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.CrossStitches" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.CrossStitches" ns="http://www.knitml.com/schema/operations">
         <value name="first" field="first"/>
         <value name="next" field="next"/>
         <value name="type" field="type" enum-value-method="getCanonicalName"/>
     </mapping>
-    <mapping name="designate-end-of-row" class="com.knitml.core.model.directions.inline.DesignateEndOfRow"
+    <mapping name="designate-end-of-row" class="com.knitml.core.model.operations.inline.DesignateEndOfRow"
         value-style="attribute" ns="http://www.knitml.com/schema/operations"/>
-    <mapping name="repeat" class="com.knitml.core.model.directions.inline.Repeat"
+    <mapping name="repeat" class="com.knitml.core.model.operations.inline.Repeat"
         value-style="attribute" ns="http://www.knitml.com/schema/operations">
         <value name="until" field="until" enum-value-method="getCanonicalName"/>
         <value name="value" field="value" usage="optional"/>
         <collection field="operations" type="java.util.ArrayList"/>
     </mapping>
-    <mapping name="turn" class="com.knitml.core.model.directions.inline.Turn"
+    <mapping name="turn" class="com.knitml.core.model.operations.inline.Turn"
         value-style="attribute" ns="http://www.knitml.com/schema/operations">
         <value name="stitches-left" field="stitchesLeft" usage="optional"/>
         <value name="inform-unworked-stitches" field="informUnworkedStitches" default="false"/>
     </mapping>
     <mapping name="using-needle" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.UsingNeedle" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.UsingNeedle" ns="http://www.knitml.com/schema/operations">
         <collection field="operations" type="java.util.ArrayList"/>
         <value name="ref" field="needle" ident="ref"/>
     </mapping>
+    <mapping name="group" value-style="attribute"
+        class="com.knitml.core.model.operations.inline.OperationGroup" ns="http://www.knitml.com/schema/operations">
+        <collection field="operations" type="java.util.ArrayList"/>
+        <value name="size" field="size"/>
+    </mapping>
     <mapping name="from-stitch-holder" value-style="attribute"
-        class="com.knitml.core.model.directions.inline.FromStitchHolder" ns="http://www.knitml.com/schema/operations">
+        class="com.knitml.core.model.operations.inline.FromStitchHolder" ns="http://www.knitml.com/schema/operations">
         <collection field="operations" type="java.util.ArrayList"/>
         <value name="ref" field="stitchHolder" ident="ref"/>
     </mapping>
-    <mapping name="inline-instruction" class="com.knitml.core.model.directions.inline.InlineInstruction"
+    <mapping name="inline-instruction" class="com.knitml.core.model.operations.inline.InlineInstruction"
         value-style="attribute" ns="http://www.knitml.com/schema/operations">
         <collection field="operations" type="java.util.ArrayList"/>
         <value name="id" field="id" ident="def"/>
         <value name="label" field="label" usage="optional"/>
         <value name="message-key" field="messageKey" usage="optional"/>
     </mapping>
-    <mapping name="inline-instruction-ref" class="com.knitml.core.model.directions.inline.InlineInstructionRef"
+    <mapping name="inline-instruction-ref" class="com.knitml.core.model.operations.inline.InlineInstructionRef"
         value-style="attribute" ns="http://www.knitml.com/schema/operations">
         <value name="ref" field="referencedInstruction" ident="ref"/>
     </mapping>
-    <mapping name="apply-next-row" class="com.knitml.core.model.directions.inline.ApplyNextRow"
+    <mapping name="apply-next-row" class="com.knitml.core.model.operations.inline.ApplyNextRow"
         marshaller="com.knitml.core.xml.translator.ApplyNextRowTranslator"
         unmarshaller="com.knitml.core.xml.translator.ApplyNextRowTranslator"
         ns="http://www.knitml.com/schema/operations"/>

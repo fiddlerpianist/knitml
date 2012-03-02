@@ -14,9 +14,9 @@ import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.MarshallingContext;
 import org.jibx.runtime.impl.UnmarshallingContext;
 
-import com.knitml.core.model.Identifiable;
-import com.knitml.core.model.directions.InlineOperation;
-import com.knitml.core.model.directions.block.ForEachRowInInstruction;
+import com.knitml.core.model.common.Identifiable;
+import com.knitml.core.model.operations.InlineOperation;
+import com.knitml.core.model.operations.block.ForEachRowInInstruction;
 
 public class ForEachRowInInstructionTranslator implements IMarshaller, IUnmarshaller,
 		IAliasable {
