@@ -2,7 +2,10 @@ package com.knitml.validation.visitor.model
 
 import java.util.ArrayList
 import java.util.List
-import com.knitml.core.model.directions.block.CastOnimport org.junit.runner.JUnitCoreimport org.junit.runner.RunWith
+
+import com.knitml.core.model.operations.block.CastOn;
+
+import org.junit.runner.JUnitCoreimport org.junit.runner.RunWith
 import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue

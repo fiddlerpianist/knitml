@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.knitml.core.common.ValidationException;
-import com.knitml.core.model.directions.block.ForEachRowInInstruction;
-import com.knitml.core.model.directions.block.Row;
+import com.knitml.core.model.operations.block.ForEachRowInInstruction;
+import com.knitml.core.model.operations.block.Row;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.InstructionInfo;

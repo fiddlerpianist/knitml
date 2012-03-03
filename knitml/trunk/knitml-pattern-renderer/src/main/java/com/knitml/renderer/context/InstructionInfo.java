@@ -3,7 +3,7 @@ package com.knitml.renderer.context;
 import org.apache.commons.lang.math.Range;
 
 import com.knitml.core.common.KnittingShape;
-import com.knitml.core.model.directions.block.Instruction;
+import com.knitml.core.model.operations.block.Instruction;
 
 public class InstructionInfo {
 

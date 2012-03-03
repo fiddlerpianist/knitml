@@ -8,8 +8,8 @@ import org.junit.Test
 import org.junit.Before
 import org.junit.runner.JUnitCore
 
-import com.knitml.core.model.header.Yarn
-import com.knitml.core.model.directions.inline.Purl
+import com.knitml.core.model.common.Yarn;
+import com.knitml.core.model.operations.inline.Purl;
 
 import test.support.AbstractRenderingContextTests
 

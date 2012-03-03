@@ -24,6 +24,7 @@ import org.junit.runner.JUnitCore
 import org.junit.runner.RunWith
 
 import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.operations.block.RepeatInstruction;
 import com.knitml.core.model.operations.block.Row;
 import com.knitml.core.model.operations.expression.StitchCount;
 import com.knitml.core.model.operations.inline.Knit;

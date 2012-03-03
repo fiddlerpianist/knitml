@@ -1,6 +1,6 @@
 package com.knitml.engine.impl;
 
-import com.knitml.core.model.directions.StitchNature;
+import com.knitml.core.model.operations.StitchNature;
 
 
 class DefaultStitchMemento {

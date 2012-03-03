@@ -6,8 +6,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.directions.block.UseNeedles;
-import com.knitml.core.model.header.Needle;
+import com.knitml.core.model.common.Needle;
+import com.knitml.core.model.operations.block.UseNeedles;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.visitor.NeedleNotFoundException;

@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.knitml.core.common.NoInstructionFoundException;
 import com.knitml.core.common.ValidationException;
-import com.knitml.core.model.directions.block.RepeatInstruction;
+import com.knitml.core.model.operations.block.RepeatInstruction;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.InstructionInfo;

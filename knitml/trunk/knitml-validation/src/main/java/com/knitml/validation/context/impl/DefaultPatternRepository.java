@@ -6,8 +6,8 @@ import java.util.Map;
 
 import javax.measure.Measurable;
 
-import com.knitml.core.model.directions.block.Instruction;
-import com.knitml.core.model.directions.inline.InlineInstruction;
+import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.operations.inline.InlineInstruction;
 import com.knitml.core.units.RowGauge;
 import com.knitml.core.units.StitchGauge;
 import com.knitml.engine.Needle;

@@ -7,7 +7,7 @@ import java.util.List;
 import org.jibx.runtime.ITrackSource;
 import org.springframework.aop.ThrowsAdvice;
 
-import com.knitml.core.model.directions.Operation;
+import com.knitml.core.model.operations.Operation;
 import com.knitml.engine.common.GenericKnittingEngineException;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;

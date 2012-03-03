@@ -1,8 +1,8 @@
 package com.knitml.engine.impl;
 
-import static com.knitml.core.model.directions.StitchNature.KNIT;
-import static com.knitml.core.model.directions.StitchNature.PURL;
-import static com.knitml.core.model.directions.StitchNature.reverse;
+import static com.knitml.core.model.operations.StitchNature.KNIT;
+import static com.knitml.core.model.operations.StitchNature.PURL;
+import static com.knitml.core.model.operations.StitchNature.reverse;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.knitml.core.common.NeedleStyle;
-import com.knitml.core.model.directions.StitchNature;
-import com.knitml.core.model.directions.inline.Increase;
+import com.knitml.core.model.operations.StitchNature;
+import com.knitml.core.model.operations.inline.Increase;
 import com.knitml.engine.KnittingFactory;
 import com.knitml.engine.Marker;
 import com.knitml.engine.Needle;

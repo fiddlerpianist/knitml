@@ -2,12 +2,12 @@ package com.knitml.renderer.visitor.controller;
 
 import java.util.List;
 
-import com.knitml.core.model.directions.CompositeOperation;
-import com.knitml.core.model.directions.InlineOperation;
-import com.knitml.core.model.directions.Operation;
-import com.knitml.core.model.directions.block.Instruction;
-import com.knitml.core.model.directions.block.Row;
-import com.knitml.core.model.directions.inline.InlineInstruction;
+import com.knitml.core.model.operations.CompositeOperation;
+import com.knitml.core.model.operations.InlineOperation;
+import com.knitml.core.model.operations.Operation;
+import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.operations.block.Row;
+import com.knitml.core.model.operations.inline.InlineInstruction;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.event.EventHandler;
 import com.knitml.renderer.event.EventHandlerFactory;

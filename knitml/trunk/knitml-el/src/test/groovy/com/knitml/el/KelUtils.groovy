@@ -1,6 +1,6 @@
 package com.knitml.el
 
-import static com.knitml.core.model.Version.getCurrentVersionId
+import static com.knitml.core.model.pattern.Version.getCurrentVersionId
 import static com.knitml.core.xml.Schemas.CURRENT_PATTERN_SCHEMA
 
 import javax.xml.parsers.DocumentBuilderFactory
@@ -8,7 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 import org.apache.commons.lang.StringUtils
 import org.custommonkey.xmlunit.XMLUnit
 
-import com.knitml.core.common.Parameters
+import com.knitml.core.model.pattern.Parameters;
 import com.knitml.core.xml.PluggableSchemaResolver
 
 class KelUtils {

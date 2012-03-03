@@ -12,10 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
-import com.knitml.core.model.directions.inline.InlineInstruction;
-import com.knitml.core.model.header.Needle;
-import com.knitml.core.model.header.NeedleType;
-import com.knitml.core.model.header.Yarn;
+import com.knitml.core.model.common.Needle;
+import com.knitml.core.model.common.NeedleType;
+import com.knitml.core.model.common.Yarn;
+import com.knitml.core.model.operations.inline.InlineInstruction;
 
 public class PatternRepository {
 

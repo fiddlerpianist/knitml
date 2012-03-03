@@ -2,7 +2,7 @@ package com.knitml.renderer.impl.charting.analyzer;
 
 import org.apache.commons.lang.math.Range;
 
-import com.knitml.core.model.directions.inline.Repeat;
+import com.knitml.core.model.operations.inline.Repeat;
 
 public class RepeatMetaData {
 

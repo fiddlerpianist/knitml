@@ -7,12 +7,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.knitml.core.model.InstructionHolder;
-import com.knitml.core.model.directions.block.Instruction;
-import com.knitml.core.model.directions.block.InstructionGroup;
-import com.knitml.core.model.directions.block.RepeatInstruction;
-import com.knitml.core.model.directions.block.Row;
-import com.knitml.core.model.directions.block.Section;
+import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.operations.block.InstructionHolder;
+import com.knitml.core.model.operations.block.RepeatInstruction;
+import com.knitml.core.model.operations.block.Row;
+import com.knitml.core.model.pattern.InstructionGroup;
+import com.knitml.core.model.pattern.Section;
 import com.knitml.validation.common.InvalidStructureException;
 import com.knitml.validation.context.PatternState;
 

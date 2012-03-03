@@ -13,7 +13,7 @@ import org.junit.Ignore
 import org.junit.runner.JUnitCore
 
 import com.knitml.core.units.Units
-import com.knitml.core.model.header.GeneralInformation
+import com.knitml.core.model.pattern.GeneralInformation
 import com.knitml.core.common.ValidationException
 
 import test.support.AbstractRenderingContextTests

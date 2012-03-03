@@ -7,10 +7,10 @@ import static org.junit.Assert.assertThat
 import org.junit.Test
 import org.junit.Before
 
-import com.knitml.core.model.directions.block.Row 
-import com.knitml.core.model.directions.inline.Decrease
-import com.knitml.core.model.directions.inline.DoubleDecrease
-import com.knitml.core.model.directions.inline.PassPreviousStitchOver;
+import com.knitml.core.model.operations.block.Row;
+import com.knitml.core.model.operations.inline.Decrease;
+import com.knitml.core.model.operations.inline.DoubleDecrease;
+import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
 
 import test.support.AbstractRenderingContextTests
 

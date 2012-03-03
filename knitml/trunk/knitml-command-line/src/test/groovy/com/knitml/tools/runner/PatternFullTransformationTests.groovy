@@ -12,8 +12,8 @@ import org.junit.Ignore;
 import org.junit.runner.JUnitCore
 import org.springframework.core.io.ClassPathResource;
 
-import com.knitml.core.common.Parameters
-import com.knitml.core.model.Pattern
+import com.knitml.core.model.pattern.Parameters
+import com.knitml.core.model.pattern.Pattern
 import com.knitml.el.KelProgram
 
 class PatternFullTransformationTests extends RunnerTests {

@@ -5,7 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.header.Directives;
+import com.knitml.core.model.pattern.Directives;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.event.impl.AbstractEventHandler;

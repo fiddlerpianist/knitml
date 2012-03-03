@@ -1,7 +1,7 @@
 package com.knitml.validation.visitor.util
 
 import com.knitml.core.common.RowDefinitionScope 
-import com.knitml.core.model.directions.block.Row
+import com.knitml.core.model.operations.block.Row;
 
 class TestRow extends Row {
 	

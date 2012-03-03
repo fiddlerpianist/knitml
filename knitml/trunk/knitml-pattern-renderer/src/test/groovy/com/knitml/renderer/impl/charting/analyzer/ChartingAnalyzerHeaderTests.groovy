@@ -12,8 +12,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.BlockJUnit4ClassRunner
 
-import com.knitml.core.model.directions.block.Instruction
-import com.knitml.core.model.directions.inline.Repeat.Until
+import com.knitml.core.model.operations.inline.Repeat.Until
+import com.knitml.core.model.operations.block.Instruction;
 import com.knitml.renderer.context.Options
 import com.knitml.renderer.context.RenderingContext
 import com.knitml.validation.context.impl.DefaultKnittingContextFactory

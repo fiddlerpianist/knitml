@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.knitml.core.model.directions.inline.Increase;
+import com.knitml.core.model.operations.inline.Increase;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.NotEndOfRowException;
 import com.knitml.engine.common.NotEnoughStitchesException;

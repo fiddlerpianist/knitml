@@ -1,6 +1,6 @@
 package com.knitml.validation.visitor.instruction.model;
 
-import com.knitml.core.model.directions.inline.BindOff;
+import com.knitml.core.model.operations.inline.BindOff;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.NotEnoughStitchesException;

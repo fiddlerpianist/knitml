@@ -6,8 +6,8 @@ package com.knitml.validation.visitor.model;
 import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
-import static com.knitml.core.model.directions.StitchNature.KNIT;
-import static com.knitml.core.model.directions.StitchNature.PURL;
+import static com.knitml.core.model.operations.StitchNature.KNIT;
+import static com.knitml.core.model.operations.StitchNature.PURL;
 
 import org.junit.Ignore
 import org.junit.Test
@@ -271,5 +271,24 @@ class KnitPurlSlipTests extends AbstractKnittingContextTests {
 		assertThat engine.peekAtNextStitch().currentNature, is (PURL)
 	}
 	
+	@Test
+	void workOperationGroup() {
+		processXml PATTERN_START_TAG + '''
+		  <pattern:directions>
+			<row>
+				<!-- a sl1yo as in brioche knitting -->
+				<group size="1">
+				  <slip yarn-position="front"/>
+				  <increase type="yo"/>
+				</group>
+				<repeat until="end">
+					<knit/>
+				</repeat>
+			  </row>
+		  </pattern:directions>
+		</pattern:pattern>
+		'''
+		assertThat engine.totalNumberOfStitchesInRow, is (21)
+	}
 
 }

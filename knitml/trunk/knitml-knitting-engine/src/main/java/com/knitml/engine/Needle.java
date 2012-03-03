@@ -3,7 +3,7 @@ package com.knitml.engine;
 import java.util.List;
 
 import com.knitml.core.common.NeedleStyle;
-import com.knitml.core.model.directions.inline.Increase;
+import com.knitml.core.model.operations.inline.Increase;
 import com.knitml.engine.common.CannotPutMarkerOnEndOfNeedleException;
 import com.knitml.engine.common.CannotWorkThroughMarkerException;
 import com.knitml.engine.common.NeedlesInWrongDirectionException;

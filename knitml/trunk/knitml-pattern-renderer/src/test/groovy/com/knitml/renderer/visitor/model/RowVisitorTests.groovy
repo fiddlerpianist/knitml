@@ -8,9 +8,9 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.runner.JUnitCore
 
-import com.knitml.core.model.header.Yarn
-import com.knitml.core.model.directions.block.Row
-import com.knitml.core.model.directions.block.Instruction
+import com.knitml.core.model.common.Yarn;
+import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.operations.block.Row;
 
 import test.support.AbstractRenderingContextTests
 

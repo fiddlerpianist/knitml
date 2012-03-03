@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
-import com.knitml.core.model.directions.block.Instruction;
+import com.knitml.core.model.operations.block.Instruction;
 
 public class Analysis {
 	private Instruction instructionToUse = null;

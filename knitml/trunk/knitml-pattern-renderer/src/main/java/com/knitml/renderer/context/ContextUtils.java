@@ -7,9 +7,9 @@ import java.util.TreeSet;
 import org.apache.commons.lang.math.IntRange;
 import org.apache.commons.lang.math.Range;
 
-import com.knitml.core.model.Identifiable;
-import com.knitml.core.model.directions.block.Instruction;
-import com.knitml.core.model.directions.block.Row;
+import com.knitml.core.model.common.Identifiable;
+import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.operations.block.Row;
 
 public class ContextUtils {
 	

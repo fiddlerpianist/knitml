@@ -12,8 +12,8 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.runner.JUnitCore
 
-import com.knitml.core.model.header.Yarn
-import com.knitml.core.model.header.Supplies
+import com.knitml.core.model.common.Yarn;
+import com.knitml.core.model.pattern.Supplies;
 import com.knitml.core.common.ValidationException
 
 import test.support.AbstractRenderingContextTests

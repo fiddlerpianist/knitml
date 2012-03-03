@@ -1,8 +1,8 @@
 package com.knitml.renderer.visitor.model;
 
-import com.knitml.core.model.directions.information.Information;
-import com.knitml.core.model.directions.information.Message;
-import com.knitml.core.model.directions.information.NumberOfStitches;
+import com.knitml.core.model.operations.block.Information;
+import com.knitml.core.model.operations.information.Message;
+import com.knitml.core.model.operations.information.NumberOfStitches;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.RenderingContext;

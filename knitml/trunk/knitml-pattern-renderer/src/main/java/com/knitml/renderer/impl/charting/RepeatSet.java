@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.knitml.core.model.directions.inline.Repeat;
+import com.knitml.core.model.operations.inline.Repeat;
 import com.knitml.renderer.chart.ChartElement;
 
 class RepeatSet implements Iterable<Object> {

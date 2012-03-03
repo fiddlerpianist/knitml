@@ -2,11 +2,11 @@ package com.knitml.validation.visitor.instruction.model;
 
 import java.util.List;
 
-import com.knitml.core.model.directions.expression.Evaluator;
-import com.knitml.core.model.directions.expression.Expression;
-import com.knitml.core.model.directions.expression.StitchCount;
-import com.knitml.core.model.directions.expression.Value;
-import com.knitml.core.model.header.Needle;
+import com.knitml.core.model.common.Needle;
+import com.knitml.core.model.operations.expression.Evaluator;
+import com.knitml.core.model.operations.expression.Expression;
+import com.knitml.core.model.operations.expression.StitchCount;
+import com.knitml.core.model.operations.expression.Value;
 import com.knitml.validation.context.KnittingContext;
 
 public class EqualsEvaluator implements Evaluator {

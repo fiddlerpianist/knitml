@@ -1,6 +1,6 @@
 package com.knitml.validation.visitor.instruction.impl;
 
-import com.knitml.core.model.directions.CompositeOperation;
+import com.knitml.core.model.operations.CompositeOperation;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.NoGapFoundException;
 import com.knitml.engine.common.NoMarkerFoundException;

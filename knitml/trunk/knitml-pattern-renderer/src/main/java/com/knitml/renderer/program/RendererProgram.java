@@ -12,8 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
-import com.knitml.core.common.Parameters;
-import com.knitml.core.model.Pattern;
+import com.knitml.core.model.pattern.Parameters;
+import com.knitml.core.model.pattern.Pattern;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.RendererFactory;

@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.NeedleStyle;
-import com.knitml.core.model.directions.StitchNature;
+import com.knitml.core.model.operations.StitchNature;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.KnittingFactory;
 import com.knitml.engine.Needle;

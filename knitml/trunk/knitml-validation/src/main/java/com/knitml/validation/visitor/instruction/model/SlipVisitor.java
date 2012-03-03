@@ -1,6 +1,6 @@
 package com.knitml.validation.visitor.instruction.model;
 
-import com.knitml.core.model.directions.inline.Slip;
+import com.knitml.core.model.operations.inline.Slip;
 import com.knitml.core.common.SlipDirection;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;

@@ -5,8 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.common.StitchesOnNeedle;
-import com.knitml.core.model.directions.block.ArrangeStitchesOnNeedles;
+import com.knitml.core.model.common.StitchesOnNeedle;
+import com.knitml.core.model.operations.block.ArrangeStitchesOnNeedles;
 import com.knitml.engine.Needle;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.WrongNumberOfNeedlesException;

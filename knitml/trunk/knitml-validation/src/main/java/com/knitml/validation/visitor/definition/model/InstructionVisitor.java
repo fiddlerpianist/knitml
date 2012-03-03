@@ -6,7 +6,7 @@ import static com.knitml.validation.visitor.util.InstructionUtils.validateInstru
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.directions.block.Instruction;
+import com.knitml.core.model.operations.block.Instruction;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.common.InvalidStructureException;
 import com.knitml.validation.context.KnittingContext;

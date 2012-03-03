@@ -15,7 +15,7 @@ import org.apache.commons.lang.text.StrTokenizer;
 import org.springframework.context.MessageSource;
 
 import com.knitml.core.common.KnittingShape;
-import com.knitml.core.model.header.Yarn;
+import com.knitml.core.model.common.Yarn;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.plural.PluralRule;
 import com.knitml.renderer.plural.PluralRuleFactory;

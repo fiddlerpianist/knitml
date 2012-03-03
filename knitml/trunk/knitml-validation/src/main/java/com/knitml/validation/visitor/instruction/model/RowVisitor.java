@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.knitml.core.common.EnumUtils;
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
-import com.knitml.core.model.directions.block.Row;
+import com.knitml.core.model.operations.block.Row;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.NotEndOfRowException;

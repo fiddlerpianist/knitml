@@ -1,6 +1,6 @@
 package com.knitml.renderer.visitor.model;
 
-import com.knitml.core.model.directions.inline.Turn;
+import com.knitml.core.model.operations.inline.Turn;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.event.impl.AbstractEventHandler;

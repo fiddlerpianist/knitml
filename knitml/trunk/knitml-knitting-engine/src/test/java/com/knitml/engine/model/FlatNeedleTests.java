@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.knitml.core.common.NeedleStyle;
-import com.knitml.core.model.directions.StitchNature;
+import com.knitml.core.model.operations.StitchNature;
 import com.knitml.engine.Needle;
 import com.knitml.engine.Stitch;
 import com.knitml.engine.common.CannotPutMarkerOnEndOfNeedleException;

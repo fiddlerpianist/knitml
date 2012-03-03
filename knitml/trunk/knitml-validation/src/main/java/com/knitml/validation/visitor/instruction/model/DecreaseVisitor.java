@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import com.knitml.core.common.DecreaseType;
 import com.knitml.core.common.Wise;
-import com.knitml.core.model.directions.StitchNature;
-import com.knitml.core.model.directions.inline.Decrease;
-import com.knitml.core.model.directions.inline.Slip;
+import com.knitml.core.model.operations.StitchNature;
+import com.knitml.core.model.operations.inline.Decrease;
+import com.knitml.core.model.operations.inline.Slip;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;

@@ -8,9 +8,9 @@ import org.junit.Test
 import org.junit.Before
 import org.junit.runner.JUnitCore
 
-import com.knitml.core.model.header.Yarn
-import com.knitml.core.model.directions.block.Row
-import com.knitml.core.model.directions.inline.CrossStitches
+import com.knitml.core.model.common.Yarn;
+import com.knitml.core.model.operations.block.Row;
+import com.knitml.core.model.operations.inline.CrossStitches;
 
 import test.support.AbstractRenderingContextTests
 

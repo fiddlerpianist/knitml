@@ -3,7 +3,7 @@ package com.knitml.validation.visitor.instruction.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.directions.inline.UsingNeedle;
+import com.knitml.core.model.operations.inline.UsingNeedle;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.Needle;
 import com.knitml.engine.common.KnittingEngineException;
