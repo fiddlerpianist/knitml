@@ -1,11 +1,11 @@
 package com.knitml.validation.visitor.instruction.model;
 
-import static com.knitml.core.model.directions.StitchNature.PURL;
-import static com.knitml.core.model.directions.StitchNature.reverse;
+import static com.knitml.core.model.operations.StitchNature.PURL;
+import static com.knitml.core.model.operations.StitchNature.reverse;
 import static com.knitml.engine.settings.Direction.BACKWARDS;
 
-import com.knitml.core.model.directions.StitchNature;
-import com.knitml.core.model.directions.inline.WorkEven;
+import com.knitml.core.model.operations.StitchNature;
+import com.knitml.core.model.operations.inline.WorkEven;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;

@@ -3,8 +3,8 @@ package com.knitml.validation.visitor.instruction.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.directions.block.Instruction;
-import com.knitml.core.model.directions.block.InstructionRef;
+import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.operations.block.InstructionRef;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.PatternRepository;

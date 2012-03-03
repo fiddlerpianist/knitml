@@ -1,6 +1,6 @@
 package com.knitml.validation.visitor.instruction.model;
 
-import com.knitml.core.model.directions.inline.Purl;
+import com.knitml.core.model.operations.inline.Purl;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;

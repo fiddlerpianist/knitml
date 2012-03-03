@@ -1,8 +1,8 @@
 package com.knitml.renderer.listener;
 
-import com.knitml.core.model.Pattern;
-import com.knitml.core.model.directions.CompositeOperation;
-import com.knitml.core.model.header.Directives;
+import com.knitml.core.model.operations.CompositeOperation;
+import com.knitml.core.model.pattern.Directives;
+import com.knitml.core.model.pattern.Pattern;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.event.EventHandler;
 import com.knitml.renderer.event.EventHandlerFactory;

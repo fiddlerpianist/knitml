@@ -9,32 +9,32 @@ import org.slf4j.LoggerFactory;
 
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
-import com.knitml.core.model.directions.DiscreteInlineOperation;
-import com.knitml.core.model.directions.InlineOperation;
-import com.knitml.core.model.directions.StitchNature;
-import com.knitml.core.model.directions.StitchNatureProducer;
-import com.knitml.core.model.directions.block.Instruction;
-import com.knitml.core.model.directions.block.RepeatInstruction;
-import com.knitml.core.model.directions.block.Row;
-import com.knitml.core.model.directions.inline.ApplyNextRow;
-import com.knitml.core.model.directions.inline.BindOffAll;
-import com.knitml.core.model.directions.inline.DesignateEndOfRow;
-import com.knitml.core.model.directions.inline.FromStitchHolder;
-import com.knitml.core.model.directions.inline.Increase;
-import com.knitml.core.model.directions.inline.InlineCastOn;
-import com.knitml.core.model.directions.inline.InlineInstruction;
-import com.knitml.core.model.directions.inline.InlineInstructionRef;
-import com.knitml.core.model.directions.inline.Knit;
-import com.knitml.core.model.directions.inline.NoStitch;
-import com.knitml.core.model.directions.inline.PlaceMarker;
-import com.knitml.core.model.directions.inline.Purl;
-import com.knitml.core.model.directions.inline.Repeat;
-import com.knitml.core.model.directions.inline.SlipToStitchHolder;
-import com.knitml.core.model.directions.inline.StitchGroup;
-import com.knitml.core.model.directions.inline.Turn;
-import com.knitml.core.model.directions.inline.UsingNeedle;
-import com.knitml.core.model.directions.inline.WorkEven;
-import com.knitml.core.model.directions.inline.Repeat.Until;
+import com.knitml.core.model.operations.DiscreteInlineOperation;
+import com.knitml.core.model.operations.InlineOperation;
+import com.knitml.core.model.operations.StitchNature;
+import com.knitml.core.model.operations.StitchNatureProducer;
+import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.operations.block.RepeatInstruction;
+import com.knitml.core.model.operations.block.Row;
+import com.knitml.core.model.operations.inline.ApplyNextRow;
+import com.knitml.core.model.operations.inline.BindOffAll;
+import com.knitml.core.model.operations.inline.DesignateEndOfRow;
+import com.knitml.core.model.operations.inline.FromStitchHolder;
+import com.knitml.core.model.operations.inline.Increase;
+import com.knitml.core.model.operations.inline.InlineCastOn;
+import com.knitml.core.model.operations.inline.InlineInstruction;
+import com.knitml.core.model.operations.inline.InlineInstructionRef;
+import com.knitml.core.model.operations.inline.Knit;
+import com.knitml.core.model.operations.inline.NoStitch;
+import com.knitml.core.model.operations.inline.OperationGroup;
+import com.knitml.core.model.operations.inline.PlaceMarker;
+import com.knitml.core.model.operations.inline.Purl;
+import com.knitml.core.model.operations.inline.Repeat;
+import com.knitml.core.model.operations.inline.SlipToStitchHolder;
+import com.knitml.core.model.operations.inline.Turn;
+import com.knitml.core.model.operations.inline.UsingNeedle;
+import com.knitml.core.model.operations.inline.WorkEven;
+import com.knitml.core.model.operations.inline.Repeat.Until;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.settings.Direction;
 import com.knitml.renderer.context.RenderingContext;
@@ -442,7 +442,7 @@ public class ChartingAnalyzer {
 		if (contextualOperationFound) {
 			// make a stitch group out of all of the gathered operations if
 			// we are dealing with work even operations
-			return new StitchGroup(newOperations);
+			return new OperationGroup(newOperations);
 		} else {
 			Repeat newRepeat = new Repeat();
 			newRepeat.setOperations(newOperations);
@@ -452,7 +452,7 @@ public class ChartingAnalyzer {
 		}
 	}
 
-	protected InlineOperation handle(StitchGroup stitchGroup) {
+	protected InlineOperation handle(OperationGroup stitchGroup) {
 		List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
 		for (InlineOperation operation : stitchGroup.getOperations()) {
 			InlineOperation newOperation = handle(operation);
@@ -462,7 +462,7 @@ public class ChartingAnalyzer {
 			}
 			newOperations.add(newOperation);
 		}
-		return new StitchGroup(newOperations);
+		return new OperationGroup(newOperations);
 	}
 
 	/**
@@ -607,7 +607,7 @@ public class ChartingAnalyzer {
 			}
 			advanceAndIncrease(1, 0, currentStitchNature);
 		}
-		return new StitchGroup(newOperations);
+		return new OperationGroup(newOperations);
 	}
 
 	protected InlineOperation handle(PlaceMarker object) {

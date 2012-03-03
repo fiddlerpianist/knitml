@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.knitml.core.common.NeedleStyle;
-import com.knitml.core.model.header.StitchHolder;
+import com.knitml.core.model.common.StitchHolder;
 import com.knitml.engine.Needle;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;

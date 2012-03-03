@@ -1,6 +1,6 @@
 package com.knitml.renderer.impl.charting.analyzer
 
-import static com.knitml.core.model.directions.inline.Repeat.Until.TIMES
+import static com.knitml.core.model.operations.inline.Repeat.Until.TIMES
 import static com.knitml.renderer.context.ContextUtils.deriveInstructionInfo
 import static test.support.AbstractRenderingContextTests.PATTERN_START_TAG
 import static org.hamcrest.CoreMatchers.is
@@ -17,8 +17,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.BlockJUnit4ClassRunner
 
-import com.knitml.core.model.Pattern
-import com.knitml.core.model.directions.block.Instruction
+import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.pattern.Pattern;
 import com.knitml.renderer.context.InstructionInfo
 import com.knitml.renderer.context.Options
 import com.knitml.renderer.context.RenderingContext

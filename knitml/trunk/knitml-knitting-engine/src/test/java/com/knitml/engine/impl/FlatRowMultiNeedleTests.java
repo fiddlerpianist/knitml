@@ -13,7 +13,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.knitml.core.common.NeedleStyle;
-import com.knitml.core.model.directions.inline.Increase;
+import com.knitml.core.model.operations.inline.Increase;
 import com.knitml.engine.KnittingFactory;
 import com.knitml.engine.Needle;
 import com.knitml.engine.Stitch;

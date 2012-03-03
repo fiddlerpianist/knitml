@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.directions.information.NumberOfStitches;
+import com.knitml.core.model.operations.information.NumberOfStitches;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.common.InvalidStructureException;
 import com.knitml.validation.context.KnittingContext;

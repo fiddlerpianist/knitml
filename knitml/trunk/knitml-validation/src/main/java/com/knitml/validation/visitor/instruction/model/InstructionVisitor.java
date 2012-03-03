@@ -8,8 +8,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.directions.block.Instruction;
-import com.knitml.core.model.directions.block.Row;
+import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.operations.block.Row;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.common.InvalidStructureException;
 import com.knitml.validation.context.KnittingContext;

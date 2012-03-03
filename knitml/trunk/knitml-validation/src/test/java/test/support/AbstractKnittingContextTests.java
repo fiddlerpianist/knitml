@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 
-import com.knitml.core.model.Pattern;
-import com.knitml.core.model.Version;
+import com.knitml.core.model.pattern.Pattern;
+import com.knitml.core.model.pattern.Version;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;

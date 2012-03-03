@@ -11,7 +11,7 @@ import java.io.Writer;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.MissingArgumentException;
 
-import com.knitml.core.common.Parameters;
+import com.knitml.core.model.pattern.Parameters;
 
 
 public class RunnerUtils {

@@ -17,9 +17,9 @@ import org.jibx.runtime.BindingDirectory
 import org.jibx.runtime.IBindingFactory
 import org.jibx.runtime.IUnmarshallingContext
 
-import com.knitml.core.model.Pattern
+import com.knitml.core.model.pattern.Pattern
 
-import com.knitml.core.common.Parameters
+import com.knitml.core.model.pattern.Parameters
 import com.knitml.el.KelProgram
 import com.knitml.tools.runner.support.RunnerUtils
 import com.knitml.validation.ValidationProgram;

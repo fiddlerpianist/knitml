@@ -3,8 +3,8 @@ package com.knitml.renderer.visitor.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.directions.inline.UsingNeedle;
-import com.knitml.core.model.header.Needle;
+import com.knitml.core.model.common.Needle;
+import com.knitml.core.model.operations.inline.UsingNeedle;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.event.impl.AbstractEventHandler;

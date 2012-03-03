@@ -8,9 +8,9 @@ import org.junit.Test
 import org.junit.Before
 import org.junit.runner.JUnitCore
 
-import com.knitml.core.model.header.Yarn
-import com.knitml.core.model.directions.inline.BindOffAll
-import com.knitml.core.model.directions.inline.BindOff
+import com.knitml.core.model.common.Yarn;
+import com.knitml.core.model.operations.inline.BindOff;
+import com.knitml.core.model.operations.inline.BindOffAll;
 
 import test.support.AbstractRenderingContextTests
 

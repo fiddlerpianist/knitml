@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.knitml.core.common.ValidationException;
-import com.knitml.core.model.header.Needle;
-import com.knitml.core.model.header.Supplies;
-import com.knitml.core.model.header.Yarn;
+import com.knitml.core.model.common.Needle;
+import com.knitml.core.model.common.Yarn;
+import com.knitml.core.model.pattern.Supplies;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.PatternRepository;

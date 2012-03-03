@@ -8,8 +8,8 @@ import org.junit.Ignore
 import org.junit.Test
 import org.junit.Before
 
-import com.knitml.core.model.directions.inline.Increase 
-import com.knitml.core.model.directions.inline.IncreaseIntoNextStitch 
+import com.knitml.core.model.operations.inline.Increase;
+import com.knitml.core.model.operations.inline.IncreaseIntoNextStitch;
 
 import test.support.AbstractRenderingContextTests
 

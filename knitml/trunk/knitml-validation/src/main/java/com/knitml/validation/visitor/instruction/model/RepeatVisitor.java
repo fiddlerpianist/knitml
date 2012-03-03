@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.knitml.core.common.ValidationException;
-import com.knitml.core.model.directions.inline.Repeat;
-import com.knitml.core.model.directions.inline.Repeat.Until;
+import com.knitml.core.model.operations.inline.Repeat;
+import com.knitml.core.model.operations.inline.Repeat.Until;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.NoGapFoundException;
 import com.knitml.validation.context.KnittingContext;

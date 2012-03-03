@@ -11,7 +11,7 @@ import org.springframework.context.HierarchicalMessageSource;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 
-import com.knitml.core.model.directions.block.Instruction;
+import com.knitml.core.model.operations.block.Instruction;
 import com.knitml.core.units.RowGauge;
 import com.knitml.core.units.StitchGauge;
 import com.knitml.core.units.Units;

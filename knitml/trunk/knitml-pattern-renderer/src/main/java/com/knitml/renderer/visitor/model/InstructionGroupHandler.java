@@ -5,7 +5,7 @@ import static com.knitml.renderer.context.ContextUtils.resetLastExpressedRowNumb
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.directions.block.InstructionGroup;
+import com.knitml.core.model.pattern.InstructionGroup;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.context.ContextUtils;

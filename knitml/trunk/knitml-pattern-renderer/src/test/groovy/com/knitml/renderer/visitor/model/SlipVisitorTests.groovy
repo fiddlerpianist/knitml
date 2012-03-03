@@ -7,7 +7,8 @@ import org.junit.Test
 import org.junit.runner.JUnitCore
 
 import test.support.AbstractRenderingContextTests
-import com.knitml.core.model.directions.inline.Slip
+
+import com.knitml.core.model.operations.inline.Slip;
 
 class SlipVisitorTests extends AbstractRenderingContextTests {
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.context.MessageSource;
 
-import com.knitml.core.model.Pattern;
+import com.knitml.core.model.pattern.Pattern;
 import com.knitml.renderer.chart.stylesheet.StylesheetProvider;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.RenderingContext;

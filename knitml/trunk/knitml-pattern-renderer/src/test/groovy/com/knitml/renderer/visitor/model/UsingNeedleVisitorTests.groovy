@@ -9,10 +9,10 @@ import org.junit.Before
 import org.junit.runner.JUnitCore
 
 import com.knitml.core.common.NeedleStyle
-import com.knitml.core.model.header.NeedleType
-import com.knitml.core.model.header.Needle
-import com.knitml.core.model.directions.block.Row
-import com.knitml.core.model.directions.block.Instruction
+import com.knitml.core.model.common.Needle;
+import com.knitml.core.model.common.NeedleType;
+import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.operations.block.Row;
 
 import test.support.AbstractRenderingContextTests
 

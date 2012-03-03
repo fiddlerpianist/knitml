@@ -27,8 +27,8 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.knitml.core.common.Parameters;
-import com.knitml.core.model.Pattern;
+import com.knitml.core.model.pattern.Parameters;
+import com.knitml.core.model.pattern.Pattern;
 import com.knitml.core.xml.EntityResolverWrapper;
 import com.knitml.core.xml.PluggableSchemaResolver;
 import com.knitml.core.xml.Schemas;

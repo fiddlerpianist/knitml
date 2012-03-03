@@ -5,11 +5,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.directions.CompositeOperation;
-import com.knitml.core.model.directions.Operation;
-import com.knitml.core.model.directions.block.CastOn;
-import com.knitml.core.model.directions.block.UseNeedles;
-import com.knitml.core.model.header.Needle;
+import com.knitml.core.model.common.Needle;
+import com.knitml.core.model.operations.CompositeOperation;
+import com.knitml.core.model.operations.Operation;
+import com.knitml.core.model.operations.block.CastOn;
+import com.knitml.core.model.operations.block.UseNeedles;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.event.impl.AbstractEventHandler;

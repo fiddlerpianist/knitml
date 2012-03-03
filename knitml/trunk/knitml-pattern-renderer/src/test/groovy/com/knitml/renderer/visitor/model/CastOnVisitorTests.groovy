@@ -7,9 +7,9 @@ import static org.junit.Assert.assertThat
 
 import org.junit.Test
 
-import com.knitml.core.model.directions.block.CastOn
-import com.knitml.core.model.directions.block.Row 
-import com.knitml.core.model.directions.inline.InlineCastOn;
+import com.knitml.core.model.operations.block.CastOn;
+import com.knitml.core.model.operations.block.Row;
+import com.knitml.core.model.operations.inline.InlineCastOn;
 
 import test.support.AbstractRenderingContextTests
 

@@ -7,11 +7,11 @@ import com.knitml.renderer.Renderer;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.event.impl.AbstractEventHandler;
 
-public class StitchGroupHandler extends AbstractEventHandler {
+public class OperationGroupHandler extends AbstractEventHandler {
 
 	@SuppressWarnings("unused")
 	private final static Logger log = LoggerFactory
-			.getLogger(StitchGroupHandler.class);
+			.getLogger(OperationGroupHandler.class);
 
 	public boolean begin(Object element, Renderer renderer)
 			throws RenderingException {

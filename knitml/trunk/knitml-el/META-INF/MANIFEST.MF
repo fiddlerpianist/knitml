@@ -8,10 +8,9 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: com.knitml.el;version="0.6.0.M2",
  com.knitml.el.definition;version="0.6.0.M2"
 Import-Package: com.knitml.core.common,
- com.knitml.core.model,
- com.knitml.core.model.directions,
- com.knitml.core.model.directions.block,
- com.knitml.core.model.directions.inline,
+ com.knitml.core.model.operations.block;version="0.6.0.M2",
+ com.knitml.core.model.operations.inline;version="0.6.0.M2",
+ com.knitml.core.model.pattern;version="0.6.0.M2",
  com.knitml.core.units,
  com.knitml.core.xml,
  groovy.lang;version="1.8.3",

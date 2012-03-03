@@ -10,7 +10,7 @@ import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.common.Parameters;
+import com.knitml.core.model.pattern.Parameters;
 import com.knitml.renderer.program.RendererProgram;
 import com.knitml.renderer.util.Configuration;
 import com.knitml.renderer.util.SpringConfigurationBuilder;

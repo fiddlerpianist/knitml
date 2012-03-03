@@ -5,7 +5,7 @@ import javax.measure.Measurable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.header.Gauge;
+import com.knitml.core.model.pattern.Gauge;
 import com.knitml.core.units.RowGauge;
 import com.knitml.core.units.StitchGauge;
 import com.knitml.engine.common.KnittingEngineException;

@@ -3,7 +3,7 @@ package com.knitml.validation.visitor.instruction.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.directions.inline.Turn;
+import com.knitml.core.model.operations.inline.Turn;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.WrongNumberOfStitchesException;
 import com.knitml.validation.context.KnittingContext;

@@ -3,7 +3,9 @@ package com.knitml.validation.visitor.model
 import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
-import com.knitml.core.model.directions.inline.Increase
+
+import com.knitml.core.model.operations.inline.Increase;
+
 import org.junit.Test
 
 import test.support.AbstractKnittingContextTests;

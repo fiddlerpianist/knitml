@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.runner.JUnitCore
 
-import com.knitml.core.model.header.Supplies
+import com.knitml.core.model.pattern.Supplies;
 
 import test.support.AbstractRenderingContextTests
 

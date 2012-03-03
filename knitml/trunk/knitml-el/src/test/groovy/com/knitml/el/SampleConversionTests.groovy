@@ -8,7 +8,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 import org.springframework.core.io.ClassPathResource
 
-import com.knitml.core.common.Parameters
+import com.knitml.core.model.pattern.Parameters;
 
 class SampleConversionTests {
 

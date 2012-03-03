@@ -1,12 +1,12 @@
 package com.knitml.engine.impl;
 
-import static com.knitml.core.model.directions.StitchNature.KNIT;
+import static com.knitml.core.model.operations.StitchNature.KNIT;
 
 import java.text.MessageFormat;
 
 import org.apache.commons.lang.NullArgumentException;
 
-import com.knitml.core.model.directions.StitchNature;
+import com.knitml.core.model.operations.StitchNature;
 import com.knitml.engine.Stitch;
 
 public class DefaultStitch implements Stitch {

@@ -11,8 +11,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import com.knitml.core.common.RowDefinitionScope;
-import com.knitml.core.model.directions.block.Instruction;
-import com.knitml.core.model.directions.block.Row;
+import com.knitml.core.model.operations.block.Instruction;
+import com.knitml.core.model.operations.block.Row;
 import com.knitml.engine.common.UnexpectedRowNumberException;
 import com.knitml.validation.common.InvalidStructureException;
 

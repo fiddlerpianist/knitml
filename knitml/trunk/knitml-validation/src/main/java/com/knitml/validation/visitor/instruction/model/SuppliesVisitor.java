@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.knitml.core.model.header.Needle;
-import com.knitml.core.model.header.StitchHolder;
-import com.knitml.core.model.header.Supplies;
+import com.knitml.core.model.common.Needle;
+import com.knitml.core.model.common.StitchHolder;
+import com.knitml.core.model.pattern.Supplies;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.visitor.instruction.impl.AbstractPatternVisitor;

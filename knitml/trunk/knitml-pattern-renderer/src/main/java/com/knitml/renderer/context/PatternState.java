@@ -1,7 +1,7 @@
 package com.knitml.renderer.context;
 
 import com.knitml.core.compatibility.Stack;
-import com.knitml.core.model.directions.CompositeOperation;
+import com.knitml.core.model.operations.CompositeOperation;
 
 public class PatternState {
 	

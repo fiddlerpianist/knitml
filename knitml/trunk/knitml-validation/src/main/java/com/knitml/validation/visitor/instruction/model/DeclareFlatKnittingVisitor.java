@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.knitml.core.common.Side;
-import com.knitml.core.model.directions.block.DeclareFlatKnitting;
+import com.knitml.core.model.operations.block.DeclareFlatKnitting;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.settings.Direction;
 import com.knitml.validation.context.KnittingContext;

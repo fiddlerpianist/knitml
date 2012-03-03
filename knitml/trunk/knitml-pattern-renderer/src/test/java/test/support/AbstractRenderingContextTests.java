@@ -16,8 +16,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
-import com.knitml.core.model.Pattern;
-import com.knitml.core.model.Version;
+import com.knitml.core.model.pattern.Pattern;
+import com.knitml.core.model.pattern.Version;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.RendererFactory;

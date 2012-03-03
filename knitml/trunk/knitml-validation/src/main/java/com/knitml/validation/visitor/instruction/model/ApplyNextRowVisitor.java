@@ -3,9 +3,9 @@ package com.knitml.validation.visitor.instruction.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.model.InstructionHolder;
-import com.knitml.core.model.directions.block.Row;
-import com.knitml.core.model.directions.inline.ApplyNextRow;
+import com.knitml.core.model.operations.block.InstructionHolder;
+import com.knitml.core.model.operations.block.Row;
+import com.knitml.core.model.operations.inline.ApplyNextRow;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.PatternRepository;

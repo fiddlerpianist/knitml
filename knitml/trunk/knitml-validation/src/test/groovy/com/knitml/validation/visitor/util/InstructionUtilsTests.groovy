@@ -10,7 +10,7 @@ import java.util.List
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import com.knitml.core.model.directions.block.Instruction
+import com.knitml.core.model.operations.block.Instruction;
 import com.knitml.validation.common.InvalidStructureException
 
 import static com.knitml.core.common.RowDefinitionScope.ODD

@@ -14,7 +14,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.knitml.core.model.directions.StitchNature;
+import com.knitml.core.model.operations.StitchNature;
 import com.knitml.engine.Stitch;
 import com.knitml.engine.common.NeedlesInWrongDirectionException;
 import com.knitml.engine.impl.DefaultStitch;
