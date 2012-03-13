@@ -9,6 +9,7 @@ import com.knitml.core.model.common.Identifiable;
 import com.knitml.core.model.operations.BlockOperation;
 import com.knitml.core.model.operations.CompositeOperation;
 import com.knitml.core.model.operations.Operation;
+import com.knitml.core.model.operations.chart.ChartInfo;
 
 public class Instruction implements BlockOperation, Identifiable,
 		CompositeOperation {
@@ -17,21 +18,27 @@ public class Instruction implements BlockOperation, Identifiable,
 	protected List<Row> rows = new ArrayList<Row>();
 	protected ForEachRowInInstruction forEachRowInInstruction;
 
+	public ChartInfo getChartInfo() {
+		return chartInfo;
+	}
+
 	protected String id;
 	protected String label;
 	protected String messageKey;
 	protected KnittingShape knittingShape;
 	protected Integer rowCount;
+	protected Integer startingStitchCount;
+	protected ChartInfo chartInfo;
 
 	public void validate() {
-		if (forEachRowInInstruction != null && rows != null && !rows.isEmpty()) {
+		if (forEachRowInInstruction != null && hasRows()) {
 			throw new ValidationException(
 					"Only 'forEachRowInInstruction' or a series of 'row' elements may be specified; not both");
 		}
 	}
 	
 	public boolean hasRows() {
-		return forEachRowInInstruction == null;
+		return rows != null && !rows.isEmpty();
 	}
 	
 	public boolean hasLabelOrMessageKey() {
@@ -68,6 +75,8 @@ public class Instruction implements BlockOperation, Identifiable,
 		this.messageKey = instruction.getMessageKey();
 		this.knittingShape = instruction.getKnittingShape();
 		this.rowCount = instruction.getRowCount();
+		this.startingStitchCount = instruction.getStartingStitchCount();
+		this.chartInfo = instruction.getChartInfo();
 		this.rows = rows;
 	}
 	
@@ -93,13 +102,15 @@ public class Instruction implements BlockOperation, Identifiable,
 		this.rows = rows;
 	}
 	
-	public Instruction(String id, String label, String messageKey, KnittingShape knittingShape, List<Row> rows, Integer rowCount) {
+	public Instruction(String id, String label, String messageKey, KnittingShape knittingShape, List<Row> rows, Integer rowCount, Integer startingStitchCount, ChartInfo chartInfo) {
 		this.id = id;
 		this.label = label;
 		this.messageKey = messageKey;
 		this.knittingShape = knittingShape;
 		this.rows = rows;
 		this.rowCount = rowCount;
+		this.startingStitchCount = startingStitchCount;
+		this.chartInfo = chartInfo;
 	}
 	
 	public KnittingShape getKnittingShape() {
@@ -108,6 +119,10 @@ public class Instruction implements BlockOperation, Identifiable,
 	
 	public Integer getRowCount() {
 		return rowCount;
+	}
+
+	public Integer getStartingStitchCount() {
+		return startingStitchCount;
 	}
 
 }

@@ -19,7 +19,7 @@ public class Repeat implements InlineOperation, CompositeOperation {
 
 	protected Until until;
 	protected Integer value;
-	protected List<InlineOperation> operations;
+	protected List<? extends InlineOperation> operations;
 	
 	public Repeat() {
 	}
@@ -30,7 +30,7 @@ public class Repeat implements InlineOperation, CompositeOperation {
 		this.operations = new ArrayList<InlineOperation>();
 	}
 
-	public List<InlineOperation> getOperations() {
+	public List<? extends InlineOperation> getOperations() {
 		return operations;
 	}
 
@@ -50,7 +50,7 @@ public class Repeat implements InlineOperation, CompositeOperation {
 		this.value = value;
 	}
 
-	public void setOperations(List<InlineOperation> operations) {
+	public void setOperations(List<? extends InlineOperation> operations) {
 		this.operations = operations;
 	}
 

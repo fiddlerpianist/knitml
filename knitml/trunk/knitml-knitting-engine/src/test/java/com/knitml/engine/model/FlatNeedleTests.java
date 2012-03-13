@@ -684,7 +684,7 @@ public abstract class FlatNeedleTests {
 	@Test
 	public void crossStitches() throws Exception {
 		knit(3);
-		needle.cross(2, 3);
+		needle.cross(2, 3, 0);
 		knit(7);
 		assertThat(needle.isEndOfNeedle(), is(true));
 
@@ -698,6 +698,23 @@ public abstract class FlatNeedleTests {
 		assertThat(stitchNames.toArray(new String[0]), is(expectedStitchArray));
 	}
 
+	@Test
+	public void crossStitchesWithSkip() throws Exception {
+		knit(1);
+		needle.cross(2, 3, 4);
+		knit(9);
+		assertThat(needle.isEndOfNeedle(), is(true));
+
+		List<Stitch> stitches = needle.getStitches();
+		List<String> stitchNames = new ArrayList<String>(stitches.size());
+		for (Stitch stitch : stitches) {
+			stitchNames.add(stitch.getId());
+		}
+		String[] expectedStitchArray = new String[] { "A", "H", "I", "J", "D", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				"E", "F", "G", "B", "C" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		assertThat(stitchNames.toArray(new String[0]), is(expectedStitchArray));
+	}
+	
 	@Test(expected = CannotWorkThroughMarkerException.class)
 	public void crossStitchesOverMarker() throws Exception {
 		knit(4);
@@ -710,7 +727,7 @@ public abstract class FlatNeedleTests {
 
 		// now perform the test
 		knit(3);
-		needle.cross(2, 3);
+		needle.cross(2, 3, 0);
 	}
 
 	@Test
@@ -727,7 +744,7 @@ public abstract class FlatNeedleTests {
 
 		// now perform the test
 		knit(3);
-		needle.cross(2, 3);
+		needle.cross(2, 3, 0);
 		knit(7);
 		assertThat(needle.isEndOfNeedle(), is(true));
 	}

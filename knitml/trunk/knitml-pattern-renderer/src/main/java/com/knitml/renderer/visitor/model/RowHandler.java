@@ -47,7 +47,7 @@ public class RowHandler extends AbstractEventHandler {
 				setLastExpressedRowNumber(context.getPatternState()
 						.getLastExpressedRowNumber() + 1, context);
 			} else {
-				// if this row is not executing within instruction, it only has
+				// if this row is not executing within an instruction, it only has
 				// one number
 				setLastExpressedRowNumber(row.getNumbers()[0], context);
 			}

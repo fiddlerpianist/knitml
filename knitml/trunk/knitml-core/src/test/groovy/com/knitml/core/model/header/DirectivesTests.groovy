@@ -3,28 +3,24 @@
  */
 package com.knitml.core.model.header
 
-import static org.hamcrest.CoreMatchers.is
-import static org.junit.Assert.assertThat
-import static com.knitml.core.common.MergeType.PHYSICAL
-import static com.knitml.core.common.MergePoint.ROW
 import static com.knitml.core.common.KnittingShape.FLAT
 import static com.knitml.core.common.KnittingShape.ROUND
-import static test.support.JiBXTestUtils.unmarshalXml
+import static com.knitml.core.common.MergePoint.ROW
+import static com.knitml.core.common.MergeType.PHYSICAL
+import static org.hamcrest.CoreMatchers.is
+import static org.hamcrest.CoreMatchers.instanceOf
+import static org.junit.Assert.assertThat
 import static test.support.JiBXTestUtils.marshalXmlAndCompare
-
-import javax.measure.Measure
+import static test.support.JiBXTestUtils.unmarshalXml
 
 import org.custommonkey.xmlunit.XMLUnit
-
 import org.jibx.runtime.JiBXException
-import org.junit.Test
-import org.junit.Ignore
 import org.junit.BeforeClass
-import org.junit.runner.JUnitCore
-import org.junit.runner.RunWith
+import org.junit.Test
 
-import com.knitml.core.units.Units
-import com.knitml.core.model.pattern.Pattern;
+import com.knitml.core.model.pattern.AssignInstruction
+import com.knitml.core.model.pattern.AssignYarn
+import com.knitml.core.model.pattern.Pattern
 
 class DirectivesTests {
 	@BeforeClass
@@ -106,9 +102,33 @@ class DirectivesTests {
 		marshalXmlAndCompare(pattern,xml)
 	}
 	
-
-	static void main(args) {
-		JUnitCore.main(DirectivesTests.name)
+	@Test
+	void imports() {
+		def xml = '''
+		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			<pattern:directives>
+				<pattern:imports>
+					<pattern:import location="file1">
+						<pattern:assign-yarn from="dark" to="dark1" />
+						<pattern:assign-instruction from="stockinette" to="stockinette-local" />
+					</pattern:import>
+				</pattern:imports>
+			</pattern:directives>
+		</pattern:pattern>
+		'''
+		Pattern pattern = unmarshalXml(xml)
+		assertThat pattern.directives.imports.size(), is (1)
+		pattern.directives.imports[0].with {
+			assertThat location, is ('file1')
+			assertThat assignments.size(), is (2)
+			assertThat assignments[0], instanceOf (AssignYarn)
+			assertThat assignments[0].from, is ('dark')
+			assertThat assignments[0].to, is ('dark1')
+			assertThat assignments[1], instanceOf (AssignInstruction)
+			assertThat assignments[1].from, is ('stockinette')
+			assertThat assignments[1].to, is ('stockinette-local')
+		}
+		marshalXmlAndCompare(pattern,xml)
 	}
-	
+
 }

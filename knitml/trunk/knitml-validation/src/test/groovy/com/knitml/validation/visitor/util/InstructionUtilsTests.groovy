@@ -59,7 +59,7 @@ class InstructionUtilsTests {
 		TestRow first = new TestRow([1], ODD)
 		TestRow second = new TestRow([2], EVEN)
 		List rows = [first,second]
-		Instruction instruction = new Instruction("thingy1",null,null,null,rows,8)
+		Instruction instruction = new Instruction("thingy1",null,null,null,rows,8,null,null)
 		def result = createExpandedRows (instruction)
 		assertThat result.rows.size(), is (8)
 		assertThat result.rows[0], is (first)
@@ -78,7 +78,7 @@ class InstructionUtilsTests {
 		TestRow second = new TestRow([3,5], EVEN)
 		TestRow third = new TestRow([4,7], ODD)
 		List rows = [first,second,third]
-		Instruction instruction = new Instruction("thingy1",null,null,null,rows,9)
+		Instruction instruction = new Instruction("thingy1",null,null,null,rows,9,null,null)
 		def result = createExpandedRows (instruction)
 		assertThat result.rows.size(), is (9)
 		assertThat result.rows[0], is (first)
@@ -126,7 +126,7 @@ class InstructionUtilsTests {
 	void notProcessableInstructionRowCountValidation() {
 		TestRow first = new TestRow([1,2])
 		List rows = [first]
-		Instruction instruction = new Instruction("thingy1",null,null,null,rows,3)
+		Instruction instruction = new Instruction("thingy1",null,null,null,rows,3,null,null)
 		def result = createExpandedRows (instruction)
 	}
 

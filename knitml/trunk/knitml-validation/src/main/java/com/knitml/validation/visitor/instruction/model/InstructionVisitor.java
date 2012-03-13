@@ -22,6 +22,8 @@ public class InstructionVisitor extends AbstractPatternVisitor {
 			.getLogger(InstructionVisitor.class);
 
 	public void visit(Object element, KnittingContext context) throws KnittingEngineException {
+		// note that this visitor ignores any ChartInfo element which may be present in the instruction.
+		// This is because this portion of the document is only used if a chart is going to be rendered.
 		PatternRepository repository = context.getPatternRepository();
 		Instruction instruction = (Instruction)element;
 		String id = instruction.getId();

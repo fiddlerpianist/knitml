@@ -3,40 +3,37 @@
  */
 package com.knitml.core.model.directions.block
 
+import static com.knitml.core.common.KnittingShape.ROUND
 import static org.hamcrest.CoreMatchers.is
+import static org.hamcrest.CoreMatchers.instanceOf
 import static org.hamcrest.core.IsNot.not
+import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
-import static org.junit.Assert.assertNotNull
-import static test.support.JiBXTestUtils.unmarshalXml
 import static test.support.JiBXTestUtils.marshalXmlAndCompare
-
-import static com.knitml.core.common.KnittingShape.ROUND;
+import static test.support.JiBXTestUtils.unmarshalXml
 
 import javax.measure.Measure
 
 import org.custommonkey.xmlunit.XMLUnit
-
-import org.junit.Test
 import org.junit.BeforeClass
-import org.junit.runners.JUnit4
-import org.junit.runner.JUnitCore
-import org.junit.runner.RunWith
+import org.junit.Test
 
-import com.knitml.core.model.operations.block.Instruction;
-import com.knitml.core.model.operations.block.RepeatInstruction;
-import com.knitml.core.model.operations.block.Row;
-import com.knitml.core.model.operations.expression.StitchCount;
-import com.knitml.core.model.operations.inline.Knit;
-import com.knitml.core.model.operations.inline.Purl;
-import com.knitml.core.model.pattern.InstructionGroup;
-import com.knitml.core.model.pattern.Pattern;
-
+import com.knitml.core.common.ChartStereotype
 import com.knitml.core.common.KnittingShape
-import com.knitml.core.common.RowDefinitionScope 
+import com.knitml.core.common.RowDefinitionScope
 import com.knitml.core.common.Side
-import com.knitml.core.units.Units
 import com.knitml.core.common.ValidationException
+import com.knitml.core.model.operations.block.Instruction
+import com.knitml.core.model.operations.block.RepeatInstruction
+import com.knitml.core.model.operations.block.Row
+import com.knitml.core.model.operations.chart.Box
+import com.knitml.core.model.operations.expression.StitchCount
+import com.knitml.core.model.operations.inline.Knit
+import com.knitml.core.model.operations.inline.Purl
+import com.knitml.core.model.pattern.InstructionGroup
+import com.knitml.core.model.pattern.Pattern
+import com.knitml.core.units.Units
 
 class RowsAndInstructionsTests {
 	@BeforeClass
@@ -70,8 +67,8 @@ class RowsAndInstructionsTests {
 			<pattern:directions>
 				<instruction id="thingy"/>
 				<instruction id="test">
-					<row/>
 					<for-each-row-in-instruction ref="thingy"/>
+					<row/>
 				</instruction>
 			</pattern:directions>
 		</pattern:pattern>'''
@@ -84,7 +81,11 @@ class RowsAndInstructionsTests {
 		def xml = '''
 		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
 			<pattern:directions>
-				<instruction id="thingy1" shape="round" label="Label 1" message-key="label1" row-count="25"/>
+				<instruction id="thingy1" shape="round" label="Label 1" message-key="label1" row-count="25" starting-stitch-count="10">
+					<chart-info hide-wrong-side="true" stereotype="lace">
+						<box id="abc" rgb-color="ffffff" row-span="1" start-row="2" start-stitch="3" stitch-span="4"/>
+					</chart-info>
+				</instruction>
 				<instruction id="thingy2"/>
 			</pattern:directions>
 		</pattern:pattern>'''
@@ -97,6 +98,22 @@ class RowsAndInstructionsTests {
 			assertThat label, is('Label 1')
 			assertThat messageKey, is('label1')
 			assertThat rowCount, is(25)
+			assertThat startingStitchCount, is(10)
+			assertThat chartInfo, not (null)
+			chartInfo.with {
+				assertThat hideWrongSide, is (true)
+				assertThat stereotype, is (ChartStereotype.LACE)
+				assertThat annotations, not (null)
+				assertThat annotations.size(), is (1)
+				((Box)annotations[0]).with {
+					assertThat id, is ('abc')
+					assertThat rgbColor, is ('ffffff')
+					assertThat rowSpan, is (1)
+					assertThat startRow, is (2)
+					assertThat startStitch, is (3)
+					assertThat stitchSpan, is (4)
+				}
+			}
 		}
 		instruction = pattern.directions.operations[1]
 		instruction.with {

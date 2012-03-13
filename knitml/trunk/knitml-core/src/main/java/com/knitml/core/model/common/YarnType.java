@@ -64,5 +64,32 @@ public class YarnType {
 			yarn.setYarnType(this);
 		}
 	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public void setSubcategory(String subcategory) {
+		this.subcategory = subcategory;
+	}
+	public void setBallLength(Measurable<Length> ballLength) {
+		this.ballLength = ballLength;
+	}
+	public void setBallWeight(Measurable<Mass> ballWeight) {
+		this.ballWeight = ballWeight;
+	}
+	public void setThickness(Measurable<YarnThickness> thickness) {
+		this.thickness = thickness;
+	}
+	public void setCatalogId(String catalogId) {
+		this.catalogId = catalogId;
+	}
+	public void setWeight(String weight) {
+		this.weight = weight;
+	}
 	
 }

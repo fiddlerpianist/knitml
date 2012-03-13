@@ -56,7 +56,7 @@ public class HeaderHelper {
 		getWriterHelper().writeNewLine();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void renderGeneralInformation(GeneralInformation generalInformation) {
 		writeLine(generalInformation.getPatternName());
 		Author author = generalInformation.getAuthor();
@@ -123,7 +123,7 @@ public class HeaderHelper {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void renderSquareGauge(Gauge gauge) {
 		int denominator = 1;
 		Unit targetGaugeUnit = null;
@@ -179,7 +179,7 @@ public class HeaderHelper {
 		writeNewLine();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void renderNeedles(Supplies supplies) {
 		List<NeedleType> needleTypes = supplies.getNeedleTypes();
 		if (needleTypes == null || needleTypes.size() == 0) {

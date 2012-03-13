@@ -12,26 +12,24 @@
 
 	<xsd:element name="library">
 		<xsd:annotation>
-			<xsd:documentation>The top level (typically root) element which
+			<xsd:documentation>The root element which
 				defines a stitch library.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
-			<xsd:sequence>
+			<xsd:all>
 				<xsd:element name="information" type="InformationType"
 					minOccurs="0" />
 				<xsd:element name="directives" type="DirectivesType"
 					minOccurs="0" />
 				<xsd:element name="yarns" type="YarnsType" minOccurs="0" />
 				<xsd:element name="definitions" type="DefinitionsType" />
-			</xsd:sequence>
+			</xsd:all>
 			<xsd:attribute ref="xml:lang" use="optional">
 				<xsd:annotation>
 					<xsd:documentation>The ISO-639 language code that the pattern is
-						written in. If the
-						pattern is fully internationalized, this
-						attribute should not be
-						specified.
+						written in. If the pattern is fully internationalized, this
+						attribute should not be specified.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
@@ -44,6 +42,16 @@
 						older schemas and make
 						adjustments if
 						necessary.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="namespace" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation>A unique name for this library. This helps avoid
+						instruction definitions with the same IDs from different libraries
+						causing a conflict. Much like XML namespaces, library namespaces
+						are URIs but they do not necessarily need to be resolveable as a
+						web address.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
@@ -63,17 +71,10 @@
 
 	<xsd:complexType name="DirectivesType">
 		<xsd:annotation>
-			<xsd:documentation>Collection of processing instructions. Currently
-				this includes the namespace of the library.
+			<xsd:documentation>Collection of processing instructions. Reserved
+				for future use.
 			</xsd:documentation>
 		</xsd:annotation>
-		<xsd:sequence>
-			<xsd:element name="namespace" minOccurs="0">
-				<xsd:complexType>
-					<xsd:attribute name="value" type="xsd:string" use="required" />
-				</xsd:complexType>
-			</xsd:element>
-		</xsd:sequence>
 	</xsd:complexType>
 
 	<xsd:complexType name="YarnsType">

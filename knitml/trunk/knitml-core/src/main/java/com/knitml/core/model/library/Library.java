@@ -15,8 +15,40 @@ public class Library {
 	protected String version;
 	protected String namespace;
 	protected Information information;
+	protected Directives directives;
 	protected List<Yarn> yarns;
 	protected List<Identifiable> instructionDefinitions;
+	
+	public Directives getDirectives() {
+		return directives;
+	}
+	public void setDirectives(Directives directives) {
+		this.directives = directives;
+	}
+	public String getNamespace() {
+		return namespace;
+	}
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
+	}
+	public String getSchemaLocation() {
+		return schemaLocation;
+	}
+	public String getLanguageCode() {
+		return languageCode;
+	}
+	public String getVersion() {
+		return version;
+	}
+	public Information getInformation() {
+		return information;
+	}
+	public List<Yarn> getYarns() {
+		return yarns;
+	}
+	public List<Identifiable> getInstructionDefinitions() {
+		return instructionDefinitions;
+	}
 	public void setSchemaLocation(String schemaLocation) {
 		this.schemaLocation = schemaLocation;
 	}
@@ -25,9 +57,6 @@ public class Library {
 	}
 	public void setVersion(String version) {
 		this.version = version;
-	}
-	public void setNamespace(String namespace) {
-		this.namespace = namespace;
 	}
 	public void setInformation(Information information) {
 		this.information = information;

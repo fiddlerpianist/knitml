@@ -3,12 +3,10 @@
  */
 package test.support;
 
-import java.io.StringReader;
+import static test.support.JiBXUtils.parseXml;
+
 import java.io.StringWriter;
 
-import org.jibx.runtime.BindingDirectory;
-import org.jibx.runtime.IBindingFactory;
-import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 import org.junit.After;
 import org.junit.Before;
@@ -55,6 +53,7 @@ public abstract class AbstractRenderingContextTests extends AbstractDependencyIn
 	protected PatternEventListener listener;
 	protected KnittingContext knittingContext;
 	protected VisitorFactory visitorFactory = new DefaultVisitorFactory(); // stateless, so init here
+	protected static final String DEFAULT_BINDING_NAME = "pattern-binding";
 	
 	protected StringWriter getOutputCapturer() {
 		return outputCapturer;
@@ -105,13 +104,6 @@ public abstract class AbstractRenderingContextTests extends AbstractDependencyIn
 	protected void onSetItUp() throws Exception {
 	}
 	
-	@SuppressWarnings("unchecked")
-	protected <C> C parseXml(String xml, Class<C> rootClass) throws JiBXException {
-		IBindingFactory factory = BindingDirectory.getFactory(rootClass);
-		IUnmarshallingContext uctx = factory.createUnmarshallingContext();
-		return (C) uctx.unmarshalDocument(new StringReader(xml));
-	}
-
 	protected void visitDocument(Object object) throws RenderingException, KnittingEngineException {
 		Visitor visitor = visitorFactory.findVisitorFromClassName(object);
 		listener.begin(object, knittingContext);

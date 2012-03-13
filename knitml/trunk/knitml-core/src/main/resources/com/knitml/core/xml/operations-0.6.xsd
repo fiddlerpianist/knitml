@@ -833,7 +833,8 @@
 			<xsd:annotation>
 				<xsd:documentation>The number of logical operations this group
 					represents. This number is analogous to the number of cells the
-					group would take up on a chart.</xsd:documentation>
+					group would take up on a chart.
+				</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -1413,35 +1414,29 @@
 	<xsd:complexType name="CrossStitchesType">
 		<xsd:annotation>
 			<xsd:documentation>Starting with the next active stitch, cross the
-				number of stitches
-				specified by the 'first' attribute in front of or
-				behind (specified by the
-				'type' attribute)
-				the number of stitches
-				specified by the 'next' attribute. Also known as
-				a "cable crossing"
-				or "twisting stitches." The next stitch to be worked is the same
-				stitch that was to be
-				worked before this operation began. In other
-				words, no stitches are
-				actually worked with an
-				active yarn. In order
-				to specify a "full" cable manuever, a subsequent
-				operation (or
+				number of stitches specified by the 'first' attribute in front of or
+				behind (specified by the 'type' attribute) the number of stitches
+				specified by the 'next' attribute (optionally skipping the number of
+				stitches specified by the 'skip' attribute). Also known as a "cable
+				crossing" or "twisting stitches." The next stitch to be worked is the
+				same stitch that was to be worked before this operation began. In
+				other words, no stitches are actually worked with an active yarn. In
+				order to specify a "full" cable manuever, a subsequent operation (or
 				several) would have to work 'first' + 'next' stitches.
 			</xsd:documentation>
 		</xsd:annotation>
-		<xsd:attribute name="first" type="xsd:short">
+		<xsd:attribute name="first" type="xsd:short" use="required">
 			<xsd:annotation>
 				<xsd:documentation>The stitches to cross over / under.
 				</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="type">
+		<xsd:attribute name="type" use="required">
 			<xsd:annotation>
-				<xsd:documentation>The method by which the stiches are crossed. May
-					be 'front' or
-					'back'.
+				<xsd:documentation>The method by which the first stiches are crossed
+					over by the next. May be 'front' (the sts appear to travel to the
+					left going up the work) or 'back' (the sts appear to travel to the
+					right going up the work)).
 				</xsd:documentation>
 			</xsd:annotation>
 			<xsd:simpleType>
@@ -1451,13 +1446,34 @@
 				</xsd:restriction>
 			</xsd:simpleType>
 		</xsd:attribute>
-		<xsd:attribute name="next" type="xsd:short">
+		<xsd:attribute name="next" type="xsd:short" use="required">
 			<xsd:annotation>
 				<xsd:documentation>The stitches to be crossed over / under by the
-					stitches specified by
-					'first'.
+					stitches specified by 'first'.
 				</xsd:documentation>
 			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="skip" type="xsd:short" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>The stitches to be skipped during the cross over
+					/ under.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="skip-type" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>The method by which the skipped stiches are
+					crossed. May be 'front' (the skipped stitches will be hidden by the
+					cable) or 'back' (the skipped stitches will be hiding the cable).
+					This value must be provided when the 'skip' attribute is set.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="front" />
+					<xsd:enumeration value="back" />
+				</xsd:restriction>
+			</xsd:simpleType>
 		</xsd:attribute>
 	</xsd:complexType>
 

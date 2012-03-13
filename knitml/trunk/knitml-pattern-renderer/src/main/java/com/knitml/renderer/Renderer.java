@@ -27,6 +27,7 @@ import com.knitml.core.model.operations.inline.InlineInstructionRef;
 import com.knitml.core.model.operations.inline.InlinePickUpStitches;
 import com.knitml.core.model.operations.inline.Knit;
 import com.knitml.core.model.operations.inline.NoStitch;
+import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
 import com.knitml.core.model.operations.inline.Purl;
 import com.knitml.core.model.operations.inline.Repeat;
@@ -129,6 +130,8 @@ public interface Renderer {
 
 	void beginUsingNeedle(Needle needle);
 	void endUsingNeedle();
+	
+	boolean renderOperationGroup(OperationGroup group);
 
 	// hybrid events
 	void beginInformation();

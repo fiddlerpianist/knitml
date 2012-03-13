@@ -97,6 +97,27 @@ class InstructionVisitorTests extends AbstractKnittingContextTests {
 	}
 	
 	@Test
+	void processInstructionWithChartInfo() {
+		processXml '''
+			<instruction id="cuff-round" starting-stitch-count="28">
+				<chart-info stereotype="color">
+					<box id="box-1" rgb-color="ff0000" row-span="1" start-row="2" start-stitch="3" stitch-span="4"/>
+				</chart-info>
+				<row>
+					<repeat until="end">
+						<knit/>
+					</repeat>
+				</row>
+				<row>
+					<repeat until="end">
+						<purl/>
+					</repeat>
+				</row>
+			</instruction>
+		'''
+	}
+	
+	@Test
 	void processInstructionGroup() {
 		def pattern = processXml ('''
 			<pattern:instruction-group id="cuff" label="Make the Cuff">

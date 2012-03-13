@@ -3,9 +3,10 @@
   <parent>
     <artifactId>knitml-parent</artifactId>
     <groupId>com.knitml</groupId>
-    <version>0.6.0.M2-SNAPSHOT</version>
+    <version>1.0.0.BUILD-SNAPSHOT</version>
   </parent>
   <artifactId>knitml-command-line</artifactId>
+  <version>0.6.0.M2-SNAPSHOT</version>
   <name>KnitML Command Line</name>
   <description>KnitML Java executables</description>
   <repositories>
@@ -23,22 +24,22 @@
     <dependency>
       <groupId>com.knitml</groupId>
       <artifactId>knitml-knitting-engine</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.knitml</groupId>
       <artifactId>knitml-el</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.knitml</groupId>
       <artifactId>knitml-validation</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.knitml</groupId>
       <artifactId>knitml-pattern-renderer</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-cli</groupId>
@@ -48,18 +49,15 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <version>1.5.2</version>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.2.14</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>xmlunit</groupId>
       <artifactId>xmlunit</artifactId>
-      <version>1.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

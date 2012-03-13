@@ -23,7 +23,7 @@ class GeneralInformationTests {
 		XMLUnit.ignoreWhitespace = true
 	}
 	@Test
-	void pimpedOutGeneralInformation() {
+	void fullGeneralInformation() {
 		def xml = '''
 		<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
 			<pattern:general-information xml:lang="en">

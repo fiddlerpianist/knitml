@@ -1,6 +1,6 @@
 package com.knitml.renderer.chart.symbol.impl;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import com.knitml.renderer.chart.ChartElement;
@@ -9,7 +9,7 @@ import com.knitml.renderer.chart.symbol.SymbolProvider;
 
 public abstract class AbstractSymbolProvider implements SymbolProvider {
 
-	protected Map<ChartElement, String> symbols = new HashMap<ChartElement, String>();
+	protected Map<ChartElement, String> symbols = new EnumMap<ChartElement, String>(ChartElement.class);
 
 	public AbstractSymbolProvider() {
 		initializeSymbols();

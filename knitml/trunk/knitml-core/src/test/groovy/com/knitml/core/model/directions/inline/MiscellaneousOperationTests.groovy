@@ -5,27 +5,27 @@ package com.knitml.core.model.directions.inline
 
 import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
-import static test.support.JiBXTestUtils.unmarshalXml
 import static test.support.JiBXTestUtils.marshalXmlAndCompare
+import static test.support.JiBXTestUtils.unmarshalXml
 
 import org.custommonkey.xmlunit.XMLUnit
-
-import org.junit.Test
 import org.junit.BeforeClass
+import org.junit.Test
 
 import com.knitml.core.common.CrossType
-import com.knitml.core.model.operations.inline.ApplyNextRow;
-import com.knitml.core.model.operations.inline.CrossStitches;
-import com.knitml.core.model.operations.inline.FromStitchHolder;
-import com.knitml.core.model.operations.inline.InlineInstruction;
-import com.knitml.core.model.operations.inline.Knit;
-import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
-import com.knitml.core.model.operations.inline.PlaceMarker;
-import com.knitml.core.model.operations.inline.Purl;
-import com.knitml.core.model.operations.inline.RemoveMarker;
-import com.knitml.core.model.operations.inline.Repeat;
-import com.knitml.core.model.operations.inline.Slip;
-import com.knitml.core.model.pattern.Pattern;
+import com.knitml.core.common.ValidationException
+import com.knitml.core.model.operations.inline.ApplyNextRow
+import com.knitml.core.model.operations.inline.CrossStitches
+import com.knitml.core.model.operations.inline.FromStitchHolder
+import com.knitml.core.model.operations.inline.InlineInstruction
+import com.knitml.core.model.operations.inline.Knit
+import com.knitml.core.model.operations.inline.PassPreviousStitchOver
+import com.knitml.core.model.operations.inline.PlaceMarker
+import com.knitml.core.model.operations.inline.Purl
+import com.knitml.core.model.operations.inline.RemoveMarker
+import com.knitml.core.model.operations.inline.Repeat
+import com.knitml.core.model.operations.inline.Slip
+import com.knitml.core.model.pattern.Pattern
 
 class MiscellaneousOperationTests {
 	@BeforeClass
@@ -39,7 +39,7 @@ class MiscellaneousOperationTests {
 			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
 			  <pattern:directions>
 					<row>
-						<cross-stitches first="2" next="3" type="front"/>
+						<cross-stitches first="2" next="3" skip="5" type="front" skip-type="back"/>
 					</row>
 				  </pattern:directions>
 			</pattern:pattern>'''
@@ -49,8 +49,23 @@ class MiscellaneousOperationTests {
 			assertThat type, is (CrossType.FRONT)
 			assertThat first, is (2)
 			assertThat next, is (3)
+			assertThat skip, is (5)
+			assertThat skipType, is (CrossType.BACK)
 		}
 		marshalXmlAndCompare(pattern,xml)
+	}
+	
+	@Test(expected=ValidationException)
+	void invalidCrossStitches() {
+		def xml = '''
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
+					<row>
+						<cross-stitches first="2" next="3" type="front" skip-type="back"/>
+					</row>
+				  </pattern:directions>
+			</pattern:pattern>'''
+		Pattern pattern = unmarshalXml(xml)
 	}
 	
 	@Test
