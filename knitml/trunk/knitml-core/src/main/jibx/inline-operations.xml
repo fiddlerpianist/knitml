@@ -115,11 +115,13 @@
         value-style="attribute" ns="http://www.knitml.com/schema/operations"/>
 
     <!-- Miscellany -->
-    <mapping name="cross-stitches" value-style="attribute"
+    <mapping name="cross-stitches" value-style="attribute" post-set="validate"
         class="com.knitml.core.model.operations.inline.CrossStitches" ns="http://www.knitml.com/schema/operations">
         <value name="first" field="first"/>
         <value name="next" field="next"/>
         <value name="type" field="type" enum-value-method="getCanonicalName"/>
+        <value name="skip" field="skip" usage="optional"/>
+        <value name="skip-type" field="skipType" usage="optional" enum-value-method="getCanonicalName"/>
     </mapping>
     <mapping name="designate-end-of-row" class="com.knitml.core.model.operations.inline.DesignateEndOfRow"
         value-style="attribute" ns="http://www.knitml.com/schema/operations"/>

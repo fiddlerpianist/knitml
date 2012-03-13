@@ -204,14 +204,14 @@ public class MergedInstructionVisitor extends AbstractPatternVisitor {
 							Purl lastPurlOperation = (Purl) lastOperation;
 							doubledOperation = new Purl(
 									lastPurlOperation.getNumberOfTimes() * 2,
-									lastPurlOperation.getYarnIdRef(),
-									lastPurlOperation.getLoopToWork());
+									lastPurlOperation.getLoopToWork(),
+									lastPurlOperation.getYarnIdRef());
 						} else if (lastOperation instanceof Knit) {
 							Knit lastKnitOperation = (Knit) lastOperation;
 							doubledOperation = new Knit(
 									lastKnitOperation.getNumberOfTimes() * 2,
-									lastKnitOperation.getYarnIdRef(),
-									lastKnitOperation.getLoopToWork());
+									lastKnitOperation.getLoopToWork(),
+									lastKnitOperation.getYarnIdRef());
 						}
 						// we don't double anything other than knits and purls
 

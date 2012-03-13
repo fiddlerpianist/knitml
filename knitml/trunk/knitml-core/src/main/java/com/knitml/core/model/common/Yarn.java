@@ -12,6 +12,30 @@ import javax.measure.quantity.Mass;
  */
 public class Yarn {
 	
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setMessageKey(String messageKey) {
+		this.messageKey = messageKey;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public void setTotalLength(Measurable<Length> totalLength) {
+		this.totalLength = totalLength;
+	}
+
+	public void setTotalWeight(Measurable<Mass> totalWeight) {
+		this.totalWeight = totalWeight;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
 	protected String id;
 	protected String symbol;
 	protected String messageKey;

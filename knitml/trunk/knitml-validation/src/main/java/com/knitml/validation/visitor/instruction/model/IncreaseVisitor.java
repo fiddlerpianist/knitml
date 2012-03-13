@@ -32,14 +32,14 @@ public class IncreaseVisitor extends AbstractPatternVisitor {
 		// should add to the specialOperations list
 		List<DiscreteInlineOperation> substituteOperations = new ArrayList<DiscreteInlineOperation>(2);
 		if (increase.getType() == IncreaseType.KFB) {
-			substituteOperations.add(new Knit(1, null, LoopToWork.LEADING));
-			substituteOperations.add(new Knit(1, null, LoopToWork.TRAILING));
+			substituteOperations.add(new Knit(1, LoopToWork.LEADING, null));
+			substituteOperations.add(new Knit(1, LoopToWork.TRAILING, null));
 		} else if (increase.getType() == IncreaseType.PFB) {
-			substituteOperations.add(new Purl(1, null, LoopToWork.LEADING));
-			substituteOperations.add(new Purl(1, null, LoopToWork.TRAILING));
+			substituteOperations.add(new Purl(1, LoopToWork.LEADING, null));
+			substituteOperations.add(new Purl(1, LoopToWork.TRAILING, null));
 		} else if (increase.getType() == IncreaseType.MOSS) {
-			substituteOperations.add(new Knit(1, null, LoopToWork.LEADING));
-			substituteOperations.add(new Purl(1, null, LoopToWork.LEADING));
+			substituteOperations.add(new Knit(1, LoopToWork.LEADING, null));
+			substituteOperations.add(new Purl(1, LoopToWork.LEADING, null));
 		}
 		
 		if (!substituteOperations.isEmpty()) {

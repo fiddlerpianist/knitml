@@ -37,6 +37,7 @@ import com.knitml.core.model.operations.inline.InlineInstructionRef;
 import com.knitml.core.model.operations.inline.InlinePickUpStitches;
 import com.knitml.core.model.operations.inline.Knit;
 import com.knitml.core.model.operations.inline.NoStitch;
+import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
 import com.knitml.core.model.operations.inline.Purl;
 import com.knitml.core.model.operations.inline.Repeat;
@@ -52,6 +53,7 @@ import com.knitml.engine.settings.Direction;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
+import com.knitml.renderer.chart.ChartElementFinder;
 import com.knitml.renderer.chart.symbol.SymbolProvider;
 import com.knitml.renderer.chart.symbol.SymbolProviderRegistry;
 import com.knitml.renderer.chart.writer.ChartWriter;
@@ -83,10 +85,27 @@ class ChartProducer implements Renderer {
 			.put(ChartElement.SKP, ChartElement.SSP).build();
 
 	// fields which should be set before calling begin() methods
+	/**
+	 * Used for creating a ChartWriter. A ChartWriter writes to particular format (text, HTML, etc.)
+	 */
 	private ChartWriterFactory chartWriterFactory;
+	/**
+	 * Used for finding a SymbolProvider. Symbol providers map logical {@link ChartElement}s to rendered output.
+	 */
 	private SymbolProviderRegistry registry;
+	/**
+	 * Directs the output.
+	 */
 	private Writer writer;
+	/**
+	 * Provides an up-front (pass 1) analysis of the chart to be rendered.
+	 */
 	private Analysis analysis;
+	
+	/**
+	 * Locates the appropriate ChartElement object given the current model object
+	 */
+	private ChartElementFinder finder = new ChartElementFinder();
 
 	private Direction direction = Direction.FORWARDS;
 	private Chart chart;
@@ -381,6 +400,16 @@ class ChartProducer implements Renderer {
 		}
 	}
 
+	public boolean renderOperationGroup(OperationGroup group) {
+		ChartElement element = finder.findChartElement(group.canonicalizeGroup());
+		if (element != null) {
+			add(element);
+			return true;
+		}
+		// not able to assign this group to a chart element; process them individually
+		return false;
+	}
+	
 	public void renderInlineInstructionRef(InlineInstructionRef instructionRef,
 			String label) {
 		// FIXME make this go

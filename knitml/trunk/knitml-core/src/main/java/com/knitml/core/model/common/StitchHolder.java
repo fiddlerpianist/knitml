@@ -25,6 +25,18 @@ public class StitchHolder implements Identifiable {
 		return id;
 	}
 	
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setMessageKey(String messageKey) {
+		this.messageKey = messageKey;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
 	@Override
 	public String toString() {
 		return getLabel();

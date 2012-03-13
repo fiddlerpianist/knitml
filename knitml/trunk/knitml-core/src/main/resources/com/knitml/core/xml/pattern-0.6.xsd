@@ -61,7 +61,15 @@
 				directions.
 			</xsd:documentation>
 		</xsd:annotation>
-		<xsd:sequence>
+		<xsd:all>
+			<xsd:element name="imports" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="import" type="ImportType"
+							minOccurs="0" maxOccurs="unbounded" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
 			<xsd:element name="message-sources" minOccurs="0">
 				<xsd:complexType>
 					<xsd:sequence>
@@ -72,8 +80,27 @@
 			</xsd:element>
 			<xsd:element name="instruction-definitions" type="InstructionDefinitionsType"
 				minOccurs="0" maxOccurs="1" />
-		</xsd:sequence>
+		</xsd:all>
 		<xsd:attribute name="type" type="xsd:string" />
+	</xsd:complexType>
+
+	<xsd:complexType name="ImportType">
+		<xsd:annotation>
+			<xsd:documentation></xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice minOccurs="1" maxOccurs="unbounded">
+			<xsd:element name="assign-yarn" type="AssignType"/>
+			<xsd:element name="assign-instruction" type="AssignType"/>
+		</xsd:choice>
+		<xsd:attribute name="location" type="xsd:string" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="AssignType">
+		<xsd:annotation>
+			<xsd:documentation></xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="from" type="xsd:NMTOKEN" use="required" />
+		<xsd:attribute name="to" type="common:id-type" use="required" />
 	</xsd:complexType>
 
 	<xsd:complexType name="InstructionDefinitionsType">

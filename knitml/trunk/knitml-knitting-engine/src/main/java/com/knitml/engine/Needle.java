@@ -166,7 +166,7 @@ public interface Needle extends Restorable {
 	void knitThreeTogether() throws CannotWorkThroughMarkerException,
 			NotEnoughStitchesException;
 
-	void cross(int first, int next) throws CannotWorkThroughMarkerException,
+	void cross(int first, int next, int skip) throws CannotWorkThroughMarkerException,
 			NotEnoughStitchesException;
 
 }

@@ -46,7 +46,7 @@
 			<xsd:attributeGroup ref="labelAttrs" />
 		</xsd:complexType>
 	</xsd:element>
-	
+
 	<xsd:complexType name="LengthType">
 		<xsd:annotation>
 			<xsd:documentation>Represents a measurement where the unit is
@@ -108,6 +108,16 @@
 			<xsd:annotation>
 				<xsd:documentation>The number of the colorway.</xsd:documentation>
 			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="rgb-value">
+			<xsd:simpleType>
+				<xsd:annotation>
+					<xsd:documentation>The hexadecimal value of an RGB equivalent to this colorway.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:restriction base="xsd:string">
+					<xsd:pattern value="#?[0-9A-Fa-f]{6}"/>
+				</xsd:restriction>
+			</xsd:simpleType>
 		</xsd:attribute>
 	</xsd:complexType>
 

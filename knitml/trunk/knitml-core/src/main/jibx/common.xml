@@ -18,6 +18,7 @@
             <value name="name" field="name" usage="optional"/>
             <value name="description" field="description" usage="optional"/>
             <value name="number" field="number" usage="optional"/>
+            <value name="rgb-value" field="rgbValue" usage="optional"/>
         </structure>
         <value name="id" field="id" ident="def"/>
         <value name="symbol" field="symbol" usage="optional"/>

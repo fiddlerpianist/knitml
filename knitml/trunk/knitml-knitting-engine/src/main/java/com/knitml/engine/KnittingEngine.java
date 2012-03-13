@@ -221,7 +221,10 @@ public interface KnittingEngine extends Restorable {
 			NotEnoughStitchesException;
 
 	/**
-	 * Starts a new row.
+	 * Only for round knitting. Starts a new row which will end "past" where the
+	 * end was previously designated. This is the opposite of
+	 * {@link #designateEndOfRow()}, which stops the row short of where it was
+	 * previously designated.
 	 * 
 	 * @throws NotEndOfRowException
 	 *             if the engine is not at the end of a row
@@ -238,6 +241,11 @@ public interface KnittingEngine extends Restorable {
 			WrongKnittingShapeException;
 
 	/**
+	 * Optional call at the end of a row which puts the engine into a state
+	 * where {@link #isBetweenRows()} returns true. May only be called if the
+	 * engine has the ability to end the row (i.e., there are no more stitches
+	 * left in this row).
+	 * 
 	 * @throws NotEndOfRowException
 	 *             if the engine is not at the end of a row
 	 * @see {@link #isEndOfRow()}

@@ -890,12 +890,11 @@ public class DefaultNeedle implements Needle {
 		adjustMarkersAfterIncrease(1);
 	}
 
-	public void cross(int numberToCross, int numberCrossedOver)
+	public void cross(int numberToCross, int numberToCrossOver, int numberToSkip)
 			throws NotEnoughStitchesException, CannotWorkThroughMarkerException {
-		int stitchesAffected = numberToCross + numberCrossedOver;
+		int stitchesAffected = numberToCross + numberToCrossOver + numberToSkip;
 		if (stitchesAffected > getStitchesRemaining()) {
-			throw new NotEnoughStitchesException(numberToCross
-					+ numberCrossedOver, getStitchesRemaining());
+			throw new NotEnoughStitchesException(stitchesAffected, getStitchesRemaining());
 		}
 		try {
 			if (hasMarkers() && getStitchesToNextMarker() > 0
@@ -917,16 +916,28 @@ public class DefaultNeedle implements Needle {
 				firstPart.add(stitch);
 				stitchCursor.remove();
 			}
-			// the stitches to cross over are next, so walk past them
-			for (int i = 0; i < numberCrossedOver; i++) {
+			// gather stitches to skip into a temporary list and remove from
+			// the master list
+			List<Stitch> skippedPart = new ArrayList<Stitch>(numberToSkip);
+			for (int i = 0; i < numberToSkip; i++) {
+				Stitch stitch = stitchCursor.next();
+				skippedPart.add(stitch);
+				stitchCursor.remove();
+			}
+			// walk past the stitches to cross over
+			for (int i = 0; i < numberToCrossOver; i++) {
 				stitchCursor.next();
 			}
-			// now add the crossed stitches
+			// now add the skipped stitches...
+			for (Stitch stitch : skippedPart) {
+				stitchCursor.add(stitch);
+			}
+			// ...then the crossed stitches
 			for (Stitch stitch : firstPart) {
 				stitchCursor.add(stitch);
 			}
 			// now iterate to before the crossing
-			for (int i = 0; i < (numberToCross + numberCrossedOver); i++) {
+			for (int i = 0; i < stitchesAffected; i++) {
 				lastStitchIndexReturned = stitchCursor.previousIndex();
 				stitchCursor.previous();
 			}
@@ -941,19 +952,28 @@ public class DefaultNeedle implements Needle {
 				firstPart.add(0, stitch);
 				stitchCursor.remove();
 			}
-			// the stitches to cross over are next, so walk past them
-			for (int i = 0; i < numberCrossedOver; i++) {
+			// gather stitches to skip into a temporary list and remove from
+			// the master list
+			List<Stitch> skippedPart = new ArrayList<Stitch>(numberToSkip);
+			for (int i = 0; i < numberToSkip; i++) {
+				Stitch stitch = stitchCursor.previous();
+				skippedPart.add(0, stitch);
+				stitchCursor.remove();
+			}
+			// walk past the stitches to cross over
+			for (int i = 0; i < numberToCrossOver; i++) {
 				stitchCursor.previous();
 			}
-			// now add the crossed stitches
+			// now add the crossed stitches...
 			for (Stitch stitch : firstPart) {
 				stitchCursor.add(stitch);
 			}
+			// ...then the skipped stitches
+			for (Stitch stitch : skippedPart) {
+				stitchCursor.add(stitch);
+			}
 			// now iterate to before the crossing
-			for (int i = 0; i < numberCrossedOver; i++) {
-				// we don't need to cross over the newly inserted stitches since
-				// we're already past them (the way list iterators work upon
-				// adding elements)
+			for (int i = 0; i < numberToCrossOver; i++) {
 				lastStitchIndexReturned = stitchCursor.nextIndex();
 				stitchCursor.next();
 			}

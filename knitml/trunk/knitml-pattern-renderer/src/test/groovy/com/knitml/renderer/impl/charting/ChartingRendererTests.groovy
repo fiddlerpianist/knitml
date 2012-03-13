@@ -18,7 +18,7 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 	
 	@Override
 	protected String[] getConfigLocations() {
-		return ["applicationContext-patternRenderer-charting.xml"]
+		return ["applicationContext-patternRenderer-charting-logicalOnly.xml"]
 	}
 	@Test
 	public void flatChart() {
@@ -217,5 +217,62 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 
 		 assertThat renderer.graph, is ([[P,P,YO,K,K,K,SSK,K,K,K,K,K,K,K,K,K2TOG,K,K,K,YO,P,P],
 		                                 [P,P,K,YO,K,K,K,SSK,K,K,K,K,K,K,K2TOG,K,K,K,YO,K,P,P]]);
+	}
+	
+	@Test
+	public void basic2StCable() {
+		processXml PATTERN_START_TAG + '''
+			<pattern:directives>
+				<pattern:instruction-definitions>
+					<instruction id="chart" label="Chart" shape="flat"> 
+						<row>
+							<purl>4</purl>
+								<group size="2">
+									<cross-stitches first="1" next="1" type="front"/>
+									<knit>2</knit>
+								</group>
+							<purl>4</purl>
+						</row>
+						<row>
+							<knit>4</knit>
+							<purl>2</purl>
+							<knit>4</knit>
+						</row>
+					</instruction>
+				</pattern:instruction-definitions>
+			</pattern:directives>
+		 </pattern:pattern>'''
+
+		 assertThat renderer.graph, is ([[P,P,P,P,CBL_1_1_LC,P,P,P,P],
+		                                 [P,P,P,P,K,K,P,P,P,P]]);
+	}
+	@Test
+	public void custom2StCable() {
+		// use a stitch set not found in the group operations map
+		processXml PATTERN_START_TAG + '''
+			<pattern:directives>
+				<pattern:instruction-definitions>
+					<instruction id="chart" label="Chart" shape="flat"> 
+						<row>
+							<purl>4</purl>
+								<group size="2">
+									<cross-stitches first="1" next="1" type="front"/>
+									<knit loop-to-work="trailing">1</knit>
+									<purl loop-to-work="trailing">1</purl>
+								</group>
+							<purl>4</purl>
+						</row>
+						<row>
+							<knit>4</knit>
+							<purl>2</purl>
+							<knit>4</knit>
+						</row>
+					</instruction>
+				</pattern:instruction-definitions>
+			</pattern:directives>
+		 </pattern:pattern>'''
+
+		 assertThat renderer.graph, is ([[P,P,P,P,CBL_2ST_CUSTOM,P,P,P,P],
+		                                 [P,P,P,P,K,K,P,P,P,P]]);
 	}
 }

@@ -51,6 +51,7 @@ import com.knitml.core.model.operations.inline.InlineInstructionRef;
 import com.knitml.core.model.operations.inline.InlinePickUpStitches;
 import com.knitml.core.model.operations.inline.Knit;
 import com.knitml.core.model.operations.inline.NoStitch;
+import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
 import com.knitml.core.model.operations.inline.Purl;
 import com.knitml.core.model.operations.inline.Repeat;
@@ -69,11 +70,11 @@ import com.knitml.renderer.impl.helpers.FromStitchHolderOperationSet;
 import com.knitml.renderer.impl.helpers.HeaderHelper;
 import com.knitml.renderer.impl.helpers.MessageHelper;
 import com.knitml.renderer.impl.helpers.OperationSet;
+import com.knitml.renderer.impl.helpers.OperationSet.Type;
 import com.knitml.renderer.impl.helpers.OperationSetHelper;
 import com.knitml.renderer.impl.helpers.RepeatOperationSet;
 import com.knitml.renderer.impl.helpers.SimpleInstruction;
 import com.knitml.renderer.impl.helpers.WriterHelper;
-import com.knitml.renderer.impl.helpers.OperationSet.Type;
 import com.knitml.renderer.plural.PluralRuleFactory;
 import com.knitml.renderer.plural.impl.DefaultPluralRuleFactory;
 
@@ -994,6 +995,11 @@ public class BasicTextRenderer implements Renderer {
 				getMessage("operation.place-marker"));
 	}
 
+	public boolean renderOperationGroup(OperationGroup group) {
+		// return false means we didn't render and we'll let the children be processed as if the group isn't there 
+		return false;
+	}
+	
 	public void renderRemoveMarker() {
 		getOperationSetHelper().writeOperation(
 				getMessage("operation.remove-marker"));

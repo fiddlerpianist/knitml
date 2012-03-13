@@ -80,7 +80,6 @@ public class ChartingAnalyzer {
 	public Analysis analyzeInstruction(Instruction originalInstruction,
 			RepeatInstruction repeatInstruction,
 			boolean fromInstructionDefinition) {
-		this.dynamicFirstRowCastOn = fromInstructionDefinition;
 		this.maxWidth = 0;
 		this.rowInfos.clear();
 		this.currentRowInfo = null;
@@ -88,6 +87,13 @@ public class ChartingAnalyzer {
 		this.shape = KnittingShape.FLAT;
 
 		Object engineState = renderingContext.getEngine().save();
+
+		if (fromInstructionDefinition && originalInstruction.getStartingStitchCount() != null) {
+			renderingContext.getEngine().castOn(originalInstruction.getStartingStitchCount(), false);
+		} else {
+			this.dynamicFirstRowCastOn = fromInstructionDefinition;
+		}
+		
 		int startingStitches = renderingContext.getEngine()
 				.getTotalNumberOfStitchesInRow();
 
@@ -316,13 +322,9 @@ public class ChartingAnalyzer {
 		// convert all repeats
 		// into an until value that represents TIMES. This is so we won't need
 		// the engine to chart.
-		List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
+		List<DiscreteInlineOperation> newOperations = new ArrayList<DiscreteInlineOperation>();
 
 		// gather current (pre-repeat) state
-		// int startingTotalStitches = engine
-		// .getTotalNumberOfStitchesOnCurrentNeedle();
-		// int startingStitchesRemaining = engine
-		// .getStitchesRemainingOnCurrentNeedle();
 		Object engineState = engine.save();
 		int originalChartWidth = this.currentRowInfo.getRowWidth();
 
@@ -340,24 +342,16 @@ public class ChartingAnalyzer {
 				break;
 			}
 			InlineOperation newOperation = handle(operation);
-			// if null is returned, we cannot chart, so return null up the chain
-			if (newOperation == null) {
+			// if a non-discrete inline operation or null is returned, we cannot chart, so return null up the chain
+			if (!(newOperation instanceof DiscreteInlineOperation)) {
 				return null;
 			}
-			newOperations.add(newOperation);
+			newOperations.add((DiscreteInlineOperation)newOperation);
 		}
-		// int endingTotalStitches = engine
-		// .getTotalNumberOfStitchesOnCurrentNeedle();
-		// int endingStitchesRemaining = engine
-		// .getStitchesRemainingOnCurrentNeedle();
 
 		// reset the engine to the state before we repeated once
 		engine.restore(engineState);
 		this.currentRowInfo.setRowWidth(originalChartWidth);
-
-		// int advanceCount = startingStitchesRemaining -
-		// endingStitchesRemaining;
-		// int increaseCount = endingTotalStitches - startingTotalStitches;
 
 		int counter = 0;
 		switch (until) {
@@ -365,7 +359,7 @@ public class ChartingAnalyzer {
 			for (int i = 0; i < value; i++) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					InlineOperation newOperation = handle(operation);
+					DiscreteInlineOperation newOperation = (DiscreteInlineOperation)handle(operation);
 					if (contextualOperationFound) {
 						newOperations.add(newOperation);
 					}
@@ -377,7 +371,7 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesRemainingInRow() > value) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					InlineOperation newOperation = handle(operation);
+					DiscreteInlineOperation newOperation = (DiscreteInlineOperation)handle(operation);
 					if (contextualOperationFound) {
 						newOperations.add(newOperation);
 					}
@@ -389,7 +383,7 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesRemainingInRow() > 0) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					InlineOperation newOperation = handle(operation);
+					DiscreteInlineOperation newOperation = (DiscreteInlineOperation)handle(operation);
 					if (contextualOperationFound) {
 						newOperations.add(newOperation);
 					}
@@ -401,7 +395,7 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesToGap() > value) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					InlineOperation newOperation = handle(operation);
+					DiscreteInlineOperation newOperation = (DiscreteInlineOperation)handle(operation);
 					if (contextualOperationFound) {
 						newOperations.add(newOperation);
 					}
@@ -413,7 +407,7 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesToNextMarker() > value) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					InlineOperation newOperation = handle(operation);
+					DiscreteInlineOperation newOperation = (DiscreteInlineOperation)handle(operation);
 					if (contextualOperationFound) {
 						newOperations.add(newOperation);
 					}
@@ -425,7 +419,7 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesToNextMarker() > 0) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					InlineOperation newOperation = handle(operation);
+					DiscreteInlineOperation newOperation = (DiscreteInlineOperation)handle(operation);
 					if (contextualOperationFound) {
 						newOperations.add(newOperation);
 					}
@@ -453,16 +447,16 @@ public class ChartingAnalyzer {
 	}
 
 	protected InlineOperation handle(OperationGroup stitchGroup) {
-		List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
-		for (InlineOperation operation : stitchGroup.getOperations()) {
-			InlineOperation newOperation = handle(operation);
+		List<DiscreteInlineOperation> newOperations = new ArrayList<DiscreteInlineOperation>();
+		for (DiscreteInlineOperation operation : stitchGroup.getOperations()) {
+			DiscreteInlineOperation newOperation = handle(operation);
 			// if null is returned, we cannot chart, so return null up the chain
 			if (newOperation == null) {
 				return null;
 			}
 			newOperations.add(newOperation);
 		}
-		return new OperationGroup(newOperations);
+		return new OperationGroup(stitchGroup.getSize(), newOperations);
 	}
 
 	/**
@@ -529,7 +523,7 @@ public class ChartingAnalyzer {
 		return null;
 	}
 
-	protected InlineOperation handle(DiscreteInlineOperation object) {
+	protected DiscreteInlineOperation handle(DiscreteInlineOperation object) {
 		int advanceCount = object.getAdvanceCount();
 		int increaseCount = object.getIncreaseCount();
 
@@ -589,7 +583,7 @@ public class ChartingAnalyzer {
 		// A WorkEven means to knit knits and purl purls
 		int numberOfTimes = object.getNumberOfTimes() == null ? 1 : object
 				.getNumberOfTimes();
-		List<InlineOperation> newOperations = new ArrayList<InlineOperation>(
+		List<DiscreteInlineOperation> newOperations = new ArrayList<DiscreteInlineOperation>(
 				numberOfTimes);
 		for (int i = 0; i < numberOfTimes; i++) {
 			StitchNature currentStitchNature = renderingContext.getEngine()
@@ -601,13 +595,13 @@ public class ChartingAnalyzer {
 
 			// knit the knits and purl the purls
 			if (currentStitchNature == StitchNature.KNIT) {
-				newOperations.add(new Knit(1, object.getYarnIdRef(), null));
+				newOperations.add(new Knit(1, null, object.getYarnIdRef()));
 			} else { // lastOperation == StitchOperation.PURL
-				newOperations.add(new Purl(1, object.getYarnIdRef(), null));
+				newOperations.add(new Purl(1, null, object.getYarnIdRef()));
 			}
 			advanceAndIncrease(1, 0, currentStitchNature);
 		}
-		return new OperationGroup(newOperations);
+		return newOperations.size() == 1 ? newOperations.get(0) : new OperationGroup(newOperations);
 	}
 
 	protected InlineOperation handle(PlaceMarker object) {

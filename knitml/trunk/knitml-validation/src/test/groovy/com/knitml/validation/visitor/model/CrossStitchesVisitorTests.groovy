@@ -30,15 +30,28 @@ class CrossStitchesVisitorTests extends AbstractKnittingContextTests {
 		processXml '''
 			<row>
 				<purl>8</purl>
-				<cross-stitches first="2" next="2" type="front"/>
-				<knit>4</knit>
+				<group size="4">
+					<cross-stitches first="2" next="2" type="front"/>
+					<knit>4</knit>
+				</group>
 				<purl>8</purl>
 			</row>
 		'''
 		assertTrue engine.betweenRows
 	}
 
-	static void main(args) {
-		JUnitCore.main(CrossStitchesVisitorTests.name)
+	@Test
+	public void cableCrossWithSkippedStitches() {
+		processXml '''
+			<row>
+				<purl>7</purl>
+				<group size="5">
+					<cross-stitches first="2" next="2" type="front" skip="1" skip-type="back"/>
+					<knit>5</knit>
+				</group>
+				<purl>8</purl>
+			</row>
+		'''
+		assertTrue engine.betweenRows
 	}
 }

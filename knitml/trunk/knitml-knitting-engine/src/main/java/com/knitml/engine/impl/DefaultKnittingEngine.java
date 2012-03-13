@@ -988,7 +988,7 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		// "All stitches involved in a cross operation must be on the same needle, and there are not enough stitches on the current needle to perform the operation");
 		// }
 		getCurrentNeedle().cross(crossStitches.getFirst(),
-				crossStitches.getNext());
+				crossStitches.getNext(), crossStitches.getSkip() == null ? 0 : crossStitches.getSkip());
 	}
 
 	private void toggleDirection() {

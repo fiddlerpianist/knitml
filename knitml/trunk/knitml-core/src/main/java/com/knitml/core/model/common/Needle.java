@@ -45,6 +45,14 @@ public class Needle implements Identifiable {
 		this.messageKey = messageKey;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setMessageKey(String messageKey) {
+		this.messageKey = messageKey;
+	}
+
 	@Override
 	public String toString() {
 		return getLabel();

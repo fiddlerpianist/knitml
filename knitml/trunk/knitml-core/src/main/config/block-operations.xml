@@ -6,14 +6,30 @@
     <!-- Instruction and row elements -->
     <mapping name="instruction" class="com.knitml.core.model.operations.block.Instruction"
         value-style="attribute" post-set="validate" ns="http://www.knitml.com/schema/operations">
-        <collection field="rows" type="java.util.ArrayList"
-            item-type="com.knitml.core.model.operations.block.Row"/>
-        <structure field="forEachRowInInstruction" usage="optional"/>
+        <structure field="forEachRowInInstruction" usage="optional" ns="http://www.knitml.com/schema/operations"/>
+        <structure field="chartInfo" usage="optional" ns="http://www.knitml.com/schema/operations"/>
+        <collection field="rows" type="java.util.ArrayList" item-type="com.knitml.core.model.operations.block.Row"/>
         <value name="id" field="id" ident="def"/>
         <value name="label" field="label" usage="optional"/>
         <value name="message-key" field="messageKey" usage="optional"/>
         <value name="shape" field="knittingShape" enum-value-method="getCanonicalName" usage="optional"/>
         <value name="row-count" field="rowCount" usage="optional"/>
+        <value name="starting-stitch-count" field="startingStitchCount" usage="optional"/>
+    </mapping>
+    <mapping name="chart-info" class="com.knitml.core.model.operations.chart.ChartInfo" value-style="attribute"
+              ns="http://www.knitml.com/schema/operations">
+        <collection field="annotations" type="java.util.ArrayList"
+            item-type="com.knitml.core.model.operations.chart.ChartAnnotation"/>
+        <value name="hide-wrong-side" field="hideWrongSide" default="false"/>
+        <value name="stereotype" field="stereotype" enum-value-method="getCanonicalName" usage="optional"/>
+    </mapping>
+    <mapping name="box" class="com.knitml.core.model.operations.chart.Box" ns="http://www.knitml.com/schema/operations" value-style="attribute">
+        <value name="id" field="id" ident="def"/>
+        <value name="row-span" field="rowSpan"/>
+        <value name="stitch-span" field="stitchSpan"/>
+        <value name="start-row" field="startRow"/>
+        <value name="start-stitch" field="startStitch"/>
+        <value name="rgb-color" field="rgbColor" usage="optional"/>
     </mapping>
     <mapping name="instruction-ref" class="com.knitml.core.model.operations.block.InstructionRef"
         marshaller="com.knitml.core.xml.translator.InstructionRefTranslator"
@@ -33,30 +49,6 @@
         marshaller="com.knitml.core.xml.translator.RowTranslator"
         unmarshaller="com.knitml.core.xml.translator.RowTranslator"
         ns="http://www.knitml.com/schema/operations"/>
-    <!--
-    <mapping name="row" class="com.knitml.core.model.operations.block.Row" value-style="attribute">
-        <format type="int[]" serializer="com.knitml.core.xml.DataConversion.serializeIntArray"
-            deserializer="com.knitml.core.xml.DataConversion.deserializeIntArray"/>
-        <structure name="information" field="information" usage="optional">
-            <collection field="details" type="java.util.ArrayList"/>
-        </structure>
-        <structure field="operations"
-            marshaller="com.knitml.core.xml.translator.InlineOperationsTranslator"
-            unmarshaller="com.knitml.core.xml.translator.InlineOperationsTranslator"
-            ns="http://www.knitml.com/schema/operations"/>
-        <structure name="followup-information" field="followupInformation" usage="optional">
-            <collection field="details" type="java.util.ArrayList"/>
-        </structure>
-        <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
-        <value name="inform-side" field="informSide" usage="optional" default="false"/>
-        <value name="short" field="shortRow" usage="optional" default="false"/>
-        <value name="side" field="side" enum-value-method="getCanonicalName" usage="optional"/>
-        <value name="assign-row-number" field="assignRowNumber" usage="optional" default="true"/>
-        <value name="reset-row-count" field="resetRowCount" usage="optional" default="false"/>
-        <value name="number" field="numbers" usage="optional"/>
-        <value name="type" field="type" enum-value-method="getCanonicalName" usage="optional"/>
-    </mapping>
-    -->
     <mapping name="for-each-row-in-instruction"
         class="com.knitml.core.model.operations.block.ForEachRowInInstruction"
         marshaller="com.knitml.core.xml.translator.ForEachRowInInstructionTranslator"

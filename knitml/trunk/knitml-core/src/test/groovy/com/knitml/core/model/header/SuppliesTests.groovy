@@ -38,7 +38,7 @@ class SuppliesTests {
 							<common:yarn id="main-color" message-key="yarn.main-color" symbol="MC">
 								<common:total-length unit="m">300</common:total-length>
 								<common:total-weight unit="g">100</common:total-weight>
-								<common:color name="watercolor" description="" number="233"/>
+								<common:color name="watercolor" description="" number="233" rgb-value="aabbcc"/>
 							</common:yarn>
 							<common:yarn id="contrasting-color"/>
 						</pattern:yarns>
@@ -112,6 +112,7 @@ class SuppliesTests {
 				assertThat name, is ('watercolor')
 				assertThat description, is ('')
 				assertThat number, is ('233')
+				assertThat rgbValue, is ('aabbcc')
 			}
 		}
 		yarns[1].with {

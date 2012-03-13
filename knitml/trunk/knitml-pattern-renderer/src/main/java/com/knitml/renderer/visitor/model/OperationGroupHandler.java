@@ -3,6 +3,7 @@ package com.knitml.renderer.visitor.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.common.RenderingException;
 import com.knitml.renderer.event.impl.AbstractEventHandler;
@@ -15,8 +16,9 @@ public class OperationGroupHandler extends AbstractEventHandler {
 
 	public boolean begin(Object element, Renderer renderer)
 			throws RenderingException {
-		// there may need to be future logic here if we want to render stitch
-		// groups differently?
-		return true;
+		// attempt to render the operation group together; if that fails, render the children individually
+		boolean wasRendered = renderer.renderOperationGroup((OperationGroup)element);
+		// if was not rendered, return (true meaning that the children should be processed)
+		return !wasRendered;
 	}
 }

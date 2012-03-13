@@ -7,7 +7,7 @@ public class AireRiverSymbolProvider extends
 
 	@Override
 	protected void initializeSymbols() {
-		symbols.put(K, "-"); // note that this is a blank space, not the | symbol
+		symbols.put(K, "-"); // or \u0067
 		symbols.put(P, "h");
 		symbols.put(SL, ",");
 		symbols.put(K_TW, "\u00f2");
@@ -28,7 +28,9 @@ public class AireRiverSymbolProvider extends
 		symbols.put(CDD, "v");
 		symbols.put(SK2P, "a");
 		symbols.put(DECREASE, "1");
-		symbols.put(NS, "z");
+		symbols.put(NS, "["); // or z
+		symbols.put(CBL_1_1_RC, "KL");
+		symbols.put(CBL_1_1_LC, "SD");
 	}
 
 }

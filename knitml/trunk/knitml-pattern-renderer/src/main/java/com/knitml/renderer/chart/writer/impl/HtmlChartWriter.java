@@ -31,8 +31,7 @@ public class HtmlChartWriter implements ChartWriter {
 		this.symbolProvider = symbolProvider;
 		if (symbolProvider instanceof StylesheetProvider) {
 			stylesheetClassPrefix = ((StylesheetProvider) symbolProvider)
-					.getStyleClassPrefix()
-					+ "-";
+					.getStyleClassPrefix() + "-";
 		}
 	}
 
@@ -55,14 +54,16 @@ public class HtmlChartWriter implements ChartWriter {
 			}
 
 			writer.write("<colgroup class=\"");
-			writer.write(stylesheetClassPrefix + "lhcol\" />" + SYSTEM_LINE_BREAK);
+			writer.write(stylesheetClassPrefix + "lhcol\" />"
+					+ SYSTEM_LINE_BREAK);
 			writer.write("<colgroup class=\"");
 			writer.write(stylesheetClassPrefix + "bodycol\" ");
 			writer.write("span=\"" + chart.getWidth() + "\" ");
 			writer.write("/>" + SYSTEM_LINE_BREAK);
 			writer.write("<colgroup class=\"");
-			writer.write(stylesheetClassPrefix + "rhcol\" />" + SYSTEM_LINE_BREAK);
-			
+			writer.write(stylesheetClassPrefix + "rhcol\" />"
+					+ SYSTEM_LINE_BREAK);
+
 			writer.write("<tbody>" + SYSTEM_LINE_BREAK);
 			while (graphIt.hasPrevious()) {
 				List<ChartElement> row = graphIt.previous();
@@ -79,28 +80,14 @@ public class HtmlChartWriter implements ChartWriter {
 					elementsUsed.add(element);
 					String symbol = symbolProvider.getSymbol(element);
 
-					if (symbol.length() > 1) { // as in an Aire River cable that
-						// spans x number of characters
-						for (int i = symbol.length() - 1; i >= 0; i--) {
-							writer.write("<td class=\"" + stylesheetClassPrefix
-									+ "cell\">");
-							writer.write(String.valueOf(symbol.charAt(i)));
-							writer.write("</td>");
-						}
-					} else {
-						writer.write("<td class=\"" + stylesheetClassPrefix
-								+ "cell\"");
-						if (element.width() > 1) {
-							// as in a Knitter's Symbols font that is one
-							// character but 4x as wide
-							writer
-									.write(" colspan=\"" + element.width()
-											+ "\"");
-						}
-						writer.write(">");
-						writer.write(symbol);
-						writer.write("</td>");
+					writer.write("<td class=\"" + stylesheetClassPrefix
+							+ "cell\"");
+					if (element.width() > 1) {
+						writer.write(" colspan=\"" + element.width() + "\"");
 					}
+					writer.write(">");
+					writer.write(symbol);
+					writer.write("</td>");
 				}
 
 				writer.write("<td>");
