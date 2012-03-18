@@ -8,5 +8,8 @@ public class AireRiverStylesheetProvider extends
 	public String getStyleClassPrefix() {
 		return "ar";
 	}
+	public String getStyleClassPrefix(String symbolSetId) {
+		return getStyleClassPrefix();
+	}
 
 }

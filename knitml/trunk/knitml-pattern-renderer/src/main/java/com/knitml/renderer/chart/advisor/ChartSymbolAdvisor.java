@@ -2,8 +2,9 @@ package com.knitml.renderer.chart.advisor;
 
 import com.knitml.renderer.chart.ChartElement;
 import com.knitml.renderer.chart.stylesheet.StylesheetProvider;
-import com.knitml.renderer.chart.symbol.SymbolProvider;
 import com.knitml.renderer.chart.symbol.NoSymbolFoundException;
+import com.knitml.renderer.chart.symbol.Symbol;
+import com.knitml.renderer.chart.symbol.SymbolProvider;
 
 
 public class ChartSymbolAdvisor implements SymbolProvider, StylesheetProvider {
@@ -17,7 +18,7 @@ public class ChartSymbolAdvisor implements SymbolProvider, StylesheetProvider {
 		this.stylesheetProvider = stylesheetProvider;
 	}
 
-	public String getSymbol(ChartElement element) throws NoSymbolFoundException {
+	public Symbol getSymbol(ChartElement element) throws NoSymbolFoundException {
 		return symbolProvider.getSymbol(element);
 	}
 
@@ -29,6 +30,10 @@ public class ChartSymbolAdvisor implements SymbolProvider, StylesheetProvider {
 		return stylesheetProvider.getStyleClassPrefix();
 	}
 
+	public String getStyleClassPrefix(String symbolSetId) {
+		return stylesheetProvider.getStyleClassPrefix(symbolSetId);
+	}
+	
 	public String getStylesheet() {
 		return stylesheetProvider.getStylesheet();
 	}

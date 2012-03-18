@@ -4,6 +4,7 @@ public interface StylesheetProvider {
 	
 	public String getMimeType();
 	public String getStylesheet();
+	public String getStyleClassPrefix(String symbolSetId);
 	public String getStyleClassPrefix();
 
 }

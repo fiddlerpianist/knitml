@@ -118,7 +118,7 @@ public class ValidationProgram {
 
 	public Pattern validate(Parameters parameters) throws SAXException,
 			JiBXException, IOException, KnittingEngineException {
-		KnittingContext context = contextFactory.createKnittingContext();
+		KnittingContext context = contextFactory.create();
 		context.setListenerManager(listenerManager);
 
 		// Document document = parameters.getDocument();

@@ -9,7 +9,7 @@ import static com.knitml.renderer.chart.ChartElement.SSK;
 import static com.knitml.renderer.chart.ChartElement.YO;
 
 public class KnittersSymbolsWSymbolProvider extends
-		AbstractSymbolProvider {
+		AbstractSingleSymbolSetProvider {
 
 	@Override
 	protected void initializeSymbols() {

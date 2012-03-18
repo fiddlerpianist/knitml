@@ -6,13 +6,17 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import com.knitml.validation.context.KnittingContext;
+import com.knitml.validation.context.KnittingContextFactory;
+import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
 
 public class ApplicationContextTests extends RunnerTests {
 
+	protected KnittingContextFactory knittingContextFactory = new DefaultKnittingContextFactory();
+	
 	@Test
 	public void verifyCorrectScopeOfBeansInValidationContext() throws Exception {
-		KnittingContext knittingContext1 = knittingContextFactory.createKnittingContext();
-		KnittingContext knittingContext2 = knittingContextFactory.createKnittingContext();
+		KnittingContext knittingContext1 = knittingContextFactory.create();
+		KnittingContext knittingContext2 = knittingContextFactory.create();
 
 		// these are prototype beans
 		assertThat(knittingContext1, not(knittingContext2));

@@ -10,11 +10,14 @@ import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.knitml.core.model.pattern.Parameters;
+import com.knitml.renderer.config.Configuration;
+import com.knitml.renderer.config.DefaultModule;
 import com.knitml.renderer.program.RendererProgram;
-import com.knitml.renderer.util.Configuration;
-import com.knitml.renderer.util.SpringConfigurationBuilder;
 import com.knitml.tools.runner.support.RunnerUtils;
+import com.knitml.tools.runner.support.SpringConfigurationBuilder;
 
 public class RenderPattern {
 
@@ -43,20 +46,21 @@ public class RenderPattern {
 		try {
 			// parse the command line arguments
 			CommandLine line = parser.parse(options, args);
-			String[] applicationContextFiles = line
-					.getOptionValues("config");
+
+			String[] applicationContextFiles = line.getOptionValues("config");
 			if (applicationContextFiles == null) {
 				applicationContextFiles = new String[] { "applicationContext-patternRenderer.xml" };
 			}
 			SpringConfigurationBuilder builder = new SpringConfigurationBuilder();
-			Parameters parameters = RunnerUtils.toParameters(line);
-
 			Configuration configuration = builder
 					.getConfiguration(applicationContextFiles);
-			RendererProgram renderer = new RendererProgram(configuration
-					.getRendererFactory());
-			renderer.setOptions(configuration.getOptions());
-			renderer.render(parameters);
+			Injector injector = Guice.createInjector(configuration.getModule(),
+					new DefaultModule());
+			RendererProgram program = injector
+					.getInstance(RendererProgram.class);
+			program.setOptions(configuration.getOptions());
+			Parameters parameters = RunnerUtils.toParameters(line);
+			program.render(parameters);
 		} catch (ParseException exp) {
 			// oops, something went wrong
 			System.err.println("Parsing failed.  Reason: " + exp.getMessage());

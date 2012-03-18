@@ -12,13 +12,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.measure.Measure;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.Range;
-import org.springframework.context.MessageSource;
+import org.springframework.context.HierarchicalMessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.io.DefaultResourceLoader;
 
+import com.google.inject.assistedinject.Assisted;
 import com.knitml.core.common.EnumUtils;
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.LoopToWork;
@@ -76,41 +80,49 @@ import com.knitml.renderer.impl.helpers.RepeatOperationSet;
 import com.knitml.renderer.impl.helpers.SimpleInstruction;
 import com.knitml.renderer.impl.helpers.WriterHelper;
 import com.knitml.renderer.plural.PluralRuleFactory;
-import com.knitml.renderer.plural.impl.DefaultPluralRuleFactory;
 
 public class BasicTextRenderer implements Renderer {
 
 	protected RenderingContext renderingContext;
 
 	// Helpers which contribute to the rendering effort
-	private WriterHelper writerHelper = new WriterHelper(); // points to a
-	// NullWriter by
-	// default
+	private WriterHelper writerHelper;
 	private MessageHelper messageHelper;
 	private HeaderHelper headerHelper;
 	private OperationSetHelper operationSetHelper;
 
 	private Map<String, OperationSet> inlineInstructionStore = new LinkedHashMap<String, OperationSet>();
-	private PluralRuleFactory pluralRuleFactory = new DefaultPluralRuleFactory();
 
 	private int sectionCount = 0;
 
 	private Set<Row> rowsRenderedForCurrentInstruction = new HashSet<Row>();
 	private boolean withinInstruction = false;
 
-	public BasicTextRenderer(RenderingContext context, Writer writer,
-			MessageSource messageSource) {
+	@Inject
+	public BasicTextRenderer(PluralRuleFactory pluralRuleFactory,
+			@Assisted RenderingContext context, @Assisted Writer writer) {
 		if (context == null) {
 			throw new IllegalArgumentException(
 					"A rendering context must be provided");
 		}
 		this.renderingContext = context;
-		if (writer != null) {
+		if (writer == null) {
+			writerHelper = new WriterHelper();
+		} else {
 			writerHelper = new WriterHelper(writer);
 		}
-		if (messageSource == null) {
-			throw new IllegalArgumentException(
-					"A message source must be provided");
+
+		// this is the base message source built into the pattern renderer
+		ReloadableResourceBundleMessageSource parent = new ReloadableResourceBundleMessageSource();
+		parent.setBasename("com/knitml/renderer/impl/operations");
+		// use the class loader that loaded this class
+		parent.setResourceLoader(new DefaultResourceLoader(this.getClass().getClassLoader()));
+		
+		HierarchicalMessageSource messageSource = context.getOptions().getProgramMessageSource();
+		if (messageSource != null) {
+			messageSource.setParentMessageSource(parent);
+		} else {
+			messageSource = parent;
 		}
 		messageHelper = new MessageHelper(messageSource, pluralRuleFactory,
 				context.getOptions().getLocale());
@@ -996,10 +1008,11 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public boolean renderOperationGroup(OperationGroup group) {
-		// return false means we didn't render and we'll let the children be processed as if the group isn't there 
+		// return false means we didn't render and we'll let the children be
+		// processed as if the group isn't there
 		return false;
 	}
-	
+
 	public void renderRemoveMarker() {
 		getOperationSetHelper().writeOperation(
 				getMessage("operation.remove-marker"));
@@ -1118,10 +1131,6 @@ public class BasicTextRenderer implements Renderer {
 
 	protected OperationSetHelper getOperationSetHelper() {
 		return operationSetHelper;
-	}
-
-	public void setPluralRuleFactory(PluralRuleFactory pluralRuleFactory) {
-		this.pluralRuleFactory = pluralRuleFactory;
 	}
 
 	public Instruction evaluateInstruction(Instruction instruction,

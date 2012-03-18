@@ -36,6 +36,11 @@ public class OperationGroupBuilder {
 		operations.add(op);
 		return this;
 	}
+	public OperationGroupBuilder rc(int x, int y) {
+		CrossStitches op = new CrossStitches(x, BACK, y);
+		operations.add(op);
+		return this;
+	}
 	public OperationGroupBuilder rc(int x, int m, int y) {
 		CrossStitches op = new CrossStitches(x, m, y, BACK, BACK);
 		operations.add(op);

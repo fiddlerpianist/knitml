@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="C:/Documents and Settings/I264193/.m2/repository/org/hamcrest/hamcrest-all/1.1/hamcrest-all-1.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry exported="true" kind="con" path="GROOVY_DSL_SUPPORT"/>
+	<classpathentry kind="lib" path="/Dropins/guice-assistedinject-3.0.jar" sourcepath="C:/Documents and Settings/I264193/.m2/repository/com/google/inject/extensions/guice-assistedinject/3.0/guice-assistedinject-3.0-sources.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

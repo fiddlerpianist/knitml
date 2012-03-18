@@ -20,9 +20,9 @@ public abstract class AbstractCssProvider implements StylesheetProvider {
 		try {
 //			String basePackagePath = this.getClass().getPackage().getName()
 //					.replace('.', '/');
-			Resource knittersSymbolsStylesheet = new ClassPathResource(getRelativePathToCssFile(), this.getClass());
+			Resource stylesheetResource = new ClassPathResource(getRelativePathToCssFile(), this.getClass());
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					knittersSymbolsStylesheet.getInputStream()));
+					stylesheetResource.getInputStream()));
 			Writer writer = new StringWriter(1024);
 			String buffer = reader.readLine();
 			while (buffer != null) {
@@ -50,4 +50,5 @@ public abstract class AbstractCssProvider implements StylesheetProvider {
 		return getStyleClassPrefix() + ".css";
 	}
 
+	
 }

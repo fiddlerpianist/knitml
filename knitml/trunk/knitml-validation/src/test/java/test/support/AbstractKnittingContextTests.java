@@ -51,7 +51,7 @@ public abstract class AbstractKnittingContextTests {
 	@Before
 	public final void setUp() throws Exception {
 		knittingContextFactory = new DefaultKnittingContextFactory();
-		knittingContext = knittingContextFactory.createKnittingContext();
+		knittingContext = knittingContextFactory.create();
 		engine = knittingContext.getEngine();
 		visitorFactory = new DefaultVisitorFactory();
 		onSetItUp();

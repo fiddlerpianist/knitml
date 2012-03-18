@@ -7,7 +7,7 @@ package com.knitml.validation.context;
 
 public interface KnittingContextFactory {
 	
-	KnittingContext createKnittingContext();
+	KnittingContext create();
 	void shutdown();
 
 }

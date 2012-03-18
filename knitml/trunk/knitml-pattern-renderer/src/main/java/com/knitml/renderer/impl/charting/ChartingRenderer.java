@@ -1,14 +1,20 @@
 package com.knitml.renderer.impl.charting;
 
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
+import com.google.inject.assistedinject.Assisted;
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.model.common.Needle;
 import com.knitml.core.model.common.StitchesOnNeedle;
 import com.knitml.core.model.common.Yarn;
+import com.knitml.core.model.operations.DiscreteInlineOperation;
 import com.knitml.core.model.operations.block.CastOn;
 import com.knitml.core.model.operations.block.DeclareFlatKnitting;
 import com.knitml.core.model.operations.block.Instruction;
@@ -34,18 +40,17 @@ import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
 import com.knitml.core.model.operations.inline.Purl;
 import com.knitml.core.model.operations.inline.Repeat;
+import com.knitml.core.model.operations.inline.Repeat.Until;
 import com.knitml.core.model.operations.inline.Slip;
 import com.knitml.core.model.operations.inline.SlipToStitchHolder;
 import com.knitml.core.model.operations.inline.WorkEven;
-import com.knitml.core.model.operations.inline.Repeat.Until;
 import com.knitml.core.model.pattern.GeneralInformation;
 import com.knitml.core.model.pattern.Pattern;
 import com.knitml.core.model.pattern.Section;
 import com.knitml.core.model.pattern.Supplies;
+import com.knitml.renderer.BaseRendererFactory;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.symbol.SymbolProviderRegistry;
-import com.knitml.renderer.chart.writer.ChartWriterFactory;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.Options;
 import com.knitml.renderer.context.RenderingContext;
@@ -54,36 +59,36 @@ import com.knitml.renderer.impl.charting.analyzer.ChartingAnalyzer;
 
 public class ChartingRenderer implements Renderer {
 
-	// properties that can be set by the client
-	private Renderer fallbackRenderer;
+	// properties injected through the constructor
+	@Inject
+	private Provider<ChartProducer> chartProducerProvider;
+
+	// properties assisted through the factory (also from constructor)
 	private RenderingContext renderingContext;
 
-	private InstructionInfo currentChartingInstruction = null;
+	// initialized once
 	private ChartingAnalyzer analyzer;
+	private Renderer fallbackRenderer;
+	private InstructionInfo currentChartingInstruction = null;
 	private Map<String, Analysis> instructionIdToAnalysisMap = new HashMap<String, Analysis>();
-	private StringWriter chartOutput;
-	private ChartProducer chartProducer;
+	
+	// initialized per chart
 	private Renderer delegate;
+	private ChartProducer chartProducer;
+	private StringWriter chartOutput;
 
-	public ChartingRenderer(Renderer fallbackRenderer, RenderingContext renderingContext,
-			ChartWriterFactory chartWriterFactory,
-			SymbolProviderRegistry registry) {
-		if (chartWriterFactory == null || fallbackRenderer == null) {
-			throw new IllegalArgumentException(
-					"The chartWriterFactory and fallbackRenderer parameters must be set");
-		}
-		
-		this.fallbackRenderer = fallbackRenderer;
-		// initially set the fallback renderer as the delegate
-		this.delegate = fallbackRenderer;
-		
+	@Inject
+	public ChartingRenderer(
+			@Assisted RenderingContext renderingContext,
+			@Assisted Writer writer,
+			BaseRendererFactory baseRendererFactory,
+			Provider<ChartProducer> chartProducerProvider) {
 		this.renderingContext = renderingContext;
-		
-		// derive the charting analyzer
-		analyzer = new ChartingAnalyzer(renderingContext);
-		// derive the chart producer
-		chartProducer = new ChartProducer(chartWriterFactory, registry);
-		chartProducer.setRenderingContext(renderingContext);
+		this.analyzer = new ChartingAnalyzer(renderingContext);
+		this.fallbackRenderer = baseRendererFactory.create(renderingContext, writer);
+		// the delegate starts off as the non-charting renderer
+		this.delegate = fallbackRenderer;
+		this.chartProducerProvider = chartProducerProvider;
 	}
 
 	protected boolean isCharting() {
@@ -94,23 +99,30 @@ public class ChartingRenderer implements Renderer {
 		return chartProducer.getChart().getGraph();
 	}
 
+	protected Map<ChartElement, DiscreteInlineOperation> getLegend() {
+		return chartProducer.getChart().getLegend();
+	}
+
 	protected void beginCharting(InstructionInfo instructionInfo,
 			Analysis analysis) {
-		this.chartProducer.setAnalysis(analysis);
-		this.chartOutput = new StringWriter(512);
-		this.chartProducer.setWriter(chartOutput);
-		this.delegate = this.chartProducer;
-		this.currentChartingInstruction = instructionInfo;
+		chartProducer = chartProducerProvider.get();
+		chartProducer.setRenderingContext(renderingContext);
+		chartProducer.setAnalysis(analysis);
+		chartOutput = new StringWriter(512);
+		chartProducer.setWriter(chartOutput);
+		delegate = chartProducer;
+		currentChartingInstruction = instructionInfo;
 	}
 
 	protected void endCharting() {
-		this.delegate = this.fallbackRenderer;
-		this.chartProducer.setWriter(null);
-		this.chartProducer.setAnalysis(null);
-		this.currentChartingInstruction = null;
+		delegate = fallbackRenderer;
+		chartProducer.setWriter(null);
+		chartProducer.setAnalysis(null);
+		currentChartingInstruction = null;
 	}
 
-	public Instruction evaluateInstruction(Instruction instruction, RepeatInstruction repeatInstruction) {
+	public Instruction evaluateInstruction(Instruction instruction,
+			RepeatInstruction repeatInstruction) {
 		return doEvaluateInstruction(instruction, repeatInstruction, false);
 	}
 
@@ -118,12 +130,12 @@ public class ChartingRenderer implements Renderer {
 		return doEvaluateInstruction(instruction, null, true);
 	}
 
-	protected Instruction doEvaluateInstruction(Instruction instruction, RepeatInstruction repeatInstruction,
-			boolean definitionOnly) {
+	protected Instruction doEvaluateInstruction(Instruction instruction,
+			RepeatInstruction repeatInstruction, boolean definitionOnly) {
 		Options options = renderingContext.getOptions();
 		if (options.shouldChart(instruction)) {
-			Analysis analysis = analyzer.analyzeInstruction(instruction, repeatInstruction,
-					definitionOnly);
+			Analysis analysis = analyzer.analyzeInstruction(instruction,
+					repeatInstruction, definitionOnly);
 			if (analysis.isChartable()) {
 				instructionIdToAnalysisMap.put(instruction.getId(), analysis);
 				return analysis.getInstructionToUse();
@@ -158,8 +170,8 @@ public class ChartingRenderer implements Renderer {
 			// this means that the delegate is the ChartProducer, so
 			// set the text to be rendered into the InstructionInfo object
 			// and call begin() and end() on the fallback renderer
-			InstructionInfo instructionInfo = this.currentChartingInstruction;
-			instructionInfo.setRenderedText(this.chartOutput.toString());
+			InstructionInfo instructionInfo = currentChartingInstruction;
+			instructionInfo.setRenderedText(chartOutput.toString());
 			fallbackRenderer.beginInstruction(instructionInfo);
 			fallbackRenderer.endInstruction();
 			endCharting();
@@ -173,8 +185,8 @@ public class ChartingRenderer implements Renderer {
 			// this means that the delegate is the ChartProducer, so
 			// set the text to be rendered into the InstructionInfo object
 			// and call begin() and end() on the fallback renderer
-			InstructionInfo instructionInfo = this.currentChartingInstruction;
-			instructionInfo.setRenderedText(this.chartOutput.toString());
+			InstructionInfo instructionInfo = currentChartingInstruction;
+			instructionInfo.setRenderedText(chartOutput.toString());
 			fallbackRenderer.beginInstructionDefinition(instructionInfo);
 			fallbackRenderer.endInstructionDefinition();
 			endCharting();
@@ -321,7 +333,7 @@ public class ChartingRenderer implements Renderer {
 	public void renderCastOn(CastOn castOn) {
 		delegate.renderCastOn(castOn);
 	}
-	
+
 	public void renderCastOn(InlineCastOn castOn) {
 		delegate.renderCastOn(castOn);
 	}
@@ -394,7 +406,7 @@ public class ChartingRenderer implements Renderer {
 	public void renderNoStitch(NoStitch noStitch) {
 		delegate.renderNoStitch(noStitch);
 	}
-	
+
 	public void renderPurl(Purl purl) {
 		delegate.renderPurl(purl);
 	}
@@ -422,7 +434,7 @@ public class ChartingRenderer implements Renderer {
 	public void renderSlipToStitchHolder(SlipToStitchHolder operation) {
 		delegate.renderSlipToStitchHolder(operation);
 	}
-	
+
 	public void renderWorkEven(WorkEven operation) {
 		delegate.renderWorkEven(operation);
 	}

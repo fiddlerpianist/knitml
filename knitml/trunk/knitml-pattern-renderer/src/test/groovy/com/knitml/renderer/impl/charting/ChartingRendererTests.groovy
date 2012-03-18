@@ -1,25 +1,21 @@
 package com.knitml.renderer.impl.charting
 
+import static com.knitml.renderer.chart.ChartElement.*
 import static org.hamcrest.CoreMatchers.is
 import static org.hamcrest.CoreMatchers.not
 import static org.junit.Assert.assertThat
-import static com.knitml.renderer.chart.ChartElement.*
-import static test.support.JiBXUtils.parseXml 
+import static test.support.JiBXUtils.parseXml
+
+import org.junit.Test
 
 import test.support.AbstractRenderingContextTests
+import test.support.ChartingRendererTestModule
+import test.support.GuiceJUnit4Runner.GuiceModules
 
 
-import org.junit.Ignore 
-import org.junit.Test
-import org.junit.runner.RunWith
-
-
+@GuiceModules( ChartingRendererTestModule )
 class ChartingRendererTests extends AbstractRenderingContextTests {
 	
-	@Override
-	protected String[] getConfigLocations() {
-		return ["applicationContext-patternRenderer-charting-logicalOnly.xml"]
-	}
 	@Test
 	public void flatChart() {
 		processXml PATTERN_START_TAG + '''

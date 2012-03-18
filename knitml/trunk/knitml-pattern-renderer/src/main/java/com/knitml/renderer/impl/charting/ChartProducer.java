@@ -1,14 +1,34 @@
 package com.knitml.renderer.impl.charting;
 
+import static com.knitml.renderer.chart.ChartElement.DECREASE;
+import static com.knitml.renderer.chart.ChartElement.K;
+import static com.knitml.renderer.chart.ChartElement.K2TOG;
+import static com.knitml.renderer.chart.ChartElement.K2TOG_TBL;
+import static com.knitml.renderer.chart.ChartElement.K_TW;
+import static com.knitml.renderer.chart.ChartElement.M1;
+import static com.knitml.renderer.chart.ChartElement.M1P;
+import static com.knitml.renderer.chart.ChartElement.NS;
+import static com.knitml.renderer.chart.ChartElement.P;
+import static com.knitml.renderer.chart.ChartElement.P2TOG;
+import static com.knitml.renderer.chart.ChartElement.P2TOG_TBL;
+import static com.knitml.renderer.chart.ChartElement.P_TW;
+import static com.knitml.renderer.chart.ChartElement.SKP;
+import static com.knitml.renderer.chart.ChartElement.SL;
+import static com.knitml.renderer.chart.ChartElement.SSK;
+import static com.knitml.renderer.chart.ChartElement.SSP;
+import static com.knitml.renderer.chart.ChartElement.YO;
+
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.apache.commons.lang.NotImplementedException;
 
 import com.google.common.collect.BiMap;
-import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.EnumBiMap;
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.LoopToWork;
 import com.knitml.core.common.Side;
@@ -16,6 +36,7 @@ import com.knitml.core.compatibility.Stack;
 import com.knitml.core.model.common.Needle;
 import com.knitml.core.model.common.StitchesOnNeedle;
 import com.knitml.core.model.common.Yarn;
+import com.knitml.core.model.operations.DiscreteInlineOperation;
 import com.knitml.core.model.operations.block.CastOn;
 import com.knitml.core.model.operations.block.DeclareFlatKnitting;
 import com.knitml.core.model.operations.block.Instruction;
@@ -41,10 +62,10 @@ import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
 import com.knitml.core.model.operations.inline.Purl;
 import com.knitml.core.model.operations.inline.Repeat;
+import com.knitml.core.model.operations.inline.Repeat.Until;
 import com.knitml.core.model.operations.inline.Slip;
 import com.knitml.core.model.operations.inline.SlipToStitchHolder;
 import com.knitml.core.model.operations.inline.WorkEven;
-import com.knitml.core.model.operations.inline.Repeat.Until;
 import com.knitml.core.model.pattern.GeneralInformation;
 import com.knitml.core.model.pattern.Pattern;
 import com.knitml.core.model.pattern.Section;
@@ -54,10 +75,7 @@ import com.knitml.renderer.Renderer;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
 import com.knitml.renderer.chart.ChartElementFinder;
-import com.knitml.renderer.chart.symbol.SymbolProvider;
-import com.knitml.renderer.chart.symbol.SymbolProviderRegistry;
 import com.knitml.renderer.chart.writer.ChartWriter;
-import com.knitml.renderer.chart.writer.ChartWriterFactory;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.impl.charting.analyzer.Analysis;
@@ -76,27 +94,29 @@ import com.knitml.renderer.impl.charting.analyzer.RowInfo;
  */
 class ChartProducer implements Renderer {
 
-	private static BiMap<ChartElement, ChartElement> symbolInverseMap = new ImmutableBiMap.Builder<ChartElement, ChartElement>()
-			.put(ChartElement.P, ChartElement.K)
-			.put(ChartElement.P_TW, ChartElement.K_TW)
-			.put(ChartElement.P2TOG, ChartElement.K2TOG)
-			.put(ChartElement.P2TOG_TBL, ChartElement.K2TOG_TBL)
-			.put(ChartElement.SSP, ChartElement.SSK)
-			.put(ChartElement.SKP, ChartElement.SSP).build();
+	private static BiMap<ChartElement, ChartElement> symbolInverseMap = EnumBiMap.create(ChartElement.class, ChartElement.class);
+	
+	static {
+		symbolInverseMap.put(P, K);
+		symbolInverseMap.put(P_TW, K_TW);
+		symbolInverseMap.put(P2TOG, K2TOG);
+		symbolInverseMap.put(P2TOG_TBL, K2TOG_TBL);
+		symbolInverseMap.put(SSP, SSK);
+		symbolInverseMap.put(SKP, SSP);
+	}
 
 	// fields which should be set before calling begin() methods
 	/**
 	 * Used for creating a ChartWriter. A ChartWriter writes to particular format (text, HTML, etc.)
 	 */
-	private ChartWriterFactory chartWriterFactory;
-	/**
-	 * Used for finding a SymbolProvider. Symbol providers map logical {@link ChartElement}s to rendered output.
-	 */
-	private SymbolProviderRegistry registry;
+	@Inject
+	private ChartWriter chartWriter;
+	
 	/**
 	 * Directs the output.
 	 */
 	private Writer writer;
+	
 	/**
 	 * Provides an up-front (pass 1) analysis of the chart to be rendered.
 	 */
@@ -119,11 +139,11 @@ class ChartProducer implements Renderer {
 
 	private RenderingContext renderingContext;
 
-	public ChartProducer(ChartWriterFactory chartWriterFactory,
-			SymbolProviderRegistry registry) {
-		this.chartWriterFactory = chartWriterFactory;
-		this.registry = registry;
-	}
+//	public ChartProducer(ChartWriterFactory chartWriterFactory,
+//			SymbolProviderRegistry registry) {
+//		this.chartWriterFactory = chartWriterFactory;
+//		this.registry = registry;
+//	}
 
 	public void setAnalysis(Analysis analysis) {
 		this.analysis = analysis;
@@ -203,10 +223,7 @@ class ChartProducer implements Renderer {
 	}
 
 	public void endInstruction() {
-		// TODO pass an ID to use somehow
-		SymbolProvider translator = registry.getSymbolProvider(null);
-		ChartWriter writer = chartWriterFactory.createChartWriter(translator);
-		writer.writeChart(chart, this.writer);
+		chartWriter.writeChart(chart, this.writer);
 	}
 
 	public void beginInlineInstruction(InlineInstruction instruction) {
@@ -217,7 +234,7 @@ class ChartProducer implements Renderer {
 		// Do nothing, as the children will get visited
 	}
 
-	protected void add(ChartElement point) {
+	protected void add(ChartElement point, DiscreteInlineOperation operation) {
 		if (isWithinRepeatSet()) {
 			getCurrentRepeatSet().addOperation(point);
 		} else {
@@ -226,6 +243,9 @@ class ChartProducer implements Renderer {
 			} else {
 				currentRow.add(point);
 			}
+		}
+		if (operation != null) {
+			chart.addToLegend(point, operation);
 		}
 	}
 
@@ -249,7 +269,7 @@ class ChartProducer implements Renderer {
 	public void endRow(Row row, KnittingShape doNotUseThisVariable) {
 		// pad whatever is left with no-stitch elements
 		for (int i = currentRowInfo.getRowWidth(); i < analysis.getMaxWidth(); i++) {
-			currentRow.add(ChartElement.NS);
+			currentRow.add(NS);
 		}
 
 		// release currentRow... it has already been added to the chart in
@@ -286,7 +306,7 @@ class ChartProducer implements Renderer {
 			// work repeat set
 			for (Object operation : repeatSet) {
 				if (operation instanceof ChartElement) {
-					add((ChartElement) operation);
+					add((ChartElement) operation, null);
 				} else {
 					// recurse through the nested repeat
 					addRepeatSetToRow((RepeatSet) operation);
@@ -313,22 +333,22 @@ class ChartProducer implements Renderer {
 						ex);
 			}
 		} else {
-			point = ChartElement.DECREASE;
+			point = DECREASE;
 		}
 		for (int i = 0; i < times; i++) {
-			add(point);
+			add(point, decrease);
 		}
 	}
 
 	public void renderKnit(Knit knit) {
-		ChartElement chartElement = ChartElement.K;
+		ChartElement chartElement = K;
 		if (knit.getLoopToWork() == LoopToWork.TRAILING) {
-			chartElement = ChartElement.K_TW;
+			chartElement = K_TW;
 		}
 		int times = knit.getNumberOfTimes() == null ? 1 : knit
 				.getNumberOfTimes();
 		for (int i = 0; i < times; i++) {
-			add(chartElement);
+			add(chartElement, knit);
 		}
 	}
 
@@ -336,7 +356,7 @@ class ChartProducer implements Renderer {
 		int times = noStitch.getNumberOfStitches() == null ? 1 : noStitch
 				.getNumberOfStitches();
 		for (int i = 0; i < times; i++) {
-			add(ChartElement.NS);
+			add(NS, noStitch);
 		}
 	}
 
@@ -350,14 +370,14 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderPurl(Purl purl) {
-		ChartElement chartElement = ChartElement.P;
+		ChartElement chartElement = P;
 		if (purl.getLoopToWork() == LoopToWork.TRAILING) {
-			chartElement = ChartElement.P_TW;
+			chartElement = P_TW;
 		}
 		int times = purl.getNumberOfTimes() == null ? 1 : purl
 				.getNumberOfTimes();
 		for (int i = 0; i < times; i++) {
-			add(chartElement);
+			add(chartElement, purl);
 		}
 	}
 
@@ -369,7 +389,7 @@ class ChartProducer implements Renderer {
 		int times = slip.getNumberOfTimes() == null ? 1 : slip
 				.getNumberOfTimes();
 		for (int i = 0; i < times; i++) {
-			add(ChartElement.SL);
+			add(SL, slip);
 		}
 	}
 
@@ -378,17 +398,17 @@ class ChartProducer implements Renderer {
 				.getNumberOfTimes();
 		ChartElement point = null;
 		if (increase.getType() == null) {
-			point = ChartElement.M1;
+			point = M1;
 		} else {
 			switch (increase.getType()) {
 			case M1:
-				point = ChartElement.M1;
+				point = M1;
 				break;
 			case YO:
-				point = ChartElement.YO;
+				point = YO;
 				break;
 			case M1P:
-				point = ChartElement.M1P;
+				point = M1P;
 				break;
 			default:
 				throw new RuntimeException(
@@ -396,14 +416,14 @@ class ChartProducer implements Renderer {
 			}
 		}
 		for (int i = 0; i < times; i++) {
-			add(point);
+			add(point, increase);
 		}
 	}
 
 	public boolean renderOperationGroup(OperationGroup group) {
 		ChartElement element = finder.findChartElement(group.canonicalizeGroup());
 		if (element != null) {
-			add(element);
+			add(element, group);
 			return true;
 		}
 		// not able to assign this group to a chart element; process them individually

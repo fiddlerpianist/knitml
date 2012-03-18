@@ -1,25 +1,27 @@
 package com.knitml.tools.runner
 
 
-import javax.xml.validation.*
 import javax.xml.transform.*
+import javax.xml.validation.*
 
-
-import org.apache.commons.cli.Option
-import org.apache.commons.cli.Options
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.CommandLineParser
 import org.apache.commons.cli.GnuParser
+import org.apache.commons.cli.Option
+import org.apache.commons.cli.Options
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import com.google.inject.Guice
+import com.google.inject.Injector
 import com.knitml.core.model.pattern.Parameters
 import com.knitml.core.model.pattern.Pattern
-import com.knitml.renderer.program.RendererProgram
-import com.knitml.renderer.util.SpringConfigurationBuilder
-import com.knitml.renderer.util.Configuration
 import com.knitml.el.KelProgram
+import com.knitml.renderer.config.Configuration
+import com.knitml.renderer.config.DefaultModule
+import com.knitml.renderer.program.RendererProgram
 import com.knitml.tools.runner.support.RunnerUtils
+import com.knitml.tools.runner.support.SpringConfigurationBuilder
 
 class ConvertAndRenderPattern {
 
@@ -67,7 +69,8 @@ class ConvertAndRenderPattern {
 		SpringConfigurationBuilder builder = new SpringConfigurationBuilder()
 
 		Configuration configuration = builder.getConfiguration(applicationContextFiles)
-		RendererProgram renderer = new RendererProgram(configuration.rendererFactory)
+		Injector injector = Guice.createInjector(configuration.getModule(), new DefaultModule())
+		RendererProgram renderer = injector.getInstance(RendererProgram)
 		renderer.setOptions(configuration.options)
 		renderer.render(parameters)
 	}
