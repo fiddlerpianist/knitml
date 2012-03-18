@@ -1,20 +1,21 @@
 package com.knitml.tools.runner;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
 
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.runner.JUnitCore
-import org.springframework.core.io.ClassPathResource;
+import org.junit.After
+import org.junit.BeforeClass
+import org.junit.Test
+import org.springframework.core.io.ClassPathResource
 
+import com.google.inject.Guice;
+import com.google.inject.Inject
 import com.knitml.core.model.pattern.Parameters
-import com.knitml.core.model.pattern.Pattern
 import com.knitml.el.KelProgram
+import com.knitml.validation.context.KnittingContextFactory
+import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
 
 class PatternFullTransformationTests extends RunnerTests {
 

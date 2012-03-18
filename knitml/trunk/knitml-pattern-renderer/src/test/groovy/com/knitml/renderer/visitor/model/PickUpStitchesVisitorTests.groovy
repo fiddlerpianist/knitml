@@ -1,18 +1,15 @@
 package com.knitml.renderer.visitor.model
 
 import static org.hamcrest.CoreMatchers.is
-import static org.hamcrest.text.StringStartsWith.startsWith
 import static org.junit.Assert.assertThat
 
-import org.junit.Test
 import org.junit.Before
-import org.junit.runner.JUnitCore
-
-import com.knitml.core.model.common.Yarn;
-import com.knitml.core.model.operations.block.Row;
-import com.knitml.core.model.operations.inline.InlinePickUpStitches;
+import org.junit.Test
 
 import test.support.AbstractRenderingContextTests
+
+import com.knitml.core.model.common.Yarn
+import com.knitml.core.model.operations.inline.InlinePickUpStitches
 
 class PickUpStitchesVisitorTests extends AbstractRenderingContextTests {
 

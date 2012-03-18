@@ -1,10 +1,14 @@
 package com.knitml.renderer.chart;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
+import com.knitml.core.model.operations.DiscreteInlineOperation;
+import com.knitml.core.model.operations.inline.OperationGroup;
 
 /**
  * <p>
@@ -27,6 +31,10 @@ import com.knitml.core.common.Side;
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)
  * 
  */
+/**
+ * @author i264193
+ *
+ */
 public class Chart {
 
 	private KnittingShape shape = KnittingShape.FLAT;
@@ -34,7 +42,13 @@ public class Chart {
 	private int width;
 	private Side startingSide = Side.RIGHT;
 	private List<List<ChartElement>> graph;
+	private Map<ChartElement, DiscreteInlineOperation> legend = new EnumMap<ChartElement, DiscreteInlineOperation>(
+			ChartElement.class);
 	private String title;
+
+	public Map<ChartElement, DiscreteInlineOperation> getLegend() {
+		return legend;
+	}
 
 	public Chart() {
 		this.graph = new ArrayList<List<ChartElement>>();
@@ -42,6 +56,17 @@ public class Chart {
 
 	public Chart(List<List<ChartElement>> graph) {
 		this.graph = graph;
+	}
+
+	public void addToLegend(ChartElement chartElement,
+			DiscreteInlineOperation operation) {
+		if (!legend.containsKey(chartElement)) {
+			DiscreteInlineOperation singleOp = operation;
+			if (!(operation instanceof OperationGroup)) {
+				singleOp = operation.canonicalize().get(0);
+			}
+			legend.put(chartElement, singleOp);
+		}
 	}
 
 	public KnittingShape getShape() {

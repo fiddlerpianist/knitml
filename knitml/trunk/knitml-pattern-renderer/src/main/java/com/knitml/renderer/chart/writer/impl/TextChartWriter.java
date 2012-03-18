@@ -7,6 +7,8 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
+
 import org.apache.commons.lang.StringUtils;
 
 import com.knitml.core.common.KnittingShape;
@@ -14,6 +16,7 @@ import com.knitml.core.common.Side;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
 import com.knitml.renderer.chart.symbol.NoSymbolFoundException;
+import com.knitml.renderer.chart.symbol.Symbol;
 import com.knitml.renderer.chart.symbol.SymbolProvider;
 import com.knitml.renderer.chart.writer.ChartWriter;
 
@@ -26,6 +29,7 @@ public class TextChartWriter implements ChartWriter {
 	private static final String LINE_BREAK = System
 			.getProperty("line.separator");
 
+	@Inject
 	public TextChartWriter(SymbolProvider symbolProvider) {
 		super();
 		this.symbolProvider = symbolProvider;
@@ -63,12 +67,16 @@ public class TextChartWriter implements ChartWriter {
 					writer.write(StringUtils.rightPad("", fillCount));
 				}
 				writer.write(rowDelimiter);
-				
+				String symbolSetId = null;
 				while (rowIt.hasPrevious()) {
 					ChartElement element = rowIt.previous();
 					elementsUsed.add(element);
-					String symbol = symbolProvider.getSymbol(element);
-					writer.write(symbol);
+					Symbol symbol = symbolProvider.getSymbol(element);
+					if (symbolSetId != null && !symbolSetId.equals(symbol.getSymbolSetId())) {
+						throw new CannotRenderSymbolException("A TextChartWriter cannot render more than one symbol set from a given SymbolProvider");
+					}
+					symbolSetId = symbol.getSymbolSetId();
+					writer.write(symbol.getSymbol());
 				}
 
 				writer.write(rowDelimiter);
@@ -84,7 +92,7 @@ public class TextChartWriter implements ChartWriter {
 			writer.write(LINE_BREAK);
 			for (ChartElement element : elementsUsed) {
 				// FIXME non-internationalized, not to mention ugly
-				writer.write(symbolProvider.getSymbol(element) + suffix + " "
+				writer.write(symbolProvider.getSymbol(element).getSymbol() + suffix + " "
 						+ element.toString().toLowerCase());
 				writer.write(LINE_BREAK);
 			}

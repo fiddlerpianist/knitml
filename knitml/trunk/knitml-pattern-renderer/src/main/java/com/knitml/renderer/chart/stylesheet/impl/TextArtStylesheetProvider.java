@@ -8,5 +8,8 @@ public class TextArtStylesheetProvider extends
 	public String getStyleClassPrefix() {
 		return "txt";
 	}
+	public String getStyleClassPrefix(String symbolSetId) {
+		return getStyleClassPrefix();
+	}
 
 }

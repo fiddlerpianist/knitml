@@ -9,7 +9,7 @@ import com.knitml.validation.context.KnittingContextFactory;
 
 public class DefaultKnittingContextFactory implements KnittingContextFactory {
 
-	public KnittingContext createKnittingContext() {
+	public KnittingContext create() {
 		KnittingContext context = new KnittingContext();
 		KnittingFactory knittingFactory = new DefaultKnittingFactory();
 		KnittingEngine engine = new DefaultKnittingEngine(knittingFactory);

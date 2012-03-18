@@ -1,12 +1,14 @@
 package com.knitml.renderer.listener;
 
+import javax.inject.Inject;
+
+import com.google.inject.assistedinject.Assisted;
 import com.knitml.core.model.operations.CompositeOperation;
 import com.knitml.core.model.pattern.Directives;
 import com.knitml.core.model.pattern.Pattern;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.event.EventHandler;
 import com.knitml.renderer.event.EventHandlerFactory;
-import com.knitml.renderer.event.impl.DefaultEventHandlerFactory;
 import com.knitml.renderer.event.impl.DefaultNameResolver;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.PatternEventListener;
@@ -17,11 +19,14 @@ import com.knitml.validation.context.PatternEventListener;
  */
 public class RenderingListenerAdapter implements PatternEventListener {
 
-	public RenderingListenerAdapter(Renderer renderer) {
+	@Inject
+	RenderingListenerAdapter(EventHandlerFactory eventHandlerFactory,
+			@Assisted Renderer renderer) {
 		this.renderer = renderer;
+		this.eventHandlerFactory = eventHandlerFactory;
 	}
 
-	private EventHandlerFactory eventHandlerFactory = new DefaultEventHandlerFactory();
+	private EventHandlerFactory eventHandlerFactory;
 	private Renderer renderer;
 	private int currentDepth = 0;
 	private Integer ignoreBelowDepth;
@@ -50,7 +55,7 @@ public class RenderingListenerAdapter implements PatternEventListener {
 		} else {
 			visitor = eventHandlerFactory.findEventHandlerFromClassName(object);
 		}
-		
+
 		if (object instanceof Directives) {
 			// now set this variable to true, once we've retrieved the
 			// directives visitor
@@ -59,7 +64,8 @@ public class RenderingListenerAdapter implements PatternEventListener {
 
 		// if it's a CompositeOperation, add to the operation tree
 		if (object instanceof CompositeOperation) {
-			renderer.getRenderingContext().getPatternState().getOperationTree().push((CompositeOperation)object);
+			renderer.getRenderingContext().getPatternState().getOperationTree()
+					.push((CompositeOperation) object);
 		}
 		boolean processChildren = visitor.begin(object, renderer);
 		if (!processChildren) {
@@ -101,7 +107,8 @@ public class RenderingListenerAdapter implements PatternEventListener {
 		visitor.end(object, renderer);
 		// if it's a CompositeOperation, add to the operation tree
 		if (object instanceof CompositeOperation) {
-			 renderer.getRenderingContext().getPatternState().getOperationTree().pop();
+			renderer.getRenderingContext().getPatternState().getOperationTree()
+					.pop();
 		}
 	}
 
@@ -109,10 +116,6 @@ public class RenderingListenerAdapter implements PatternEventListener {
 		// never desire repeats (we may want to for InstructionRef objects, but
 		// we haven't gotten there yet)
 		return false;
-	}
-
-	public void setEventHandlerFactory(EventHandlerFactory eventHandlerFactory) {
-		this.eventHandlerFactory = eventHandlerFactory;
 	}
 
 }

@@ -78,8 +78,4 @@ class BindOffVisitorTests extends AbstractRenderingContextTests {
 		assertThat output, is ("with 'A', bind off 5 stitches purlwise")
 	}
 
-	static void main(args) {
-		JUnitCore.main(BindOffVisitorTests.name)
-	}
-	
 }

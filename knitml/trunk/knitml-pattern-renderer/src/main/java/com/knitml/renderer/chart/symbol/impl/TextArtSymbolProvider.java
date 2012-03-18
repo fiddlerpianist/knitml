@@ -23,7 +23,7 @@ import static com.knitml.renderer.chart.ChartElement.SSP;
 import static com.knitml.renderer.chart.ChartElement.SSSK;
 import static com.knitml.renderer.chart.ChartElement.YO;
 
-public class TextArtSymbolProvider extends AbstractSymbolProvider {
+public class TextArtSymbolProvider extends AbstractSingleSymbolSetProvider {
 
 	@Override
 	protected void initializeSymbols() {

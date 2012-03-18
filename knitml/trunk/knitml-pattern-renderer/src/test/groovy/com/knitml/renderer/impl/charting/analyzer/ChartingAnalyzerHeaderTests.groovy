@@ -27,7 +27,7 @@ public class ChartingAnalyzerHeaderTests {
 	@Before
 	public void setUp() {
 		context = new RenderingContext(new Options())
-		context.knittingContext = new DefaultKnittingContextFactory().createKnittingContext()
+		context.knittingContext = new DefaultKnittingContextFactory().create()
 		analyzer = new ChartingAnalyzer(context)
 	}
 

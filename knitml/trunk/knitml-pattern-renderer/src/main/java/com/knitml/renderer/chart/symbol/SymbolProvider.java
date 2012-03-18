@@ -4,7 +4,6 @@ import com.knitml.renderer.chart.ChartElement;
 
 public interface SymbolProvider {
 
-	String getSymbol(ChartElement element) throws NoSymbolFoundException;
-	
+	Symbol getSymbol(ChartElement element) throws NoSymbolFoundException;
 	
 }

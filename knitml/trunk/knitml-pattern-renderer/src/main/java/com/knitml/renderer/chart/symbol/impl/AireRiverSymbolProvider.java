@@ -3,7 +3,7 @@ package com.knitml.renderer.chart.symbol.impl;
 import static com.knitml.renderer.chart.ChartElement.*;
 
 public class AireRiverSymbolProvider extends
-		AbstractSymbolProvider {
+		AbstractSingleSymbolSetProvider {
 
 	@Override
 	protected void initializeSymbols() {

@@ -1,0 +1,87 @@
+.sm-chart {
+    border-collapse: collapse;
+    border-width: 0px;
+	padding: 0px;
+	border-style: solid;
+	border-color: gray;
+	background-color: white;
+}
+
+.sm-lhcol {
+    width: 1.25em;
+    text-align: right;
+}
+
+.sm-bodycol {
+    width: 1em;
+}
+
+.sm-rhcol {
+    width: 1.25em;
+    text-align: left;
+}
+
+.sm-dash-cell {
+    border-width: 1px;
+	padding: 0px;
+	border-style: solid;
+	border-color: gray;
+	background-color: white;
+	text-align: center;
+	vertical-align: middle;
+    font-family: "StitchMastery Dash";
+    font-size: larger;
+}
+.sm-dash-legend {
+    font-family: "StitchMastery Dash";
+    font-size: larger;
+}
+
+.sm-dot-cell {
+    border-width: 1px;
+	padding: 0px;
+	border-style: solid;
+	border-color: gray;
+	background-color: white;
+	text-align: center;
+	vertical-align: middle;
+    font-family: "StitchMastery Dot";
+    font-size: larger;
+}
+.sm-dot-legend {
+    font-family: "StitchMastery Dot";
+    font-size: larger;
+}
+
+.sm-dash-cable-eh-cell {
+    border-width: 1px;
+	padding: 0px;
+	border-style: solid;
+	border-color: gray;
+	background-color: white;
+	text-align: center;
+	vertical-align: middle;
+    font-family: "StitchMastery DashCableEH";
+    font-size: larger;
+}
+.sm-dash-cable-eh-legend {
+    font-family: "StitchMastery DashCableEH";
+    font-size: larger;
+}
+
+.sm-dot-cable-eh-cell {
+    border-width: 1px;
+	padding: 0px;
+	border-style: solid;
+	border-color: gray;
+	background-color: white;
+	text-align: center;
+	vertical-align: middle;
+    font-family: "StitchMastery DotCableEH";
+    font-size: larger;
+}
+.sm-dot-cable-eh-legend {
+    font-family: "StitchMastery DotCableEH";
+    font-size: larger;
+}
+
