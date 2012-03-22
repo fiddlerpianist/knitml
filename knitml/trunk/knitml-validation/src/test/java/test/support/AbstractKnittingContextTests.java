@@ -22,7 +22,7 @@ import com.knitml.validation.context.KnittingContextFactory;
 import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
 import com.knitml.validation.visitor.instruction.Visitor;
 import com.knitml.validation.visitor.instruction.VisitorFactory;
-import com.knitml.validation.visitor.instruction.impl.DefaultVisitorFactory;
+import com.knitml.validation.visitor.instruction.impl.SimpleVisitorFactory;
 
 @RunWith(BlockJUnit4ClassRunner.class)
 public abstract class AbstractKnittingContextTests {
@@ -53,7 +53,7 @@ public abstract class AbstractKnittingContextTests {
 		knittingContextFactory = new DefaultKnittingContextFactory();
 		knittingContext = knittingContextFactory.create();
 		engine = knittingContext.getEngine();
-		visitorFactory = new DefaultVisitorFactory();
+		visitorFactory = new SimpleVisitorFactory();
 		onSetItUp();
 	}
 
