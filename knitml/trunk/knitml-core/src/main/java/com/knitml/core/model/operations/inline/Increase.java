@@ -19,16 +19,16 @@ public class Increase implements DiscreteInlineOperation, StitchNatureProducer,
 	public Increase() {
 	}
 
-	public Increase(int numberOfTimes) {
+	public Increase(Integer numberOfTimes) {
 		this.numberOfTimes = numberOfTimes;
 	}
 
-	public Increase(int numberOfTimes, IncreaseType type) {
+	public Increase(Integer numberOfTimes, IncreaseType type) {
 		this.numberOfTimes = numberOfTimes;
 		this.type = type;
 	}
 
-	public Increase(int numberOfTimes, IncreaseType type, String yarnIdRef) {
+	public Increase(Integer numberOfTimes, IncreaseType type, String yarnIdRef) {
 		this.numberOfTimes = numberOfTimes;
 		this.type = type;
 		this.yarnIdRef = yarnIdRef;
@@ -38,7 +38,7 @@ public class Increase implements DiscreteInlineOperation, StitchNatureProducer,
 		int size = numberOfTimes == null ? 1 : numberOfTimes;
 		List<Increase> newOps = new ArrayList<Increase>(size);
 		for (int i = 0; i < size; i++) {
-			newOps.add(new Increase(1, this.type, null));
+			newOps.add(new Increase(null, this.type, null));
 		}
 		return newOps;
 	}

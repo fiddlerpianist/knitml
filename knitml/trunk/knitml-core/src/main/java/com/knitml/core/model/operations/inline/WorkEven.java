@@ -33,7 +33,7 @@ public class WorkEven implements DiscreteInlineOperation, YarnReferenceHolder {
 		int size = numberOfTimes == null ? 1 : numberOfTimes;
 		List<WorkEven> newOps = new ArrayList<WorkEven>(size);
 		for (int i = 0; i < size; i++) {
-			newOps.add(new WorkEven(1, null));
+			newOps.add(new WorkEven(null, null));
 		}
 		return newOps;
 	}

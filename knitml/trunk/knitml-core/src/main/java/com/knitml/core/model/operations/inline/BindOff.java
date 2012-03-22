@@ -27,7 +27,7 @@ public class BindOff implements DiscreteInlineOperation, StitchNatureProducer,
 		int size = numberOfStitches == null ? 1 : numberOfStitches;
 		List<BindOff> newOps = new ArrayList<BindOff>(size);
 		for (int i = 0; i < size; i++) {
-			newOps.add(new BindOff(1, this.type == null ? Wise.KNITWISE
+			newOps.add(new BindOff(null, this.type == null ? Wise.KNITWISE
 					: this.type, null));
 		}
 		return newOps;

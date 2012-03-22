@@ -18,16 +18,16 @@ public class InlineCastOn implements DiscreteInlineOperation,
 	public InlineCastOn() {
 	}
 
-	public InlineCastOn(int numberOfStitches) {
+	public InlineCastOn(Integer numberOfStitches) {
 		this.numberOfStitches = numberOfStitches;
 	}
 
-	public InlineCastOn(int numberOfStitches, String yarnIdRef) {
+	public InlineCastOn(Integer numberOfStitches, String yarnIdRef) {
 		this.numberOfStitches = numberOfStitches;
 		this.yarnIdRef = yarnIdRef;
 	}
 
-	public InlineCastOn(int numberOfStitches, String style, String yarnIdRef) {
+	public InlineCastOn(Integer numberOfStitches, String style, String yarnIdRef) {
 		this.numberOfStitches = numberOfStitches;
 		this.style = style;
 		this.yarnIdRef = yarnIdRef;

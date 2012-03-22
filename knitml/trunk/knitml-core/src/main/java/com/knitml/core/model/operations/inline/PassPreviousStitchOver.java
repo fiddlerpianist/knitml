@@ -20,7 +20,7 @@ public class PassPreviousStitchOver implements DiscreteInlineOperation {
 		int size = numberOfTimes == null ? 1 : numberOfTimes;
 		List<PassPreviousStitchOver> newOps = new ArrayList<PassPreviousStitchOver>(size);
 		for (int i = 0; i < size; i++) {
-			newOps.add(new PassPreviousStitchOver(1));
+			newOps.add(new PassPreviousStitchOver());
 		}
 		return newOps;
 	}

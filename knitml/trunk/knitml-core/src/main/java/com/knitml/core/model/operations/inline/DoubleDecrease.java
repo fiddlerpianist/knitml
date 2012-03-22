@@ -29,7 +29,7 @@ public class DoubleDecrease extends Decrease {
 		int size = numberOfTimes == null ? 1 : numberOfTimes;
 		List<DoubleDecrease> newOps = new ArrayList<DoubleDecrease>(size);
 		for (int i = 0; i < size; i++) {
-			newOps.add(new DoubleDecrease(1, this.type, null));
+			newOps.add(new DoubleDecrease(null, this.type, null));
 		}
 		return newOps;
 	}

@@ -1,8 +1,8 @@
 <binding track-source="true" add-constructors="true">
     <namespace uri="http://www.knitml.com/schema/operations" prefix="" default="none"/>
     <namespace uri="http://www.knitml.com/schema/common" prefix="common" default="none"/>
-    <include path="../jibx/common.xml"/>
-    <include path="../jibx/inline-operations.xml"/>
+    <include path="common.xml"/>
+    <include path="inline-operations.xml"/>
     <!-- Instruction and row elements -->
     <mapping name="instruction" class="com.knitml.core.model.operations.block.Instruction"
         value-style="attribute" post-set="validate" ns="http://www.knitml.com/schema/operations">

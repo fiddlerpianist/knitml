@@ -24,7 +24,7 @@ public class NoStitch implements DiscreteInlineOperation {
 		int size = numberOfStitches == null ? 1 : numberOfStitches;
 		List<NoStitch> newOps = new ArrayList<NoStitch>(size);
 		for (int i = 0; i < size; i++) {
-			newOps.add(new NoStitch(1));
+			newOps.add(new NoStitch());
 		}
 		return newOps;
 	}
