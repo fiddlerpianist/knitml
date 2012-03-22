@@ -41,8 +41,8 @@ import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
 import com.knitml.validation.context.impl.DefaultListenerManager;
 import com.knitml.validation.visitor.instruction.Visitor;
 import com.knitml.validation.visitor.instruction.VisitorFactory;
+import com.knitml.validation.visitor.instruction.impl.SimpleVisitorFactory;
 import com.knitml.validation.visitor.instruction.impl.DefaultVisitorFactory;
-import com.knitml.validation.visitor.instruction.impl.SpringVisitorFactory;
 
 public class ValidationProgram {
 
@@ -51,7 +51,7 @@ public class ValidationProgram {
 			.getLogger(ValidationProgram.class);
 
 	private KnittingContextFactory contextFactory = new DefaultKnittingContextFactory();
-	private VisitorFactory visitorFactory = new DefaultVisitorFactory();
+	private VisitorFactory visitorFactory = new SimpleVisitorFactory();
 	private ListenerManager listenerManager = new DefaultListenerManager();
 
 	/**
@@ -72,7 +72,7 @@ public class ValidationProgram {
 	public ValidationProgram(PatternEventListener listener, boolean traceability) {
 		if (traceability) {
 			// supports line numbers for error reporting
-			visitorFactory = new SpringVisitorFactory();
+			visitorFactory = new DefaultVisitorFactory();
 		}
 		listenerManager.addListener(listener);
 	}
