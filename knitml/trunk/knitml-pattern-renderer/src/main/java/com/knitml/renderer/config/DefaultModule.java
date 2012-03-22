@@ -3,6 +3,8 @@ package com.knitml.renderer.config;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.knitml.renderer.chart.legend.LegendOperationRenderer;
+import com.knitml.renderer.chart.legend.impl.DefaultLegendOperationRenderer;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.event.EventHandlerFactory;
 import com.knitml.renderer.event.impl.DefaultEventHandlerFactory;
@@ -24,6 +26,7 @@ public class DefaultModule extends AbstractModule {
 	protected void configure() {
 		bind(PluralRuleFactory.class).to(DefaultPluralRuleFactory.class);
 		bind(EventHandlerFactory.class).to(DefaultEventHandlerFactory.class);
+		bind(LegendOperationRenderer.class).to(DefaultLegendOperationRenderer.class);
 		bind(KnittingContextFactory.class).to(DefaultKnittingContextFactory.class);
 		bind(ListenerManager.class).to(DefaultListenerManager.class);
 		bind(VisitorFactory.class).to(DefaultVisitorFactory.class);

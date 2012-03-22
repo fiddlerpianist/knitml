@@ -1,22 +1,17 @@
 package com.knitml.renderer.impl.charting;
 
-import static com.knitml.renderer.chart.ChartElement.DECREASE;
 import static com.knitml.renderer.chart.ChartElement.K;
 import static com.knitml.renderer.chart.ChartElement.K2TOG;
 import static com.knitml.renderer.chart.ChartElement.K2TOG_TBL;
 import static com.knitml.renderer.chart.ChartElement.K_TW;
-import static com.knitml.renderer.chart.ChartElement.M1;
-import static com.knitml.renderer.chart.ChartElement.M1P;
 import static com.knitml.renderer.chart.ChartElement.NS;
 import static com.knitml.renderer.chart.ChartElement.P;
 import static com.knitml.renderer.chart.ChartElement.P2TOG;
 import static com.knitml.renderer.chart.ChartElement.P2TOG_TBL;
 import static com.knitml.renderer.chart.ChartElement.P_TW;
 import static com.knitml.renderer.chart.ChartElement.SKP;
-import static com.knitml.renderer.chart.ChartElement.SL;
 import static com.knitml.renderer.chart.ChartElement.SSK;
 import static com.knitml.renderer.chart.ChartElement.SSP;
-import static com.knitml.renderer.chart.ChartElement.YO;
 
 import java.io.Writer;
 import java.util.ArrayList;
@@ -30,7 +25,6 @@ import org.apache.commons.lang.NotImplementedException;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumBiMap;
 import com.knitml.core.common.KnittingShape;
-import com.knitml.core.common.LoopToWork;
 import com.knitml.core.common.Side;
 import com.knitml.core.compatibility.Stack;
 import com.knitml.core.model.common.Needle;
@@ -94,8 +88,9 @@ import com.knitml.renderer.impl.charting.analyzer.RowInfo;
  */
 class ChartProducer implements Renderer {
 
-	private static BiMap<ChartElement, ChartElement> symbolInverseMap = EnumBiMap.create(ChartElement.class, ChartElement.class);
-	
+	private static BiMap<ChartElement, ChartElement> symbolInverseMap = EnumBiMap
+			.create(ChartElement.class, ChartElement.class);
+
 	static {
 		symbolInverseMap.put(P, K);
 		symbolInverseMap.put(P_TW, K_TW);
@@ -107,23 +102,25 @@ class ChartProducer implements Renderer {
 
 	// fields which should be set before calling begin() methods
 	/**
-	 * Used for creating a ChartWriter. A ChartWriter writes to particular format (text, HTML, etc.)
+	 * Used for creating a ChartWriter. A ChartWriter writes to a particular
+	 * format (text, HTML, etc.)
 	 */
 	@Inject
 	private ChartWriter chartWriter;
-	
+
 	/**
 	 * Directs the output.
 	 */
 	private Writer writer;
-	
+
 	/**
 	 * Provides an up-front (pass 1) analysis of the chart to be rendered.
 	 */
 	private Analysis analysis;
-	
+
 	/**
-	 * Locates the appropriate ChartElement object given the current model object
+	 * Locates the appropriate ChartElement object given the current model
+	 * object
 	 */
 	private ChartElementFinder finder = new ChartElementFinder();
 
@@ -138,12 +135,6 @@ class ChartProducer implements Renderer {
 	private Stack<RepeatSet> repeatSetStack = new Stack<RepeatSet>();
 
 	private RenderingContext renderingContext;
-
-//	public ChartProducer(ChartWriterFactory chartWriterFactory,
-//			SymbolProviderRegistry registry) {
-//		this.chartWriterFactory = chartWriterFactory;
-//		this.registry = registry;
-//	}
 
 	public void setAnalysis(Analysis analysis) {
 		this.analysis = analysis;
@@ -234,6 +225,12 @@ class ChartProducer implements Renderer {
 		// Do nothing, as the children will get visited
 	}
 
+	protected ChartElement findChartElement(DiscreteInlineOperation operation) {
+		// only call this when you know you're not working with an
+		// OperationGroup!
+		return finder.findChartElementBy(operation.canonicalize().get(0));
+	}
+
 	protected void add(ChartElement point, DiscreteInlineOperation operation) {
 		if (isWithinRepeatSet()) {
 			getCurrentRepeatSet().addOperation(point);
@@ -269,7 +266,7 @@ class ChartProducer implements Renderer {
 	public void endRow(Row row, KnittingShape doNotUseThisVariable) {
 		// pad whatever is left with no-stitch elements
 		for (int i = currentRowInfo.getRowWidth(); i < analysis.getMaxWidth(); i++) {
-			currentRow.add(NS);
+			add(NS, new NoStitch());
 		}
 
 		// release currentRow... it has already been added to the chart in
@@ -321,30 +318,22 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderDecrease(Decrease decrease) {
+		ChartElement point = findChartElement(new Decrease(1,
+				decrease.getType(), null));
+		if (point == null) {
+			throw new RuntimeException(
+					"This type of ChartElement is not defined yet. If the pattern validates against the schema, please report this as a bug");
+		}
 		int times = decrease.getNumberOfTimes() == null ? 1 : decrease
 				.getNumberOfTimes();
-		ChartElement point = null;
-		if (decrease.getType() != null) {
-			try {
-				point = ChartElement.valueOf(decrease.getType().name());
-			} catch (IllegalArgumentException ex) {
-				throw new RuntimeException(
-						"This type of ChartElement is not defined yet. If the pattern validates against the schema, please report this as a bug",
-						ex);
-			}
-		} else {
-			point = DECREASE;
-		}
 		for (int i = 0; i < times; i++) {
 			add(point, decrease);
 		}
 	}
 
 	public void renderKnit(Knit knit) {
-		ChartElement chartElement = K;
-		if (knit.getLoopToWork() == LoopToWork.TRAILING) {
-			chartElement = K_TW;
-		}
+		ChartElement chartElement = findChartElement(new Knit(1,
+				knit.getLoopToWork(), null));
 		int times = knit.getNumberOfTimes() == null ? 1 : knit
 				.getNumberOfTimes();
 		for (int i = 0; i < times; i++) {
@@ -353,10 +342,11 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderNoStitch(NoStitch noStitch) {
+		ChartElement chartElement = findChartElement(new NoStitch(1));
 		int times = noStitch.getNumberOfStitches() == null ? 1 : noStitch
 				.getNumberOfStitches();
 		for (int i = 0; i < times; i++) {
-			add(NS, noStitch);
+			add(chartElement, noStitch);
 		}
 	}
 
@@ -370,10 +360,8 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderPurl(Purl purl) {
-		ChartElement chartElement = P;
-		if (purl.getLoopToWork() == LoopToWork.TRAILING) {
-			chartElement = P_TW;
-		}
+		ChartElement chartElement = findChartElement(new Purl(1,
+				purl.getLoopToWork(), null));
 		int times = purl.getNumberOfTimes() == null ? 1 : purl
 				.getNumberOfTimes();
 		for (int i = 0; i < times; i++) {
@@ -386,50 +374,41 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderSlip(Slip slip) {
+		ChartElement chartElement = findChartElement(new Slip(1, null,
+				slip.getYarnPosition(), null));
 		int times = slip.getNumberOfTimes() == null ? 1 : slip
 				.getNumberOfTimes();
 		for (int i = 0; i < times; i++) {
-			add(SL, slip);
+			add(chartElement, slip);
 		}
 	}
 
 	public void renderIncrease(Increase increase) {
+		ChartElement point = findChartElement(new Increase(1,
+				increase.getType(), null));
+		if (point == null) {
+			throw new RuntimeException(
+					"This type of ChartElement is not defined yet. If the pattern validates against the schema, please report this as a bug");
+		}
 		int times = increase.getNumberOfTimes() == null ? 1 : increase
 				.getNumberOfTimes();
-		ChartElement point = null;
-		if (increase.getType() == null) {
-			point = M1;
-		} else {
-			switch (increase.getType()) {
-			case M1:
-				point = M1;
-				break;
-			case YO:
-				point = YO;
-				break;
-			case M1P:
-				point = M1P;
-				break;
-			default:
-				throw new RuntimeException(
-						"This type of ChartElement is not defined yet (testing purposes only)");
-			}
-		}
 		for (int i = 0; i < times; i++) {
 			add(point, increase);
 		}
 	}
 
 	public boolean renderOperationGroup(OperationGroup group) {
-		ChartElement element = finder.findChartElement(group.canonicalizeGroup());
+		ChartElement element = finder.findChartElementBy(group
+				.canonicalizeGroup());
 		if (element != null) {
 			add(element, group);
 			return true;
 		}
-		// not able to assign this group to a chart element; process them individually
+		// not able to assign this group to a chart element; process them
+		// individually
 		return false;
 	}
-	
+
 	public void renderInlineInstructionRef(InlineInstructionRef instructionRef,
 			String label) {
 		// FIXME make this go
@@ -456,7 +435,7 @@ class ChartProducer implements Renderer {
 
 	public void beginInformation() {
 		// TODO figure out how to annotate this
-		//throw new NotImplementedException();
+		// throw new NotImplementedException();
 	}
 
 	public void beginInlineInstructionDefinition(InlineInstruction instruction,
@@ -490,7 +469,7 @@ class ChartProducer implements Renderer {
 
 	public void endInformation() {
 		// TODO figure out how to annotate this
-		//throw new NotImplementedException();
+		// throw new NotImplementedException();
 	}
 
 	public void endInlineInstructionDefinition(InlineInstruction instruction) {

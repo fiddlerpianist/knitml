@@ -20,7 +20,6 @@ import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.RendererFactory;
 import com.knitml.renderer.common.RenderingException;
-import com.knitml.renderer.config.DefaultModule;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.listener.RenderingPatternEventListenerFactory;
 import com.knitml.validation.context.KnittingContext;
@@ -32,14 +31,6 @@ import com.knitml.validation.visitor.instruction.VisitorFactory;
 @GuiceModules( {BasicRendererTestModule.class } )
 public abstract class AbstractRenderingContextTests {
 
-	// initialized from Spring context
-	// protected RendererFactory rendererFactory;
-	// protected Options options;
-
-	// created in setItUp()
-	// protected RenderingContext renderingContext;
-	// protected Renderer renderer;
-	// place to capture results from renderer
 	private StringWriter outputCapturer;
 
 	protected static final String LINE_SEPARATOR = System

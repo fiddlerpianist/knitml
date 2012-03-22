@@ -4,7 +4,7 @@ import java.util.EnumMap
 import java.util.Map
 
 import com.knitml.renderer.chart.ChartElement
-import com.knitml.renderer.chart.symbol.NoSymbolFoundException
+import com.knitml.renderer.chart.symbol.SymbolResolutionException
 import com.knitml.renderer.chart.symbol.Symbol
 import com.knitml.renderer.chart.symbol.SymbolProvider
 
@@ -28,7 +28,7 @@ class StitchMasterySymbolProvider implements SymbolProvider {
 		dotCableEhSymbols[CBL_2_2_LC] = '?'
 	}
 
-	public Symbol getSymbol(ChartElement element) throws NoSymbolFoundException {
+	public Symbol getSymbol(ChartElement element) throws SymbolResolutionException {
 		def symbol = dotSymbols[element]
 		if (symbol != null) {
 			return new Symbol(DOT, symbol)
@@ -37,6 +37,6 @@ class StitchMasterySymbolProvider implements SymbolProvider {
 		if (symbol != null) {
 			return new Symbol(DOT_CABLE_EH, symbol)
 		}
-		throw new NoSymbolFoundException(this, element)
+		throw new SymbolResolutionException(this, element)
 	}
 }

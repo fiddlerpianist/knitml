@@ -8,7 +8,7 @@ import com.knitml.renderer.event.EventHandlerFactory;
 public abstract class AbstractEventHandler implements EventHandler {
 
 	private EventHandlerFactory eventHandlerFactory;
-
+	
 	public EventHandlerFactory getEventHandlerFactory() {
 		return eventHandlerFactory;
 	}

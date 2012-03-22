@@ -15,7 +15,7 @@ import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.symbol.NoSymbolFoundException;
+import com.knitml.renderer.chart.symbol.SymbolResolutionException;
 import com.knitml.renderer.chart.symbol.Symbol;
 import com.knitml.renderer.chart.symbol.SymbolProvider;
 import com.knitml.renderer.chart.writer.ChartWriter;
@@ -35,8 +35,9 @@ public class TextChartWriter implements ChartWriter {
 		this.symbolProvider = symbolProvider;
 	}
 
-	public void writeChart(Chart chart, Writer writer) throws NoSymbolFoundException {
-		
+	public void writeChart(Chart chart, Writer writer)
+			throws SymbolResolutionException {
+
 		List<List<ChartElement>> graph = chart.getGraph();
 		int currentLineNumber = chart.getStartingRowNumber() + graph.size() - 1;
 		int fillCount = 2; // one for the row number digit, one for the space
@@ -61,8 +62,8 @@ public class TextChartWriter implements ChartWriter {
 				ListIterator<ChartElement> rowIt = row.listIterator(row.size());
 
 				if (renderLeftSideRowNumber(currentLineNumber, chart)) {
-					writer.write(StringUtils.rightPad(String
-							.valueOf(currentLineNumber), fillCount));
+					writer.write(StringUtils.rightPad(
+							String.valueOf(currentLineNumber), fillCount));
 				} else {
 					writer.write(StringUtils.rightPad("", fillCount));
 				}
@@ -72,8 +73,11 @@ public class TextChartWriter implements ChartWriter {
 					ChartElement element = rowIt.previous();
 					elementsUsed.add(element);
 					Symbol symbol = symbolProvider.getSymbol(element);
-					if (symbolSetId != null && !symbolSetId.equals(symbol.getSymbolSetId())) {
-						throw new CannotRenderSymbolException("A TextChartWriter cannot render more than one symbol set from a given SymbolProvider");
+					if (symbolSetId != null
+							&& !symbolSetId.equals(symbol.getSymbolSetId())) {
+						throw new CannotRenderSymbolException(
+								"A TextChartWriter cannot render more than one symbol set from a given SymbolProvider",
+								symbolProvider, element);
 					}
 					symbolSetId = symbol.getSymbolSetId();
 					writer.write(symbol.getSymbol());
@@ -81,7 +85,8 @@ public class TextChartWriter implements ChartWriter {
 
 				writer.write(rowDelimiter);
 				if (renderRightSideRowNumber(currentLineNumber, chart)) {
-					writer.write(StringUtils.leftPad(String.valueOf(currentLineNumber), fillCount));
+					writer.write(StringUtils.leftPad(
+							String.valueOf(currentLineNumber), fillCount));
 				} else {
 					writer.write(StringUtils.leftPad("", fillCount));
 				}
@@ -92,8 +97,8 @@ public class TextChartWriter implements ChartWriter {
 			writer.write(LINE_BREAK);
 			for (ChartElement element : elementsUsed) {
 				// FIXME non-internationalized, not to mention ugly
-				writer.write(symbolProvider.getSymbol(element).getSymbol() + suffix + " "
-						+ element.toString().toLowerCase());
+				writer.write(symbolProvider.getSymbol(element).getSymbol()
+						+ suffix + " " + element.toString().toLowerCase());
 				writer.write(LINE_BREAK);
 			}
 			writer.write(LINE_BREAK);

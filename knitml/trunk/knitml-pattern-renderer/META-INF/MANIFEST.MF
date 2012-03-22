@@ -66,7 +66,7 @@ Export-Package: com.knitml.renderer;version="0.6.0.M2";
  com.knitml.renderer.chart;version="0.6.0.M2";uses:="com.knitml.core.model.operations.inline",
  com.knitml.renderer.chart.advisor;version="0.6.0.M2";uses:="com.knitml.renderer.chart,com.knitml.renderer.chart.stylesheet,com.knitml.renderer.chart.symbol",
  com.knitml.renderer.chart.advisor.impl;version="0.6.0.M2";uses:="com.knitml.renderer.chart.advisor",
- com.knitml.renderer.chart.stylesheet;version="0.6.0.M2",
+ com.knitml.renderer.chart.stylesheet;version="0.6.0.M2";uses:="com.knitml.renderer.common",
  com.knitml.renderer.chart.stylesheet.impl;version="0.6.0.M2",
  com.knitml.renderer.chart.symbol;version="0.6.0.M2";uses:="com.knitml.renderer.chart,com.knitml.renderer.common",
  com.knitml.renderer.chart.symbol.impl;version="0.6.0.M2";uses:="com.knitml.renderer.chart,com.knitml.renderer.chart.symbol",
@@ -86,20 +86,8 @@ Export-Package: com.knitml.renderer;version="0.6.0.M2";
    com.knitml.core.model.operations.block,
    com.knitml.validation.context,
    org.apache.commons.lang.math",
- com.knitml.renderer.event;version="0.6.0.M2";uses:="com.knitml.renderer",
- com.knitml.renderer.event.impl;version="0.6.0.M2";uses:="com.knitml.renderer,com.knitml.renderer.event,com.knitml.core.compatibility",
  com.knitml.renderer.impl.basic;version="0.6.0.M2";uses:="com.knitml.renderer.plural,org.springframework.context.support,com.knitml.renderer.impl.helpers",
  com.knitml.renderer.impl.charting;version="0.6.0.M2";uses:="test.support",
- com.knitml.renderer.impl.charting.analyzer;version="0.6.0.M2";uses:="com.knitml.renderer.context",
- com.knitml.renderer.impl.helpers;version="0.6.0.M2";
-  uses:="com.knitml.core.model.pattern,
-   com.knitml.renderer.plural,
-   com.knitml.core.model.common,
-   org.springframework.context,
-   com.knitml.core.common,
-   org.slf4j,
-   com.knitml.renderer.context,
-   org.apache.commons.lang.math",
  com.knitml.renderer.impl.html;version="0.6.0.M2";
   uses:="com.knitml.core.model.pattern,
    com.knitml.renderer.plural,
@@ -107,24 +95,13 @@ Export-Package: com.knitml.renderer;version="0.6.0.M2";
    com.knitml.renderer.impl.basic,
    com.knitml.renderer.impl.helpers,
    com.knitml.renderer.context",
- com.knitml.renderer.listener;version="0.6.0.M2";uses:="com.knitml.renderer,com.knitml.renderer.event,com.knitml.validation.context",
- com.knitml.renderer.plural;version="0.6.0.M2",
- com.knitml.renderer.plural.impl;version="0.6.0.M2";uses:="com.knitml.renderer.plural",
  com.knitml.renderer.program;version="0.6.0.M2";
   uses:="com.knitml.core.model.pattern,
    com.knitml.renderer,
    com.knitml.renderer.listener,
    com.knitml.validation.visitor.instruction,
    com.knitml.renderer.context,
-   com.knitml.validation.context",
- com.knitml.renderer.visitor.controller;version="0.6.0.M2";
-  uses:="com.knitml.core.model.operations,
-   com.knitml.core.model.operations.inline,
-   com.knitml.renderer,
-   com.knitml.renderer.event,
-   com.knitml.core.model.operations.block",
- com.knitml.renderer.visitor.definition.model;version="0.6.0.M2";uses:="com.knitml.renderer,com.knitml.renderer.event.impl",
- com.knitml.renderer.visitor.model;version="0.6.0.M2";uses:="test.support"
+   com.knitml.validation.context"
 Require-Bundle: org.junit
 Bundle-Vendor: KnitML
 
