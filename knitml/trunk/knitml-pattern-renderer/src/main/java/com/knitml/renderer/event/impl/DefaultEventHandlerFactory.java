@@ -3,33 +3,18 @@ package com.knitml.renderer.event.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.knitml.core.compatibility.Stack;
 import com.knitml.renderer.event.EventHandler;
 import com.knitml.renderer.event.EventHandlerFactory;
-import com.knitml.renderer.event.NameResolver;
+import com.knitml.renderer.nameresolver.NameResolver;
 
 public class DefaultEventHandlerFactory implements EventHandlerFactory {
 
 	private final static Logger log = LoggerFactory
 			.getLogger(DefaultEventHandlerFactory.class);
 
-	protected Stack<NameResolver> nameResolvers = new Stack<NameResolver>();
-	
-	public DefaultEventHandlerFactory() {
-		nameResolvers.push(new DefaultNameResolver());
-	}
-
-	public NameResolver popNameResolver() {
-		return nameResolvers.pop();
-	}
-
-	public void pushNameResolver(NameResolver nameResolver) {
-		nameResolvers.push(nameResolver);
-	}
-
-	public EventHandler findEventHandlerFromClassName(Object object) {
+	public EventHandler findEventHandlerFromClassName(Object object, NameResolver nameResolver) {
 		try {
-			Class<EventHandler> visitorClass = nameResolvers.peek().findTargetClassFromClassName(object);
+			Class<EventHandler> visitorClass = nameResolver.findTargetClassFromClassName(object);
 			EventHandler visitor = visitorClass.newInstance();
 			if (visitor instanceof AbstractEventHandler) {
 				((AbstractEventHandler)visitor).setEventHandlerFactory(this);

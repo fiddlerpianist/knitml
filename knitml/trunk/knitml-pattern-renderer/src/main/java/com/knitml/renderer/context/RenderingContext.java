@@ -15,7 +15,7 @@ public class RenderingContext {
 	private PatternRepository patternRepository;
 	// dependency set later when available
 	private KnittingContext knittingContext;
-	
+
 	public RenderingContext(Options options) {
 		if (options == null) {
 			throw new NullArgumentException("options");

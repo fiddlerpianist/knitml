@@ -2,7 +2,7 @@ package com.knitml.renderer.chart.advisor;
 
 import com.knitml.renderer.chart.ChartElement;
 import com.knitml.renderer.chart.stylesheet.StylesheetProvider;
-import com.knitml.renderer.chart.symbol.NoSymbolFoundException;
+import com.knitml.renderer.chart.symbol.SymbolResolutionException;
 import com.knitml.renderer.chart.symbol.Symbol;
 import com.knitml.renderer.chart.symbol.SymbolProvider;
 
@@ -18,7 +18,7 @@ public class ChartSymbolAdvisor implements SymbolProvider, StylesheetProvider {
 		this.stylesheetProvider = stylesheetProvider;
 	}
 
-	public Symbol getSymbol(ChartElement element) throws NoSymbolFoundException {
+	public Symbol getSymbol(ChartElement element) throws SymbolResolutionException {
 		return symbolProvider.getSymbol(element);
 	}
 

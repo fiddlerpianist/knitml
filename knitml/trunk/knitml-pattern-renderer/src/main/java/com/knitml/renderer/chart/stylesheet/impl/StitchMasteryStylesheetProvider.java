@@ -1,6 +1,6 @@
 package com.knitml.renderer.chart.stylesheet.impl;
 
-import com.knitml.renderer.chart.symbol.UnsupportedSymbolSetException;
+import com.knitml.renderer.chart.stylesheet.UnsupportedSymbolSetException;
 
 
 

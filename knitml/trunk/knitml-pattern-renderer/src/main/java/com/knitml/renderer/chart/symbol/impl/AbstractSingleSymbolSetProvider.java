@@ -4,7 +4,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.symbol.NoSymbolFoundException;
+import com.knitml.renderer.chart.symbol.SymbolResolutionException;
 import com.knitml.renderer.chart.symbol.Symbol;
 import com.knitml.renderer.chart.symbol.SymbolProvider;
 
@@ -17,10 +17,10 @@ public abstract class AbstractSingleSymbolSetProvider implements SymbolProvider 
 		initializeSymbols();
 	}
 	
-	public final Symbol getSymbol(ChartElement element) throws NoSymbolFoundException {
+	public final Symbol getSymbol(ChartElement element) throws SymbolResolutionException {
 		String symbol = symbols.get(element);
 		if (symbol == null) {
-			throw new NoSymbolFoundException(this, element);
+			throw new SymbolResolutionException(this, element);
 		}
 		return new Symbol(DEFAULT_SET_ID, symbol);
 	}	

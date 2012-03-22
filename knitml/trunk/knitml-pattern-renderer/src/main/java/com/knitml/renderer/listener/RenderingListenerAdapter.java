@@ -9,7 +9,9 @@ import com.knitml.core.model.pattern.Pattern;
 import com.knitml.renderer.Renderer;
 import com.knitml.renderer.event.EventHandler;
 import com.knitml.renderer.event.EventHandlerFactory;
-import com.knitml.renderer.event.impl.DefaultNameResolver;
+import com.knitml.renderer.nameresolver.DefinitionsNameResolver;
+import com.knitml.renderer.nameresolver.DirectionsNameResolver;
+import com.knitml.renderer.nameresolver.NameResolver;
 import com.knitml.validation.context.KnittingContext;
 import com.knitml.validation.context.PatternEventListener;
 
@@ -19,10 +21,14 @@ import com.knitml.validation.context.PatternEventListener;
  */
 public class RenderingListenerAdapter implements PatternEventListener {
 
+	private NameResolver directionsNameResolver = new DirectionsNameResolver();
+	private NameResolver definitionsNameResolver = new DefinitionsNameResolver();
+
 	@Inject
 	RenderingListenerAdapter(EventHandlerFactory eventHandlerFactory,
 			@Assisted Renderer renderer) {
 		this.renderer = renderer;
+		//this.renderer.getRenderingContext().setNameResolver(directionsNameResolver);
 		this.eventHandlerFactory = eventHandlerFactory;
 	}
 
@@ -41,19 +47,19 @@ public class RenderingListenerAdapter implements PatternEventListener {
 
 		if (object instanceof Pattern) {
 			// set the current knitting context onto the rendering context
+			// (initialization)
 			renderer.getRenderingContext().setKnittingContext(knittingContext);
 			currentDepth = 0;
 		}
 
-		EventHandler visitor = null;
+		EventHandler handler = null;
 		if (withinDirectives) {
 			// use the special "definitions" package for children of directives
-			eventHandlerFactory.pushNameResolver(new DefaultNameResolver(
-					"com.knitml.renderer.visitor.definition.model"));
-			visitor = eventHandlerFactory.findEventHandlerFromClassName(object);
-			eventHandlerFactory.popNameResolver();
+			handler = eventHandlerFactory.findEventHandlerFromClassName(object,
+					definitionsNameResolver);
 		} else {
-			visitor = eventHandlerFactory.findEventHandlerFromClassName(object);
+			handler = eventHandlerFactory.findEventHandlerFromClassName(object,
+					directionsNameResolver);
 		}
 
 		if (object instanceof Directives) {
@@ -67,7 +73,7 @@ public class RenderingListenerAdapter implements PatternEventListener {
 			renderer.getRenderingContext().getPatternState().getOperationTree()
 					.push((CompositeOperation) object);
 		}
-		boolean processChildren = visitor.begin(object, renderer);
+		boolean processChildren = handler.begin(object, renderer);
 		if (!processChildren) {
 			this.ignoreBelowDepth = currentDepth;
 		}
@@ -93,18 +99,17 @@ public class RenderingListenerAdapter implements PatternEventListener {
 			withinDirectives = false;
 		}
 
-		EventHandler visitor = null;
+		EventHandler handler = null;
 		if (withinDirectives) {
 			// use the special "definitions" package for children of directives
-			eventHandlerFactory.pushNameResolver(new DefaultNameResolver(
-					"com.knitml.renderer.visitor.definition.model"));
-			visitor = eventHandlerFactory.findEventHandlerFromClassName(object);
-			eventHandlerFactory.popNameResolver();
+			handler = eventHandlerFactory.findEventHandlerFromClassName(object,
+					definitionsNameResolver);
 		} else {
-			visitor = eventHandlerFactory.findEventHandlerFromClassName(object);
+			handler = eventHandlerFactory.findEventHandlerFromClassName(object,
+					directionsNameResolver);
 		}
 
-		visitor.end(object, renderer);
+		handler.end(object, renderer);
 		// if it's a CompositeOperation, add to the operation tree
 		if (object instanceof CompositeOperation) {
 			renderer.getRenderingContext().getPatternState().getOperationTree()
