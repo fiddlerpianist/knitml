@@ -24,7 +24,7 @@ public class Purl extends Knit {
 		int size = numberOfTimes == null ? 1 : numberOfTimes;
 		List<Purl> newOps = new ArrayList<Purl>(size);
 		for (int i = 0; i < size; i++) {
-			newOps.add(new Purl(1, loopToWork == null ? LoopToWork.LEADING
+			newOps.add(new Purl(null, loopToWork == null ? LoopToWork.LEADING
 					: loopToWork, null));
 		}
 		return newOps;

@@ -23,7 +23,7 @@ class CanonicalizationTests {
 		def target = new Knit (5, null, null)
 		def expected = []
 		for (int i=0; i < 5; i++)
-			expected << new Knit (1, LEADING, null)
+			expected << new Knit (null, LEADING, null)
 		assertThat target.canonicalize(), is (expected)
 	}
 
@@ -37,10 +37,10 @@ class CanonicalizationTests {
 		
 		ops = []
 		ops << new CrossStitches (2, FRONT, 2)
-		ops << new Knit (1, LEADING, null)
-		ops << new Knit (1, LEADING, null)
-		ops << new Purl (1, LEADING, null)
-		ops << new Purl (1, LEADING, null)
+		ops << new Knit (null, LEADING, null)
+		ops << new Knit (null, LEADING, null)
+		ops << new Purl (null, LEADING, null)
+		ops << new Purl (null, LEADING, null)
 		def expected = new OperationGroup (4, ops)
 		def actual = target.canonicalize()
 		assertThat actual.size(), is (1) 
@@ -56,9 +56,9 @@ class CanonicalizationTests {
 		
 		ops = []
 		ops << new CrossStitches (1, FRONT, 2)
-		ops << new Knit (1, TRAILING, null)
-		ops << new Knit (1, TRAILING, null)
-		ops << new Purl (1, LEADING, null)
+		ops << new Knit (null, TRAILING, null)
+		ops << new Knit (null, TRAILING, null)
+		ops << new Purl (null, LEADING, null)
 		def expected = new OperationGroup (3, ops)
 		def actual = target.canonicalize()
 		assertThat actual.size(), is (1) 

@@ -34,7 +34,7 @@ public class Slip implements DiscreteInlineOperation {
 		int size = numberOfTimes == null ? 1 : numberOfTimes;
 		List<Slip> newOps = new ArrayList<Slip>(size);
 		for (int i = 0; i < size; i++) {
-			newOps.add(new Slip(1, this.type == null ? Wise.PURLWISE
+			newOps.add(new Slip(null, this.type == null ? Wise.PURLWISE
 					: this.type, this.yarnPosition == null ? YarnPosition.BACK
 					: this.yarnPosition,
 					this.direction == null ? SlipDirection.FORWARD

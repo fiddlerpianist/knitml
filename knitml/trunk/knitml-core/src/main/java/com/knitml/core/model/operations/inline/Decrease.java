@@ -30,7 +30,7 @@ public class Decrease implements DiscreteInlineOperation, StitchNatureProducer,
 		int size = numberOfTimes == null ? 1 : numberOfTimes;
 		List<Decrease> newOps = new ArrayList<Decrease>(size);
 		for (int i = 0; i < size; i++) {
-			newOps.add(new Decrease(1, this.type, null));
+			newOps.add(new Decrease(null, this.type, null));
 		}
 		return newOps;
 	}

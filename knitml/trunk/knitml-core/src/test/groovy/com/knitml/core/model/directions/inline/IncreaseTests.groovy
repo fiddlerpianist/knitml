@@ -5,30 +5,21 @@ package com.knitml.core.model.directions.inline
 
 import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
-import static test.support.JiBXTestUtils.unmarshalXml
 import static test.support.JiBXTestUtils.marshalXmlAndCompare
+import static test.support.JiBXTestUtils.unmarshalXml
 
 import org.custommonkey.xmlunit.XMLUnit
-
-import org.junit.Test
-import org.junit.Ignore
 import org.junit.BeforeClass
-import org.junit.internal.runners.JUnit4ClassRunner
-import org.junit.runner.JUnitCore
-import org.junit.runner.RunWith
+import org.junit.Test
 
-import com.knitml.core.model.operations.inline.IncreaseIntoNextStitch;
-import com.knitml.core.model.operations.inline.InlinePickUpStitches;
-import com.knitml.core.model.operations.inline.Knit;
-import com.knitml.core.model.operations.inline.Purl;
-import com.knitml.core.model.pattern.Pattern;
-import com.knitml.core.common.Side
-import com.knitml.core.common.Wise
-import com.knitml.core.common.LoopToWork
-import com.knitml.core.common.YarnPosition
 import com.knitml.core.common.IncreaseType
+import com.knitml.core.common.Wise
+import com.knitml.core.model.operations.inline.IncreaseIntoNextStitch
+import com.knitml.core.model.operations.inline.InlinePickUpStitches
+import com.knitml.core.model.operations.inline.Knit
+import com.knitml.core.model.operations.inline.Purl
+import com.knitml.core.model.pattern.Pattern
 
-@RunWith(JUnit4ClassRunner)
 class IncreaseTests {
 	@BeforeClass
 	static void setUp() {

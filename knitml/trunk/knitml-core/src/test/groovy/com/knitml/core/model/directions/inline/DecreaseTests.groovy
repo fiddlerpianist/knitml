@@ -3,31 +3,23 @@
  */
 package com.knitml.core.model.directions.inline
 
+import static com.knitml.core.common.DecreaseType.CDD
+import static com.knitml.core.common.DecreaseType.SSK
 import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
-import static test.support.JiBXTestUtils.unmarshalXml
 import static test.support.JiBXTestUtils.marshalXmlAndCompare
-import static com.knitml.core.common.DecreaseType.SSK
-import static com.knitml.core.common.DecreaseType.CDD
+import static test.support.JiBXTestUtils.unmarshalXml
 
 import org.custommonkey.xmlunit.XMLUnit
-
-import org.junit.Test
-import org.junit.Ignore
 import org.junit.BeforeClass
-import org.junit.internal.runners.JUnit4ClassRunner
+import org.junit.Test
 import org.junit.runner.JUnitCore
-import org.junit.runner.RunWith
 
-import com.knitml.core.model.operations.inline.Decrease;
-import com.knitml.core.model.operations.inline.DoubleDecrease;
-import com.knitml.core.model.pattern.Pattern;
-import com.knitml.core.common.Side
 import com.knitml.core.common.Wise
-import com.knitml.core.common.LoopToWork
-import com.knitml.core.common.YarnPosition
+import com.knitml.core.model.operations.inline.Decrease
+import com.knitml.core.model.operations.inline.DoubleDecrease
+import com.knitml.core.model.pattern.Pattern
 
-@RunWith(JUnit4ClassRunner)
 class DecreaseTests {
 	@BeforeClass
 	static void setUp() {

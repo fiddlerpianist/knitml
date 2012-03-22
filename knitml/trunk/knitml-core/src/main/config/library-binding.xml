@@ -7,7 +7,7 @@
 		prefix="" default="none" />
 	<namespace uri="http://www.knitml.com/schema/common" prefix="common"
 		default="none" />
-	<include path="block-operations.xml" />
+	<include path="../jibx/block-operations.xml" />
 	<include path="../jibx/common.xml" />
 
 	<mapping name="library" class="com.knitml.core.model.library.Library"
