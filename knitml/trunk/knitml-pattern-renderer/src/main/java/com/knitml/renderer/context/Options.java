@@ -33,6 +33,8 @@ public class Options {
 	// global rendering preferences
 	private boolean globalChart = false;
 	private boolean squareGauge = false;
+	private boolean greyNoStitches = true;
+
 	private Unit<StitchGauge> stitchGaugeUnit;
 	private Unit<RowGauge> rowGaugeUnit;
 	private Unit<Length> fabricMeasurementUnit;
@@ -152,4 +154,11 @@ public class Options {
 		this.fontNames = fontNames;
 	}
 
+	public boolean isGreyNoStitches() {
+		return greyNoStitches;
+	}
+
+	public void setGreyNoStitches(boolean greyNoStitches) {
+		this.greyNoStitches = greyNoStitches;
+	}
 }

@@ -21,6 +21,7 @@ import com.knitml.core.model.operations.inline.BindOffAll;
 import com.knitml.core.model.operations.inline.DesignateEndOfRow;
 import com.knitml.core.model.operations.inline.FromStitchHolder;
 import com.knitml.core.model.operations.inline.Increase;
+import com.knitml.core.model.operations.inline.IncreaseIntoNextStitch;
 import com.knitml.core.model.operations.inline.InlineCastOn;
 import com.knitml.core.model.operations.inline.InlineInstruction;
 import com.knitml.core.model.operations.inline.InlineInstructionRef;
@@ -30,13 +31,15 @@ import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.core.model.operations.inline.PlaceMarker;
 import com.knitml.core.model.operations.inline.Purl;
 import com.knitml.core.model.operations.inline.Repeat;
+import com.knitml.core.model.operations.inline.Repeat.Until;
 import com.knitml.core.model.operations.inline.SlipToStitchHolder;
 import com.knitml.core.model.operations.inline.Turn;
 import com.knitml.core.model.operations.inline.UsingNeedle;
 import com.knitml.core.model.operations.inline.WorkEven;
-import com.knitml.core.model.operations.inline.Repeat.Until;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.settings.Direction;
+import com.knitml.renderer.chart.ChartElement;
+import com.knitml.renderer.chart.ChartElementFinder;
 import com.knitml.renderer.context.RenderingContext;
 
 /**
@@ -52,6 +55,8 @@ import com.knitml.renderer.context.RenderingContext;
  * 
  */
 public class ChartingAnalyzer {
+
+	private final ChartElementFinder chartElementFinder = new ChartElementFinder();
 
 	private RenderingContext renderingContext;
 	/**
@@ -88,12 +93,14 @@ public class ChartingAnalyzer {
 
 		Object engineState = renderingContext.getEngine().save();
 
-		if (fromInstructionDefinition && originalInstruction.getStartingStitchCount() != null) {
-			renderingContext.getEngine().castOn(originalInstruction.getStartingStitchCount(), false);
+		if (fromInstructionDefinition
+				&& originalInstruction.getStartingStitchCount() != null) {
+			renderingContext.getEngine().castOn(
+					originalInstruction.getStartingStitchCount(), false);
 		} else {
 			this.dynamicFirstRowCastOn = fromInstructionDefinition;
 		}
-		
+
 		int startingStitches = renderingContext.getEngine()
 				.getTotalNumberOfStitchesInRow();
 
@@ -101,8 +108,7 @@ public class ChartingAnalyzer {
 			if (!originalInstruction.hasRows()) {
 				// cannot handle for-each-row-in-instruction yet. Possibly this
 				// would be expanded ahead of time.
-				log
-						.info("Cannot handle an Instruction whose operations are not made up entirely of Rows");
+				log.info("Cannot handle an Instruction whose operations are not made up entirely of Rows");
 				return new Analysis();
 			}
 
@@ -138,8 +144,7 @@ public class ChartingAnalyzer {
 			result.setChartable(true);
 			result.setMaxWidth(this.maxWidth);
 			result.setRowInfos(this.rowInfos);
-			result
-					.setContainsNoStitchOperations(this.containsNoStitchOperations);
+			result.setContainsNoStitchOperations(this.containsNoStitchOperations);
 			result.setKnittingShape(this.shape);
 			result.setStartingSide(this.startingSide);
 			return result;
@@ -191,7 +196,7 @@ public class ChartingAnalyzer {
 				engine.knit();
 				engine.endRow();
 				engine.startNewRow();
-			} else if (engine.getDirection() == Direction.BACKWARDS){
+			} else if (engine.getDirection() == Direction.BACKWARDS) {
 				this.startingSide = Side.WRONG;
 			}
 		}
@@ -296,17 +301,15 @@ public class ChartingAnalyzer {
 
 		// ensure that we can continue to analyze this instruction for charting
 		if (dynamicFirstRowCastOn && until != Until.TIMES) {
-			log
-					.info("Cannot chart this instruction because it is both defined in the header (i.e. without a knitting context) "
-							+ "and the first row has a repeat section that requires a knitting context."
-							+ "This can be fixed either by declaring the 'until' attribute of the repeat in the first row to be of type 'times', "
-							+ "or by including the repeats in the directions "
-							+ "section of the pattern instead of in the header.");
+			log.info("Cannot chart this instruction because it is both defined in the header (i.e. without a knitting context) "
+					+ "and the first row has a repeat section that requires a knitting context."
+					+ "This can be fixed either by declaring the 'until' attribute of the repeat in the first row to be of type 'times', "
+					+ "or by including the repeats in the directions "
+					+ "section of the pattern instead of in the header.");
 			return null;
 		}
 		if (currentlyRepeating) {
-			log
-					.info("Cannot currently chart nested repeats. This feature may be expanded in the future");
+			log.info("Cannot currently chart nested repeats. This feature may be expanded in the future");
 			return null;
 		}
 
@@ -342,11 +345,12 @@ public class ChartingAnalyzer {
 				break;
 			}
 			InlineOperation newOperation = handle(operation);
-			// if a non-discrete inline operation or null is returned, we cannot chart, so return null up the chain
+			// if a non-discrete inline operation or null is returned, we cannot
+			// chart, so return null up the chain
 			if (!(newOperation instanceof DiscreteInlineOperation)) {
 				return null;
 			}
-			newOperations.add((DiscreteInlineOperation)newOperation);
+			newOperations.add((DiscreteInlineOperation) newOperation);
 		}
 
 		// reset the engine to the state before we repeated once
@@ -359,7 +363,7 @@ public class ChartingAnalyzer {
 			for (int i = 0; i < value; i++) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					DiscreteInlineOperation newOperation = (DiscreteInlineOperation)handle(operation);
+					DiscreteInlineOperation newOperation = (DiscreteInlineOperation) handle(operation);
 					if (contextualOperationFound) {
 						newOperations.add(newOperation);
 					}
@@ -371,7 +375,7 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesRemainingInRow() > value) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					DiscreteInlineOperation newOperation = (DiscreteInlineOperation)handle(operation);
+					DiscreteInlineOperation newOperation = (DiscreteInlineOperation) handle(operation);
 					if (contextualOperationFound) {
 						newOperations.add(newOperation);
 					}
@@ -383,7 +387,7 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesRemainingInRow() > 0) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					DiscreteInlineOperation newOperation = (DiscreteInlineOperation)handle(operation);
+					DiscreteInlineOperation newOperation = (DiscreteInlineOperation) handle(operation);
 					if (contextualOperationFound) {
 						newOperations.add(newOperation);
 					}
@@ -395,7 +399,7 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesToGap() > value) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					DiscreteInlineOperation newOperation = (DiscreteInlineOperation)handle(operation);
+					DiscreteInlineOperation newOperation = (DiscreteInlineOperation) handle(operation);
 					if (contextualOperationFound) {
 						newOperations.add(newOperation);
 					}
@@ -407,7 +411,7 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesToNextMarker() > value) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					DiscreteInlineOperation newOperation = (DiscreteInlineOperation)handle(operation);
+					DiscreteInlineOperation newOperation = (DiscreteInlineOperation) handle(operation);
 					if (contextualOperationFound) {
 						newOperations.add(newOperation);
 					}
@@ -419,7 +423,7 @@ public class ChartingAnalyzer {
 			while (engine.getStitchesToNextMarker() > 0) {
 				// advanceAndIncrease(advanceCount, increaseCount);
 				for (InlineOperation operation : oldRepeat.getOperations()) {
-					DiscreteInlineOperation newOperation = (DiscreteInlineOperation)handle(operation);
+					DiscreteInlineOperation newOperation = (DiscreteInlineOperation) handle(operation);
 					if (contextualOperationFound) {
 						newOperations.add(newOperation);
 					}
@@ -446,17 +450,24 @@ public class ChartingAnalyzer {
 		}
 	}
 
-	protected InlineOperation handle(OperationGroup stitchGroup) {
+	protected InlineOperation handle(OperationGroup group) {
 		List<DiscreteInlineOperation> newOperations = new ArrayList<DiscreteInlineOperation>();
-		for (DiscreteInlineOperation operation : stitchGroup.getOperations()) {
-			DiscreteInlineOperation newOperation = handle(operation);
+		boolean addChildRowWidths = true;
+		if (group.getSize() != null) {
+			// operation group size is for cell size; if it's stated, add that value to the row width, else
+			// add the advance + increase count to the row width
+			addChildRowWidths = false;
+			this.currentRowInfo.addToRowWidth(group.getSize());
+		}
+		for (DiscreteInlineOperation operation : group.getOperations()) {
+			DiscreteInlineOperation newOperation = handle(operation, addChildRowWidths);
 			// if null is returned, we cannot chart, so return null up the chain
 			if (newOperation == null) {
 				return null;
 			}
 			newOperations.add(newOperation);
 		}
-		return new OperationGroup(stitchGroup.getSize(), newOperations);
+		return new OperationGroup(group.getSize(), newOperations);
 	}
 
 	/**
@@ -523,9 +534,25 @@ public class ChartingAnalyzer {
 		return null;
 	}
 
-	protected DiscreteInlineOperation handle(DiscreteInlineOperation object) {
-		int advanceCount = object.getAdvanceCount();
-		int increaseCount = object.getIncreaseCount();
+	protected DiscreteInlineOperation handle(IncreaseIntoNextStitch operation) {
+		ChartElement element = this.chartElementFinder
+				.findChartElementBy(operation.canonicalize().get(0));
+		if (element == null) {
+			log.info("Cannot chart an IncreaseIntoNextStitch operation because the chart element could not be identified");
+			return null;
+		}
+		this.currentRowInfo.addToRowWidth(1);
+		return handle((DiscreteInlineOperation) operation, false);
+
+	}
+
+	protected DiscreteInlineOperation handle(DiscreteInlineOperation operation) {
+		return handle(operation, true);
+	}
+	
+	private DiscreteInlineOperation handle(DiscreteInlineOperation operation, boolean addToRowWidth) {
+		int advanceCount = operation.getAdvanceCount();
+		int increaseCount = operation.getIncreaseCount();
 
 		if (dynamicFirstRowCastOn) {
 			// dynamically cast on the advance count (since all stitches are
@@ -534,17 +561,18 @@ public class ChartingAnalyzer {
 			renderingContext.getEngine().castOn(new InlineCastOn(advanceCount));
 			renderingContext.getEngine().reverseSlip(advanceCount);
 		}
-		StitchNature stitchNature = object instanceof StitchNatureProducer ? ((StitchNatureProducer) object)
-				.getStitchNatureProduced()
-				: null;
+		StitchNature stitchNature = operation instanceof StitchNatureProducer ? ((StitchNatureProducer) operation)
+				.getStitchNatureProduced() : null;
+		if (addToRowWidth) {
+			this.currentRowInfo.addToRowWidth(advanceCount + increaseCount);
+		}
 		advanceAndIncrease(advanceCount, increaseCount, stitchNature);
 
-		return object;
+		return operation;
 	}
 
 	protected void advanceAndIncrease(int advanceCount, int increaseCount,
 			StitchNature nature) {
-		this.currentRowInfo.addToRowWidth(advanceCount + increaseCount);
 		if (increaseCount < 0) {
 			// decrease the number specified by increaseCount
 			for (int i = 0; i > increaseCount; i--) {
@@ -599,9 +627,11 @@ public class ChartingAnalyzer {
 			} else { // lastOperation == StitchOperation.PURL
 				newOperations.add(new Purl(1, null, object.getYarnIdRef()));
 			}
+			this.currentRowInfo.addToRowWidth(1);
 			advanceAndIncrease(1, 0, currentStitchNature);
 		}
-		return newOperations.size() == 1 ? newOperations.get(0) : new OperationGroup(newOperations);
+		return newOperations.size() == 1 ? newOperations.get(0)
+				: new OperationGroup(newOperations);
 	}
 
 	protected InlineOperation handle(PlaceMarker object) {

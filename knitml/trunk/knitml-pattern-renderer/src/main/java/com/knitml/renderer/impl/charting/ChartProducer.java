@@ -43,6 +43,7 @@ import com.knitml.core.model.operations.inline.BindOff;
 import com.knitml.core.model.operations.inline.BindOffAll;
 import com.knitml.core.model.operations.inline.CrossStitches;
 import com.knitml.core.model.operations.inline.Decrease;
+import com.knitml.core.model.operations.inline.DoubleDecrease;
 import com.knitml.core.model.operations.inline.FromStitchHolder;
 import com.knitml.core.model.operations.inline.Increase;
 import com.knitml.core.model.operations.inline.IncreaseIntoNextStitch;
@@ -214,7 +215,7 @@ class ChartProducer implements Renderer {
 	}
 
 	public void endInstruction() {
-		chartWriter.writeChart(chart, this.writer);
+		chartWriter.writeChart(chart, this.writer, this.renderingContext);
 	}
 
 	public void beginInlineInstruction(InlineInstruction instruction) {
@@ -231,18 +232,50 @@ class ChartProducer implements Renderer {
 		return finder.findChartElementBy(operation.canonicalize().get(0));
 	}
 
-	protected void add(ChartElement point, DiscreteInlineOperation operation) {
-		if (isWithinRepeatSet()) {
-			getCurrentRepeatSet().addOperation(point);
-		} else {
-			if (direction == Direction.BACKWARDS) {
-				currentRow.add(0, inverse(point));
-			} else {
-				currentRow.add(point);
-			}
+	protected void add(final ChartElement element, DiscreteInlineOperation operation) {
+		ChartElement elementToUse = element;
+		if (direction == Direction.BACKWARDS) {
+			elementToUse = inverse(element);
 		}
 		if (operation != null) {
-			chart.addToLegend(point, operation);
+			chart.addToLegend(elementToUse, operation, elementToUse != element);
+		}
+
+		if (isWithinRepeatSet()) {
+			// use the original element here; it will be inversed when the repeat is carried out
+			getCurrentRepeatSet().addOperation(element);
+		} else {
+			if (direction == Direction.BACKWARDS) {
+				currentRow.add(0, elementToUse);
+			} else {
+				currentRow.add(elementToUse);
+			}
+		}
+		// if (isWithinRepeatSet()) {
+		// getCurrentRepeatSet().addOperation(element);
+		// } else {
+		// ChartElement elementToUse = element;
+		// if (direction == Direction.BACKWARDS) {
+		// elementToUse = inverse(element);
+		// currentRow.add(0, elementToUse);
+		// } else {
+		// currentRow.add(elementToUse);
+		// }
+		// if (operation != null) {
+		// chart.addToLegend(elementToUse, operation,
+		// elementToUse != element);
+		// }
+		// }
+	}
+
+	protected void pad(int number) {
+		for (int i = 0; i < number; i++) {
+			// for forwards AND backwards rows; this will put no-stitches on the
+			// same side
+			currentRow.add(NS);
+		}
+		if (number > 0) {
+			chart.addToLegend(NS, new NoStitch(), false);
 		}
 	}
 
@@ -265,9 +298,11 @@ class ChartProducer implements Renderer {
 
 	public void endRow(Row row, KnittingShape doNotUseThisVariable) {
 		// pad whatever is left with no-stitch elements
-		for (int i = currentRowInfo.getRowWidth(); i < analysis.getMaxWidth(); i++) {
-			add(NS, new NoStitch());
-		}
+		pad(analysis.getMaxWidth() - currentRowInfo.getRowWidth());
+		// for (int i = currentRowInfo.getRowWidth(); i <
+		// analysis.getMaxWidth(); i++) {
+		// add(NS, new NoStitch());
+		// }
 
 		// release currentRow... it has already been added to the chart in
 		// beginRow()
@@ -318,8 +353,12 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderDecrease(Decrease decrease) {
-		ChartElement point = findChartElement(new Decrease(1,
-				decrease.getType(), null));
+		ChartElement point;
+		if (decrease instanceof DoubleDecrease) {
+			point = findChartElement(new DoubleDecrease(1,decrease.getType(), null));			
+		} else {
+			point = findChartElement(new Decrease(1,decrease.getType(), null));			
+		}
 		if (point == null) {
 			throw new RuntimeException(
 					"This type of ChartElement is not defined yet. If the pattern validates against the schema, please report this as a bug");
@@ -397,16 +436,36 @@ class ChartProducer implements Renderer {
 		}
 	}
 
-	public boolean renderOperationGroup(OperationGroup group) {
+	public boolean beginOperationGroup(OperationGroup group) {
 		ChartElement element = finder.findChartElementBy(group
 				.canonicalizeGroup());
 		if (element != null) {
 			add(element, group);
-			return true;
+			return false;
 		}
 		// not able to assign this group to a chart element; process them
 		// individually
+		return true;
+	}
+
+	public void endOperationGroup(OperationGroup group) {
+		// nothing to do here
+	}
+	
+	public boolean beginIncreaseIntoNextStitch(
+			IncreaseIntoNextStitch increaseIntoNextStitch) {
+		ChartElement element = finder.findChartElementBy(increaseIntoNextStitch
+				.canonicalize().get(0));
+		if (element == null) {
+			throw new RuntimeException(
+					"A chart element could not be located for an increase into next stitch operation.");
+		}
+		add(element, increaseIntoNextStitch);
 		return false;
+	}
+
+	public void endIncreaseIntoNextStitch(
+			IncreaseIntoNextStitch increaseIntoNextStitch) {
 	}
 
 	public void renderInlineInstructionRef(InlineInstructionRef instructionRef,
@@ -608,16 +667,6 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderWorkEven(WorkEven operation) {
-		throw new NotImplementedException();
-	}
-
-	public void beginIncreaseIntoNextStitch(
-			IncreaseIntoNextStitch increaseIntoNextStitch) {
-		throw new NotImplementedException();
-	}
-
-	public void endIncreaseIntoNextStitch(
-			IncreaseIntoNextStitch increaseIntoNextStitch) {
 		throw new NotImplementedException();
 	}
 

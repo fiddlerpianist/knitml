@@ -8,7 +8,7 @@ import java.util.List;
 public class OperationSet implements Iterable<Object> {
 
 	public enum Type {
-		REPEAT, ROW, USING_NEEDLE, INLINE_INSTRUCTION, FROM_STITCH_HOLDER, INC_INTO_NEXT_ST, EMPTY
+		REPEAT, ROW, USING_NEEDLE, INLINE_INSTRUCTION, FROM_STITCH_HOLDER, INC_INTO_NEXT_ST, OPERATION_GROUP
 	}
 
 	private List<Object> operations = new ArrayList<Object>();

@@ -10,15 +10,14 @@ import com.knitml.renderer.Renderer;
 import com.knitml.renderer.RendererFactory;
 import com.knitml.renderer.chart.writer.ChartWriter;
 import com.knitml.renderer.chart.writer.impl.NoOpChartWriter;
-import com.knitml.renderer.config.DefaultModule;
 import com.knitml.renderer.context.Options;
 import com.knitml.renderer.impl.basic.BasicTextRenderer;
 import com.knitml.renderer.impl.charting.ChartingRenderer;
 
-public class ChartingRendererTestModule extends AbstractModule {
+public class LogicalChartTestModule extends AbstractModule {
 
 	protected void configure() {
-		install(new DefaultModule());
+		install(new BaseTestModule());
 		install(new FactoryModuleBuilder().implement(Renderer.class,
 				ChartingRenderer.class).build(RendererFactory.class));
 		install(new FactoryModuleBuilder().implement(Renderer.class,

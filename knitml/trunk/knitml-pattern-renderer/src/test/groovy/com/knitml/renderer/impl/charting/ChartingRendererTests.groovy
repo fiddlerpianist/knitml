@@ -9,13 +9,13 @@ import static test.support.JiBXUtils.parseXml
 import org.junit.Test
 
 import test.support.AbstractRenderingContextTests
-import test.support.ChartingRendererTestModule
+import test.support.LogicalChartTestModule
 import test.support.GuiceJUnit4Runner.GuiceModules
 
 
-@GuiceModules( ChartingRendererTestModule )
+@GuiceModules( LogicalChartTestModule )
 class ChartingRendererTests extends AbstractRenderingContextTests {
-	
+
 	@Test
 	public void flatChart() {
 		processXml PATTERN_START_TAG + '''
@@ -34,8 +34,11 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 				</pattern:instruction-definitions>
 			</pattern:directives>
 		 </pattern:pattern>'''
-		 
-		 assertThat renderer.graph, is ([[P,P,K_TW,K_TW],[K,K,P_TW,P_TW]])
+
+		assertThat renderer.graph, is ([
+			[P, P, K_TW, K_TW],
+			[K, K, P_TW, P_TW]
+		])
 	}
 
 	@Test
@@ -56,11 +59,14 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 				</pattern:instruction-definitions>
 			</pattern:directives>
 		 </pattern:pattern>'''
-		 
-		 assertThat renderer.graph, is ([[P_TW,P_TW,K,K],[K_TW,K_TW,P,P]])
+
+		assertThat renderer.graph, is ([
+			[P_TW, P_TW, K, K],
+			[K_TW, K_TW, P, P]
+		])
 	}
 
-	
+
 	@Test
 	public void flatChartWithWorkEven() {
 		processXml PATTERN_START_TAG + '''
@@ -79,9 +85,9 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</pattern:directives>
 		 </pattern:pattern>'''
 
-		 assertThat renderer.graph, is ([[K,K,P,P],[K,K,P,P]])
+		assertThat renderer.graph, is ([[K, K, P, P], [K, K, P, P]])
 	}
-	
+
 	@Test
 	public void flatChartWithWorkEvenWithRepeat() {
 		processXml PATTERN_START_TAG + '''
@@ -102,10 +108,10 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</pattern:directives>
 		 </pattern:pattern>'''
 
-		 assertThat renderer.graph, is ([[K,K,P,P],[K,K,P,P]])
+		assertThat renderer.graph, is ([[K, K, P, P], [K, K, P, P]])
 	}
 
-	
+
 	@Test
 	public void roundChart() {
 		processXml PATTERN_START_TAG + '''
@@ -123,9 +129,9 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</pattern:directives>
 		 </pattern:pattern>'''
 
-		 assertThat renderer.graph, is ([[K,K,K,K],[K,K,K,K]])
+		assertThat renderer.graph, is ([[K, K, K, K], [K, K, K, K]])
 	}
-	
+
 	@Test
 	public void roundChartWithWorkEven() {
 		processXml PATTERN_START_TAG + '''
@@ -144,10 +150,10 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</pattern:directives>
 		 </pattern:pattern>'''
 
-		 assertThat renderer.graph, is ([[K,K,P,P],[K,K,P,P]])
+		assertThat renderer.graph, is ([[K, K, P, P], [K, K, P, P]])
 	}
 
-	
+
 	@Test
 	public void asymmetricFlatChart() {
 		processXml PATTERN_START_TAG + '''
@@ -171,8 +177,10 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</pattern:directives>
 		 </pattern:pattern>'''
 
-		 assertThat renderer.graph, is ([[K,K,P,P,K,K,P,P],
-		                                 [K,K,P,P,K,K,P,P]]);
+		assertThat renderer.graph, is ([
+			[K, K, P, P, K, K, P, P],
+			[K, K, P, P, K, K, P, P]
+		]);
 	}
 
 	@Test
@@ -211,10 +219,58 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</pattern:directives>
 		 </pattern:pattern>'''
 
-		 assertThat renderer.graph, is ([[P,P,YO,K,K,K,SSK,K,K,K,K,K,K,K,K,K2TOG,K,K,K,YO,P,P],
-		                                 [P,P,K,YO,K,K,K,SSK,K,K,K,K,K,K,K2TOG,K,K,K,YO,K,P,P]]);
+		assertThat renderer.graph, is ([
+			[
+				P,
+				P,
+				YO,
+				K,
+				K,
+				K,
+				SSK,
+				K,
+				K,
+				K,
+				K,
+				K,
+				K,
+				K,
+				K,
+				K2TOG,
+				K,
+				K,
+				K,
+				YO,
+				P,
+				P
+			],
+			[
+				P,
+				P,
+				K,
+				YO,
+				K,
+				K,
+				K,
+				SSK,
+				K,
+				K,
+				K,
+				K,
+				K,
+				K,
+				K2TOG,
+				K,
+				K,
+				K,
+				YO,
+				K,
+				P,
+				P
+			]
+		]);
 	}
-	
+
 	@Test
 	public void basic2StCable() {
 		processXml PATTERN_START_TAG + '''
@@ -239,8 +295,10 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</pattern:directives>
 		 </pattern:pattern>'''
 
-		 assertThat renderer.graph, is ([[P,P,P,P,CBL_1_1_LC,P,P,P,P],
-		                                 [P,P,P,P,K,K,P,P,P,P]]);
+		assertThat renderer.graph, is ([
+			[P, P, P, P, CBL_1_1_LC, P, P, P, P],
+			[P, P, P, P, K, K, P, P, P, P]
+		]);
 	}
 	@Test
 	public void custom2StCable() {
@@ -268,7 +326,51 @@ class ChartingRendererTests extends AbstractRenderingContextTests {
 			</pattern:directives>
 		 </pattern:pattern>'''
 
-		 assertThat renderer.graph, is ([[P,P,P,P,CBL_2ST_CUSTOM,P,P,P,P],
-		                                 [P,P,P,P,K,K,P,P,P,P]]);
+		assertThat renderer.graph, is ([
+			[
+				P,
+				P,
+				P,
+				P,
+				CBL_2ST_CUSTOM,
+				P,
+				P,
+				P,
+				P
+			],
+			[P, P, P, P, K, K, P, P, P, P]
+		]);
+	}
+	@Test
+	public void kpkIntoNextStitch() {
+		// use a stitch set not found in the group operations map
+		processXml PATTERN_START_TAG + '''
+			<pattern:directives>
+				<pattern:instruction-definitions>
+					<instruction id="chart" label="Chart" shape="round"> 
+						<row>
+							<knit>1</knit>
+						</row>
+						<row>
+							<increase-into-next-stitch>
+								<knit/>
+								<purl/>
+								<knit/>
+							</increase-into-next-stitch>
+						</row>
+						<row>
+							<knit>3</knit>
+						</row>
+					</instruction>
+				</pattern:instruction-definitions>
+			</pattern:directives>
+		 </pattern:pattern>'''
+
+		assertThat renderer.graph, is ([
+			[K, NS, NS],
+			[KPK_NEXT_ST, NS, NS],
+			[K, K, K]
+		]);
+
 	}
 }

@@ -30,8 +30,8 @@ public class ChartSymbolAdvisor implements SymbolProvider, StylesheetProvider {
 		return stylesheetProvider.getStyleClassPrefix();
 	}
 
-	public String getStyleClassPrefix(String symbolSetId) {
-		return stylesheetProvider.getStyleClassPrefix(symbolSetId);
+	public String getSymbolSetName(String symbolSetId) {
+		return stylesheetProvider.getSymbolSetName(symbolSetId);
 	}
 	
 	public String getStylesheet() {

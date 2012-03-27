@@ -7,7 +7,7 @@ public class KnittersSymbolsWStylesheetProvider extends
 	public String getStyleClassPrefix() {
 		return "ks";
 	}
-	public String getStyleClassPrefix(String symbolSetId) {
+	public String getSymbolSetName(String symbolSetId) {
 		return getStyleClassPrefix();
 	}
 

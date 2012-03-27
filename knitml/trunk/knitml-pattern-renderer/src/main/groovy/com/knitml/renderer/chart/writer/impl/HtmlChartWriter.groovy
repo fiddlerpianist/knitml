@@ -1,5 +1,7 @@
 package com.knitml.renderer.chart.writer.impl;
 
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml
+
 import java.io.IOException
 import java.io.Writer
 import java.util.List
@@ -17,6 +19,7 @@ import com.knitml.renderer.chart.stylesheet.StylesheetProvider
 import com.knitml.renderer.chart.symbol.Symbol
 import com.knitml.renderer.chart.symbol.SymbolProvider
 import com.knitml.renderer.chart.writer.ChartWriter
+import com.knitml.renderer.context.RenderingContext
 
 public class HtmlChartWriter implements ChartWriter {
 
@@ -39,7 +42,7 @@ public class HtmlChartWriter implements ChartWriter {
 		this.legendOperationRenderer = legendOperationRenderer
 	}
 
-	public void writeChart(Chart chart, Writer writer) {
+	public void writeChart(Chart chart, Writer writer, RenderingContext context) {
 
 		List<List<ChartElement>> graph = chart.graph
 		int currentLineNumber = chart.startingRowNumber + graph.size() - 1
@@ -48,13 +51,14 @@ public class HtmlChartWriter implements ChartWriter {
 		ListIterator<List<ChartElement>> graphIt = graph.listIterator(graph.size())
 		try {
 			writer.with {
-				it << "<table class=\"${stylesheetClassPrefix}-chart\">" << SYS_LF
+				it << "<div class=\"${stylesheetClassPrefix}-graph\">" << SYS_LF
+				it << "<table>" << SYS_LF
 				if (chart.title != null) {
-					it << "<caption>${chart.title}</caption>" << SYS_LF
+					it << "<caption>${escapeHtml chart.title}</caption>" << SYS_LF
 				}
-				it << "<colgroup class=\"${stylesheetClassPrefix}-lhcol\" />" << SYS_LF
-				it << "<colgroup class=\"${stylesheetClassPrefix}-bodycol\" span=\"${chart.width}\"/>" << SYS_LF
-				it << "<colgroup class=\"${stylesheetClassPrefix}-rhcol\" />" << SYS_LF
+				it << "<colgroup class=\"${stylesheetClassPrefix}-graph-lhcol\" />" << SYS_LF
+				it << "<colgroup class=\"${stylesheetClassPrefix}-graph-bodycol\" span=\"${chart.width}\"/>" << SYS_LF
+				it << "<colgroup class=\"${stylesheetClassPrefix}-graph-rhcol\" />" << SYS_LF
 				it << "<tbody>" << SYS_LF
 				while (graphIt.hasPrevious()) {
 					def row = graphIt.previous()
@@ -68,10 +72,13 @@ public class HtmlChartWriter implements ChartWriter {
 						ChartElement element = rowIt.previous()
 						Symbol symbol = symbolProvider.getSymbol(element)
 						elementsUsed[element] = symbol
-						def cssClass = stylesheetProvider.getStyleClassPrefix(symbol.symbolSetId)
-
-						it << "<td class=\"${cssClass}-cell\"" <<
-								(element.width() > 1 ? " colspan=\"${element.width()}\">" : ">") << "${symbol.symbol}</td>"
+						def symbolSetFont = stylesheetProvider.getSymbolSetName(symbol.symbolSetId)
+						it << "<td class=\"${stylesheetClassPrefix}-graph-cell ${symbolSetFont}"
+						if (element == ChartElement.NS && context.options.greyNoStitches) {
+							it << " ${stylesheetClassPrefix}-cell-grey"
+						}
+						it << "\"" << (element.width() > 1 ? " colspan=\"${element.width()}\">" : ">")
+						it << "${symbol.symbol}</td>"
 					}
 					it << "<td>"
 					if (renderRightSideRowNumber(currentLineNumber, chart)) {
@@ -80,17 +87,30 @@ public class HtmlChartWriter implements ChartWriter {
 					it << "</td></tr>" << SYS_LF
 					currentLineNumber--
 				}
-				it << "</tbody></table>" << SYS_LF
-				it << "<p>Legend" << LF
+				it << "</tbody></table></div>" << SYS_LF
+				// write the legend
+				it << "<div class=\"${stylesheetClassPrefix}-legend\">" << SYS_LF
+				it << "<table>" << SYS_LF
+				it << '''<caption>Legend</caption>
+				<colgroup />
+				<colgroup />
+				<tbody>
+				'''
+
 				for (ChartElement element : chart.legend.keySet()) {
 					Symbol symbol = elementsUsed[element]
-					it << "<span class=\"${stylesheetProvider.getStyleClassPrefix(symbol.getSymbolSetId())}-legend\">${symbol.symbol}</span>"
-					it << "${suffix} "
-					it << legendOperationRenderer.resolveLegendFor(chart.legend[element]) << LF
-					// FIXME
-					//it << "${element.toString().toLowerCase()}" << LF
+					def rawKey = symbol.symbol
+					def rawValue = legendOperationRenderer.resolveLegendFor(element, chart.legend[element])
+					def symbolSetFont = stylesheetProvider.getSymbolSetName(symbol.getSymbolSetId())
+					it << "<tr><td class=\"${stylesheetClassPrefix}-legend-key ${symbolSetFont}"
+					if (element == ChartElement.NS && context.options.greyNoStitches) {
+						it << " ${stylesheetClassPrefix}-cell-grey"
+					}
+					it << "\">" <<
+							"${escapeHtml rawKey}</td>" <<
+							"<td>${escapeHtml rawValue}</td></tr>"
 				}
-				it << "</p>"
+				it << "</tbody></table></div>"
 			}
 		} catch (IOException ex) {
 			throw new RuntimeException("Could not write to writer", ex);

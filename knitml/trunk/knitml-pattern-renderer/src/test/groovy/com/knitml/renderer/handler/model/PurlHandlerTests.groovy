@@ -13,7 +13,7 @@ import com.knitml.core.model.operations.inline.Purl;
 
 import test.support.AbstractRenderingContextTests
 
-class PurlVisitorTests extends AbstractRenderingContextTests {
+class PurlHandlerTests extends AbstractRenderingContextTests {
 
 	@Before
 	void addYarns() {
@@ -68,10 +68,6 @@ class PurlVisitorTests extends AbstractRenderingContextTests {
 		</row>
 		''', Purl
 		assertThat output, startsWith ('Row 1: p1 (A), p1 (B)')
-	}
-	
-	static void main(args) {
-		JUnitCore.main(PurlVisitorTests.name)
 	}
 	
 }

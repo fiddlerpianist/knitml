@@ -1,10 +1,11 @@
-package com.knitml.renderer.config;
+package test.support;
 
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.knitml.renderer.chart.legend.LegendOperationRenderer;
 import com.knitml.renderer.chart.legend.impl.DefaultLegendOperationRenderer;
+import com.knitml.renderer.config.RenderingContextProvider;
 import com.knitml.renderer.context.RenderingContext;
 import com.knitml.renderer.event.EventHandlerFactory;
 import com.knitml.renderer.event.impl.DefaultEventHandlerFactory;
@@ -18,9 +19,9 @@ import com.knitml.validation.context.PatternEventListener;
 import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
 import com.knitml.validation.context.impl.DefaultListenerManager;
 import com.knitml.validation.visitor.instruction.VisitorFactory;
-import com.knitml.validation.visitor.instruction.impl.DefaultVisitorFactory;
+import com.knitml.validation.visitor.instruction.impl.SimpleVisitorFactory;
 
-public class DefaultModule extends AbstractModule {
+public class BaseTestModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
@@ -29,8 +30,7 @@ public class DefaultModule extends AbstractModule {
 		bind(LegendOperationRenderer.class).to(DefaultLegendOperationRenderer.class);
 		bind(KnittingContextFactory.class).to(DefaultKnittingContextFactory.class);
 		bind(ListenerManager.class).to(DefaultListenerManager.class);
-		bind(VisitorFactory.class).to(DefaultVisitorFactory.class);
-//		bind(VisitorFactory.class).to(SimpleVisitorFactory.class);
+		bind(VisitorFactory.class).to(SimpleVisitorFactory.class);
 		bind(RenderingContext.class).toProvider(RenderingContextProvider.class);
 		install(new FactoryModuleBuilder().implement(PatternEventListener.class,
 				RenderingListenerAdapter.class).build(RenderingPatternEventListenerFactory.class));

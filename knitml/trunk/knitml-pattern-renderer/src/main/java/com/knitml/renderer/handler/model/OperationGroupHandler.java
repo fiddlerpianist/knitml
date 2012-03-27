@@ -17,8 +17,13 @@ public class OperationGroupHandler extends AbstractEventHandler {
 	public boolean begin(Object element, Renderer renderer)
 			throws RenderingException {
 		// attempt to render the operation group together; if that fails, render the children individually
-		boolean wasRendered = renderer.renderOperationGroup((OperationGroup)element);
-		// if was not rendered, return (true meaning that the children should be processed)
-		return !wasRendered;
+		return renderer.beginOperationGroup((OperationGroup)element);
 	}
+
+	@Override
+	public void end(Object element, Renderer renderer) throws RenderingException {
+		renderer.endOperationGroup((OperationGroup)element);
+	}
+	
+	
 }

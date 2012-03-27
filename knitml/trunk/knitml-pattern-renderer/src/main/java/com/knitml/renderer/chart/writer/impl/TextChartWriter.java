@@ -15,14 +15,17 @@ import com.knitml.core.common.KnittingShape;
 import com.knitml.core.common.Side;
 import com.knitml.renderer.chart.Chart;
 import com.knitml.renderer.chart.ChartElement;
-import com.knitml.renderer.chart.symbol.SymbolResolutionException;
+import com.knitml.renderer.chart.legend.LegendOperationRenderer;
 import com.knitml.renderer.chart.symbol.Symbol;
 import com.knitml.renderer.chart.symbol.SymbolProvider;
+import com.knitml.renderer.chart.symbol.SymbolResolutionException;
 import com.knitml.renderer.chart.writer.ChartWriter;
+import com.knitml.renderer.context.RenderingContext;
 
 public class TextChartWriter implements ChartWriter {
 
 	private SymbolProvider symbolProvider;
+	private LegendOperationRenderer legendOperationRenderer;
 	private boolean writeLineNumbers = true;
 	private String suffix = ":";
 	private String rowDelimiter = "|";
@@ -30,12 +33,14 @@ public class TextChartWriter implements ChartWriter {
 			.getProperty("line.separator");
 
 	@Inject
-	public TextChartWriter(SymbolProvider symbolProvider) {
+	public TextChartWriter(SymbolProvider symbolProvider,
+			LegendOperationRenderer legendOperationRenderer) {
 		super();
 		this.symbolProvider = symbolProvider;
+		this.legendOperationRenderer = legendOperationRenderer;
 	}
 
-	public void writeChart(Chart chart, Writer writer)
+	public void writeChart(Chart chart, Writer writer, RenderingContext context)
 			throws SymbolResolutionException {
 
 		List<List<ChartElement>> graph = chart.getGraph();
@@ -93,15 +98,18 @@ public class TextChartWriter implements ChartWriter {
 				currentLineNumber--;
 				writer.write(LINE_BREAK);
 			}
-			writer.write("Legend");
-			writer.write(LINE_BREAK);
-			for (ChartElement element : elementsUsed) {
-				// FIXME non-internationalized, not to mention ugly
-				writer.write(symbolProvider.getSymbol(element).getSymbol()
-						+ suffix + " " + element.toString().toLowerCase());
+			if (this.legendOperationRenderer != null) {
+				writer.write("Legend");
+				writer.write(LINE_BREAK);
+				for (ChartElement element : elementsUsed) {
+					writer.write(symbolProvider.getSymbol(element).getSymbol()
+							+ suffix + " ");
+					writer.write(legendOperationRenderer.resolveLegendFor(element, chart
+							.getLegend().get(element)));
+					writer.write(LINE_BREAK);
+				}
 				writer.write(LINE_BREAK);
 			}
-			writer.write(LINE_BREAK);
 
 		} catch (IOException ex) {
 			throw new RuntimeException("Could not write to writer", ex);

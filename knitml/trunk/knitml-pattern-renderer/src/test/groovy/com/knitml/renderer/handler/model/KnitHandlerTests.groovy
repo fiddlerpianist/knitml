@@ -14,7 +14,7 @@ import com.knitml.core.model.operations.inline.Knit;
 
 import test.support.AbstractRenderingContextTests
 
-class KnitVisitorTests extends AbstractRenderingContextTests {
+class KnitHandlerTests extends AbstractRenderingContextTests {
 
 	@Before
 	void addYarns() {
@@ -71,10 +71,6 @@ class KnitVisitorTests extends AbstractRenderingContextTests {
 		</row>
 		''', Row
 		assertThat output, startsWith ('Row 1: k1 (A), k1 (B)')
-	}
-	
-	static void main(args) {
-		JUnitCore.main(KnitVisitorTests.name)
 	}
 	
 }

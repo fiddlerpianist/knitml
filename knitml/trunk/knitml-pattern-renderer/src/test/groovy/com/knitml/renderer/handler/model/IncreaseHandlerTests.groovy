@@ -141,7 +141,18 @@ class IncreaseHandlerTests extends AbstractRenderingContextTests {
 	}
 	
 	@Test
-	void increaseIntoNextStitch() {
+	void increaseIntoNextStitchWithoutRow() {
+		renderingContext.engine.startNewRow()
+		processXml '''
+		  <increase-into-next-stitch xmlns="http://www.knitml.com/schema/operations">
+		    <knit>1</knit>
+		    <purl>1</purl>
+		  </increase-into-next-stitch>''', IncreaseIntoNextStitch
+		assertThat output, is ('inc into next st [k1, p1]')
+	}
+	
+	@Test
+	void increaseIntoNextStitchWithRow() {
 		processXml '''
 		<row xmlns="http://www.knitml.com/schema/operations">
 		  <increase-into-next-stitch>

@@ -74,6 +74,9 @@ public class OperationSetHelper {
 	}
 
 	public OperationSet getCurrentOperationSet() {
+		if (operationSetStack.empty()) {
+			return null;
+		}
 		return operationSetStack.peek();
 	}
 
@@ -102,13 +105,36 @@ public class OperationSetHelper {
 	 *         current recursive call, actually simple
 	 */
 	public void renderCurrentOperationSet() {
-		renderOperationSet(getCurrentOperationSet(), true);
+		OperationSet operationSet = getCurrentOperationSet();
+		switch (operationSet.getType()) {
+		case INC_INTO_NEXT_ST:
+			renderIncreaseIntoNextStitchOperationSet(operationSet);
+			break;
+		case OPERATION_GROUP:
+			renderOperationSet(operationSet, false);
+			break;
+		default:
+			renderOperationSet(operationSet, true);
+			break;
+		}
 	}
 
 	public boolean isCurrentOperationSetEmpty() {
 		return getCurrentOperationSet().size() == 0;
 	}
 
+	public boolean isCurrentOperationSetLonely() {
+		OperationSet topElement = operationSetStack.pop();
+		boolean result = operationSetStack.empty();
+		operationSetStack.push(topElement);
+		return result;
+	}
+	
+	/**
+	 * @param operationSet an operation set of type which consists of a Row or an InlineInstruction definition
+	 * @param potentiallySimple
+	 * @return
+	 */
 	private boolean renderOperationSet(OperationSet operationSet,
 			boolean potentiallySimple) {
 		if (operationSet.size() > 1) {

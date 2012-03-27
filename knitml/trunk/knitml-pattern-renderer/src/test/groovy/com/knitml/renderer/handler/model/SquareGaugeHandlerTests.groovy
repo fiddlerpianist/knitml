@@ -18,7 +18,7 @@ import com.knitml.core.common.ValidationException
 
 import test.support.AbstractRenderingContextTests
 
-class SquareGaugeVisitorTests extends AbstractRenderingContextTests {
+class SquareGaugeHandlerTests extends AbstractRenderingContextTests {
 	
 	private static final LINE_BREAK = System.getProperty("line.separator");
 

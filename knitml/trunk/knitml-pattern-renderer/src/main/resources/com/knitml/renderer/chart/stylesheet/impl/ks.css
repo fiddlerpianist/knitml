@@ -1,3 +1,6 @@
+.ks-chartdiv {
+}
+
 .ks-chart {
     border-width: 0px;
 	padding: 0px;
@@ -31,7 +34,10 @@
     font-size: larger;
 }
 
-.ks-legend {
+.ks-legenddiv {
+}
+
+.ks-legendkey {
     font-family: KSymbolsW;
     font-size: larger;
 }

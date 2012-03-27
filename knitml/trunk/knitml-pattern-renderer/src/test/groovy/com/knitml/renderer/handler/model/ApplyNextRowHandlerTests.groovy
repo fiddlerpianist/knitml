@@ -15,7 +15,7 @@ import com.knitml.core.common.ValidationException
 
 import test.support.AbstractRenderingContextTests
 
-class ApplyNextRowVisitorTests extends AbstractRenderingContextTests {
+class ApplyNextRowHandlerTests extends AbstractRenderingContextTests {
 
 	@Test
 	void applyNextRowFromGlobalInstruction() {

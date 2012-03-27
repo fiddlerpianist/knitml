@@ -360,10 +360,10 @@ public class NoOpWrapperRenderer implements Renderer {
 		
 	}
 
-	public void beginIncreaseIntoNextStitch(
+	public boolean beginIncreaseIntoNextStitch(
 			IncreaseIntoNextStitch increaseIntoNextStitch) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	public void endIncreaseIntoNextStitch(
@@ -382,9 +382,14 @@ public class NoOpWrapperRenderer implements Renderer {
 		
 	}
 
-	public boolean renderOperationGroup(OperationGroup group) {
+	public boolean beginOperationGroup(OperationGroup group) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void endOperationGroup(OperationGroup group) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public void beginInformation() {

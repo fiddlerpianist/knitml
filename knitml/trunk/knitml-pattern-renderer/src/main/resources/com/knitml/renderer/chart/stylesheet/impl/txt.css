@@ -1,3 +1,6 @@
+.txt-chartdiv {
+}
+
 .txt-chart {
     border-collapse: collapse;
     border-width: 0px;
@@ -33,7 +36,10 @@
     font-size: larger;
 }
 
-.txt-legend {
+.txt-legenddiv {
+}
+
+.txt-legendkey {
     font-family: sans-serif;
     font-size: larger;
 }
