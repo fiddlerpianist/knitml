@@ -15,7 +15,7 @@ import com.knitml.tools.runner.support.RunnerUtils;
 import com.knitml.validation.ValidationProgram;
 import com.knitml.validation.context.KnittingContextFactory;
 import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
-import com.knitml.validation.visitor.instruction.impl.SpringVisitorFactory;
+import com.knitml.validation.visitor.instruction.impl.DefaultVisitorFactory;
 
 public class ValidatePattern {
 
@@ -46,7 +46,7 @@ public class ValidatePattern {
 			KnittingContextFactory contextFactory = new DefaultKnittingContextFactory();
 			// create the ValidationProgram
 			ValidationProgram validator = new ValidationProgram(contextFactory,
-					new SpringVisitorFactory());
+					new DefaultVisitorFactory());
 			// ValidationProgram validator = new ValidationProgram(new
 			// DefaultKnittingContextFactory(),
 			// new SpringVisitorFactory());
