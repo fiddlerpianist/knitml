@@ -8,8 +8,8 @@ public class AireRiverStylesheetProvider extends
 	public String getStyleClassPrefix() {
 		return "ar";
 	}
-	public String getStyleClassPrefix(String symbolSetId) {
-		return getStyleClassPrefix();
+	public String getSymbolSetName(String symbolSetId) {
+		return "ar-font";
 	}
 
 }

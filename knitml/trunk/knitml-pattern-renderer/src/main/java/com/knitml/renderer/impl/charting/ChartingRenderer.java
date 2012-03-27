@@ -11,6 +11,7 @@ import javax.inject.Provider;
 
 import com.google.inject.assistedinject.Assisted;
 import com.knitml.core.common.KnittingShape;
+import com.knitml.core.common.Side;
 import com.knitml.core.model.common.Needle;
 import com.knitml.core.model.common.StitchesOnNeedle;
 import com.knitml.core.model.common.Yarn;
@@ -99,7 +100,7 @@ public class ChartingRenderer implements Renderer {
 		return chartProducer.getChart().getGraph();
 	}
 
-	protected Map<ChartElement, DiscreteInlineOperation> getLegend() {
+	protected Map<ChartElement, Map<Side,DiscreteInlineOperation>> getLegend() {
 		return chartProducer.getChart().getLegend();
 	}
 
@@ -443,9 +444,9 @@ public class ChartingRenderer implements Renderer {
 		return this.renderingContext;
 	}
 
-	public void beginIncreaseIntoNextStitch(
+	public boolean beginIncreaseIntoNextStitch(
 			IncreaseIntoNextStitch increaseIntoNextStitch) {
-		delegate.beginIncreaseIntoNextStitch(increaseIntoNextStitch);
+		return delegate.beginIncreaseIntoNextStitch(increaseIntoNextStitch);
 	}
 
 	public void endIncreaseIntoNextStitch(
@@ -457,8 +458,12 @@ public class ChartingRenderer implements Renderer {
 		delegate.renderPassPreviousStitchOver(ppso);
 	}
 
-	public boolean renderOperationGroup(OperationGroup group) {
-		return delegate.renderOperationGroup(group);
+	public boolean beginOperationGroup(OperationGroup group) {
+		return delegate.beginOperationGroup(group);
 	}
 
+	public void endOperationGroup(OperationGroup group) {
+		delegate.endOperationGroup(group);
+	}
+	
 }

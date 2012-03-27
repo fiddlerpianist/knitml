@@ -14,7 +14,7 @@ import com.knitml.core.model.operations.inline.BindOffAll;
 
 import test.support.AbstractRenderingContextTests
 
-class BindOffVisitorTests extends AbstractRenderingContextTests {
+class BindOffHandlerTests extends AbstractRenderingContextTests {
 
 
 	@Before

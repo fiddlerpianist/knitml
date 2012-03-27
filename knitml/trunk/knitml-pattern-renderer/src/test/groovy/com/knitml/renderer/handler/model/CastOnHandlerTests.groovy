@@ -13,7 +13,7 @@ import com.knitml.core.model.operations.inline.InlineCastOn;
 
 import test.support.AbstractRenderingContextTests
 
-class CastOnVisitorTests extends AbstractRenderingContextTests {
+class CastOnHandlerTests extends AbstractRenderingContextTests {
 
 	
 	@Test

@@ -41,103 +41,170 @@ import com.knitml.core.model.pattern.Supplies;
 import com.knitml.renderer.context.InstructionInfo;
 import com.knitml.renderer.context.RenderingContext;
 
+/**
+ * <p>
+ * The central interface of the Pattern Renderer. Implementations of this
+ * interface are responsible for creating the "real" pattern that the end user
+ * will see in a format specific to the implementation. It is the recipient of
+ * events and is typically called from a pattern event listener.
+ * 
+ * <p>
+ * Implementations should not attempt to be thread safe.
+ */
 public interface Renderer {
-	
+
 	// header events
-	
+
 	void beginPattern(Pattern pattern);
+
 	void endPattern();
+
 	void addYarn(Yarn yarn);
+
 	void renderGeneralInformation(GeneralInformation generalInformation);
+
 	void renderSupplies(Supplies supplies);
 
 	void beginInstructionDefinitions();
+
 	void endInstructionDefinitions();
 
 	void beginInstructionDefinition(InstructionInfo instructionInfo);
+
 	void endInstructionDefinition();
-	void beginInlineInstructionDefinition(InlineInstruction instruction, String label);
+
+	void beginInlineInstructionDefinition(InlineInstruction instruction,
+			String label);
+
 	void endInlineInstructionDefinition(InlineInstruction instruction);
-	
+
 	// body events
 	void beginInlineInstruction(InlineInstruction instruction);
+
 	void endInlineInstruction(InlineInstruction instruction);
-	
+
 	// block events
 	void beginDirections();
+
 	void endDirections();
 
 	void beginSection(Section section);
+
 	void endSection();
-	
+
 	void beginInstructionGroup(String label);
+
 	void beginInstructionGroup();
+
 	void endInstructionGroup();
 
-	Instruction evaluateInstruction(Instruction instruction, RepeatInstruction associatedRepeatInstruction);
+	Instruction evaluateInstruction(Instruction instruction,
+			RepeatInstruction associatedRepeatInstruction);
+
 	Instruction evaluateInstructionDefinition(Instruction instruction);
-	
+
 	void beginInstruction(InstructionInfo instructionInfo);
+
 	void endInstruction();
-	
-	void renderInlineInstructionRef(InlineInstructionRef instructionRef, String label);
-	void renderRepeatInstruction(RepeatInstruction repeatInstruction, InstructionInfo instructionInfo);
+
+	void renderInlineInstructionRef(InlineInstructionRef instructionRef,
+			String label);
+
+	void renderRepeatInstruction(RepeatInstruction repeatInstruction,
+			InstructionInfo instructionInfo);
+
 	void renderUseNeedles(List<Needle> needles);
+
 	void renderCastOn(CastOn castOn);
+
 	void renderPickUpStitches(PickUpStitches pickUpStitches);
-	void renderUsingNeedlesCastOn(List<Needle> needles,
-			CastOn castOn);
+
+	void renderUsingNeedlesCastOn(List<Needle> needles, CastOn castOn);
+
 	void renderJoinInRound();
+
 	void renderDeclareFlatKnitting(DeclareFlatKnitting spec);
+
 	void renderDeclareRoundKnitting();
+
 	void renderArrangeStitchesOnNeedles(List<StitchesOnNeedle> needles);
+
 	void renderUnworkedStitches(int number);
 
 	void beginRow();
+
 	void endRow(Row row, KnittingShape shape);
 
 	// inline events
 	void renderKnit(Knit knit);
+
 	void renderPurl(Purl purl);
+
 	void renderWorkEven(WorkEven workEven);
+
 	void renderDecrease(Decrease decrease);
+
 	void renderPassPreviousStitchOver(PassPreviousStitchOver ppso);
+
 	void renderIncrease(Increase increase);
+
 	void renderSlip(Slip slip);
+
 	void renderNoStitch(NoStitch noStitch);
+
 	void renderCrossStitches(CrossStitches element);
+
 	void renderDesignateEndOfRow(KnittingShape currentKnittingShape);
+
 	void renderTurn();
+
 	void renderCastOn(InlineCastOn castOn);
+
 	void renderPickUpStitches(InlinePickUpStitches pickUpStitches);
+
 	void renderPlaceMarker();
+
 	void renderRemoveMarker();
+
 	void renderGraftStitchesTogether(List<Needle> needles);
+
 	void renderBindOff(BindOff bindOff);
+
 	void renderBindOffAll(BindOffAll bindOff);
+
 	void renderApplyNextRow(ApplyNextRow applyNextRow, String label);
+
 	void renderSlipToStitchHolder(SlipToStitchHolder operation);
 
 	// composite inline events
 	void beginRepeat(Repeat repeat);
+
 	void endRepeat(Repeat.Until until, Integer value);
 
 	void beginFromStitchHolder(FromStitchHolder fromStitchHolder);
+
 	void endFromStitchHolder(FromStitchHolder fromStitchHolder);
 
-	void beginIncreaseIntoNextStitch(IncreaseIntoNextStitch increaseIntoNextStitch);
+	boolean beginIncreaseIntoNextStitch(
+			IncreaseIntoNextStitch increaseIntoNextStitch);
+
 	void endIncreaseIntoNextStitch(IncreaseIntoNextStitch increaseIntoNextStitch);
 
 	void beginUsingNeedle(Needle needle);
+
 	void endUsingNeedle();
-	
-	boolean renderOperationGroup(OperationGroup group);
+
+	boolean beginOperationGroup(OperationGroup group);
+
+	void endOperationGroup(OperationGroup group);
 
 	// hybrid events
 	void beginInformation();
+
 	void endInformation();
 
 	void renderMessage(String messageToRender);
+
 	void renderNumberOfStitchesInRow(NumberOfStitches numberOfStitches);
 
 	RenderingContext getRenderingContext();

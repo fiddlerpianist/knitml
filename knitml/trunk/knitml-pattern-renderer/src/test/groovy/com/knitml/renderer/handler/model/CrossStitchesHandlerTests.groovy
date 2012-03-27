@@ -14,7 +14,7 @@ import com.knitml.core.model.operations.inline.CrossStitches;
 
 import test.support.AbstractRenderingContextTests
 
-class CrossStitchesVisitorTests extends AbstractRenderingContextTests {
+class CrossStitchesHandlerTests extends AbstractRenderingContextTests {
 
 	@Before
 	void setUpContext() {
@@ -34,10 +34,6 @@ class CrossStitchesVisitorTests extends AbstractRenderingContextTests {
 	void crossInBack() {
 		processXml '<cross-stitches xmlns="http://www.knitml.com/schema/operations" first="2" next="2" type="back"/>', CrossStitches
 		assertThat output, is ('cross next 2 stitches behind following 2 stitches')
-	}
-	
-	static void main(args) {
-		JUnitCore.main(CrossStitchesVisitorTests.name)
 	}
 	
 }

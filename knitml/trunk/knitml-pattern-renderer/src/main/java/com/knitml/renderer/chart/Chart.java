@@ -33,7 +33,7 @@ import com.knitml.core.model.operations.inline.OperationGroup;
  */
 /**
  * @author i264193
- *
+ * 
  */
 public class Chart {
 
@@ -42,11 +42,11 @@ public class Chart {
 	private int width;
 	private Side startingSide = Side.RIGHT;
 	private List<List<ChartElement>> graph;
-	private Map<ChartElement, DiscreteInlineOperation> legend = new EnumMap<ChartElement, DiscreteInlineOperation>(
+	private Map<ChartElement, Map<Side, DiscreteInlineOperation>> legend = new EnumMap<ChartElement, Map<Side, DiscreteInlineOperation>>(
 			ChartElement.class);
 	private String title;
 
-	public Map<ChartElement, DiscreteInlineOperation> getLegend() {
+	public Map<ChartElement, Map<Side, DiscreteInlineOperation>> getLegend() {
 		return legend;
 	}
 
@@ -58,14 +58,34 @@ public class Chart {
 		this.graph = graph;
 	}
 
+/**
+	 * Adds a chart element and its associated inline operation to the legend.
+	 * If wrongSide is true, the operation will be inversed and its value will
+	 * be stored under the {@link Side#WRONG) key.
+	 * 
+	 * @param chartElement
+	 * @param operation
+	 * @param wrongSideOperation
+	 */
 	public void addToLegend(ChartElement chartElement,
-			DiscreteInlineOperation operation) {
-		if (!legend.containsKey(chartElement)) {
-			DiscreteInlineOperation singleOp = operation;
+			DiscreteInlineOperation operation, boolean wrongSide) {
+		if (!legend.containsKey(chartElement)
+				|| (legend.get(chartElement).containsKey(Side.RIGHT) && wrongSide)
+				|| (legend.get(chartElement).containsKey(Side.WRONG) && !wrongSide)) {
+			// nothing exists yet in the legend for this element and side, so add it
+			DiscreteInlineOperation operationToUse = operation;
 			if (!(operation instanceof OperationGroup)) {
-				singleOp = operation.canonicalize().get(0);
+				// don't canonicalize operation groups to preserve original
+				// semantics (such as 'k4')
+				operationToUse = operation.canonicalize().get(0);
 			}
-			legend.put(chartElement, singleOp);
+			// Create a new map if none exists
+			if (!legend.containsKey(chartElement)) {
+				legend.put(chartElement,
+						new EnumMap<Side, DiscreteInlineOperation>(Side.class));
+			}
+			legend.get(chartElement).put(wrongSide ? Side.WRONG : Side.RIGHT,
+					operationToUse);
 		}
 	}
 

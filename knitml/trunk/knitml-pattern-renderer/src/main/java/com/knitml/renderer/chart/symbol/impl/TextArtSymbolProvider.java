@@ -1,11 +1,14 @@
 package com.knitml.renderer.chart.symbol.impl;
 
+import static com.knitml.renderer.chart.ChartElement.CBL_2_2_LC;
+import static com.knitml.renderer.chart.ChartElement.CBL_2_2_RC;
 import static com.knitml.renderer.chart.ChartElement.CDD;
 import static com.knitml.renderer.chart.ChartElement.DECREASE;
 import static com.knitml.renderer.chart.ChartElement.K;
 import static com.knitml.renderer.chart.ChartElement.K2TOG;
 import static com.knitml.renderer.chart.ChartElement.K2TOG_TBL;
 import static com.knitml.renderer.chart.ChartElement.K3TOG;
+import static com.knitml.renderer.chart.ChartElement.KPK_NEXT_ST;
 import static com.knitml.renderer.chart.ChartElement.K_TW;
 import static com.knitml.renderer.chart.ChartElement.M1;
 import static com.knitml.renderer.chart.ChartElement.M1P;
@@ -48,7 +51,11 @@ public class TextArtSymbolProvider extends AbstractSingleSymbolSetProvider {
 		symbols.put(CDD, "\u0297");
 		symbols.put(SK2P, "\u0286");
 		symbols.put(DECREASE, "1");
+		
+		symbols.put(CBL_2_2_LC, "2LC2");
+		symbols.put(CBL_2_2_RC, "2RC2");
 		symbols.put(NS, "x");
+		symbols.put(KPK_NEXT_ST, "[M]");
 	}
 
 }

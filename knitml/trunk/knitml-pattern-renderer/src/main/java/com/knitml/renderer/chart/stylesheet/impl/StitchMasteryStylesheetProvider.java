@@ -8,22 +8,22 @@ public class StitchMasteryStylesheetProvider extends
 		AbstractCssProvider {
 	
 	public static final String DOT = "Dot";
-	public static final String DOT_CABLE_EH = "DotCableEH";
+	public static final String DOT_CABLE = "DotCable";
 	public static final String DASH = "Dash";
-	public static final String DASH_CABLE_EH = "DashCableEH";
+	public static final String DASH_CABLE = "DashCable";
 
 	public String getStyleClassPrefix() {
 		return "sm";
 	}
-	public String getStyleClassPrefix(String symbolSetId) {
+	public String getSymbolSetName(String symbolSetId) {
 		if (symbolSetId.equals(DOT))
-			return "sm-dot";
+			return "sm-font-dot";
 		if (symbolSetId.equals(DASH))
-			return "sm-dash";
-		if (symbolSetId.equals(DOT_CABLE_EH))
-			return "sm-dot-cable-eh";
-		if (symbolSetId.equals(DASH_CABLE_EH))
-			return "sm-dash-cable-eh";
+			return "sm-font-dash";
+		if (symbolSetId.equals(DOT_CABLE))
+			return "sm-font-dotcable";
+		if (symbolSetId.equals(DASH_CABLE))
+			return "sm-font-dashcable";
 		throw new UnsupportedSymbolSetException(symbolSetId);
 	}
 	

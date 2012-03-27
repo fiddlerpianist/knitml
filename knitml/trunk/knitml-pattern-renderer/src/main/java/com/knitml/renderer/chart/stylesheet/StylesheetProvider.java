@@ -4,7 +4,7 @@ public interface StylesheetProvider {
 	
 	public String getMimeType();
 	public String getStylesheet();
-	public String getStyleClassPrefix(String symbolSetId) throws UnsupportedSymbolSetException;
+	public String getSymbolSetName(String symbolSetId) throws UnsupportedSymbolSetException;
 	public String getStyleClassPrefix();
 
 }

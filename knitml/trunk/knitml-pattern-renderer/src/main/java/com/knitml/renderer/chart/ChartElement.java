@@ -3,7 +3,7 @@ package com.knitml.renderer.chart;
 public enum ChartElement {
 
 	// basic elements
-	K(1), P(1), SL(1), SL_WYIF(1), K_TW(1), P_TW(1), K_BELOW(1), P_BELOW(1),
+	K(1), P(1), SL(1), SL_WYIF(1), SL_KW(1), SL_KW_WYIF(1), K_TW(1), P_TW(1), K_BELOW(1), P_BELOW(1),
 	// knit increases
 	M1(1), M1R(1), M1L(1), KFB(1), KFBF(1), KPK_NEXT_ST(1), INC1_TO_3(1), INC1_TO_4(
 			1), INC1_TO_5(1), INC1_TO_6(1), INC1_TO_7(1), INC1_TO_8(1), INC1_TO_9(
@@ -19,8 +19,8 @@ public enum ChartElement {
 			1), DEC5_TO_1(1), DEC6_TO_1(1), DEC7_TO_1(1), DEC8_TO_1(1), DEC9_TO_1(
 			1),
 	// purl decreases
-	P2TOG(1), P2TOG_TBL(1), SSP(1), P3TOG(1), P2TOG_SWYIF_PSSO(1), SL2_P1_P2SSO(
-			1), CDDP(1), SWYIF_P2TOGTBL_PSSO(1),
+	P2TOG(1), P2TOG_TBL(1), SSP(1), P3TOG(1), P2TOG_SWYIF_PSSO(1), CDDP(1), SWYIF_P2TOGTBL_PSSO(
+			1),
 	// misc single width stitches
 	DECREASE(1), NS(1),
 	// 2-st cables

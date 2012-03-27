@@ -116,9 +116,11 @@ public class BasicTextRenderer implements Renderer {
 		ReloadableResourceBundleMessageSource parent = new ReloadableResourceBundleMessageSource();
 		parent.setBasename("com/knitml/renderer/impl/operations");
 		// use the class loader that loaded this class
-		parent.setResourceLoader(new DefaultResourceLoader(this.getClass().getClassLoader()));
-		
-		HierarchicalMessageSource messageSource = context.getOptions().getProgramMessageSource();
+		parent.setResourceLoader(new DefaultResourceLoader(this.getClass()
+				.getClassLoader()));
+
+		HierarchicalMessageSource messageSource = context.getOptions()
+				.getProgramMessageSource();
 		if (messageSource != null) {
 			messageSource.setParentMessageSource(parent);
 		} else {
@@ -496,9 +498,7 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public void beginRepeat(Repeat repeat) {
-		OperationSet currentOperationSet = getOperationSetHelper()
-				.getCurrentOperationSet();
-		if (currentOperationSet == null) {
+		if (!getOperationSetHelper().isWithinOperationSet()) {
 			throw new IllegalStateException(
 					"Cannot issue a repeat without being inside a row or operation");
 		}
@@ -631,6 +631,27 @@ public class BasicTextRenderer implements Renderer {
 			rowsRenderedForCurrentInstruction.add(row);
 		}
 		getOperationSetHelper().removeCurrentOperationSet();
+	}
+
+	public boolean beginOperationGroup(OperationGroup group) {
+		// create an operation set "container" if one doesn't exist
+		if (!getOperationSetHelper().isWithinOperationSet()) {
+			OperationSet operationSet = new OperationSet(
+					OperationSet.Type.OPERATION_GROUP);
+			getOperationSetHelper().addNewOperationSet(operationSet);
+		}
+		return true; // means we want the children to be processed
+	}
+
+	public void endOperationGroup(OperationGroup group) {
+		// if an OPERATION_GROUP operation set type is found, it was added
+		// because there wasn't a top-level operation set to add its children
+		// to, so it was created artificially.
+		if (getOperationSetHelper().getCurrentOperationSet().getType() == OperationSet.Type.OPERATION_GROUP) {
+			// OPERATION_GROUP operation set found, so render and remove it
+			getOperationSetHelper().renderCurrentOperationSet();
+			getOperationSetHelper().removeCurrentOperationSet();
+		}
 	}
 
 	public void renderRepeatInstruction(RepeatInstruction repeatInstruction,
@@ -826,13 +847,13 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public void beginFromStitchHolder(FromStitchHolder fromStitchHolder) {
-		OperationSet fromStitchHolderOperationSet = new FromStitchHolderOperationSet();
-		OperationSet currentOperationSet = getOperationSetHelper()
-				.getCurrentOperationSet();
-		if (currentOperationSet == null) {
+		if (!getOperationSetHelper().isWithinOperationSet()) {
 			throw new IllegalStateException(
 					"Cannot issue a from-stitch-holder without being inside a row");
 		}
+		OperationSet fromStitchHolderOperationSet = new FromStitchHolderOperationSet();
+		OperationSet currentOperationSet = getOperationSetHelper()
+				.getCurrentOperationSet();
 		// add this operation to the current operation set
 		currentOperationSet.addOperationSet(fromStitchHolderOperationSet);
 		// now push this down the stack so that the operation set is used for
@@ -861,22 +882,25 @@ public class BasicTextRenderer implements Renderer {
 		((FromStitchHolderOperationSet) operationSet).setLabel(label);
 	}
 
-	public void beginIncreaseIntoNextStitch(
+	public boolean beginIncreaseIntoNextStitch(
 			IncreaseIntoNextStitch incIntoNextStitch) {
 		OperationSet incIntoNextStitchOperationSet = new OperationSet(
 				Type.INC_INTO_NEXT_ST);
-		OperationSet currentOperationSet = getOperationSetHelper()
-				.getCurrentOperationSet();
-		if (currentOperationSet == null) {
-			throw new IllegalStateException(
-					"Cannot issue an increase-into-next-stitch without being inside a row");
+		// if (!getOperationSetHelper().isWithinOperationSet()) {
+		// throw new IllegalStateException(
+		// "Cannot issue an increase-into-next-stitch without being inside a row");
+		// }
+		if (getOperationSetHelper().isWithinOperationSet()) {
+			OperationSet currentOperationSet = getOperationSetHelper()
+					.getCurrentOperationSet();
+			// add this operation to the current operation set
+			currentOperationSet.addOperationSet(incIntoNextStitchOperationSet);
 		}
-		// add this operation to the current operation set
-		currentOperationSet.addOperationSet(incIntoNextStitchOperationSet);
 		// now push this down the stack so that the operation set is used for
 		// capturing operations
 		getOperationSetHelper().addNewOperationSet(
 				incIntoNextStitchOperationSet);
+		return true;
 	}
 
 	public void endIncreaseIntoNextStitch(
@@ -884,12 +908,16 @@ public class BasicTextRenderer implements Renderer {
 		// remove the current repeat from the stack (so that new operation sets
 		// aren't added to it)
 		OperationSet operationSet = getOperationSetHelper()
-				.removeCurrentOperationSet();
+				.getCurrentOperationSet();
 		if (operationSet == null
 				|| operationSet.getType() != Type.INC_INTO_NEXT_ST) {
 			throw new IllegalStateException(
 					"Must have a current operation set of type INC_INTO_NEXT_ST to work correctly");
 		}
+		if (getOperationSetHelper().isCurrentOperationSetLonely()) {
+			getOperationSetHelper().renderCurrentOperationSet();
+		}
+		getOperationSetHelper().removeCurrentOperationSet();
 	}
 
 	public void renderDeclareFlatKnitting(DeclareFlatKnitting spec) {
@@ -1005,12 +1033,6 @@ public class BasicTextRenderer implements Renderer {
 	public void renderPlaceMarker() {
 		getOperationSetHelper().writeOperation(
 				getMessage("operation.place-marker"));
-	}
-
-	public boolean renderOperationGroup(OperationGroup group) {
-		// return false means we didn't render and we'll let the children be
-		// processed as if the group isn't there
-		return false;
 	}
 
 	public void renderRemoveMarker() {
