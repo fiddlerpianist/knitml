@@ -1,31 +1,28 @@
 package com.knitml.tools.runner
 
 
-import javax.xml.validation.*
 import javax.xml.transform.*
+import javax.xml.validation.*
 
-
-import org.apache.commons.cli.Option
-import org.apache.commons.cli.Options
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.CommandLineParser
 import org.apache.commons.cli.GnuParser
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-
+import org.apache.commons.cli.Option
+import org.apache.commons.cli.Options
 import org.jibx.runtime.BindingDirectory
 import org.jibx.runtime.IBindingFactory
 import org.jibx.runtime.IUnmarshallingContext
-
-import com.knitml.core.model.pattern.Pattern
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import com.knitml.core.model.pattern.Parameters
+import com.knitml.core.model.pattern.Pattern
 import com.knitml.el.KelProgram
 import com.knitml.tools.runner.support.RunnerUtils
-import com.knitml.validation.ValidationProgram;
-import com.knitml.validation.context.KnittingContextFactory;
-import com.knitml.validation.context.impl.DefaultKnittingContextFactory;
-import com.knitml.validation.visitor.instruction.impl.SpringVisitorFactory;
+import com.knitml.validation.ValidationProgram
+import com.knitml.validation.context.KnittingContextFactory
+import com.knitml.validation.context.impl.DefaultKnittingContextFactory
+import com.knitml.validation.visitor.instruction.impl.DefaultVisitorFactory
 
 class ConvertAndValidatePattern {
 
@@ -65,7 +62,7 @@ class ConvertAndValidatePattern {
 		parameters.writer = RunnerUtils.getWriter(line)
 		
 		KnittingContextFactory contextFactory = new DefaultKnittingContextFactory()
-		ValidationProgram validator = new ValidationProgram(contextFactory, new SpringVisitorFactory())
+		ValidationProgram validator = new ValidationProgram(contextFactory, new DefaultVisitorFactory())
 		validator.validate(parameters)
 	}
 		
