@@ -48,13 +48,13 @@ class OperationBuilder {
 	}
 
 	public OperationBuilder rc(int x, int y) {
-		CrossStitches op = new CrossStitches(x, BACK, y);
+		CrossStitches op = new CrossStitches(y, BACK, x);
 		operations.add(op);
 		return this;
 	}
 
 	public OperationBuilder rc(int x, int m, int y) {
-		CrossStitches op = new CrossStitches(x, m, y, BACK, BACK);
+		CrossStitches op = new CrossStitches(y, m, x, BACK, BACK);
 		operations.add(op);
 		return this;
 	}
@@ -66,7 +66,7 @@ class OperationBuilder {
 	}
 
 	public OperationBuilder rrc(int x, int m, int y) {
-		CrossStitches op = new CrossStitches(x, m, y, BACK, FRONT);
+		CrossStitches op = new CrossStitches(y, m, x, BACK, FRONT);
 		operations.add(op);
 		return this;
 	}

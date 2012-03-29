@@ -3,7 +3,8 @@ package com.knitml.renderer.chart;
 public enum ChartElement {
 
 	// basic elements
-	K(1), P(1), SL(1), SL_WYIF(1), SL_KW(1), SL_KW_WYIF(1), K_TW(1), P_TW(1), K_BELOW(1), P_BELOW(1),
+	K(1), P(1), SL(1), SL_WYIF(1), SL_KW(1), SL_KW_WYIF(1), K_TW(1), P_TW(1), K_BELOW(
+			1), P_BELOW(1),
 	// knit increases
 	M1(1), M1R(1), M1L(1), KFB(1), KFBF(1), KPK_NEXT_ST(1), INC1_TO_3(1), INC1_TO_4(
 			1), INC1_TO_5(1), INC1_TO_6(1), INC1_TO_7(1), INC1_TO_8(1), INC1_TO_9(
@@ -37,7 +38,20 @@ public enum ChartElement {
 			4), CBL_1_3_RPC(4), CBL_1_3_LPC(4), CBL_3_1_RC(4), CBL_3_1_LC(4), CBL_3_1_RPC(
 			4), CBL_3_1_LPC(4), CBL_1_2_1_RC(4), CBL_1_2_1_LC(4), CBL_1_2_1_RPC(
 			4), CBL_1_2_1_LPC(4), CBL_2_2_RT(4), CBL_2_2_LT(4), CBL_4ST_CUSTOM(
-			4);
+			4),
+	// 5-st cables
+	CBL_2_3_RC(5), CBL_2_3_LC(5), CBL_2_3_RPC(5), CBL_2_3_LPC(5), CBL_3_2_RC(5), CBL_3_2_LC(
+			5), CBL_3_2_RPC(5), CBL_3_2_LPC(5), CBL_4_1_RC(5), CBL_4_1_LC(5), CBL_4_1_RPC(
+			5), CBL_4_1_LPC(5), CBL_1_4_RC(5), CBL_1_4_LC(5), CBL_1_4_RPC(5), CBL_1_4_LPC(
+			5), CBL_2_1_2_RC(5), CBL_2_1_2_LC(5), CBL_2_1_2_RPC(5), CBL_2_1_2_LPC(
+			5), CBL_1_3_1_RC(5), CBL_1_3_1_LC(5), CBL_1_3_1_RPC(5), CBL_1_3_1_LPC(
+			5), CBL_5ST_CUSTOM(5),
+	// 6-st cables
+	CBL_3_3_RC(6), CBL_3_3_LC(6), CBL_3_3_RPC(6), CBL_3_3_LPC(6), CBL_2_4_RC(6), CBL_2_4_LC(
+			6), CBL_2_4_RPC(6), CBL_2_4_LPC(6), CBL_4_2_RC(6), CBL_4_2_LC(6), CBL_4_2_RPC(
+			6), CBL_4_2_LPC(6), CBL_2_2_2_RC(6), CBL_2_2_2_LC(6), CBL_2_2_2_RPC(
+			6), CBL_2_2_2_LPC(6), CBL_2_2_2_RRC(6), CBL_2_2_2_LRC(6), CBL_6ST_CUSTOM(
+			6);
 
 	private int width;
 

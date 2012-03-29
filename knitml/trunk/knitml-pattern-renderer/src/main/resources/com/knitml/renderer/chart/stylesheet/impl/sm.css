@@ -52,6 +52,13 @@
 .sm-font-dotcable {
     font-family: "StitchMastery DotCableEH";
 }
+/* Dash Font */
+.sm-font-dash {
+    font-family: "StitchMastery Dash";
+}
+.sm-font-dashcable {
+    font-family: "StitchMastery DashCableEH";
+}
 /* cell decoration */
 .sm-cell-grey {
     background-color: gray;
