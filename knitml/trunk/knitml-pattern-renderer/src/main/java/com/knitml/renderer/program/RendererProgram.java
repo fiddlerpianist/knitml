@@ -40,26 +40,27 @@ public class RendererProgram {
 	private RenderingPatternEventListenerFactory eventListenerFactory;
 	private KnittingContextFactory knittingContextFactory;
 	private VisitorFactory visitorFactory;
-
-	private Options options = new Options();
+	private Options options;
 
 	@Inject
 	public RendererProgram(RendererFactory rendererFactory,
 			RenderingPatternEventListenerFactory eventListenerFactory,
 			KnittingContextFactory knittingContextFactory,
-			VisitorFactory visitorFactory) {
+			VisitorFactory visitorFactory,
+			Options options) {
 		this.rendererFactory = rendererFactory;
 		this.eventListenerFactory = eventListenerFactory;
 		this.knittingContextFactory = knittingContextFactory;
 		this.visitorFactory = visitorFactory;
+		this.options = options;
 	}
 
-	public void setOptions(Options options) {
-		if (options != null) {
-			this.options = options;
-		}
-	}
-
+//	public void setOptions(Options options) {
+//		if (options != null) {
+//			this.options = options;
+//		}
+//	}
+//
 	public Pattern render(Parameters parameters) throws SAXException,
 			JiBXException, IOException, RenderingException,
 			KnittingEngineException {

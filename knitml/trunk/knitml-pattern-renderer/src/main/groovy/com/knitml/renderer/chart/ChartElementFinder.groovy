@@ -60,13 +60,13 @@ public class ChartElementFinder {
 		chartElementToOperationMap[SSP] = decrease DecreaseType.SSP
 		chartElementToOperationMap[P3TOG] = decrease DecreaseType.P3TOG
 		// 1-st increases
-		chartElementToOperationMap[M1] = increase IncreaseType.M1 
-		chartElementToOperationMap[M1R] = increase IncreaseType.M1R 
-		chartElementToOperationMap[M1L] = increase IncreaseType.M1L 
-		chartElementToOperationMap[KFB] = increase IncreaseType.KFB 
-		chartElementToOperationMap[M1P] = increase IncreaseType.M1P 
-		chartElementToOperationMap[M1RP] = increase IncreaseType.M1RP 
-		chartElementToOperationMap[M1LP] = increase IncreaseType.M1LP 
+		chartElementToOperationMap[M1] = increase IncreaseType.M1
+		chartElementToOperationMap[M1R] = increase IncreaseType.M1R
+		chartElementToOperationMap[M1L] = increase IncreaseType.M1L
+		chartElementToOperationMap[KFB] = increase IncreaseType.KFB
+		chartElementToOperationMap[M1P] = increase IncreaseType.M1P
+		chartElementToOperationMap[M1RP] = increase IncreaseType.M1RP
+		chartElementToOperationMap[M1LP] = increase IncreaseType.M1LP
 		chartElementToOperationMap[PFB] = increase IncreaseType.PFB
 		// TODO
 		//		// knit decreases
@@ -102,7 +102,7 @@ public class ChartElementFinder {
 		chartElementToOperationMap[YO9] = group 1 yo 9 build()
 		chartElementToOperationMap[KYK_NEXT_ST] = new IncreaseIntoNextStitch(null, group(1).k(1).yo(1).k(1).build().operations)
 		chartElementToOperationMap[PYP_NEXT_ST] = new IncreaseIntoNextStitch(null, group(1).p(1).yo(1).p(1).build().operations)
-		
+
 
 		chartElementToOperationMap[NS] = new NoStitch()
 
@@ -155,10 +155,56 @@ public class ChartElementFinder {
 		chartElementToOperationMap[CBL_1_2_1_LPC] = group 4 lc 1,2,1 k 1 p 2 k 1 build()
 		chartElementToOperationMap[CBL_2_2_RT] = group 4 rc 2,2 k_tbl 2 k_tbl 2 build()
 		chartElementToOperationMap[CBL_2_2_LT] = group 4 lc 2,2 k_tbl 2 k_tbl 2 build()
+		// 5-st
+		chartElementToOperationMap[CBL_2_3_RC] = group 5 rc 2,3 k 5 build()
+		chartElementToOperationMap[CBL_2_3_LC] = group 5 lc 2,3 k 5 build()
+		chartElementToOperationMap[CBL_2_3_RPC] = group 5 rc 2,3 k 2 p 3 build()
+		chartElementToOperationMap[CBL_2_3_LPC] = group 5 lc 2,3 p 3 k 2 build()
+		chartElementToOperationMap[CBL_3_2_RC] = group 5 rc 3,2 k 5 build()
+		chartElementToOperationMap[CBL_3_2_LC] = group 5 lc 3,2 k 5 build()
+		chartElementToOperationMap[CBL_3_2_RPC] = group 5 rc 3,2 k 3 p 2 build()
+		chartElementToOperationMap[CBL_3_2_LPC] = group 5 lc 3,2 p 2 k 3 build()
+		chartElementToOperationMap[CBL_4_1_RC] = group 5 rc 4,1 k 5 build()
+		chartElementToOperationMap[CBL_4_1_LC] = group 5 lc 4,1 k 5 build()
+		chartElementToOperationMap[CBL_4_1_RPC] = group 5 rc 4,1 k 4 p 1 build()
+		chartElementToOperationMap[CBL_4_1_LPC] = group 5 lc 4,1 p 1 k 4 build()
+		chartElementToOperationMap[CBL_1_4_RC] = group 5 rc 1,4 k 5 build()
+		chartElementToOperationMap[CBL_1_4_LC] = group 5 lc 1,4 k 5 build()
+		chartElementToOperationMap[CBL_1_4_RPC] = group 5 rc 1,4 k 1 p 4 build()
+		chartElementToOperationMap[CBL_1_4_LPC] = group 5 lc 1,4 p 4 k 1 build()
+		chartElementToOperationMap[CBL_2_1_2_RC] = group 5 rc 2,1,2 k 5 build()
+		chartElementToOperationMap[CBL_2_1_2_LC] = group 5 lc 2,1,2 k 5 build()
+		chartElementToOperationMap[CBL_2_1_2_RPC] = group 5 rc 2,1,2 k 2 p 1 k 2 build()
+		chartElementToOperationMap[CBL_2_1_2_LPC] = group 5 lc 2,1,2 k 2 p 1 k 2 build()
+		chartElementToOperationMap[CBL_1_3_1_RC] = group 5 rc 1,3,1 k 5 build()
+		chartElementToOperationMap[CBL_1_3_1_LC] = group 5 lc 1,3,1 k 5 build()
+		chartElementToOperationMap[CBL_1_3_1_RPC] = group 5 rc 1,3,1 k 1 p 3 k 1 build()
+		chartElementToOperationMap[CBL_1_3_1_LPC] = group 5 lc 1,3,1 k 1 p 3 k 1 build()
+		// 6-st
+		chartElementToOperationMap[CBL_3_3_RC] = group 6 rc 3,3 k 6 build()
+		chartElementToOperationMap[CBL_3_3_LC] = group 6 lc 3,3 k 6 build()
+		chartElementToOperationMap[CBL_3_3_RPC] = group 6 rc 3,3 k 3 p 3 build()
+		chartElementToOperationMap[CBL_3_3_LPC] = group 6 lc 3,3 p 3 k 3 build()
+		chartElementToOperationMap[CBL_2_4_RC] = group 6 rc 2,4 k 6 build()
+		chartElementToOperationMap[CBL_2_4_LC] = group 6 lc 2,4 k 6 build()
+		chartElementToOperationMap[CBL_2_4_RPC] = group 6 rc 2,4 k 2 p 4 build()
+		chartElementToOperationMap[CBL_2_4_LPC] = group 6 lc 2,4 p 4 k 2 build()
+		chartElementToOperationMap[CBL_4_2_RC] = group 6 rc 4,2 k 6 build()
+		chartElementToOperationMap[CBL_4_2_LC] = group 6 lc 4,2 k 6 build()
+		chartElementToOperationMap[CBL_4_2_RPC] = group 6 rc 4,2 k 4 p 2 build()
+		chartElementToOperationMap[CBL_4_2_LPC] = group 6 lc 4,2 p 2 k 4 build()
+		chartElementToOperationMap[CBL_2_2_2_RC] = group 6 rc 2,2,2 k 6 build()
+		chartElementToOperationMap[CBL_2_2_2_LC] = group 6 lc 2,2,2 k 6 build()
+		chartElementToOperationMap[CBL_2_2_2_RPC] = group 6 rc 2,2,2 k 2 p 2 k 2 build()
+		chartElementToOperationMap[CBL_2_2_2_LPC] = group 6 lc 2,2,2 k 2 p 2 k 2 build()
+		chartElementToOperationMap[CBL_2_2_2_RRC] = group 6 rrc 2,2,2 k 6 build()
+		chartElementToOperationMap[CBL_2_2_2_LRC] = group 6 lrc 2,2,2 k 6 build()
 
 		groupSizeToCustomCableMap[2] = CBL_2ST_CUSTOM
 		groupSizeToCustomCableMap[3] = CBL_3ST_CUSTOM
 		groupSizeToCustomCableMap[4] = CBL_4ST_CUSTOM
+		groupSizeToCustomCableMap[5] = CBL_5ST_CUSTOM
+		groupSizeToCustomCableMap[6] = CBL_6ST_CUSTOM
 	}
 
 	ChartElement findChartElementBy(DiscreteInlineOperation operation) {

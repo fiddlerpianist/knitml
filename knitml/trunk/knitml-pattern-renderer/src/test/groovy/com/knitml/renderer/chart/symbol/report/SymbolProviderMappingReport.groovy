@@ -59,7 +59,7 @@ class SymbolProviderMappingReport {
 				symbolMap.put(symbol, it)
 				def rawKey = symbol.symbol
 				def rawValue = legendOperationRenderer.resolveLegendFor(it, null)
-				writer << "<tr><td class=\"${stylesheetProvider.getSymbolSetName(symbol.symbolSetId)}-legend\">" <<
+				writer << "<tr><td class=\"${stylesheetClassPrefix}-legend-key ${stylesheetProvider.getSymbolSetName(symbol.symbolSetId)}\">" <<
 						"${escapeHtml rawKey}</td>" <<
 						"<td>${escapeHtml rawValue}</td></tr>" << SYS_LF
 			}
@@ -72,7 +72,7 @@ class SymbolProviderMappingReport {
 		if (!collisionSet.empty) {
 			writer << "Collisions:" << LF
 			collisionSet.each {
-				writer << "<span class=\"${stylesheetProvider.getSymbolSetName(it.symbolSetId)}-legend\">" <<
+				writer << "<span class=\"${stylesheetProvider.getSymbolSetName(it.symbolSetId)}\">" <<
 						"${escapeHtml it.symbol}</span>" << "maps to: "
 				symbolMap.get(it).each { writer << it << " " }
 				writer << LF

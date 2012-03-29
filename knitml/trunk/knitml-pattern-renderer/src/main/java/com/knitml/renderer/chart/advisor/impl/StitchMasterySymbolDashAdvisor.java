@@ -5,10 +5,10 @@ import com.knitml.renderer.chart.stylesheet.impl.StitchMasteryStylesheetProvider
 import com.knitml.renderer.chart.symbol.impl.StitchMasterySymbolProvider;
 import com.knitml.renderer.chart.symbol.impl.StitchMasterySymbolProvider.Mode;
 
-public class StitchMasterySymbolAdvisor extends ChartSymbolAdvisor {
+public class StitchMasterySymbolDashAdvisor extends ChartSymbolAdvisor {
 
-	public StitchMasterySymbolAdvisor() {
-		super(new StitchMasterySymbolProvider(Mode.DOT), new StitchMasteryStylesheetProvider());
+	public StitchMasterySymbolDashAdvisor() {
+		super(new StitchMasterySymbolProvider(Mode.DASH), new StitchMasteryStylesheetProvider());
 	}
 
 }
