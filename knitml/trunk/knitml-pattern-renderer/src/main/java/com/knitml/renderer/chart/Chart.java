@@ -31,10 +31,6 @@ import com.knitml.core.model.operations.inline.OperationGroup;
  * @author Jonathan Whitall (fiddlerpianist@gmail.com)
  * 
  */
-/**
- * @author i264193
- * 
- */
 public class Chart {
 
 	private KnittingShape shape = KnittingShape.FLAT;
