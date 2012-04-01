@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns:common="http://www.knitml.com/schema/common"
+                 xmlns="http://www.knitml.com/schema/operations" version="0.6">
+  <pattern:general-information>
+    <pattern:name>Simple Square</pattern:name>
+    <pattern:description>A simple square</pattern:description>
+    <pattern:dimensions>4 in by 4 in</pattern:dimensions>
+    <pattern:gauge type="stockinette">
+      <pattern:stitch-gauge unit="st/in">5</pattern:stitch-gauge>
+      <pattern:row-gauge unit="row/in">6</pattern:row-gauge>
+    </pattern:gauge>
+  </pattern:general-information>
+  <pattern:directions>
+    <cast-on style="long-tail">20</cast-on>
+    <instruction id="stockinette-repeat">
+      <row number="1">
+        <repeat until="times" value="5">
+          <knit>4</knit>
+        </repeat>
+      </row>
+      <row number="2">
+        <repeat until="times" value="5">
+          <purl>4</purl>
+        </repeat>
+      </row>
+    </instruction>
+    <repeat-instruction ref="stockinette-repeat">
+      <until-measures unit="in">4</until-measures>
+    </repeat-instruction>
+    <row assign-row-number="false">
+      <knit>1</knit>
+      <decrease type="ssk"/>
+      <knit>14</knit>
+      <decrease type="k2tog"/>
+      <knit>1</knit>
+    </row>
+    <row assign-row-number="false">
+      <bind-off-all/>
+    </row>
+  </pattern:directions>
+</pattern:pattern>
