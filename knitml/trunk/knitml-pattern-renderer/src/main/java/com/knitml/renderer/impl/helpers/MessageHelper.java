@@ -54,13 +54,14 @@ public class MessageHelper {
 		StringBuffer key = new StringBuffer("operation");
 		List<Object> values = new ArrayList<Object>();
 
-		// if rows looks like [3,4,5,...] where ... continues consecutive numbering scheme
+		// if rows looks like [3,4,5,...] where ... continues consecutive
+		// numbering scheme
 		if (areRowsConsecutive(rows) && rows.size() > 2) {
 			return buildRowRangeString(knittingShape, new IntRange(rows.get(0),
 					rows.get(rows.size() - 1)), yarn);
 		}
 
-		String rowNumberString = buildList(rows, true);
+		String rowNumberString = buildList(rows, true, false);
 		if (StringUtils.isBlank(rowNumberString)) {
 			key.append(".next-").append(rowType);
 		} else {
@@ -71,11 +72,12 @@ public class MessageHelper {
 			key.append(".with-yarn");
 			values.add(yarn.getSymbol());
 		}
-		return getPluralizedMessage(key.toString(), rows.size(), values
-				.toArray());
+		return getPluralizedMessage(key.toString(), rows.size(),
+				values.toArray());
 	}
 
-	public String buildList(List<?> objects, boolean allListSeparators) {
+	public String buildList(List<?> objects, boolean allListSeparators,
+			boolean renderSpaceBetween) {
 		if (objects == null) {
 			return null;
 		}
@@ -84,15 +86,15 @@ public class MessageHelper {
 			Object object = objects.get(i);
 			sb.append(object);
 			if (i + 2 < objects.size()) {
-				sb.append(getMessage("operation.list-item-separator"));
+				sb.append(getMessage("operation.list-item-separator")).append(
+						renderSpaceBetween ? " " : "");
 			} else if (i + 1 < objects.size()) {
 				if (allListSeparators) {
-					sb.append(getMessage("operation.list-item-separator"));
+					sb.append(getMessage("operation.list-item-separator"))
+							.append(renderSpaceBetween ? " " : "");
 				} else {
-					sb
-							.append(" ")
-							.append(
-									getMessage("operation.list-item-separator.before-last"))
+					sb.append(" ")
+							.append(getMessage("operation.list-item-separator.before-last"))
 							.append(" ");
 				}
 			}
@@ -122,7 +124,8 @@ public class MessageHelper {
 
 		int numberOfRows = rowRange.getMaximumInteger()
 				- rowRange.getMinimumInteger() + 1;
-		return getPluralizedMessageNoVarargs(key.toString(), numberOfRows, values.toArray());
+		return getPluralizedMessageNoVarargs(key.toString(), numberOfRows,
+				values.toArray());
 	}
 
 	public String getMessage(String code, Object... args) {

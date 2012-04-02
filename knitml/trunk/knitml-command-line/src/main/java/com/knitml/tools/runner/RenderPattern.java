@@ -10,8 +10,10 @@ import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.knitml.core.model.pattern.Parameters;
 import com.knitml.renderer.config.Configuration;
 import com.knitml.renderer.config.DefaultModule;
@@ -54,11 +56,15 @@ public class RenderPattern {
 			SpringConfigurationBuilder builder = new SpringConfigurationBuilder();
 			Configuration configuration = builder
 					.getConfiguration(applicationContextFiles);
-			Injector injector = Guice.createInjector(configuration.getModule(),
+			Module optionsModule = new AbstractModule() {
+				protected void configure() {
+					bind(Options.class).toInstance(options);
+				}
+			};
+			Injector injector = Guice.createInjector(optionsModule, configuration.getModule(),
 					new DefaultModule());
 			RendererProgram program = injector
 					.getInstance(RendererProgram.class);
-			program.setOptions(configuration.getOptions());
 			Parameters parameters = RunnerUtils.toParameters(line);
 			program.render(parameters);
 		} catch (ParseException exp) {

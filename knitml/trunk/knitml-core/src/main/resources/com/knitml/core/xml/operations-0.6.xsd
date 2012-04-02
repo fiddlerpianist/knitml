@@ -1320,6 +1320,16 @@
 						</xsd:documentation>
 					</xsd:annotation>
 				</xsd:attribute>
+				<xsd:attribute name="annotation" type="xsd:string">
+					<xsd:annotation>
+						<xsd:documentation>Annotation about this cast on (for instance, if
+							it should be altered to meet a different gauge, or a detailed
+							explanation of the type of cast on if it's unusual). It's
+							expected that it will be written in the language in which the
+							pattern is written.
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
@@ -1418,7 +1428,8 @@
 				behind (specified by the 'type' attribute) the number of stitches
 				specified by the 'next' attribute (optionally skipping the number of
 				stitches specified by the 'skip' attribute). Also known as a "cable
-				crossing" or "twisting stitches." The next stitch to be worked is the
+				crossing" or "twisting stitches." The next stitch to be worked is
+				the
 				same stitch that was to be worked before this operation began. In
 				other words, no stitches are actually worked with an active yarn. In
 				order to specify a "full" cable manuever, a subsequent operation (or

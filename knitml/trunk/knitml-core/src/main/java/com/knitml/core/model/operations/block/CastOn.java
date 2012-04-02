@@ -7,6 +7,7 @@ public class CastOn implements BlockOperation {
 	protected Integer numberOfStitches;
 	protected String yarnIdRef;
 	protected String style;
+	protected String annotation;
 	protected boolean countAsRow;
 
 	public CastOn() {
@@ -49,11 +50,20 @@ public class CastOn implements BlockOperation {
 	public void setStyle(String style) {
 		this.style = style;
 	}
+	public String getAnnotation() {
+		return annotation;
+	}
+
+	public void setAnnotation(String annotation) {
+		this.annotation = annotation;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((annotation == null) ? 0 : annotation.hashCode());
 		result = prime * result + (countAsRow ? 1231 : 1237);
 		result = prime
 				* result
@@ -73,6 +83,11 @@ public class CastOn implements BlockOperation {
 		if (getClass() != obj.getClass())
 			return false;
 		CastOn other = (CastOn) obj;
+		if (annotation == null) {
+			if (other.annotation != null)
+				return false;
+		} else if (!annotation.equals(other.annotation))
+			return false;
 		if (countAsRow != other.countAsRow)
 			return false;
 		if (numberOfStitches == null) {
@@ -95,9 +110,9 @@ public class CastOn implements BlockOperation {
 
 	@Override
 	public String toString() {
-		return "CastOn [numberOfStitches:" + numberOfStitches + ",yarnIdRef:"
-				+ yarnIdRef + ",style:" + style + ",countAsRow:" + countAsRow
-				+ "]";
+		return "CastOn [numberOfStitches=" + numberOfStitches + ", yarnIdRef="
+				+ yarnIdRef + ", style=" + style + ", countAsRow=" + countAsRow
+				+ ", annotation=" + annotation + "]";
 	}
 
 }
