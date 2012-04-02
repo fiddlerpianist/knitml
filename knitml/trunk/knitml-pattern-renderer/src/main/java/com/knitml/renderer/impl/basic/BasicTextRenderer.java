@@ -975,22 +975,36 @@ public class BasicTextRenderer implements Renderer {
 	protected void doRenderCastOn(CastOn castOn, boolean writeSentenceByDefault) {
 		int numberToCastOn = castOn.getNumberOfStitches() == null ? 1 : castOn
 				.getNumberOfStitches();
+		List<String> keys = new ArrayList<String>();
+		List<String> values = new ArrayList<String>();
 		String methodKey = castOn.getStyle();
 		// since method is currently free form text, there may not be an entry
 		// for it, so just use the key
 		String method = getMessageHelper().getMessageWithDefault(
 				"method.cast-on." + methodKey, methodKey);
 		String operation;
-		if (method == null) {
-			operation = getMessageHelper().getPluralizedMessage(
-					"operation.cast-on", numberToCastOn);
-		} else {
-			operation = getMessageHelper().getPluralizedMessage(
-					"operation.using-method.cast-on", numberToCastOn,
-					new Object[] { method, numberToCastOn });
+		if (method != null) {
+			keys.add("using-method");
+			values.add(method);
 		}
+		keys.add("cast-on");
+		values.add(String.valueOf(numberToCastOn));
+		if (StringUtils.trimToNull(castOn.getAnnotation()) != null) {
+			keys.add("annotation");
+			values.add(castOn.getAnnotation().trim());
+		}
+		operation = getMessageHelper().getPluralizedMessage(
+				buildPropertyKey(keys), numberToCastOn, values.toArray());
 		getOperationSetHelper().writeOperation(operation,
 				writeSentenceByDefault);
+	}
+
+	private String buildPropertyKey(List<String> keys) {
+		StringBuilder builder = new StringBuilder("operation");
+		for (String key : keys) {
+			builder.append(".").append(key);
+		}
+		return builder.toString();
 	}
 
 	public void renderBindOff(BindOff bindOff) {
@@ -1105,7 +1119,7 @@ public class BasicTextRenderer implements Renderer {
 				}
 			}
 			result.append(" [")
-					.append(getMessageHelper().buildList(resolvedList, true))
+					.append(getMessageHelper().buildList(resolvedList, true, true))
 					.append("]");
 		}
 		return result.append(getMessage("operation.group-end-punctuation"))
@@ -1134,7 +1148,7 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	private String buildList(List<String> objects) {
-		return getMessageHelper().buildList(objects, false);
+		return getMessageHelper().buildList(objects, false, false);
 	}
 
 	// helper initialization and access / unimportant methods

@@ -57,6 +57,7 @@
     <mapping name="cast-on" class="com.knitml.core.model.operations.block.CastOn"
         value-style="attribute" ns="http://www.knitml.com/schema/operations">
         <value name="style" field="style" usage="optional"/>
+        <value name="annotation" field="annotation" usage="optional"/>
         <value name="count-as-row" field="countAsRow" default="false"/>
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
         <value style="text" field="numberOfStitches"/>

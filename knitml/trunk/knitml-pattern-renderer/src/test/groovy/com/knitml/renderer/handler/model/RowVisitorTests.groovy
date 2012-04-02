@@ -63,7 +63,7 @@ class RowVisitorTests extends AbstractRenderingContextTests {
 			<row number="1" subsequent="odd" side="right"><knit>1</knit></row>
 			<row number="2" subsequent="even"><purl>1</purl></row>
 		</instruction>''', Instruction
-		assertThat output.trim(), is ('Row 1 [and following odd rows,RS]: k1' + LINE_BREAK + 'Row 2 [and following even rows]: p1')
+		assertThat output.trim(), is ('Row 1 [and following odd rows, RS]: k1' + LINE_BREAK + 'Row 2 [and following even rows]: p1')
 	}
 	
 	@Test
@@ -201,7 +201,7 @@ class RowVisitorTests extends AbstractRenderingContextTests {
 						<information><message label="whew!"/></information>
 						<knit>1</knit>
 					</row>''', Row
-		assertThat output.trim(), is ('Row 1 [whew!,RS]: k1')
+		assertThat output.trim(), is ('Row 1 [whew!, RS]: k1')
 	}
 	
 }
