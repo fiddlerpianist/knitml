@@ -15,7 +15,7 @@ import com.knitml.core.common.ValidationException
 
 import test.support.AbstractRenderingContextTests
 
-class SuppliesYarnVisitorTests extends AbstractRenderingContextTests {
+class SuppliesYarnHandlerTests extends AbstractRenderingContextTests {
 
 	private static final LINE_BREAK = System.getProperty("line.separator");
 	private static final INDENT = "    ";

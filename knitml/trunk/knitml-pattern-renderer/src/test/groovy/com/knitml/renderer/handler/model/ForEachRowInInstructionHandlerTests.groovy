@@ -15,7 +15,7 @@ import com.knitml.core.common.ValidationException
 
 import test.support.AbstractRenderingContextTests
 
-class ForEachRowInInstructionVisitorTests extends AbstractRenderingContextTests {
+class ForEachRowInInstructionHandlerTests extends AbstractRenderingContextTests {
 
 	@Test
 	void twoRowsFromLocalInstruction() {

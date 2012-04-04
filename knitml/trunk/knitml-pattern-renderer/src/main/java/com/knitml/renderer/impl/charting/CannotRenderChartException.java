@@ -1,6 +1,8 @@
 package com.knitml.renderer.impl.charting;
 
-public class CannotRenderChartException extends RuntimeException {
+import com.knitml.renderer.common.RenderingException;
+
+public class CannotRenderChartException extends RenderingException {
 
 	private static final long serialVersionUID = 1L;
 

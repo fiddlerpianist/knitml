@@ -5,24 +5,21 @@ package com.knitml.core.model.directions.inline
 
 import static org.hamcrest.CoreMatchers.is
 import static org.junit.Assert.assertThat
-import static test.support.JiBXTestUtils.unmarshalXml
 import static test.support.JiBXTestUtils.marshalXmlAndCompare
+import static test.support.JiBXTestUtils.unmarshalXml
 
 import org.custommonkey.xmlunit.XMLUnit
-
-import org.junit.Test
-import org.junit.Ignore
 import org.junit.BeforeClass
-import org.junit.runner.JUnitCore
-import org.junit.runner.RunWith
+import org.junit.Test
 
-import com.knitml.core.common.Side
-import com.knitml.core.common.Wise
 import com.knitml.core.common.LoopToWork
-import com.knitml.core.common.YarnPosition
 import com.knitml.core.common.SlipDirection
-import com.knitml.core.model.operations.inline.SlipToStitchHolder;
-import com.knitml.core.model.pattern.Pattern;
+import com.knitml.core.common.Wise
+import com.knitml.core.common.YarnPosition
+import com.knitml.core.model.operations.inline.Knit
+import com.knitml.core.model.operations.inline.Purl
+import com.knitml.core.model.operations.inline.SlipToStitchHolder
+import com.knitml.core.model.pattern.Pattern
 
 class KnitPurlSlipTests {
 	@BeforeClass
@@ -51,22 +48,24 @@ class KnitPurlSlipTests {
 			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
 			  <pattern:directions>
 					<row>
-						<knit yarn-ref="knit0" loop-to-work="leading"/>
+						<knit yarn-ref="knit0" loop-to-work="leading" rows-below="1"/>
 						<knit>5</knit>
 					</row>
 				  </pattern:directions>
 			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
-		def element = pattern.directions.operations[0].operations[0]
+		def element = (Knit)pattern.directions.operations[0].operations[0]
 		element.with {
 			assertThat yarnIdRef, is ('knit0')
 			assertThat loopToWork, is (LoopToWork.LEADING)
+			assertThat rowsBelow, is (1)
 			assertThat numberOfTimes, is (null)
 		}
-		element = pattern.directions.operations[0].operations[1]
+		element = (Knit)pattern.directions.operations[0].operations[1]
 		element.with {
 			assertThat yarnIdRef, is (null)
 			assertThat loopToWork, is (null)
+			assertThat rowsBelow, is (null)
 			assertThat numberOfTimes, is (5)
 		}
 		marshalXmlAndCompare(pattern,xml)
@@ -78,22 +77,24 @@ class KnitPurlSlipTests {
 			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
 			  <pattern:directions>
 					<row>
-						<purl yarn-ref="knit0" loop-to-work="leading"/>
+						<purl yarn-ref="knit0" loop-to-work="leading" rows-below="1"/>
 						<purl>5</purl>
 					</row>
 				  </pattern:directions>
 			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
-		def element = pattern.directions.operations[0].operations[0]
+		def element = (Purl)pattern.directions.operations[0].operations[0]
 		element.with {
 			assertThat yarnIdRef, is ('knit0')
 			assertThat loopToWork, is (LoopToWork.LEADING)
+			assertThat rowsBelow, is (1)
 			assertThat numberOfTimes, is (null)
 		}
-		element = pattern.directions.operations[0].operations[1]
+		element = (Purl)pattern.directions.operations[0].operations[1]
 		element.with {
 			assertThat yarnIdRef, is (null)
 			assertThat loopToWork, is (null)
+			assertThat rowsBelow, is (null)
 			assertThat numberOfTimes, is (5)
 		}
 		marshalXmlAndCompare(pattern,xml)

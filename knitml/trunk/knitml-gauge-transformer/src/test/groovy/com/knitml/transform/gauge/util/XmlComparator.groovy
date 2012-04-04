@@ -1,9 +1,9 @@
 /**
  * 
  */
-package com.knitml.transform.gauge
+package com.knitml.transform.gauge.util
 
-import static com.knitml.transform.gauge.Unmarshaller.marshal
+import static com.knitml.transform.gauge.util.Unmarshaller.marshal
 
 import org.custommonkey.xmlunit.XMLAssert
 

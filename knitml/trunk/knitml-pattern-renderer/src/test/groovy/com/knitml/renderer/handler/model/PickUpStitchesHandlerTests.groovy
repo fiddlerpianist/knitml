@@ -11,7 +11,7 @@ import test.support.AbstractRenderingContextTests
 import com.knitml.core.model.common.Yarn
 import com.knitml.core.model.operations.inline.InlinePickUpStitches
 
-class PickUpStitchesVisitorTests extends AbstractRenderingContextTests {
+class PickUpStitchesHandlerTests extends AbstractRenderingContextTests {
 
 	@Before
 	void addYarns() {

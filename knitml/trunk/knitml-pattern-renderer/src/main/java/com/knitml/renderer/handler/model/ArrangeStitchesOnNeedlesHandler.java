@@ -14,12 +14,15 @@ public class ArrangeStitchesOnNeedlesHandler extends AbstractEventHandler {
 	private final static Logger log = LoggerFactory
 			.getLogger(ArrangeStitchesOnNeedlesHandler.class);
 
-	public boolean begin(Object event, Renderer renderer)
+	public boolean begin(Object event, Renderer renderer) {
+		return true;
+	}
+	
+	public void end(Object event, Renderer renderer)
 			throws RenderingException {
 		ArrangeStitchesOnNeedles operation = (ArrangeStitchesOnNeedles) event;
 		renderer.renderArrangeStitchesOnNeedles(
 				operation.getNeedles());
-		return true;
 	}
 
 }

@@ -2,12 +2,12 @@ package com.knitml.renderer.program;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import org.jibx.runtime.JiBXException;
 import org.slf4j.Logger;
@@ -37,30 +37,27 @@ public class RendererProgram {
 
 	// default if not passed
 	private RendererFactory rendererFactory;
-	private RenderingPatternEventListenerFactory eventListenerFactory;
+	private Provider<List<PatternEventListener>> eventListenerCollectionProvider;
+	private RenderingPatternEventListenerFactory renderingListenerFactory;
 	private KnittingContextFactory knittingContextFactory;
 	private VisitorFactory visitorFactory;
 	private Options options;
 
 	@Inject
 	public RendererProgram(RendererFactory rendererFactory,
+			Provider<List<PatternEventListener>> eventListenerSetProvider,
 			RenderingPatternEventListenerFactory eventListenerFactory,
 			KnittingContextFactory knittingContextFactory,
 			VisitorFactory visitorFactory,
 			Options options) {
 		this.rendererFactory = rendererFactory;
-		this.eventListenerFactory = eventListenerFactory;
+		this.renderingListenerFactory = eventListenerFactory;
+		this.eventListenerCollectionProvider = eventListenerSetProvider;
 		this.knittingContextFactory = knittingContextFactory;
 		this.visitorFactory = visitorFactory;
 		this.options = options;
 	}
 
-//	public void setOptions(Options options) {
-//		if (options != null) {
-//			this.options = options;
-//		}
-//	}
-//
 	public Pattern render(Parameters parameters) throws SAXException,
 			JiBXException, IOException, RenderingException,
 			KnittingEngineException {
@@ -80,22 +77,24 @@ public class RendererProgram {
 		// processing program as parameters)
 		Writer writer = parameters.getWriter();
 		parameters.setWriter(null);
+		List<PatternEventListener> eventListeners = eventListenerCollectionProvider.get();
 
 		// create the renderer using the rendering context
 		Renderer renderer = rendererFactory.create(renderingContext,
 				writer);
 		// create a listener which listens to model events and passes them to
 		// the renderer
-		PatternEventListener listener = this.eventListenerFactory.create(renderer);
+		PatternEventListener renderingListener = this.renderingListenerFactory.create(renderer);
+		eventListeners.add(renderingListener);
 
 		// set up the validation program by adding the rendering listener to it
-		List<PatternEventListener> listeners = new ArrayList<PatternEventListener>();
-		listeners.add(listener);
+//		List<PatternEventListener> listeners = new ArrayList<PatternEventListener>();
+//		listeners.add(listener);
 		ValidationProgram processor = new ValidationProgram(
-				knittingContextFactory, visitorFactory, listeners);
+				knittingContextFactory, visitorFactory, eventListeners);
 
 		// run the validation with rendering attached as an event listener.
-		// The object returned contains any changes made by the validator.
+		// The object returned contains any changes made by the validator and listeners
 		return processor.validate(parameters);
 	}
 

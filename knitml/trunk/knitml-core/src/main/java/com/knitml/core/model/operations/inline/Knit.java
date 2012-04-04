@@ -13,6 +13,7 @@ public class Knit implements DiscreteInlineOperation, StitchNatureProducer,
 		YarnReferenceHolder {
 
 	protected Integer numberOfTimes;
+	protected Integer rowsBelow;
 	protected String yarnIdRef;
 	protected LoopToWork loopToWork;
 
@@ -20,6 +21,10 @@ public class Knit implements DiscreteInlineOperation, StitchNatureProducer,
 		return numberOfTimes;
 	}
 
+	public Integer getRowsBelow() {
+		return rowsBelow;
+	}
+	
 	public String getYarnIdRef() {
 		return yarnIdRef;
 	}
@@ -38,12 +43,20 @@ public class Knit implements DiscreteInlineOperation, StitchNatureProducer,
 		this.yarnIdRef = yarnIdRef;
 		this.loopToWork = loopToWork;
 	}
+	public Knit(Integer numberOfTimes, Integer rowsBelow, LoopToWork loopToWork, String yarnIdRef) {
+		super();
+		this.numberOfTimes = numberOfTimes;
+		this.rowsBelow = rowsBelow;
+		this.yarnIdRef = yarnIdRef;
+		this.loopToWork = loopToWork;
+	}
 
 	public List<? extends Knit> canonicalize() {
 		int size = numberOfTimes == null ? 1 : numberOfTimes;
+		int numberOfRowsBelow = rowsBelow == null ? 0 : rowsBelow;
 		List<Knit> newOps = new ArrayList<Knit>(size);
 		for (int i = 0; i < size; i++) {
-			newOps.add(new Knit(null, loopToWork == null ? LoopToWork.LEADING
+			newOps.add(new Knit(null, numberOfRowsBelow, loopToWork == null ? LoopToWork.LEADING
 					: loopToWork, null));
 		}
 		return newOps;
@@ -61,6 +74,7 @@ public class Knit implements DiscreteInlineOperation, StitchNatureProducer,
 	public String toString() {
 		return "Knit"
 				+ (numberOfTimes != null ? " " + numberOfTimes : "")
+				+ (rowsBelow != null ? " into " + rowsBelow + " rows below": "")
 				+ (yarnIdRef != null ? " with yarn " + yarnIdRef : "")
 				+ (loopToWork != null ? " through " + loopToWork + " loop" : "");
 	}
@@ -77,6 +91,8 @@ public class Knit implements DiscreteInlineOperation, StitchNatureProducer,
 				+ ((loopToWork == null) ? 0 : loopToWork.hashCode());
 		result = prime * result
 				+ ((numberOfTimes == null) ? 0 : numberOfTimes.hashCode());
+		result = prime * result
+				+ ((rowsBelow == null) ? 0 : rowsBelow.hashCode());
 		result = prime * result
 				+ ((yarnIdRef == null) ? 0 : yarnIdRef.hashCode());
 		return result;
@@ -97,6 +113,11 @@ public class Knit implements DiscreteInlineOperation, StitchNatureProducer,
 			if (other.numberOfTimes != null)
 				return false;
 		} else if (!numberOfTimes.equals(other.numberOfTimes))
+			return false;
+		if (rowsBelow == null) {
+			if (other.rowsBelow != null)
+				return false;
+		} else if (!rowsBelow.equals(other.rowsBelow))
 			return false;
 		if (yarnIdRef == null) {
 			if (other.yarnIdRef != null)

@@ -69,5 +69,62 @@ class PurlHandlerTests extends AbstractRenderingContextTests {
 		''', Purl
 		assertThat output, startsWith ('Row 1: p1 (A), p1 (B)')
 	}
-	
+	@Test
+	void purlIntoRowBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<purl rows-below="1" xmlns="http://www.knitml.com/schema/operations"/>', Purl
+		assertThat output, is ('p into st below')
+	}
+	@Test
+	void purlInto2RowsBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<purl rows-below="2" xmlns="http://www.knitml.com/schema/operations"/>', Purl
+		assertThat output, is ('p into 2 rows below')
+	}
+
+	@Test
+	void purl1IntoRowBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<purl rows-below="1" xmlns="http://www.knitml.com/schema/operations"/>', Purl
+		assertThat output, is ('p1 into st below')
+	}
+	@Test
+	void purlTblIntoRowBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<purl rows-below="1" loop-to-work="trailing" xmlns="http://www.knitml.com/schema/operations"/>', Purl
+		assertThat output, is ('p tbl into st below')
+	}
+	@Test
+	void purlWithYarnIntoRowBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<purl rows-below="1" yarn-ref="yarn1" xmlns="http://www.knitml.com/schema/operations"/>', Purl
+		assertThat output, is ('p into st below (A)')
+	}
+	@Test
+	void purlTblWithYarnIntoRowBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<purl rows-below="1" yarn-ref="yarn1" loop-to-work="trailing" xmlns="http://www.knitml.com/schema/operations"/>', Purl
+		assertThat output, is ('p tbl into st below (A)')
+	}
+	@Test
+	void purl1Into2RowsBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<purl rows-below="2" xmlns="http://www.knitml.com/schema/operations"/>', Purl
+		assertThat output, is ('p1 into 2 rows below')
+	}
+	@Test
+	void purl5IntoRowBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<purl rows-below="1" xmlns="http://www.knitml.com/schema/operations">5</purl>', Purl
+		assertThat output, is ('p next 5 sts into row below')
+	}
+
 }

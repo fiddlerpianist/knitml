@@ -16,7 +16,7 @@ import com.knitml.core.model.operations.block.Row;
 
 import test.support.AbstractRenderingContextTests
 
-class UsingNeedleVisitorTests extends AbstractRenderingContextTests {
+class UsingNeedleHandlerTests extends AbstractRenderingContextTests {
 	
 	private static final String LINE_BREAK = System.getProperty("line.separator")
 	

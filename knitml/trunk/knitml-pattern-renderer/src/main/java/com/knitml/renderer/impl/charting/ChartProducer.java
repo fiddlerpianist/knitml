@@ -21,6 +21,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumBiMap;
@@ -92,6 +94,9 @@ class ChartProducer implements Renderer {
 	private static BiMap<ChartElement, ChartElement> symbolInverseMap = EnumBiMap
 			.create(ChartElement.class, ChartElement.class);
 
+	private static final Logger log = LoggerFactory
+			.getLogger(ChartProducer.class);
+
 	static {
 		symbolInverseMap.put(P, K);
 		symbolInverseMap.put(P_TW, K_TW);
@@ -103,7 +108,7 @@ class ChartProducer implements Renderer {
 
 	// fields which should be set before calling begin() methods
 	/**
-	 * Used for creating a ChartWriter. A ChartWriter writes to a particular
+	 * Used for creating a ChartWriter. A ChartWriter writes using a particular
 	 * format (text, HTML, etc.)
 	 */
 	@Inject
@@ -232,7 +237,8 @@ class ChartProducer implements Renderer {
 		return finder.findChartElementBy(operation.canonicalize().get(0));
 	}
 
-	protected void add(final ChartElement element, DiscreteInlineOperation operation) {
+	protected void add(final ChartElement element,
+			DiscreteInlineOperation operation) {
 		ChartElement elementToUse = element;
 		if (direction == Direction.BACKWARDS) {
 			elementToUse = inverse(element);
@@ -242,7 +248,8 @@ class ChartProducer implements Renderer {
 		}
 
 		if (isWithinRepeatSet()) {
-			// use the original element here; it will be inversed when the repeat is carried out
+			// use the original element here; it will be inversed when the
+			// repeat is carried out
 			getCurrentRepeatSet().addOperation(element);
 		} else {
 			if (direction == Direction.BACKWARDS) {
@@ -355,9 +362,10 @@ class ChartProducer implements Renderer {
 	public void renderDecrease(Decrease decrease) {
 		ChartElement point;
 		if (decrease instanceof DoubleDecrease) {
-			point = findChartElement(new DoubleDecrease(1,decrease.getType(), null));			
+			point = findChartElement(new DoubleDecrease(1, decrease.getType(),
+					null));
 		} else {
-			point = findChartElement(new Decrease(1,decrease.getType(), null));			
+			point = findChartElement(new Decrease(1, decrease.getType(), null));
 		}
 		if (point == null) {
 			throw new RuntimeException(
@@ -451,7 +459,7 @@ class ChartProducer implements Renderer {
 	public void endOperationGroup(OperationGroup group) {
 		// nothing to do here
 	}
-	
+
 	public boolean beginIncreaseIntoNextStitch(
 			IncreaseIntoNextStitch increaseIntoNextStitch) {
 		ChartElement element = finder.findChartElementBy(increaseIntoNextStitch
@@ -472,6 +480,17 @@ class ChartProducer implements Renderer {
 			String label) {
 		// FIXME make this go
 		throw new NotImplementedException("But it will be soon!");
+	}
+
+	public void renderMessage(String messageToRender) {
+		log.warn(
+				"The message [{}] could not be rendered because charts have no way to render messages within rows at this time.",
+				messageToRender);
+		throw new CannotRenderChartException(
+				"Charts cannot currently render informational messages by row. "
+						+ "This most likely ccurred because you are changing the gauge of the pattern, "
+						+ "and charts currently do not have a way to express gauge changes. "
+						+ "Either do not change the gauge or disable charting.");
 	}
 
 	public void setRenderingContext(RenderingContext renderingContext) {
@@ -597,10 +616,6 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderJoinInRound() {
-		throw new NotImplementedException();
-	}
-
-	public void renderMessage(String messageToRender) {
 		throw new NotImplementedException();
 	}
 

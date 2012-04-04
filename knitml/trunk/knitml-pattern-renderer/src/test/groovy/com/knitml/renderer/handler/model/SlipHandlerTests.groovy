@@ -10,7 +10,7 @@ import test.support.AbstractRenderingContextTests
 
 import com.knitml.core.model.operations.inline.Slip;
 
-class SlipVisitorTests extends AbstractRenderingContextTests {
+class SlipHandlerTests extends AbstractRenderingContextTests {
 
 	@Test
 	void slip() {
@@ -126,10 +126,6 @@ class SlipVisitorTests extends AbstractRenderingContextTests {
 		renderingContext.engine.startNewRow()
 		processXml '<slip yarn-position="front" xmlns="http://www.knitml.com/schema/operations"/>', Slip
 		assertThat output, is ('sl 1 wyif')
-	}
-	
-	static void main(args) {
-		JUnitCore.main(SlipVisitorTests.name)
 	}
 	
 }

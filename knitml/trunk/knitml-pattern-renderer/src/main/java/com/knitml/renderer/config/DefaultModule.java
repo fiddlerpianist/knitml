@@ -1,7 +1,11 @@
 package com.knitml.renderer.config;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.knitml.renderer.chart.legend.LegendOperationRenderer;
 import com.knitml.renderer.chart.legend.impl.DefaultLegendOperationRenderer;
@@ -35,5 +39,11 @@ public class DefaultModule extends AbstractModule {
 		install(new FactoryModuleBuilder().implement(PatternEventListener.class,
 				RenderingListenerAdapter.class).build(RenderingPatternEventListenerFactory.class));
 	}
+	
+	@Provides
+	protected List<PatternEventListener> provideListenerList() {
+		return new ArrayList<PatternEventListener>();
+	}
+	
 
 }
