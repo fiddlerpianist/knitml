@@ -7,8 +7,8 @@
 	<version>1.0.0.BUILD-SNAPSHOT</version>
 	<name>KnitML</name>
 	<issueManagement>
-		<system>Bugzilla</system>
-		<url>http://www.doublebock.net/bugzilla</url>
+		<system>Google Code</system>
+		<url>http://code.google.com/p/knitml/issues</url>
 	</issueManagement>
 	<inceptionYear>2007</inceptionYear>
 	<developers>
@@ -37,9 +37,10 @@
 	</distributionManagement>
 	<modules>
 		<module>knitml-core</module>
-		<module>knitml-el</module>
+		<!--<module>knitml-el</module>-->
 		<module>knitml-knitting-engine</module>
 		<module>knitml-validation</module>
+		<module>knitml-gauge-transformer</module>
 		<module>knitml-pattern-renderer</module>
 		<module>knitml-command-line</module>
 	</modules>
@@ -232,6 +233,11 @@
 		<dependency>
 			<groupId>com.google.inject.extensions</groupId>
 			<artifactId>guice-assistedinject</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-multibindings</artifactId>
 			<version>3.0</version>
 		</dependency>
 		<dependency>
