@@ -73,4 +73,40 @@ class KnitHandlerTests extends AbstractRenderingContextTests {
 		assertThat output, startsWith ('Row 1: k1 (A), k1 (B)')
 	}
 	
+	@Test
+	void knitIntoRowBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<knit rows-below="1" xmlns="http://www.knitml.com/schema/operations"/>', Knit
+		assertThat output, is ('k into st below')
+	}
+	@Test
+	void knitInto2RowsBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<knit rows-below="2" xmlns="http://www.knitml.com/schema/operations"/>', Knit
+		assertThat output, is ('k into 2 rows below')
+	}
+
+	@Test
+	void knit1IntoRowBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<knit rows-below="1" xmlns="http://www.knitml.com/schema/operations"/>', Knit
+		assertThat output, is ('k1 into st below')
+	}
+	@Test
+	void knit1Into2RowsBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<knit rows-below="2" xmlns="http://www.knitml.com/schema/operations"/>', Knit
+		assertThat output, is ('k1 into 2 rows below')
+	}
+	@Test
+	void knit5IntoRowBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<knit rows-below="1" xmlns="http://www.knitml.com/schema/operations"/>', Knit
+		assertThat output, is ('k next 5 sts into row below')
+	}
 }

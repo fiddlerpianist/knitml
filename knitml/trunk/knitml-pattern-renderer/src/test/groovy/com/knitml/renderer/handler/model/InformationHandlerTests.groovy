@@ -13,7 +13,7 @@ import com.knitml.core.model.pattern.Section;
 
 import test.support.AbstractRenderingContextTests
 
-class InformationVisitorTests extends AbstractRenderingContextTests {
+class InformationHandlerTests extends AbstractRenderingContextTests {
 
 	@Test
 	void numberOfStitchesAtRowEnd() {

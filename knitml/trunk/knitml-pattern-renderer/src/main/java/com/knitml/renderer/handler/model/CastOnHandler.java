@@ -22,6 +22,10 @@ public class CastOnHandler extends AbstractEventHandler {
 
 	public boolean begin(Object element, Renderer renderer)
 			throws RenderingException {
+		return true;
+	}
+	
+	public void end(Object element, Renderer renderer) {
 		CastOn castOn = (CastOn) element;
 		
 		if (!renderer.getRenderingContext().getPatternState().getOperationTree().empty()) {
@@ -46,6 +50,5 @@ public class CastOnHandler extends AbstractEventHandler {
 		} else {
 			renderer.renderCastOn(castOn);
 		}
-		return true;
 	}
 }

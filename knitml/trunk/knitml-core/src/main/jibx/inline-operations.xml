@@ -4,6 +4,7 @@
     <mapping name="knit" value-style="attribute"
         class="com.knitml.core.model.operations.inline.Knit" ns="http://www.knitml.com/schema/operations">
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
+        <value name="rows-below" field="rowsBelow" usage="optional"/>
         <value style="text" field="numberOfTimes" usage="optional"
             serializer="com.knitml.core.xml.DataConversion.serializeNullableInteger"
             deserializer="com.knitml.core.xml.DataConversion.deserializeNullableInteger"/>
@@ -12,6 +13,7 @@
     <mapping name="purl" value-style="attribute"
         class="com.knitml.core.model.operations.inline.Purl" ns="http://www.knitml.com/schema/operations">
         <value name="yarn-ref" field="yarnIdRef" usage="optional"/>
+        <value name="rows-below" field="rowsBelow" usage="optional"/>
         <value style="text" field="numberOfTimes" usage="optional"
             serializer="com.knitml.core.xml.DataConversion.serializeNullableInteger"
             deserializer="com.knitml.core.xml.DataConversion.deserializeNullableInteger"/>

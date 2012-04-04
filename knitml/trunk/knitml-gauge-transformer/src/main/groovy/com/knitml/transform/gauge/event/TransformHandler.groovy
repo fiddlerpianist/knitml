@@ -44,17 +44,18 @@ class TransformHandler {
 	}
 
 	void end(ArrangeStitchesOnNeedles arrStOnNeedle, KnittingContext context) {
-		int originalCount = 0
-		int targetCount = 0
+		def originalCount = 0
+		def targetCount = 0
 		arrStOnNeedle.needles.each {
 			int original = it.numberOfStitches
-			originalCount += original
+			originalCount = originalCount + original
 			int target = calculateTargetStitchCount (it.numberOfStitches)
-			targetCount += target
+			targetCount = targetCount + target
 			it.numberOfStitches = target
 		}
-		if (targetCount < calculateTargetStitchCount(originalCount)) {
-			arrStOnNeedle.needles.get(arrStOnNeedle.needles.size() - 1).numberOfStitches += (calculateTargetStitchCount(originalCount) - targetCount)
+		if (targetCount != calculateTargetStitchCount(originalCount)) {
+			def targetNeedle = arrStOnNeedle.needles.get(arrStOnNeedle.needles.size() - 1)
+			targetNeedle.numberOfStitches = targetNeedle.numberOfStitches + (calculateTargetStitchCount(originalCount) - targetCount)
 		}
 	}
 

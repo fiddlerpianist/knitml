@@ -12,28 +12,30 @@ public class Purl extends Knit {
 		super(numberOfTimes, loopToWork, yarnIdRef);
 	}
 
+	public Purl(Integer numberOfTimes, Integer rowsBelow, LoopToWork loopToWork, String yarnIdRef) {
+		super(numberOfTimes, rowsBelow, loopToWork, yarnIdRef);
+	}
+
 	@Override
 	public String toString() {
 		return "Purl"
 				+ (numberOfTimes != null ? " " + numberOfTimes : "")
+				+ (rowsBelow != null ? " into " + rowsBelow + " rows below": "")
 				+ (yarnIdRef != null ? " with yarn " + yarnIdRef : "")
 				+ (loopToWork != null ? " through " + loopToWork + " loop" : "");
 	}
 
 	public List<Purl> canonicalize() {
 		int size = numberOfTimes == null ? 1 : numberOfTimes;
+		int numberOfRowsBelow = rowsBelow == null ? 0 : rowsBelow;
 		List<Purl> newOps = new ArrayList<Purl>(size);
 		for (int i = 0; i < size; i++) {
-			newOps.add(new Purl(null, loopToWork == null ? LoopToWork.LEADING
+			newOps.add(new Purl(null, numberOfRowsBelow, loopToWork == null ? LoopToWork.LEADING
 					: loopToWork, null));
 		}
 		return newOps;
 	}
 
-	@Override
-	public StitchNature getStitchNatureProduced() {
-		return StitchNature.PURL;
-	}
 
 	@Override
 	public int hashCode() {
@@ -43,6 +45,8 @@ public class Purl extends Knit {
 				+ ((loopToWork == null) ? 0 : loopToWork.hashCode());
 		result = prime * result
 				+ ((numberOfTimes == null) ? 0 : numberOfTimes.hashCode());
+		result = prime * result
+				+ ((rowsBelow == null) ? 0 : rowsBelow.hashCode());
 		result = prime * result
 				+ ((yarnIdRef == null) ? 0 : yarnIdRef.hashCode());
 		return result;
@@ -64,12 +68,23 @@ public class Purl extends Knit {
 				return false;
 		} else if (!numberOfTimes.equals(other.numberOfTimes))
 			return false;
+		if (rowsBelow == null) {
+			if (other.rowsBelow != null)
+				return false;
+		} else if (!rowsBelow.equals(other.rowsBelow))
+			return false;
 		if (yarnIdRef == null) {
 			if (other.yarnIdRef != null)
 				return false;
 		} else if (!yarnIdRef.equals(other.yarnIdRef))
 			return false;
 		return true;
+	}
+
+	
+	@Override
+	public StitchNature getStitchNatureProduced() {
+		return StitchNature.PURL;
 	}
 
 }

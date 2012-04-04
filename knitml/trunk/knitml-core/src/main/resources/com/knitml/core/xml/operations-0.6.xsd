@@ -216,6 +216,15 @@
 						</xsd:restriction>
 					</xsd:simpleType>
 				</xsd:attribute>
+				<xsd:attribute name="rows-below" type="xsd:short">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+                The number of rows to knit below. That is, a value of 1 would indicate to knit
+                into the stitch below this row. When this attribute isn't provided, its default
+                value should be 0 (meaning knit into the next stitch in this row).
+                ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
@@ -247,6 +256,15 @@
 							<xsd:enumeration value="trailing" />
 						</xsd:restriction>
 					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute name="rows-below" type="xsd:short">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+                The number of rows to purl below. That is, a value of 1 would indicate to purl
+                into the stitch below this row. When this attribute isn't provided, its default
+                value should be 0 (meaning purl into the next stitch in this row).
+                ]]></xsd:documentation>
+					</xsd:annotation>
 				</xsd:attribute>
 			</xsd:extension>
 		</xsd:simpleContent>

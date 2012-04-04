@@ -356,29 +356,7 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public void renderUsingNeedlesCastOn(List<Needle> needles, CastOn castOn) {
-		if (needles == null || needles.size() == 0) {
-			renderCastOn(castOn);
-		}
-		int numberToCastOn = castOn.getNumberOfStitches() == null ? 1 : castOn
-				.getNumberOfStitches();
-		String operation;
-		String method = null;
-		if (castOn.getStyle() != null) {
-			method = getMessageHelper().getMessageWithDefault(
-					"method.cast-on." + castOn.getStyle(), castOn.getStyle());
-		}
-		if (method == null) {
-			operation = getMessageHelper().getPluralizedMessage(
-					"operation.using-needles.cast-on", numberToCastOn,
-					new Object[] { buildNeedleList(needles), numberToCastOn });
-		} else {
-			operation = getMessageHelper().getPluralizedMessage(
-					"operation.using-needles.using-method.cast-on",
-					numberToCastOn,
-					new Object[] { buildNeedleList(needles), method,
-							numberToCastOn });
-		}
-		writeSentence(operation);
+		doRenderCastOn(castOn, needles, true);
 	}
 
 	public void renderKnit(Knit knit) {
@@ -965,18 +943,25 @@ public class BasicTextRenderer implements Renderer {
 	public void renderCastOn(InlineCastOn pickUpStitches) {
 		doRenderCastOn(new CastOn(pickUpStitches.getNumberOfStitches(),
 				pickUpStitches.getYarnIdRef(), pickUpStitches.getStyle()),
+				null,
 				false);
 	}
 
 	public void renderCastOn(CastOn castOn) {
-		doRenderCastOn(castOn, true);
+		doRenderCastOn(castOn, null, true);
 	}
 
-	protected void doRenderCastOn(CastOn castOn, boolean writeSentenceByDefault) {
+	protected void doRenderCastOn(CastOn castOn, List<Needle> needles, boolean writeSentenceByDefault) {
 		int numberToCastOn = castOn.getNumberOfStitches() == null ? 1 : castOn
 				.getNumberOfStitches();
 		List<String> keys = new ArrayList<String>();
 		List<String> values = new ArrayList<String>();
+		// using-needles?
+		if (needles != null) {
+			keys.add("using-needles");
+			values.add(buildNeedleList(needles));
+		}
+		// using-method?
 		String methodKey = castOn.getStyle();
 		// since method is currently free form text, there may not be an entry
 		// for it, so just use the key
@@ -989,6 +974,7 @@ public class BasicTextRenderer implements Renderer {
 		}
 		keys.add("cast-on");
 		values.add(String.valueOf(numberToCastOn));
+		// annotation?
 		if (StringUtils.trimToNull(castOn.getAnnotation()) != null) {
 			keys.add("annotation");
 			values.add(castOn.getAnnotation().trim());
