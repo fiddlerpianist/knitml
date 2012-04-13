@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.knitml</groupId>
 	<artifactId>knitml-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>0.7.0.BUILD-SNAPSHOT</version>
+	<version>0.7.0.BUILD</version>
 	<name>KnitML</name>
 	<issueManagement>
 		<system>Google Code</system>
@@ -19,9 +18,9 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:svn:https://knitml.googlecode.com/svn/knitml/trunk</connection>
-		<developerConnection>scm:svn:https://knitml.googlecode.com/svn/knitml/trunk</developerConnection>
-		<url>http://knitml.googlecode.com/svn/knitml/trunk</url>
+		<connection>scm:svn:https://knitml.googlecode.com/svn/knitml/tags/knitml-parent-0.7.0.BUILD</connection>
+		<developerConnection>scm:svn:https://knitml.googlecode.com/svn/knitml/tags/knitml-parent-0.7.0.BUILD</developerConnection>
+		<url>http://knitml.googlecode.com/svn/knitml/tags/knitml-parent-0.7.0.BUILD</url>
 	</scm>
 	<distributionManagement>
 		<repository>
