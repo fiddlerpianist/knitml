@@ -1,0 +1,40 @@
+<binding track-source="true" add-constructors="true">
+	<namespace uri="http://www.w3.org/2001/XMLSchema-instance"
+		prefix="xsi" default="none" />
+	<namespace uri="http://www.knitml.com/schema/library" prefix="library"
+		default="none" />
+	<namespace uri="http://www.knitml.com/schema/operations"
+		prefix="" default="none" />
+	<namespace uri="http://www.knitml.com/schema/common" prefix="common"
+		default="none" />
+	<include path="../jibx/block-operations.xml" />
+	<include path="../jibx/common.xml" />
+
+	<mapping name="library" class="com.knitml.core.model.library.Library"
+		value-style="attribute" ns="http://www.knitml.com/schema/library">
+		<value ns="http://www.w3.org/XML/1998/namespace" name="lang"
+			field="languageCode" style="attribute" usage="optional" />
+		<value name="schemaLocation" field="schemaLocation"
+			ns="http://www.w3.org/2001/XMLSchema-instance" usage="optional" />
+		<value name="version" field="version" usage="optional" />
+		<value name="namespace" field="namespace" usage="optional" />
+		<structure name="information" field="information"
+			ns="http://www.knitml.com/schema/library" usage="optional">
+			<value name="name" field="name" ns="http://www.knitml.com/schema/library"
+				style="element" />
+			<value name="description" field="description"
+				ns="http://www.knitml.com/schema/library" style="element" />
+		</structure>
+		<structure field="directives" usage="optional"
+			ns="http://www.knitml.com/schema/library" />
+		<structure name="yarns" ns="http://www.knitml.com/schema/library" usage="optional">
+			<collection field="yarns" type="java.util.ArrayList"
+				item-type="com.knitml.core.model.common.Yarn" />
+		</structure>
+		<collection name="definitions" field="instructionDefinitions"
+			type="java.util.ArrayList" ns="http://www.knitml.com/schema/library" />
+	</mapping>
+	<mapping name="directives" class="com.knitml.core.model.library.Directives"
+		value-style="attribute" ns="http://www.knitml.com/schema/library">
+	</mapping>
+</binding>

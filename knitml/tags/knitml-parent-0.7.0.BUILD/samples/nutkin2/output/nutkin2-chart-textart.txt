@@ -1,0 +1,173 @@
+Nutkin Two
+By Meg Dedolph
+A sock pattern inspired by the Nutkin pattern by Beth LaPense
+
+Stitch Gauge: 7 st/in
+Row Gauge: 12 row/in
+
+Yarn:
+    100 g (430 yd) of Lorna's Laces Shepherd Sock (fingering weight) in Mixed Berries (38)
+
+Needles:
+    2 circular needles size 1 US (2.25 mm): Knitpicks, 24 in
+
+Nutkin 2 LHS:
+   |=\---o---------==| 10
+   |=-\---o--------==|  9
+   |=--\---o-------==|  8
+   |=---\---o------==|  7
+   |=----\---o-----==|  6
+   |=-----\---o----==|  5
+   |=------\---o---==|  4
+   |=-------\---o--==|  3
+   |=--------\---o-==|  2
+   |=---------\---o==|  1
+Legend
+-: k
+=: p
+o: yo
+\: ssk
+
+
+Nutkin 2 RHS:
+   |==---------o---/=| 10
+   |==--------o---/-=|  9
+   |==-------o---/--=|  8
+   |==------o---/---=|  7
+   |==-----o---/----=|  6
+   |==----o---/-----=|  5
+   |==---o---/------=|  4
+   |==--o---/-------=|  3
+   |==-o---/--------=|  2
+   |==o---/---------=|  1
+Legend
+-: k
+=: p
+o: yo
+/: k2tog
+
+
+Nutkin 2:
+   |==---------o---/==\---o---------==| 10
+   |==--------o---/-==-\---o--------==|  9
+   |==-------o---/--==--\---o-------==|  8
+   |==------o---/---==---\---o------==|  7
+   |==-----o---/----==----\---o-----==|  6
+   |==----o---/-----==-----\---o----==|  5
+   |==---o---/------==------\---o---==|  4
+   |==--o---/-------==-------\---o--==|  3
+   |==-o---/--------==--------\---o-==|  2
+   |==o---/---------==---------\---o==|  1
+Legend
+-: k
+=: p
+o: yo
+\: ssk
+/: k2tog
+
+
+1x1 Rib: k1, p1
+
+2x2 Rib: k2, p2
+
+Garter Ribbing:
+  |----| 2
+  |==--| 1
+Legend
+-: k
+=: p
+
+
+Directions
+----------
+Use Needle 1. Using the long-tail method, cast on 68 stitches.
+Arrange stitches as follows:
+    Needle 1: 34 sts
+    Needle 2: 34 sts
+Join in round, being careful not to twist stitches.
+
+Make the Cuff
+-------------
+
+Work as follows:
+  |=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-| 1
+Legend
+-: k
+=: p
+
+Repeat round 1 for 1 in.
+
+Knit the Leg
+------------
+Rounds 1,2,3,4,5,6,7,8,9,10: 
+    Needle 1: p1, work next row from Garter Ribbing instruction 8 times, k1
+    Needle 2: work next row from Nutkin 2 instruction
+Repeat rounds 1-10 6 additional times.
+
+Make Heel Flap
+--------------
+Use Needle 1. Begin knitting flat.
+Work as follows:
+2 |S---------------------------------|  
+  |--S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-| 1
+Legend
+-: k
+S: sl
+
+Repeat rows 1-2 for 2.5 in.
+
+Turn the Heel
+-------------
+Row 1 [RS]: sl 1, k18, ssk, k1, turn
+Row 2: sl 1, p5, p2tog, p1, turn
+
+For the next set of rows, you will be decreasing across a small gap. For each row, you will work one additional stitch from the previous row until you are one stitch before the gap. Then you will decrease across the gap and work one more stitch for that row.
+Row 3: sl 1, k to 1 st before gap, ssk, k1, turn. 10 unworked stitches.
+Row 4: sl 1, p to 1 st before gap, p2tog, p1, turn. 10 unworked stitches.
+Repeat rows 3-4 4 additional times.
+Row 13: sl 1, k16, ssk, k1
+Row 14: sl 1, p17, p2tog, p1
+20 stitches in row.
+
+Row 15: sl 1, k9. End of round.
+
+Work Gusset
+-----------
+Use Needle 1 and Needle 2. Begin knitting-in-the-round.
+Arrange stitches as follows:
+    Needle 1: 27 sts
+    Needle 2: 27 sts
+Round 1: 
+    Needle 1: k10, pick up 18 stitches knitwise, place marker, work next row from Nutkin 2 LHS instruction
+    Needle 2: work next row from Nutkin 2 RHS instruction, place marker, pick up 18 stitches knitwise, k10
+Round 2: 
+    Needle 1: k to 3 sts before marker, k2tog, k1, work next row from Nutkin 2 LHS instruction
+    Needle 2: work next row from Nutkin 2 RHS instruction, k1, ssk, k to end
+Round 3: 
+    Needle 1: k to marker, work next row from Nutkin 2 LHS instruction
+    Needle 2: work next row from Nutkin 2 RHS instruction, k to end
+Repeat rounds 2-3 until 68 stitches remain on the needles.
+Next round: 
+    Needle 1: k to marker, remove marker. End of round.
+Arrange stitches as follows:
+    Needle 2: 34 sts
+    Needle 1: 34 sts
+
+Make the Foot
+-------------
+Round 1: 
+    Instep Needle: p1, *k2, p2, repeat from * 8 times, k1
+    Sole Needle: k to end
+Repeat round 1 until desired length.
+
+Make the Toe
+------------
+
+Round 1: 
+    Instep Needle: k1, ssk, k to 3 sts before end, k2tog, k1
+    Sole Needle: k1, ssk, k to 3 sts before end, k2tog, k1
+Round 2: Knit
+Repeat rounds 1-2 until 20 stitches remain on the needles.
+
+Graft stitches together from Sole Needle and Instep Needle.
+

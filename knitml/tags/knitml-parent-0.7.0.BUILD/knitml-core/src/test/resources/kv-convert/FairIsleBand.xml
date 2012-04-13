@@ -1,0 +1,76 @@
+<library:library xmlns:library="http://www.knitml.com/schema/library"
+	xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common"
+	version="0.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.knitml.com/schema/library http://www.knitml.com/schema/library-0.7.xsd
+	    http://www.knitml.com/schema/operations http://www.knitml.com/schema/operations-0.7.xsd
+	    http://www.knitml.com/schema/common	http://www.knitml.com/schema/common-0.7.xsd">
+	<library:information>
+		<library:name>Export from KnitVisualizer - Fair Isle Band</library:name>
+		<library:description>Fair Isle Border Library</library:description>
+	</library:information>
+	<library:directives>
+		<library:namespace value="http://www.stitchmastery.com/knitml/charts/kv/FairIsleBand"/>
+	</library:directives>
+	<library:yarns>
+		<common:yarn id="default">
+			<common:color name="white" />
+		</common:yarn>
+		<common:yarn id="color1">
+			<common:color name="blue" />
+		</common:yarn>
+		<common:yarn id="color2">
+			<common:color name="orange" />
+		</common:yarn>
+	</library:yarns>
+	<library:definitions>
+		<instruction id="Chart1" label="Fair Isle Border"
+			shape="round" row-count="8" starting-stitch-count="14">
+			<chart-info stereotype="color">
+				<!-- all lines drawn out from row or stitches -->
+				<box rgb-color="ff0000" start-row="1" start-stitch="1" row-span="1"
+					stitch-span="8" />
+				<!-- OR possibly... <line color="ff0000" row-coordinate="0" col-coordinate="0" 
+					span="row" length="2"/> <line color="ff0000" row-coordinate="0" col-coordinate="8" 
+					span="row" length="2"/> <line color="ff0000" row-coordinate="0" col-coordinate="0" 
+					span="column" length="8"/> <line color="ff0000" row-coordinate="0" col-coordinate="2" 
+					span="column" length="8"/> -->
+			</chart-info>
+			<row>
+				<!-- 'k to end' ideal, but k14 will work as well -->
+				<knit yarn-ref="default">14</knit>
+			</row>
+			<row>
+				<!-- this is what 'k to end' would look like -->
+				<repeat until="end">
+					<knit yarn-ref="color1" />
+				</repeat>
+			</row>
+			<row>
+				<knit yarn-ref="default">14</knit>
+			</row>
+			<row>
+				<!-- This is ideal... -->
+				<repeat until="end">
+					<knit yarn-ref="color2">1</knit>
+					<knit yarn-ref="default">1</knit>
+				</repeat>
+			</row>
+			<row>
+				<!-- ...but this would work, too -->
+				<repeat until="times" value="7">
+					<knit yarn-ref="default">1</knit>
+					<knit yarn-ref="color2">1</knit>
+				</repeat>
+			</row>
+			<row>
+				<knit yarn-ref="default">14</knit>
+			</row>
+			<row>
+				<knit yarn-ref="color1">14</knit>
+			</row>
+			<row>
+				<knit yarn-ref="default">14</knit>
+			</row>
+		</instruction>
+	</library:definitions>
+</library:library>

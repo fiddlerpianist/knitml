@@ -1,0 +1,58 @@
+<library:library version="0.6"
+	namespace="http://www.stitchmastery.com/knitml/charts/kv/AlternatingRowsInColor"
+	xmlns:library="http://www.knitml.com/schema/library" xmlns="http://www.knitml.com/schema/operations"
+	xmlns:common="http://www.knitml.com/schema/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.knitml.com/schema/library http://www.knitml.com/schema/library-0.7.xsd
+	    http://www.knitml.com/schema/operations http://www.knitml.com/schema/operations-0.7.xsd
+	    http://www.knitml.com/schema/common	http://www.knitml.com/schema/common-0.7.xsd">
+	<library:information>
+		<library:name>Export from KnitVisualizer - Alternating Rows in Color
+		</library:name>
+		<library:description>Alternating Rows in Color Library
+		</library:description>
+	</library:information>
+	<library:yarns>
+		<common:yarn id="dark">
+			<common:color rgb-value="F5EFDF" />
+		</common:yarn>
+		<common:yarn id="light" />
+	</library:yarns>
+	<library:definitions>
+		<instruction id="Chart1" label="Alternating Rows In Color"
+			shape="round" row-count="8" starting-stitch-count="8">
+			<row yarn-ref="dark">
+				<repeat until="end">
+					<purl />
+				</repeat>
+			</row>
+			<row yarn-ref="light">
+				<purl>7</purl>
+				<knit />
+			</row>
+			<row yarn-ref="dark">
+				<purl>6</purl>
+				<knit>2</knit>
+			</row>
+			<row yarn-ref="light">
+				<purl>5</purl>
+				<knit>3</knit>
+			</row>
+			<row yarn-ref="dark">
+				<purl>4</purl>
+				<knit>4</knit>
+			</row>
+			<row yarn-ref="light">
+				<purl>3</purl>
+				<knit>5</knit>
+			</row>
+			<row yarn-ref="dark">
+				<purl>2</purl>
+				<knit>6</knit>
+			</row>
+			<row yarn-ref="light">
+				<purl>1</purl>
+				<knit>7</knit>
+			</row>
+		</instruction>
+	</library:definitions>
+</library:library>
