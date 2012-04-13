@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pattern:pattern version="0.6"
-        xmlns:pattern="http://www.knitml.com/schema/pattern"
-        xmlns="http://www.knitml.com/schema/operations"
-        xmlns:common="http://www.knitml.com/schema/common"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.6.xsd http://www.knitml.com/schema/operations http://www.knitml.com/schema/operations-0.6.xsd http://www.knitml.com/schema/common http://www.knitml.com/schema/common-0.6.xsd">
+<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.7.xsd http://www.knitml.com/schema/operations http://www.knitml.com/schema/operations-0.7.xsd http://www.knitml.com/schema/common http://www.knitml.com/schema/common-0.7.xsd" version="0.7">
 	<pattern:directives>
 		<pattern:message-sources>
 			<pattern:message-source>basic-sock-text</pattern:message-source>

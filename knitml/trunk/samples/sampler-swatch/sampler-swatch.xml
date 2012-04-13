@@ -1,4 +1,4 @@
-<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.6.xsd http://www.knitml.com/schema/operations http://www.knitml.com/schema/pattern-0.6.xsd http://www.knitml.com/schema/common http://www.knitml.com/schema/pattern-0.6.xsd" version="0.6" xml:lang="en">
+<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.7.xsd http://www.knitml.com/schema/operations http://www.knitml.com/schema/operations-0.7.xsd http://www.knitml.com/schema/common http://www.knitml.com/schema/common-0.7.xsd" version="0.7" xml:lang="en">
   <pattern:directives>
     <pattern:instruction-definitions>
       <inline-instruction id="cross-2-over-2" label="2/2 LC">
