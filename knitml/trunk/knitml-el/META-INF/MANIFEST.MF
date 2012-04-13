@@ -1,16 +1,16 @@
 Manifest-Version: 1.0
-Bundle-Version: 0.6.0.M2
+Bundle-Version: 0.7.0.v20120413-0058
 Bundle-Name: KnitML Expression Language
 Bundle-Description: Expression Language for KnitML
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: com.knitml.el
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: com.knitml.el;version="0.6.0.M2",
- com.knitml.el.definition;version="0.6.0.M2"
+Export-Package: com.knitml.el;version="0.7.0.v20120413-0058",
+ com.knitml.el.definition;version="0.7.0.v20120413-0058"
 Import-Package: com.knitml.core.common,
- com.knitml.core.model.operations.block;version="0.6.0.M2",
- com.knitml.core.model.operations.inline;version="0.6.0.M2",
- com.knitml.core.model.pattern;version="0.6.0.M2",
+ com.knitml.core.model.operations.block;version="0.7.0.v20120413-0058",
+ com.knitml.core.model.operations.inline;version="0.7.0.v20120413-0058",
+ com.knitml.core.model.pattern;version="0.7.0.v20120413-0058",
  com.knitml.core.units,
  com.knitml.core.xml,
  groovy.lang;version="1.8.3",

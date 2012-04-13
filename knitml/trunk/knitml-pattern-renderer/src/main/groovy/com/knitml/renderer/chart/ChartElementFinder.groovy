@@ -5,9 +5,12 @@ import static com.knitml.renderer.chart.OperationBuilder.slip_kw
 import static com.knitml.renderer.chart.ChartElement.*
 import static com.knitml.renderer.chart.OperationBuilder.group
 import static com.knitml.renderer.chart.OperationBuilder.knit
+import static com.knitml.renderer.chart.OperationBuilder.k_below
 import static com.knitml.renderer.chart.OperationBuilder.purl
+import static com.knitml.renderer.chart.OperationBuilder.p_below
 import static com.knitml.renderer.chart.OperationBuilder.decrease
 import static com.knitml.renderer.chart.OperationBuilder.increase
+import static com.knitml.renderer.chart.OperationBuilder.*
 
 import java.util.Map
 
@@ -39,8 +42,10 @@ public class ChartElementFinder {
 		// knits / purls / slips
 		chartElementToOperationMap[K] = knit()
 		chartElementToOperationMap[K_TW] = knit LoopToWork.TRAILING
+		chartElementToOperationMap[K_BELOW] = k_below()
 		chartElementToOperationMap[P] = purl()
 		chartElementToOperationMap[P_TW] = purl LoopToWork.TRAILING
+		chartElementToOperationMap[P_BELOW] = p_below()
 		chartElementToOperationMap[SL] = slip()
 		chartElementToOperationMap[SL_WYIF] = slip YarnPosition.FRONT
 		chartElementToOperationMap[SL_KW] = slip_kw()
@@ -59,6 +64,24 @@ public class ChartElementFinder {
 		chartElementToOperationMap[P2TOG_TBL] = decrease DecreaseType.P2TOG_TBL
 		chartElementToOperationMap[SSP] = decrease DecreaseType.SSP
 		chartElementToOperationMap[P3TOG] = decrease DecreaseType.P3TOG
+		chartElementToOperationMap[K4TOG] = kntog 4
+		chartElementToOperationMap[K5TOG] = kntog 5
+		chartElementToOperationMap[K6TOG] = kntog 6
+		chartElementToOperationMap[K7TOG] = kntog 7
+		chartElementToOperationMap[K8TOG] = kntog 8
+		chartElementToOperationMap[K9TOG] = kntog 9
+		chartElementToOperationMap[S4K] = snk 4
+		chartElementToOperationMap[S5K] = snk 5
+		chartElementToOperationMap[S6K] = snk 6
+		chartElementToOperationMap[S7K] = snk 7
+		chartElementToOperationMap[S8K] = snk 8
+		chartElementToOperationMap[S9K] = snk 9
+		chartElementToOperationMap[DEC4_TO_1] = dec_into_1 4
+		chartElementToOperationMap[DEC5_TO_1] = dec_into_1 5
+		chartElementToOperationMap[DEC6_TO_1] = dec_into_1 6
+		chartElementToOperationMap[DEC7_TO_1] = dec_into_1 7
+		chartElementToOperationMap[DEC8_TO_1] = dec_into_1 8
+		chartElementToOperationMap[DEC9_TO_1] = dec_into_1 9
 		// 1-st increases
 		chartElementToOperationMap[M1] = increase IncreaseType.M1
 		chartElementToOperationMap[M1R] = increase IncreaseType.M1R
@@ -70,10 +93,7 @@ public class ChartElementFinder {
 		chartElementToOperationMap[PFB] = increase IncreaseType.PFB
 		// TODO
 		//		// knit decreases
-		//		 S2K2P2(
-		//				1), K4TOG(1), K5TOG(1), K6TOG(1), K7TOG(1), K8TOG(1), K9TOG(1), DEC4_TO_1(
-		//				1), DEC5_TO_1(1), DEC6_TO_1(1), DEC7_TO_1(1), DEC8_TO_1(1), DEC9_TO_1(
-		//				1),
+		//		 S2K2P2(1)
 		//		// purl decreases
 		//		P2TOG_SWYIF_PSSO(1), SL2_P1_P2SSO(
 		//				1), CDDP(1), SWYIF_P2TOGTBL_PSSO(1),
@@ -120,6 +140,8 @@ public class ChartElementFinder {
 		chartElementToOperationMap[CBL_2_1_LC] = group 3 lc 2,1 k 3 build()
 		chartElementToOperationMap[CBL_2_1_RPC] = group 3 rc 2,1 k 2 p 1 build()
 		chartElementToOperationMap[CBL_2_1_LPC] = group 3 lc 2,1 p 1 k 2 build()
+		chartElementToOperationMap[CBL_1_2_RC] = group 3 rc 1,2 k 3 build()
+		chartElementToOperationMap[CBL_1_2_LC] = group 3 lc 1,2 k 3 build()
 		chartElementToOperationMap[CBL_1_2_RPC] = group 3 rc 1,2 k 1 p 2 build()
 		chartElementToOperationMap[CBL_1_2_LPC] = group 3 lc 1,2 p 2 k 1 build()
 		chartElementToOperationMap[CBL_1_1_1_RC] = group 3 rc 1,1,1 k 3 build()
@@ -140,7 +162,7 @@ public class ChartElementFinder {
 		chartElementToOperationMap[CBL_2_2_RC] = group 4 rc 2,2 k 4 build()
 		chartElementToOperationMap[CBL_2_2_LC] = group 4 lc 2,2 k 4 build()
 		chartElementToOperationMap[CBL_2_2_RPC] = group 4 rc 2,2 k 2 p 2 build()
-		chartElementToOperationMap[CBL_2_2_LPC] = group 4 lc 2,2 k 2 p 2 build()
+		chartElementToOperationMap[CBL_2_2_LPC] = group 4 lc 2,2 p 2 k 2 build()
 		chartElementToOperationMap[CBL_1_3_RC] = group 4 rc 1,3 k 4 build()
 		chartElementToOperationMap[CBL_1_3_LC] = group 4 lc 1,3 k 4 build()
 		chartElementToOperationMap[CBL_1_3_RPC] = group 4 rc 1,3 k 1 p 3 build()

@@ -361,7 +361,9 @@
                 cdd:        center double decrease (slip 2 sts together knitwise, k, pass slipped sts over)
                 sk2p:       slip 1 st knitwise, k2tog, pass slipped stitch over
                 k3tog:      knit 3 together
+                k3tog-tbl:  knit 3 together through their trailing loop 
                 p3tog:      purl 3 together
+                p3tog-tbl:  purl 3 together through their trailing loop 
                 sssk:       slip 3 stitches knitwise, return to working needle, then knit the stitches together
                 ]]></xsd:documentation>
 					</xsd:annotation>
@@ -370,13 +372,90 @@
 							<xsd:enumeration value="cdd" />
 							<xsd:enumeration value="sk2p" />
 							<xsd:enumeration value="k3tog" />
+							<xsd:enumeration value="k3tog-tbl" />
 							<xsd:enumeration value="p3tog" />
+							<xsd:enumeration value="p3tog-tbl" />
 							<xsd:enumeration value="sssk" />
 						</xsd:restriction>
 					</xsd:simpleType>
 				</xsd:attribute>
 			</xsd:extension>
 		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MultipleDecreaseType">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+			Represents a multiple decrease in the pattern as
+				specified by the 'stitches-into-one' attribute (see the attribute
+				definition for more information). Multiple decreases may optionally
+				declare their lean (left, right) and their nature (knit, purl).
+				
+				The following are examples of common multiple decreases and their corresponding
+				names using Western knitting techniques (i.e.,  with the leading loop of the
+				stitch to the front of the needle, working from the LH needle to the RH needle):
+				
+				<multiple-decrease stitches-into-one="5" nature="knit" lean="right"/> = k5tog,
+				<multiple-decrease stitches-into-one="5" nature="knit" lean="left"/> = sssssk,
+				<multiple-decrease stitches-into-one="5" nature="purl" lean="right"/> = sssssp,
+				<multiple-decrease stitches-into-one="5" nature="purl" lean="left"/> = p5tog
+				]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="stitches-into-one" use="required">
+			<xsd:annotation>
+				<xsd:documentation>The number of stitches that will be worked
+					together that will produce one stitch. This number is one higher
+					than the number of stitches actually decreased. Example: a value of
+					4 means that 4 stitches are decreased to 1, meaning that there are
+					3 stitches decreased.
+
+					Optimally, this value should be 4 or greater,
+					but it may be 2 (for a 1-st decrease) or 3 (for a 2-st decrease)
+					provided that:
+					1) the &lt;decrease&gt; or &lt;double-decrease&gt;
+					hasn't defined
+					this operation in the 'type' attribute; AND
+					2) the
+					lean and/or nature needs to be expressed.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:short">
+					<xsd:minInclusive value="2" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="nature">
+			<xsd:annotation>
+				<xsd:documentation>This decrease either produces a knit nature (the
+					stitch's &quot;V&quot; is facing) or a purl nature (the stitch's
+					&quot;bar&quot; is facing) the side currently being worked.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="knit" />
+					<xsd:enumeration value="purl" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="lean">
+			<xsd:annotation>
+				<xsd:documentation>This decrease appears to cause the stitch to
+					"shift" in the direction indicated (if looking at the fabric from
+					bottom to top).
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="left" />
+					<xsd:enumeration value="right" />
+					<xsd:enumeration value="balanced" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="yarn-ref" type="common:yarn-ref-type" />
 	</xsd:complexType>
 
 	<xsd:complexType name="IncreaseType">
@@ -698,6 +777,7 @@
 			<xsd:element name="decrease" type="DecreaseType" default="1" />
 			<xsd:element name="double-decrease" type="DoubleDecreaseType"
 				default="1" />
+			<xsd:element name="multiple-decrease" type="MultipleDecreaseType" />
 			<xsd:element name="increase" type="IncreaseType" default="1" />
 			<xsd:element name="increase-into-next-stitch" type="IncreaseIntoNextStitchType" />
 			<xsd:element name="cross-stitches" type="CrossStitchesType" />

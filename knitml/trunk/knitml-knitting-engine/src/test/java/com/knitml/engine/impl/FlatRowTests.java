@@ -10,7 +10,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.knitml.core.model.operations.StitchNature;
 import com.knitml.core.model.operations.inline.Increase;
+import com.knitml.core.model.operations.inline.MultipleDecrease;
 import com.knitml.engine.common.KnittingEngineException;
 import com.knitml.engine.common.NotEndOfRowException;
 import com.knitml.engine.common.NotEnoughStitchesException;
@@ -250,6 +252,22 @@ public abstract class FlatRowTests {
 		assertEquals(36, engine.getTotalNumberOfStitchesInRow());
 	}
 
+	@Test
+	public void multipleDecreases() throws Exception {
+		engine.knit();
+		engine.decrease(new MultipleDecrease(4, StitchNature.KNIT));
+		engine.knit();
+		assertEquals(34, engine.getStitchesRemainingInRow());
+		assertEquals(37, engine.getTotalNumberOfStitchesInRow());
+		knit(34);
+		
+		engine.startNewRow();
+		engine.purl();
+		engine.decrease(new MultipleDecrease(5, StitchNature.PURL));
+		assertEquals(31, engine.getStitchesRemainingInRow());
+		assertEquals(33, engine.getTotalNumberOfStitchesInRow());
+	}
+	
 	@Test
 	public void lacePattern() throws Exception {
 		engine.knit();

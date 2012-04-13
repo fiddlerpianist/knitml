@@ -53,7 +53,7 @@ public class Knit implements DiscreteInlineOperation, StitchNatureProducer,
 
 	public List<? extends Knit> canonicalize() {
 		int size = numberOfTimes == null ? 1 : numberOfTimes;
-		int numberOfRowsBelow = rowsBelow == null ? 0 : rowsBelow;
+		Integer numberOfRowsBelow = (rowsBelow != null && rowsBelow > 0) ? rowsBelow : null;
 		List<Knit> newOps = new ArrayList<Knit>(size);
 		for (int i = 0; i < size; i++) {
 			newOps.add(new Knit(null, numberOfRowsBelow, loopToWork == null ? LoopToWork.LEADING

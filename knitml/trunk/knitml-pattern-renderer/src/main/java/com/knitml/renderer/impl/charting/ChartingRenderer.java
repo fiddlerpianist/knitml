@@ -36,6 +36,7 @@ import com.knitml.core.model.operations.inline.InlineInstruction;
 import com.knitml.core.model.operations.inline.InlineInstructionRef;
 import com.knitml.core.model.operations.inline.InlinePickUpStitches;
 import com.knitml.core.model.operations.inline.Knit;
+import com.knitml.core.model.operations.inline.MultipleDecrease;
 import com.knitml.core.model.operations.inline.NoStitch;
 import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
@@ -464,6 +465,10 @@ public class ChartingRenderer implements Renderer {
 
 	public void endOperationGroup(OperationGroup group) {
 		delegate.endOperationGroup(group);
+	}
+
+	public void renderMultipleDecrease(MultipleDecrease decrease) {
+		delegate.renderMultipleDecrease(decrease);
 	}
 	
 }

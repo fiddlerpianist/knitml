@@ -29,7 +29,7 @@ class LibraryTests {
 <library:library xmlns:library="http://www.knitml.com/schema/library"
 	xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:lang="en" xsi:schemaLocation="Schema location information here"
-	version="0.6"
+	version="0.7"
     namespace="http://example.knitml.com/test-namespace">
 	<library:information>
 		<library:name>Test Library Name</library:name>
@@ -41,7 +41,7 @@ class LibraryTests {
 		'''
 		Library library = unmarshalXml(xml, Library)
 		library.with {
-			assertThat version, is ('0.6')
+			assertThat version, is ('0.7')
 			assertThat languageCode, is ('en')
 			assertThat schemaLocation, not (null)
 			assertThat namespace, is ('http://example.knitml.com/test-namespace')
@@ -58,7 +58,7 @@ class LibraryTests {
 <library:library xmlns:library="http://www.knitml.com/schema/library"
 	xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:lang="en" xsi:schemaLocation="Schema location information here"
-	version="0.6">
+	version="0.7">
 	<library:yarns>
 		<common:yarn id="dark">
 			<common:color rgb-value="F5EFDF" />

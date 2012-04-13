@@ -54,6 +54,7 @@ import com.knitml.core.model.operations.inline.InlineInstruction;
 import com.knitml.core.model.operations.inline.InlineInstructionRef;
 import com.knitml.core.model.operations.inline.InlinePickUpStitches;
 import com.knitml.core.model.operations.inline.Knit;
+import com.knitml.core.model.operations.inline.MultipleDecrease;
 import com.knitml.core.model.operations.inline.NoStitch;
 import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
@@ -360,23 +361,17 @@ public class BasicTextRenderer implements Renderer {
 	}
 
 	public void renderKnit(Knit knit) {
-		renderKnit(knit, "operation.knit");
+		doRenderKnit(knit, "knit");
 	}
 
 	public void renderPurl(Purl purl) {
-		renderKnit(purl, "operation.purl");
+		doRenderKnit(purl, "purl");
 	}
 
-	protected void renderKnit(Knit knit, String baseInstructionKey) {
-		StringBuffer key = new StringBuffer(baseInstructionKey);
-		List<Object> values = new ArrayList<Object>();
-		// get numberOfStitches, or 1 if null
-		Integer numberToWork = knit.getNumberOfTimes() != null ? knit
-				.getNumberOfTimes() : 1;
-		values.add(numberToWork);
-
+	protected void doRenderKnit(Knit knit, String propertyKeyBase) {
 		// get a "k"/"p" out of the way first
 		if (knit.getNumberOfTimes() == null && knit.getYarnIdRef() == null
+				&& (knit.getRowsBelow() == null || knit.getRowsBelow() == 0)
 				&& knit.getLoopToWork() != LoopToWork.TRAILING) {
 			SimpleInstruction operation = new SimpleInstruction(
 					(knit instanceof Purl) ? SimpleInstruction.Type.PURL
@@ -385,19 +380,34 @@ public class BasicTextRenderer implements Renderer {
 			return;
 		}
 
-		Yarn yarn = renderingContext.getPatternRepository().getYarn(
-				knit.getYarnIdRef());
-		if (yarn != null) {
-			key.append(".with-yarn");
-			values.add(yarn.getSymbol());
-		}
+		List<String> keys = new ArrayList<String>();
+		keys.add(propertyKeyBase);
+		List<String> values = new ArrayList<String>();
+
+		// get numberToWork, or 1 if null
+		Integer numberToWork = knit.getNumberOfTimes() != null ? knit
+				.getNumberOfTimes() : 1;
+		values.add(numberToWork.toString());
 
 		LoopToWork loopToWork = knit.getLoopToWork();
 		if (loopToWork == LoopToWork.TRAILING) {
-			key.append(".through-trailing-loop");
+			keys.add("through-trailing-loop");
 		}
+		Yarn yarn = renderingContext.getPatternRepository().getYarn(
+				knit.getYarnIdRef());
+		if (yarn != null) {
+			keys.add("with-yarn");
+			values.add(yarn.getSymbol());
+		}
+		if (knit.getRowsBelow() != null && knit.getRowsBelow() == 1) {
+			keys.add("row-below");
+		} else if (knit.getRowsBelow() != null && knit.getRowsBelow() > 1) {
+			keys.add("rows-below");
+			values.add(knit.getRowsBelow().toString());
+		}
+
 		getOperationSetHelper().writeOperation(
-				getMessageHelper().getPluralizedMessage(key.toString(),
+				getMessageHelper().getPluralizedMessage(buildPropertyKey(keys),
 						numberToWork, values.toArray()));
 	}
 
@@ -718,6 +728,29 @@ public class BasicTextRenderer implements Renderer {
 		renderSequentialOperation("operation.decrease." + style, times);
 	}
 
+	public void renderMultipleDecrease(MultipleDecrease decrease) {
+		List<String> keys = new ArrayList<String>();
+		keys.add("multiple-decrease");
+		List<Object> values = new ArrayList<Object>();
+		values.add(decrease.getStitchesIntoOne());
+
+		if (decrease.getLean() != null) {
+			keys.add(decrease.getLean().getCanonicalName());
+		}
+		if (decrease.getStitchNatureProduced() != null) {
+			keys.add(decrease.getStitchNatureProduced().getCanonicalName());
+		}
+		Yarn yarn = renderingContext.getPatternRepository().getYarn(
+				decrease.getYarnIdRef());
+		if (yarn != null) {
+			keys.add("with-yarn");
+			values.add(yarn.getSymbol());
+		}
+		getOperationSetHelper().writeOperation(
+				getMessageHelper().getMessage(buildPropertyKey(keys),
+						values.toArray()));
+	}
+
 	public void renderPassPreviousStitchOver(PassPreviousStitchOver ppso) {
 		Integer times = ppso.getNumberOfTimes();
 		renderSequentialOperation("operation.pass-previous-stitch-over", times);
@@ -943,15 +976,15 @@ public class BasicTextRenderer implements Renderer {
 	public void renderCastOn(InlineCastOn pickUpStitches) {
 		doRenderCastOn(new CastOn(pickUpStitches.getNumberOfStitches(),
 				pickUpStitches.getYarnIdRef(), pickUpStitches.getStyle()),
-				null,
-				false);
+				null, false);
 	}
 
 	public void renderCastOn(CastOn castOn) {
 		doRenderCastOn(castOn, null, true);
 	}
 
-	protected void doRenderCastOn(CastOn castOn, List<Needle> needles, boolean writeSentenceByDefault) {
+	protected void doRenderCastOn(CastOn castOn, List<Needle> needles,
+			boolean writeSentenceByDefault) {
 		int numberToCastOn = castOn.getNumberOfStitches() == null ? 1 : castOn
 				.getNumberOfStitches();
 		List<String> keys = new ArrayList<String>();
@@ -1105,8 +1138,8 @@ public class BasicTextRenderer implements Renderer {
 				}
 			}
 			result.append(" [")
-					.append(getMessageHelper().buildList(resolvedList, true, true))
-					.append("]");
+					.append(getMessageHelper().buildList(resolvedList, true,
+							true)).append("]");
 		}
 		return result.append(getMessage("operation.group-end-punctuation"))
 				.append(" ").toString();

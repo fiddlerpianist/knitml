@@ -3,6 +3,7 @@ package com.knitml.engine;
 import java.util.List;
 
 import com.knitml.core.common.NeedleStyle;
+import com.knitml.core.model.operations.StitchNature;
 import com.knitml.core.model.operations.inline.Increase;
 import com.knitml.engine.common.CannotPutMarkerOnEndOfNeedleException;
 import com.knitml.engine.common.CannotWorkThroughMarkerException;
@@ -166,7 +167,10 @@ public interface Needle extends Restorable {
 	void knitThreeTogether() throws CannotWorkThroughMarkerException,
 			NotEnoughStitchesException;
 
-	void cross(int first, int next, int skip) throws CannotWorkThroughMarkerException,
-			NotEnoughStitchesException;
+	void decrease(int numberToDecrease, StitchNature stitchNatureProduced)
+			throws CannotWorkThroughMarkerException, NotEnoughStitchesException;
+
+	void cross(int first, int next, int skip)
+			throws CannotWorkThroughMarkerException, NotEnoughStitchesException;
 
 }

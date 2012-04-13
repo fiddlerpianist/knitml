@@ -1,5 +1,7 @@
 package com.knitml.core.model.operations;
 
+import com.knitml.core.common.EnumUtils;
+
 public enum StitchNature {
 	KNIT, PURL;
 	
@@ -10,4 +12,9 @@ public enum StitchNature {
 			return KNIT;
 		}
 	}
+	
+	public String getCanonicalName() {
+		return EnumUtils.fromEnum(this);
+ 	}
+	
 }

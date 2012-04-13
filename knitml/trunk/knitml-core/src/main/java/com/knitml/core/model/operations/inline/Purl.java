@@ -27,7 +27,7 @@ public class Purl extends Knit {
 
 	public List<Purl> canonicalize() {
 		int size = numberOfTimes == null ? 1 : numberOfTimes;
-		int numberOfRowsBelow = rowsBelow == null ? 0 : rowsBelow;
+		Integer numberOfRowsBelow = (rowsBelow != null && rowsBelow > 0) ? rowsBelow : null;
 		List<Purl> newOps = new ArrayList<Purl>(size);
 		for (int i = 0; i < size; i++) {
 			newOps.add(new Purl(null, numberOfRowsBelow, loopToWork == null ? LoopToWork.LEADING

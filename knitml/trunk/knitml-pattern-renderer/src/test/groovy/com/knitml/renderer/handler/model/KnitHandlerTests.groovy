@@ -22,11 +22,13 @@ class KnitHandlerTests extends AbstractRenderingContextTests {
 		Yarn yarnTwo = new Yarn('yarn2', 'B')
 		renderingContext.patternRepository.addYarn(yarnOne)
 		renderingContext.patternRepository.addYarn(yarnTwo)
+		renderingContext.with {
+			engine.castOn 2
+		}
 	}
 	
 	@Test
 	void knit() {
-		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
 		processXml '<knit xmlns="http://www.knitml.com/schema/operations"/>', Knit
 		assertThat output, is ('k1')
@@ -63,7 +65,6 @@ class KnitHandlerTests extends AbstractRenderingContextTests {
 
 	@Test
 	void knitWithYarnsOneAndTwo() {
-		renderingContext.engine.castOn 2
 		processXml '''
 		<row number="1" xmlns="http://www.knitml.com/schema/operations">
 			<knit yarn-ref="yarn1">1</knit>
@@ -85,28 +86,48 @@ class KnitHandlerTests extends AbstractRenderingContextTests {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
 		processXml '<knit rows-below="2" xmlns="http://www.knitml.com/schema/operations"/>', Knit
-		assertThat output, is ('k into 2 rows below')
+		assertThat output, is ('k into st 2 rows below')
 	}
-
 	@Test
 	void knit1IntoRowBelow() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
 		processXml '<knit rows-below="1" xmlns="http://www.knitml.com/schema/operations"/>', Knit
-		assertThat output, is ('k1 into st below')
+		assertThat output, is ('k into st below')
+	}
+	@Test
+	void knitTblIntoRowBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<knit rows-below="1" loop-to-work="trailing" xmlns="http://www.knitml.com/schema/operations"/>', Knit
+		assertThat output, is ('k tbl into st below')
+	}
+	@Test
+	void knitWithYarnIntoRowBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<knit rows-below="1" yarn-ref="yarn1" xmlns="http://www.knitml.com/schema/operations"/>', Knit
+		assertThat output, is ('k into st below (A)')
+	}
+	@Test
+	void knitTblWithYarnIntoRowBelow() {
+		renderingContext.engine.castOn 1
+		renderingContext.engine.startNewRow()
+		processXml '<knit rows-below="1" yarn-ref="yarn1" loop-to-work="trailing" xmlns="http://www.knitml.com/schema/operations"/>', Knit
+		assertThat output, is ('k tbl into st below (A)')
 	}
 	@Test
 	void knit1Into2RowsBelow() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
 		processXml '<knit rows-below="2" xmlns="http://www.knitml.com/schema/operations"/>', Knit
-		assertThat output, is ('k1 into 2 rows below')
+		assertThat output, is ('k into st 2 rows below')
 	}
 	@Test
-	void knit5IntoRowBelow() {
+	void knit2IntoRowBelow() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<knit rows-below="1" xmlns="http://www.knitml.com/schema/operations"/>', Knit
-		assertThat output, is ('k next 5 sts into row below')
+		processXml '<knit rows-below="1" xmlns="http://www.knitml.com/schema/operations">2</knit>', Knit
+		assertThat output, is ('k next 2 sts into sts below')
 	}
 }

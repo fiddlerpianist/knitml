@@ -26,6 +26,7 @@ import com.knitml.core.model.operations.inline.CrossStitches;
 import com.knitml.core.model.operations.inline.Increase;
 import com.knitml.core.model.operations.inline.InlineCastOn;
 import com.knitml.core.model.operations.inline.InlinePickUpStitches;
+import com.knitml.core.model.operations.inline.MultipleDecrease;
 import com.knitml.core.model.operations.inline.Slip;
 import com.knitml.engine.common.CannotAdvanceNeedleException;
 import com.knitml.engine.common.CannotPutMarkerOnEndOfNeedleException;
@@ -673,6 +674,21 @@ public interface KnittingEngine extends Restorable {
 	 *             marker's behavior prohibits being worked through
 	 */
 	void knitThreeTogether() throws NotEnoughStitchesException,
+			CannotWorkThroughMarkerException;
+
+	/**
+	 * Works the next number of stitches together in one operation and decreases
+	 * according to the values of the decrease. All stitches must be on the same
+	 * needle or a {@link NotEnoughStitchesException} will be thrown.
+	 * 
+	 * @throws NotEnoughStitchesException
+	 *             if there are not enough stitches left in the row or on this
+	 *             needle
+	 * @throws CannotWorkThroughMarkerException
+	 *             if a marker sits between the stitches to work and the
+	 *             marker's behavior prohibits being worked through
+	 */
+	void decrease(MultipleDecrease decrease) throws NotEnoughStitchesException,
 			CannotWorkThroughMarkerException;
 
 	/**

@@ -4,9 +4,9 @@
 	xmlns:common="http://www.knitml.com/schema/common" targetNamespace="http://www.knitml.com/schema/pattern"
 	xml:lang="en" elementFormDefault="qualified">
 	<xsd:import namespace="http://www.knitml.com/schema/operations"
-		schemaLocation="http://www.knitml.com/schema/operations-0.6.xsd" />
+		schemaLocation="http://www.knitml.com/schema/operations-0.7.xsd" />
 	<xsd:import namespace="http://www.knitml.com/schema/common"
-		schemaLocation="http://www.knitml.com/schema/common-0.6.xsd" />
+		schemaLocation="http://www.knitml.com/schema/common-0.7.xsd" />
 	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"
 		schemaLocation="http://www.w3.org/2001/xml.xsd" />
 

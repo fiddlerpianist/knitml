@@ -45,7 +45,6 @@ import com.knitml.core.model.operations.inline.BindOff;
 import com.knitml.core.model.operations.inline.BindOffAll;
 import com.knitml.core.model.operations.inline.CrossStitches;
 import com.knitml.core.model.operations.inline.Decrease;
-import com.knitml.core.model.operations.inline.DoubleDecrease;
 import com.knitml.core.model.operations.inline.FromStitchHolder;
 import com.knitml.core.model.operations.inline.Increase;
 import com.knitml.core.model.operations.inline.IncreaseIntoNextStitch;
@@ -54,6 +53,7 @@ import com.knitml.core.model.operations.inline.InlineInstruction;
 import com.knitml.core.model.operations.inline.InlineInstructionRef;
 import com.knitml.core.model.operations.inline.InlinePickUpStitches;
 import com.knitml.core.model.operations.inline.Knit;
+import com.knitml.core.model.operations.inline.MultipleDecrease;
 import com.knitml.core.model.operations.inline.NoStitch;
 import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
@@ -360,13 +360,7 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderDecrease(Decrease decrease) {
-		ChartElement point;
-		if (decrease instanceof DoubleDecrease) {
-			point = findChartElement(new DoubleDecrease(1, decrease.getType(),
-					null));
-		} else {
-			point = findChartElement(new Decrease(1, decrease.getType(), null));
-		}
+		ChartElement point = findChartElement(decrease);
 		if (point == null) {
 			throw new RuntimeException(
 					"This type of ChartElement is not defined yet. If the pattern validates against the schema, please report this as a bug");
@@ -378,9 +372,17 @@ class ChartProducer implements Renderer {
 		}
 	}
 
+	public void renderMultipleDecrease(MultipleDecrease decrease) {
+		ChartElement point = findChartElement(decrease);
+		if (point == null) {
+			throw new RuntimeException(
+					"This type of ChartElement is not defined yet. If the pattern validates against the schema, please report this as a bug");
+		}
+		add(point, decrease);
+	}
+	
 	public void renderKnit(Knit knit) {
-		ChartElement chartElement = findChartElement(new Knit(1,
-				knit.getLoopToWork(), null));
+		ChartElement chartElement = findChartElement(knit);
 		int times = knit.getNumberOfTimes() == null ? 1 : knit
 				.getNumberOfTimes();
 		for (int i = 0; i < times; i++) {
@@ -407,8 +409,7 @@ class ChartProducer implements Renderer {
 	}
 
 	public void renderPurl(Purl purl) {
-		ChartElement chartElement = findChartElement(new Purl(1,
-				purl.getLoopToWork(), null));
+		ChartElement chartElement = findChartElement(purl);
 		int times = purl.getNumberOfTimes() == null ? 1 : purl
 				.getNumberOfTimes();
 		for (int i = 0; i < times; i++) {

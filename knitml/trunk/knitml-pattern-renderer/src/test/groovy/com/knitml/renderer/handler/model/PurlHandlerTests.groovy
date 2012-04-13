@@ -81,7 +81,7 @@ class PurlHandlerTests extends AbstractRenderingContextTests {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
 		processXml '<purl rows-below="2" xmlns="http://www.knitml.com/schema/operations"/>', Purl
-		assertThat output, is ('p into 2 rows below')
+		assertThat output, is ('p into st 2 rows below')
 	}
 
 	@Test
@@ -89,7 +89,7 @@ class PurlHandlerTests extends AbstractRenderingContextTests {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
 		processXml '<purl rows-below="1" xmlns="http://www.knitml.com/schema/operations"/>', Purl
-		assertThat output, is ('p1 into st below')
+		assertThat output, is ('p into st below')
 	}
 	@Test
 	void purlTblIntoRowBelow() {
@@ -117,14 +117,14 @@ class PurlHandlerTests extends AbstractRenderingContextTests {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
 		processXml '<purl rows-below="2" xmlns="http://www.knitml.com/schema/operations"/>', Purl
-		assertThat output, is ('p1 into 2 rows below')
+		assertThat output, is ('p into st 2 rows below')
 	}
 	@Test
-	void purl5IntoRowBelow() {
+	void purl2IntoRowBelow() {
 		renderingContext.engine.castOn 1
 		renderingContext.engine.startNewRow()
-		processXml '<purl rows-below="1" xmlns="http://www.knitml.com/schema/operations">5</purl>', Purl
-		assertThat output, is ('p next 5 sts into row below')
+		processXml '<purl rows-below="1" xmlns="http://www.knitml.com/schema/operations">2</purl>', Purl
+		assertThat output, is ('p next 2 sts into sts below')
 	}
 
 }

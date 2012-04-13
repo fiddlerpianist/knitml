@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bundle-Version: 0.6.0.M2
+Bundle-Version: 0.7.0.v20120413-0058
 Bundle-Name: KnitML Validation
 Bundle-Description: Basic pattern rendering for KnitML files
 Bundle-ManifestVersion: 2
@@ -10,11 +10,11 @@ Import-Package: com.knitml.core.common,
  com.knitml.core.compatibility,
  com.knitml.core.converter,
  com.knitml.core.model.common,
- com.knitml.core.model.operations;version="0.6.0.M2",
- com.knitml.core.model.operations.block;version="0.6.0.M2",
- com.knitml.core.model.operations.expression;version="0.6.0.M2",
- com.knitml.core.model.operations.information;version="0.6.0.M2",
- com.knitml.core.model.operations.inline;version="0.6.0.M2",
+ com.knitml.core.model.operations;version="0.7.0.v20120413-0058",
+ com.knitml.core.model.operations.block;version="0.7.0.v20120413-0058",
+ com.knitml.core.model.operations.expression;version="0.7.0.v20120413-0058",
+ com.knitml.core.model.operations.information;version="0.7.0.v20120413-0058",
+ com.knitml.core.model.operations.inline;version="0.7.0.v20120413-0058",
  com.knitml.core.model.pattern,
  com.knitml.core.units,
  com.knitml.core.xml,
@@ -36,15 +36,15 @@ Import-Package: com.knitml.core.common,
  org.springframework.aop,
  org.springframework.aop.framework,
  org.springframework.core
-Export-Package: com.knitml.validation;version="0.6.0.M2",
- com.knitml.validation.common;version="0.6.0.M2",
- com.knitml.validation.context;version="0.6.0.M2",
- com.knitml.validation.context.impl;version="0.6.0.M2",
- com.knitml.validation.visitor;version="0.6.0.M2",
- com.knitml.validation.visitor.definition.model;version="0.6.0.M2",
- com.knitml.validation.visitor.instruction;version="0.6.0.M2",
- com.knitml.validation.visitor.instruction.impl;version="0.6.0.M2",
- com.knitml.validation.visitor.instruction.model;version="0.6.0.M2",
- com.knitml.validation.visitor.model;version="0.6.0.M2",
- com.knitml.validation.visitor.util;version="0.6.0.M2"
+Export-Package: com.knitml.validation;version="0.7.0.v20120413-0058",
+ com.knitml.validation.common;version="0.7.0.v20120413-0058",
+ com.knitml.validation.context;version="0.7.0.v20120413-0058",
+ com.knitml.validation.context.impl;version="0.7.0.v20120413-0058",
+ com.knitml.validation.visitor;version="0.7.0.v20120413-0058",
+ com.knitml.validation.visitor.definition.model;version="0.7.0.v20120413-0058",
+ com.knitml.validation.visitor.instruction;version="0.7.0.v20120413-0058",
+ com.knitml.validation.visitor.instruction.impl;version="0.7.0.v20120413-0058",
+ com.knitml.validation.visitor.instruction.model;version="0.7.0.v20120413-0058",
+ com.knitml.validation.visitor.model;version="0.7.0.v20120413-0058",
+ com.knitml.validation.visitor.util;version="0.7.0.v20120413-0058"
 Require-Bundle: org.junit

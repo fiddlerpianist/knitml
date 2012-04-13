@@ -45,7 +45,7 @@ class AtomicBlockOperationsTests {
 	@Test
 	void castOn() {
 		def xml = '''
-				<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" version="0.6">
+				<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" version="0.7">
 				  <pattern:directions>
 				  	<cast-on yarn-ref="yarn1" style="long-tail" count-as-row="true">10</cast-on>
 				  	<cast-on>5</cast-on>
@@ -72,7 +72,7 @@ class AtomicBlockOperationsTests {
 	@Test
 	void pickUpStitches() {
 		def xml = '''
-			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" version="0.6">
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" version="0.7">
 			  <pattern:directions>
 				<pick-up-stitches>10</pick-up-stitches>
 				<pick-up-stitches type="purlwise" yarn-ref="yarn0">15</pick-up-stitches>
@@ -259,7 +259,7 @@ class AtomicBlockOperationsTests {
 	@Test
 	void joinInRound() {
 		def xml = '''
-				<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" version="0.6">
+				<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" version="0.7">
 				  <pattern:directions>
 				  	<join-in-round/>
 				  </pattern:directions>

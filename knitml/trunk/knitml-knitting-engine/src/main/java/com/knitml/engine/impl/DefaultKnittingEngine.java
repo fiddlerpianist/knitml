@@ -25,6 +25,7 @@ import com.knitml.core.model.operations.inline.CrossStitches;
 import com.knitml.core.model.operations.inline.Increase;
 import com.knitml.core.model.operations.inline.InlineCastOn;
 import com.knitml.core.model.operations.inline.InlinePickUpStitches;
+import com.knitml.core.model.operations.inline.MultipleDecrease;
 import com.knitml.core.model.operations.inline.Slip;
 import com.knitml.engine.KnittingEngine;
 import com.knitml.engine.KnittingFactory;
@@ -1107,6 +1108,14 @@ public class DefaultKnittingEngine implements KnittingEngine {
 		imposeStitchesIfNecessary(1);
 	}
 
+	public void decrease(MultipleDecrease decrease)
+			throws NotEnoughStitchesException, CannotWorkThroughMarkerException {
+		prepareNeedleForOperation(decrease.getStitchesIntoOne());
+		getCurrentNeedle().decrease(decrease.getStitchesIntoOne() - 1, decrease.getStitchNatureProduced());
+		imposeStitchesIfNecessary(1);
+	}
+
+	
 	private void prepareNeedleForOperation(int stitchesRequired)
 			throws NotEnoughStitchesException {
 		try {

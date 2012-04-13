@@ -100,4 +100,10 @@ public class OperationGroup implements DiscreteInlineOperation, CompositeOperati
 		return i;
 	}
 
+	@Override
+	public String toString() {
+		return "OperationGroup [operations=" + operations + ", size=" + size
+				+ "]";
+	}
+
 }
