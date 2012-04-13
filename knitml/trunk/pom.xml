@@ -3,7 +3,7 @@
 	<groupId>com.knitml</groupId>
 	<artifactId>knitml-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>0.7.0.BUILD</version>
+	<version>0.7.1.BUILD-SNAPSHOT</version>
 	<name>KnitML</name>
 	<issueManagement>
 		<system>Google Code</system>
@@ -18,9 +18,9 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:svn:https://knitml.googlecode.com/svn/knitml/tags/knitml-parent-0.7.0.BUILD</connection>
-		<developerConnection>scm:svn:https://knitml.googlecode.com/svn/knitml/tags/knitml-parent-0.7.0.BUILD</developerConnection>
-		<url>http://knitml.googlecode.com/svn/knitml/tags/knitml-parent-0.7.0.BUILD</url>
+		<connection>scm:svn:https://knitml.googlecode.com/svn/knitml/trunk</connection>
+		<developerConnection>scm:svn:https://knitml.googlecode.com/svn/knitml/trunk</developerConnection>
+		<url>http://knitml.googlecode.com/svn/knitml/trunk</url>
 	</scm>
 	<distributionManagement>
 		<repository>
