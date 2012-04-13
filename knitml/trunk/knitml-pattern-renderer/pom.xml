@@ -1,13 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<artifactId>knitml-parent</artifactId>
 		<groupId>com.knitml</groupId>
-		<version>0.7.0.BUILD-SNAPSHOT</version>
+		<version>0.7.0.BUILD</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>knitml-pattern-renderer</artifactId>
-	<version>0.7.0.BUILD-SNAPSHOT</version>
+	<version>0.7.0.BUILD</version>
 	<packaging>jar</packaging>
 	<name>KnitML Pattern Renderer</name>
 	<description>Basic pattern rendering for KnitML files</description>
@@ -21,7 +20,7 @@
 		<dependency>
 			<groupId>com.knitml</groupId>
 			<artifactId>knitml-validation</artifactId>
-			<version>0.7.0.BUILD-SNAPSHOT</version>
+			<version>0.7.0.BUILD</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.inject</groupId>
