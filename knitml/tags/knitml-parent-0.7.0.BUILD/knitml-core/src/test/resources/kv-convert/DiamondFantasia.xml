@@ -1,0 +1,254 @@
+<library:library xmlns:library="http://www.knitml.com/schema/library"
+	xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common"
+	version="0.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.knitml.com/schema/library http://www.knitml.com/schema/library-0.7.xsd
+	    http://www.knitml.com/schema/operations http://www.knitml.com/schema/operations-0.7.xsd
+	    http://www.knitml.com/schema/common	http://www.knitml.com/schema/common-0.7.xsd">
+	<library:information>
+		<library:name>Export from KnitVisualizer - Diamond Fantasia
+		</library:name>
+		<library:description>Diamond Fantasia Library
+		</library:description>
+	</library:information>
+	<library:directives>
+		<library:namespace
+			value="http://www.stitchmastery.com/knitml/charts/kv/DiamondFantasia" />
+	</library:directives>
+	<library:definitions>
+		<instruction id="Chart1" label="Diamond Fantasia" shape="flat"
+			row-count="28" starting-stitch-count="17">
+			<chart-info stereotype="lace" hide-wrong-side="true">
+				<line id="Chart1-Line1" rgb-color="ffffff" row-coordinate="0"
+					stitch-coordinate="0" span="row" length="28" />
+			</chart-info>
+			<!-- FYI: I generated the following XML from the KnitML Pattern Editor. -->
+			<row number="1">
+				<no-stitch />
+				<knit>2</knit>
+				<increase type="yo" />
+				<double-decrease type="sk2p" />
+				<increase type="yo" />
+				<knit>5</knit>
+				<increase type="yo" />
+				<double-decrease type="sk2p" />
+				<increase type="yo" />
+				<knit>3</knit>
+			</row>
+			<row number="2" subsequent="even">
+				<repeat until="end">
+					<purl />
+				</repeat>
+				<no-stitch />
+			</row>
+			<row number="3">
+				<no-stitch />
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>3</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>3</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+			</row>
+			<row number="5">
+				<no-stitch />
+				<increase type="yo" />
+				<knit>2</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<increase type="yo" />
+				<double-decrease type="sk2p" />
+				<increase type="yo" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>2</knit>
+				<increase type="yo" />
+				<double-decrease type="sk2p" />
+			</row>
+			<row number="7">
+				<no-stitch />
+				<knit>1</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>3</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>2</knit>
+			</row>
+			<row number="9">
+				<no-stitch />
+				<knit>2</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>3</knit>
+			</row>
+			<row number="11">
+				<no-stitch />
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<increase type="yo" />
+				<double-decrease type="sk2p" />
+				<increase type="yo" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>1</knit>
+			</row>
+			<row number="13">
+				<no-stitch />
+				<knit>1</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>3</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>2</knit>
+			</row>
+			<row number="15">
+				<no-stitch />
+				<knit>2</knit>
+				<increase type="yo" />
+				<double-decrease type="sk2p" />
+				<increase type="yo" />
+				<knit>5</knit>
+				<increase type="yo" />
+				<double-decrease type="sk2p" />
+				<increase type="yo" />
+				<knit>3</knit>
+			</row>
+			<row number="17">
+				<no-stitch />
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>3</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>3</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+			</row>
+			<row number="19">
+				<no-stitch />
+				<increase type="yo" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>2</knit>
+				<increase type="yo" />
+				<double-decrease type="sk2p" />
+				<increase type="yo" />
+				<knit>2</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<increase type="yo" />
+				<double-decrease type="sk2p" />
+			</row>
+			<row number="21">
+				<no-stitch />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>3</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>2</knit>
+			</row>
+			<row number="23">
+				<no-stitch />
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>5</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+			</row>
+			<row number="25">
+				<no-stitch />
+				<increase type="yo" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>1</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<increase type="yo" />
+				<double-decrease type="sk2p" />
+			</row>
+			<row number="27">
+				<no-stitch />
+				<knit>1</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>3</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>2</knit>
+			</row>
+		</instruction>
+	</library:definitions>
+</library:library>

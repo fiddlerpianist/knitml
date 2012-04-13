@@ -1,0 +1,179 @@
+<library:library xmlns:library="http://www.knitml.com/schema/library"
+	xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common"
+	version="0.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.knitml.com/schema/library http://www.knitml.com/schema/library-0.7.xsd
+	    http://www.knitml.com/schema/operations http://www.knitml.com/schema/operations-0.7.xsd
+	    http://www.knitml.com/schema/common	http://www.knitml.com/schema/common-0.7.xsd">
+	<library:information>
+		<library:name>Export from KnitVisualizer - Simple Lace Diamonds
+		</library:name>
+		<library:description>Simple Lace Diamonds Library
+		</library:description>
+	</library:information>
+	<library:directives>
+		<library:namespace
+			value="http://www.stitchmastery.com/knitml/charts/kv/SimpleLaceDiamonds" />
+	</library:directives>
+	<library:definitions>
+		<instruction id="Chart1" label="Simple Lace Diamonds"
+			shape="flat" row-count="28" starting-stitch-count="25">
+			<chart-info stereotype="lace" hide-wrong-side="true" />
+			<!-- FYI: I generated the following XML from the KnitML Pattern Editor. 
+				It doesn't have to have the 'repeat to end's in it. -->
+			<row number="1">
+				<knit>12</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="2" subsequent="even">
+				<repeat until="end">
+					<purl />
+				</repeat>
+			</row>
+			<row number="3">
+				<knit>10</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>1</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="5">
+				<knit>9</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>3</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="7">
+				<knit>8</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>5</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="9">
+				<knit>7</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>7</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="11">
+				<knit>6</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>9</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="13">
+				<knit>5</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<knit>11</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="15">
+				<knit>5</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>11</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="17">
+				<knit>6</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>9</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="19">
+				<knit>7</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>7</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="21">
+				<knit>8</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>5</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="23">
+				<knit>9</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>3</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="25">
+				<knit>10</knit>
+				<increase type="yo" />
+				<decrease type="ssk" />
+				<knit>1</knit>
+				<decrease type="k2tog" />
+				<increase type="yo" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+			<row number="27">
+				<knit>11</knit>
+				<increase type="yo" />
+				<double-decrease type="sk2p" />
+				<increase type="yo" />
+				<repeat until="end">
+					<knit />
+				</repeat>
+			</row>
+		</instruction>
+	</library:definitions>
+</library:library>
