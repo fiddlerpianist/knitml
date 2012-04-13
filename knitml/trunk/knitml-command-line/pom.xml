@@ -3,10 +3,9 @@
   <parent>
     <artifactId>knitml-parent</artifactId>
     <groupId>com.knitml</groupId>
-    <version>0.7.0.v20120413-0058-SNAPSHOT</version>
+    <version>0.7.0.BUILD-SNAPSHOT</version>
   </parent>
   <artifactId>knitml-command-line</artifactId>
-  <version>0.7.0.v20120413-0058-SNAPSHOT</version>
   <name>KnitML Command Line</name>
   <description>KnitML Java executables</description>
   <repositories>
