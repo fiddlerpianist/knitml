@@ -68,6 +68,7 @@ public class HeaderHelper {
 			writeNewLine();
 		}
 		String description = generalInformation.getDescription();
+		description = writerHelper.convertSystemToOutputLines(description);
 		if (!StringUtils.isBlank(description)) {
 			writeLine(description);
 		}

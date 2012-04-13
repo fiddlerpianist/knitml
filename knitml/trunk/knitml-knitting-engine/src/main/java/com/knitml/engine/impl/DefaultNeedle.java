@@ -43,7 +43,8 @@ public class DefaultNeedle implements Needle {
 
 	@Override
 	public String toString() {
-		return MessageFormat.format(Messages.getString("DefaultNeedle.TO_STRING"), getId()); //$NON-NLS-1$
+		return MessageFormat.format(
+				Messages.getString("DefaultNeedle.TO_STRING"), getId()); //$NON-NLS-1$
 	}
 
 	@Override
@@ -790,10 +791,24 @@ public class DefaultNeedle implements Needle {
 		// handled, though technically it knits the same stitch twice.
 		doKnitTwoTogether();
 		reverseSlip();
-		doKnitTwoTogether();
+		Stitch lastStitchWorked = doKnitTwoTogether();
+		recordKnit(lastStitchWorked);
 
 		// This used to be done by the following method call:
 		// decrease(2);
+	}
+
+	public void decrease(int numberToDecrease, StitchNature stitchNatureProduced) {
+		Stitch lastStitchWorked = doKnitTwoTogether();
+		for (int i = 0; i < numberToDecrease - 1; i++) {
+			reverseSlip();
+			lastStitchWorked = doKnitTwoTogether();
+		}
+		if (stitchNatureProduced == StitchNature.PURL) {
+			recordPurl(lastStitchWorked);
+		} else {
+			recordKnit(lastStitchWorked);
+		}
 	}
 
 	private Stitch decrease(int numberToDecrease)
@@ -894,7 +909,8 @@ public class DefaultNeedle implements Needle {
 			throws NotEnoughStitchesException, CannotWorkThroughMarkerException {
 		int stitchesAffected = numberToCross + numberToCrossOver + numberToSkip;
 		if (stitchesAffected > getStitchesRemaining()) {
-			throw new NotEnoughStitchesException(stitchesAffected, getStitchesRemaining());
+			throw new NotEnoughStitchesException(stitchesAffected,
+					getStitchesRemaining());
 		}
 		try {
 			if (hasMarkers() && getStitchesToNextMarker() > 0

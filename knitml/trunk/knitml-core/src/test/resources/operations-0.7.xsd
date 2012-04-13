@@ -6,7 +6,7 @@
 	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"
 		schemaLocation="http://www.w3.org/2001/xml.xsd" />
 	<xsd:import namespace="http://www.knitml.com/schema/common"
-		schemaLocation="http://www.knitml.com/schema/common-0.6.xsd" />
+		schemaLocation="http://www.knitml.com/schema/common-0.7.xsd" />
 
 	<!-- Top-level element definitions -->
 	<xsd:element name="row" type="RowType" />

@@ -28,6 +28,7 @@ import com.knitml.core.model.operations.inline.InlineInstruction;
 import com.knitml.core.model.operations.inline.InlineInstructionRef;
 import com.knitml.core.model.operations.inline.InlinePickUpStitches;
 import com.knitml.core.model.operations.inline.Knit;
+import com.knitml.core.model.operations.inline.MultipleDecrease;
 import com.knitml.core.model.operations.inline.NoStitch;
 import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
@@ -415,6 +416,11 @@ public class NoOpWrapperRenderer implements Renderer {
 	public RenderingContext getRenderingContext() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void renderMultipleDecrease(MultipleDecrease decrease) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

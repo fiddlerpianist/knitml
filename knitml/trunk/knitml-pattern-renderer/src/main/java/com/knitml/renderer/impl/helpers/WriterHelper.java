@@ -14,7 +14,7 @@ import com.knitml.core.compatibility.Stack;
 
 public class WriterHelper {
 
-	public static final String LINE_SEPARATOR = System
+	public static final String SYSTEM_LINE_SEPARATOR = System
 			.getProperty("line.separator");
 
 	protected final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -108,7 +108,7 @@ public class WriterHelper {
 	}
 
 	protected String getNewLineCharacters() {
-		return LINE_SEPARATOR;
+		return SYSTEM_LINE_SEPARATOR;
 	}
 
 	private void writeInternal(String string) {
@@ -171,6 +171,13 @@ public class WriterHelper {
 		} catch (IOException ex) {
 			throw new RuntimeException("Couldn't close the renderer writer!");
 		}
+	}
+
+	public String convertSystemToOutputLines(String description) {
+		if (description == null) {
+			return null;
+		}
+		return description.replaceAll("\r?\n", getNewLineCharacters());
 	}
 
 }

@@ -8,16 +8,19 @@ import java.util.List;
 
 import com.knitml.core.common.DecreaseType;
 import com.knitml.core.common.IncreaseType;
+import com.knitml.core.common.Lean;
 import com.knitml.core.common.LoopToWork;
 import com.knitml.core.common.SlipDirection;
 import com.knitml.core.common.Wise;
 import com.knitml.core.common.YarnPosition;
 import com.knitml.core.model.operations.DiscreteInlineOperation;
+import com.knitml.core.model.operations.StitchNature;
 import com.knitml.core.model.operations.inline.CrossStitches;
 import com.knitml.core.model.operations.inline.Decrease;
 import com.knitml.core.model.operations.inline.DoubleDecrease;
 import com.knitml.core.model.operations.inline.Increase;
 import com.knitml.core.model.operations.inline.Knit;
+import com.knitml.core.model.operations.inline.MultipleDecrease;
 import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.core.model.operations.inline.Purl;
 import com.knitml.core.model.operations.inline.Slip;
@@ -117,6 +120,10 @@ class OperationBuilder {
 		return knit(LoopToWork.LEADING);
 	}
 
+	public static DiscreteInlineOperation k_below() {
+		return new Knit(null, 1, null, null).canonicalize().get(0);
+	}
+	
 	public static DiscreteInlineOperation knit(LoopToWork loop) {
 		return new Knit(null, loop, null).canonicalize().get(0);
 	}
@@ -125,6 +132,10 @@ class OperationBuilder {
 		return purl(LoopToWork.LEADING);
 	}
 
+	public static DiscreteInlineOperation p_below() {
+		return new Purl(null, 1, null, null).canonicalize().get(0);
+	}
+	
 	public static DiscreteInlineOperation purl(LoopToWork loop) {
 		return new Purl(null, loop, null).canonicalize().get(0);
 	}
@@ -154,6 +165,18 @@ class OperationBuilder {
 		return new Decrease().canonicalize().get(0);
 	}
 
+	public static DiscreteInlineOperation kntog(int i) {
+		return new MultipleDecrease(i, StitchNature.KNIT, Lean.RIGHT, null).canonicalize().get(0);
+	}
+	
+	public static DiscreteInlineOperation snk(int i) {
+		return new MultipleDecrease(i, StitchNature.KNIT, Lean.LEFT, null).canonicalize().get(0);
+	}
+	
+	public static DiscreteInlineOperation dec_into_1(int i) {
+		return new MultipleDecrease(i, null).canonicalize().get(0);
+	}
+	
 	public static DiscreteInlineOperation decrease(DecreaseType type) {
 		switch (type) {
 		case K3TOG:

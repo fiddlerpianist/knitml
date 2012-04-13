@@ -15,9 +15,12 @@ import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.JUnitCore
 
+import com.knitml.core.common.Lean;
 import com.knitml.core.common.Wise
+import com.knitml.core.model.operations.StitchNature;
 import com.knitml.core.model.operations.inline.Decrease
 import com.knitml.core.model.operations.inline.DoubleDecrease
+import com.knitml.core.model.operations.inline.MultipleDecrease
 import com.knitml.core.model.pattern.Pattern
 
 class DecreaseTests {
@@ -67,22 +70,49 @@ class DecreaseTests {
 				  </pattern:directions>
 			</pattern:pattern>'''
 		Pattern pattern = unmarshalXml(xml)
-		def element = pattern.directions.operations[0].operations[0]
+		def element = (DoubleDecrease)pattern.directions.operations[0].operations[0]
 		element.with {
-			assertThat(it instanceof DoubleDecrease, is (true))
 			assertThat yarnIdRef, is ('yarn0')
 			assertThat type, is (CDD)
 			assertThat numberOfTimes, is (null)
 		}
-		element = pattern.directions.operations[0].operations[1]
+		element = (DoubleDecrease)pattern.directions.operations[0].operations[1]
 		element.with {
-			assertThat(it instanceof DoubleDecrease, is (true))
 			assertThat yarnIdRef, is (null)
 			assertThat type, is (null)
 			assertThat numberOfTimes, is (5)
 		}
 		marshalXmlAndCompare(pattern,xml)
 	}
+	@Test
+	void multipleDecrease() {
+		def xml = '''
+			<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common">
+			  <pattern:directions>
+					<row>
+						<multiple-decrease stitches-into-one="9" lean="right" nature="knit" yarn-ref="yarn0" />
+						<multiple-decrease stitches-into-one="4" />
+					</row>
+				  </pattern:directions>
+			</pattern:pattern>'''
+		Pattern pattern = unmarshalXml(xml)
+		def element = (MultipleDecrease)pattern.directions.operations[0].operations[0]
+		element.with {
+			assertThat stitchesIntoOne, is (9)
+			assertThat stitchNatureProduced, is (StitchNature.KNIT)
+			assertThat lean, is (Lean.RIGHT)
+			assertThat yarnIdRef, is ('yarn0')
+		}
+		element = (MultipleDecrease)pattern.directions.operations[0].operations[1]
+		element.with {
+			assertThat stitchesIntoOne, is (4)
+			assertThat stitchNatureProduced, is (null)
+			assertThat lean, is (null)
+			assertThat yarnIdRef, is (null)
+		}
+		marshalXmlAndCompare(pattern,xml)
+	}
+
 	@Test
 	void bindOffTen() {
 		def xml = '''

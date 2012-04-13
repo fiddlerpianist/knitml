@@ -123,6 +123,33 @@ public abstract class FlatNeedleTests {
 	}
 
 	@Test
+	public void knitNineTogether() throws Exception {
+		needle.decrease(8, StitchNature.KNIT);
+		assertEquals(2, needle.getTotalStitches());
+		assertEquals(1, needle.getStitchesRemaining());
+		needle.reverseSlip();
+		Stitch stitch = needle.peekAtNextStitch();
+		StitchNature expectedNature = StitchNature.KNIT;
+		if (needle.getDirection() == Direction.BACKWARDS) {
+			expectedNature = StitchNature.reverse(expectedNature);
+		}
+		assertEquals(expectedNature, stitch.getCurrentNature());
+	}
+	@Test
+	public void purlSixTogether() throws Exception {
+		needle.decrease(5, StitchNature.PURL);
+		assertEquals(5, needle.getTotalStitches());
+		assertEquals(4, needle.getStitchesRemaining());
+		needle.reverseSlip();
+		Stitch stitch = needle.peekAtNextStitch();
+		StitchNature expectedNature = StitchNature.PURL;
+		if (needle.getDirection() == Direction.BACKWARDS) {
+			expectedNature = StitchNature.reverse(expectedNature);
+		}
+		assertEquals(expectedNature, stitch.getCurrentNature());
+	}
+
+	@Test
 	public void knitToEndOfRow() throws Exception {
 		knit(10);
 		assertEquals(10, needle.getTotalStitches());

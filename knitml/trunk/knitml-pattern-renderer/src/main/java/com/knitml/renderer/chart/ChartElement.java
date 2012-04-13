@@ -18,7 +18,7 @@ public enum ChartElement {
 	K2TOG(1), K2TOG_TBL(1), SSK(1), SKP(1), K3TOG(1), SSSK(1), SK2P(1), CDD(1), S2K2P2(
 			1), K4TOG(1), K5TOG(1), K6TOG(1), K7TOG(1), K8TOG(1), K9TOG(1), DEC4_TO_1(
 			1), DEC5_TO_1(1), DEC6_TO_1(1), DEC7_TO_1(1), DEC8_TO_1(1), DEC9_TO_1(
-			1),
+			1), S4K(1), S5K(1), S6K(1), S7K(1), S8K(1), S9K(1),
 	// purl decreases
 	P2TOG(1), P2TOG_TBL(1), SSP(1), P3TOG(1), P2TOG_SWYIF_PSSO(1), CDDP(1), SWYIF_P2TOGTBL_PSSO(
 			1),

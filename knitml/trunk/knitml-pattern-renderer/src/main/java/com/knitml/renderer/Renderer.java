@@ -26,6 +26,7 @@ import com.knitml.core.model.operations.inline.InlineInstruction;
 import com.knitml.core.model.operations.inline.InlineInstructionRef;
 import com.knitml.core.model.operations.inline.InlinePickUpStitches;
 import com.knitml.core.model.operations.inline.Knit;
+import com.knitml.core.model.operations.inline.MultipleDecrease;
 import com.knitml.core.model.operations.inline.NoStitch;
 import com.knitml.core.model.operations.inline.OperationGroup;
 import com.knitml.core.model.operations.inline.PassPreviousStitchOver;
@@ -143,6 +144,8 @@ public interface Renderer {
 	void renderWorkEven(WorkEven workEven);
 
 	void renderDecrease(Decrease decrease);
+
+	void renderMultipleDecrease(MultipleDecrease decrease);
 
 	void renderPassPreviousStitchOver(PassPreviousStitchOver ppso);
 

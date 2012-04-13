@@ -63,9 +63,11 @@ public class Decrease implements DiscreteInlineOperation, StitchNatureProducer,
 		case K2TOG:
 		case SSP:
 		case P2TOG_TBL:
+		case P3TOG_TBL:
 		case K3TOG:
 			return Lean.RIGHT;
 		case K2TOG_TBL:
+		case K3TOG_TBL:
 		case SSK:
 		case SSSK:
 		case SKP:
@@ -84,6 +86,7 @@ public class Decrease implements DiscreteInlineOperation, StitchNatureProducer,
 		switch (type) {
 		case SSP:
 		case P2TOG_TBL:
+		case P3TOG_TBL:
 		case P2TOG:
 		case P3TOG:
 			return StitchNature.PURL;

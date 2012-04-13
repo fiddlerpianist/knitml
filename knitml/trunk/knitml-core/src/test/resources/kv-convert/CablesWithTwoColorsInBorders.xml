@@ -1,9 +1,9 @@
 <library:library xmlns:library="http://www.knitml.com/schema/library"
 	xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common"
 	version="0.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.knitml.com/schema/library http://www.knitml.com/schema/library-0.6.xsd
-	    http://www.knitml.com/schema/operations http://www.knitml.com/schema/operations-0.6.xsd
-	    http://www.knitml.com/schema/common	http://www.knitml.com/schema/common-0.6.xsd">
+	xsi:schemaLocation="http://www.knitml.com/schema/library http://www.knitml.com/schema/library-0.7.xsd
+	    http://www.knitml.com/schema/operations http://www.knitml.com/schema/operations-0.7.xsd
+	    http://www.knitml.com/schema/common	http://www.knitml.com/schema/common-0.7.xsd">
 	<library:information>
 		<library:name>Export from KnitVisualizer - Cables with Two Colors In
 			Borders

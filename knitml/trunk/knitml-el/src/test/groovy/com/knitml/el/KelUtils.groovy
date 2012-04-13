@@ -20,7 +20,7 @@ class KelUtils {
 		KelProgram converter = new KelProgram()
 		converter.convertToXml(parameters)
 		String value = parameters.writer.toString()
-		value = StringUtils.remove(value, '<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.6.xsd http://www.knitml.com/schema/operations http://www.knitml.com/schema/pattern-0.6.xsd http://www.knitml.com/schema/common http://www.knitml.com/schema/pattern-0.6.xsd" version="0.6">')
+		value = StringUtils.remove(value, '<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.7.xsd http://www.knitml.com/schema/operations http://www.knitml.com/schema/operations-0.7.xsd http://www.knitml.com/schema/common http://www.knitml.com/schema/common-0.7.xsd" version="0.7">')
 		value = StringUtils.remove(value, '</pattern:pattern>')
 		return value
 	}

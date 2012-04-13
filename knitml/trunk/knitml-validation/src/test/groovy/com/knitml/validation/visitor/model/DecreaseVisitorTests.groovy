@@ -65,7 +65,16 @@ class DecreaseVisitorTests extends AbstractKnittingContextTests {
 		assertTrue engine.betweenRows
 		assertThat engine.totalNumberOfStitchesInRow, is (18)
 	}
-	static void main(args) {
-		JUnitCore.main(DecreaseVisitorTests.name)
+	
+	@Test
+	void knitNineTogetherDecrease() {
+		processXml '''
+			<row>
+				<multiple-decrease stitches-into-one="9" nature="knit" lean="right" />
+				<knit>11</knit>
+			</row>
+		'''
+		assertTrue engine.betweenRows
+		assertThat engine.totalNumberOfStitchesInRow, is (12)
 	}
 }

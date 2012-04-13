@@ -13,6 +13,7 @@ import com.knitml.core.model.operations.DiscreteInlineOperation;
 import com.knitml.core.model.operations.InlineOperation;
 import com.knitml.core.model.operations.StitchNature;
 import com.knitml.core.model.operations.StitchNatureProducer;
+import com.knitml.core.model.operations.YarnReferenceHolder;
 import com.knitml.core.model.operations.block.Instruction;
 import com.knitml.core.model.operations.block.RepeatInstruction;
 import com.knitml.core.model.operations.block.Row;
@@ -173,6 +174,11 @@ public class ChartingAnalyzer {
 		if (originalRow.isShortRow()) {
 			return null;
 		}
+		// can't handle colors (right now)
+		if (originalRow.getYarnIdRef() != null) {
+			return null;
+		}
+		
 		List<InlineOperation> newOperations = new ArrayList<InlineOperation>();
 		Row newRow = new Row(originalRow, newOperations);
 		this.currentRowInfo = new RowInfo();
@@ -554,6 +560,11 @@ public class ChartingAnalyzer {
 		int advanceCount = operation.getAdvanceCount();
 		int increaseCount = operation.getIncreaseCount();
 
+		// can't handle colors at this point
+		if (operation instanceof YarnReferenceHolder && ((YarnReferenceHolder)operation).getYarnIdRef() != null) {
+			return null;
+		}
+		
 		if (dynamicFirstRowCastOn) {
 			// dynamically cast on the advance count (since all stitches are
 			// unaccounted for)

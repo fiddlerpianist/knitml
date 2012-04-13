@@ -14,7 +14,7 @@ public class HtmlWriterHelper extends WriterHelper {
 	}
 
 	public void writeSystemNewLine() {
-		super.write(LINE_SEPARATOR);
+		super.write(SYSTEM_LINE_SEPARATOR);
 	}
 
 	@Override
@@ -39,9 +39,9 @@ public class HtmlWriterHelper extends WriterHelper {
 		if (!isPreformatted()) {
 			if (inDiv) {
 				this.inDiv = false;
-				return "</div>" + LINE_SEPARATOR;
+				return "</div>" + SYSTEM_LINE_SEPARATOR;
 			}
-			return "<br />" + LINE_SEPARATOR;
+			return "<br />" + SYSTEM_LINE_SEPARATOR;
 		}
 		return super.getNewLineCharacters();
 	}
