@@ -27,6 +27,7 @@
   </fileSets>
   <moduleSets>
     <moduleSet>
+      <useAllReactorProjects>true</useAllReactorProjects>
       <includes>
         <include>com.knitml:knitml-core</include>
         <include>com.knitml:knitml-knitting-engine</include>
