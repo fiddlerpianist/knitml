@@ -40,15 +40,6 @@
 			<artifactId>spring-context</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
@@ -93,13 +84,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<!-- <plugin> <groupId>org.apache.felix</groupId> <artifactId>maven-bundle-plugin</artifactId> 
-			<extensions>true</extensions> <configuration> <instructions> <Export-Package> 
-			com.knitml.renderer, com.knitml.renderer.context, com.knitml.renderer.plural, 
-			com.knitml.renderer.program, com.knitml.renderer.util, com.knitml.renderer.impl.*, 
-			com.knitml.renderer.chart.*, com.knitml.renderer.event.* </Export-Package> 
-			<Import-Package> *, org.springframework.beans.factory, javax.measure.converter 
-			</Import-Package> <Bundle-SymbolicName>com.knitml.renderer</Bundle-SymbolicName> 
-			</instructions> </configuration> </plugin> -->
 	</build>
 </project>

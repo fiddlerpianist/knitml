@@ -42,6 +42,7 @@
 		<module>knitml-gauge-transformer</module>
 		<module>knitml-pattern-renderer</module>
 		<module>knitml-command-line</module>
+		<module>knitml-distribution</module>
 	</modules>
 	<build>
 		<pluginManagement>
@@ -79,8 +80,17 @@
 					<version>2.5</version>
 				</plugin>
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>2.3</version>
+					<configuration>
+						<archiverConfig>
+							<duplicateBehavior>skip</duplicateBehavior>
+						</archiverConfig>
+						<descriptors>
+							<descriptor>src/assemble/bin.xml</descriptor>
+						</descriptors>
+					</configuration>
 				</plugin>
 				<plugin>
 					<artifactId>maven-dependency-plugin</artifactId>
@@ -151,18 +161,6 @@
 						<version>2.6.0-01</version>
 					</dependency>
 				</dependencies>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<archiverConfig>
-						<duplicateBehavior>skip</duplicateBehavior>
-					</archiverConfig>
-					<descriptors>
-						<descriptor>src/assemble/bin.xml</descriptor>
-					</descriptors>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -251,6 +249,16 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>3.1.1.RELEASE</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-asm</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -319,6 +327,11 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.1</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>jscience</groupId>
