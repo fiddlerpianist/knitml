@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pattern:pattern xmlns:pattern="http://www.knitml.com/schema/pattern" xmlns="http://www.knitml.com/schema/operations" xmlns:common="http://www.knitml.com/schema/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knitml.com/schema/pattern http://www.knitml.com/schema/pattern-0.7.xsd http://www.knitml.com/schema/operations http://www.knitml.com/schema/operations-0.7.xsd http://www.knitml.com/schema/common http://www.knitml.com/schema/common-0.7.xsd" version="0.7">
+	<pattern:directives>
+		<pattern:message-sources>
+			<pattern:message-source>basic-sock-text</pattern:message-source>
+		</pattern:message-sources>
+	</pattern:directives>
+	<pattern:general-information xml:lang="en">
+		<pattern:name>Basic socks</pattern:name>
+		<pattern:description>A basic sock pattern with 2x2 ribbing</pattern:description>
+		<pattern:dimensions/>
+		<pattern:gauge type="stockinette">
+			<pattern:stitch-gauge unit="st/in">8</pattern:stitch-gauge>
+			<pattern:row-gauge unit="row/in">12</pattern:row-gauge>
+		</pattern:gauge>
+		<pattern:techniques>
+			<pattern:technique>knitting-in-the-round</pattern:technique>
+		</pattern:techniques>
+		<pattern:author>
+			<pattern:first-name>Jonathan</pattern:first-name>
+			<pattern:last-name>Whitall</pattern:last-name>
+		</pattern:author>
+		<pattern:copyright-info/>
+	</pattern:general-information>
+	<pattern:supplies>
+		<pattern:yarn-types>
+			<pattern:yarn-type id="lornas-1" brand="Lorna's Laces" category="Shepherd Sock"
+				weight="fingering" catalog-id="33032">
+				<pattern:ball-weight unit="g">50</pattern:ball-weight>
+				<pattern:thickness unit="wrap/in">12</pattern:thickness>
+				<pattern:yarns>
+					<common:yarn id="main-color" message-key="yarn.main-color">
+						<common:total-length unit="m">300</common:total-length>
+						<common:total-weight unit="g">100</common:total-weight>
+						<common:color name="watercolor" description="" number="233"/>
+					</common:yarn>
+				</pattern:yarns>
+			</pattern:yarn-type>
+		</pattern:yarn-types>
+		<pattern:needle-types>
+			<pattern:needle-type id="size1circ" type="circular" brand="Addi Turbo">
+				<pattern:length unit="in">24</pattern:length>
+				<pattern:size unit="US">1</pattern:size>
+				<pattern:needles>
+					<common:needle id="needle1" message-key="needle.needle1"/>
+					<common:needle id="needle2" message-key="needle.needle2"/>
+				</pattern:needles>
+			</pattern:needle-type>
+		</pattern:needle-types>
+		<pattern:accessories/>
+	</pattern:supplies>
+	<pattern:directions>
+		<pattern:instruction-group id="start">
+			<use-needles silent="true">
+				<needle ref="needle1"/>
+			</use-needles>
+			<cast-on style="long-tail">72</cast-on>
+			<use-needles silent="true">
+				<needle ref="needle1"/>
+				<needle ref="needle2"/>
+			</use-needles>
+			<arrange-stitches-on-needles>
+				<needle ref="needle1">36</needle>
+				<needle ref="needle2">36</needle>
+			</arrange-stitches-on-needles>
+			<join-in-round/>
+		</pattern:instruction-group>
+		<pattern:instruction-group id="cuff" message-key="instruction-group.cuff">
+			<row type="round">
+				<repeat until="end">
+					<purl/>
+				</repeat>
+			</row>
+			<instruction id="cuff-round">
+				<row type="round">
+					<repeat until="end">
+						<knit>1</knit>
+						<purl>1</purl>
+					</repeat>
+				</row>
+			</instruction>
+			<repeat-instruction ref="cuff-round">
+				<until-measures unit="in">1.5</until-measures>
+			</repeat-instruction>
+		</pattern:instruction-group>
+		<pattern:instruction-group id="leg" message-key="instruction-group.leg" reset-row-count="true">
+			<instruction id="leg-pattern">
+				<row type="round">
+					<repeat until="end">
+						<purl>1</purl>
+						<knit>2</knit>
+						<purl>1</purl>
+					</repeat>
+				</row>
+				<row type="round">
+					<repeat until="end">
+						<knit/>
+					</repeat>
+				</row>
+			</instruction>
+			<repeat-instruction ref="leg-pattern">
+				<until-desired-length/>
+			</repeat-instruction>
+		</pattern:instruction-group>
+		<pattern:instruction-group id="heel-flap" message-key="instruction-group.heel-flap"
+			reset-row-count="true">
+			<use-needles>
+				<needle ref="needle1"/>
+			</use-needles>
+			<declare-flat-knitting next-row-side="right"/>
+			<instruction id="heel-flap-pattern">
+				<row>
+					<repeat value="2" until="before-end">
+						<knit>1</knit>
+						<slip>1</slip>
+					</repeat>
+					<knit>2</knit>
+				</row>
+				<row>
+					<slip>1</slip>
+					<repeat until="end">
+						<purl/>
+					</repeat>
+				</row>
+			</instruction>
+			<repeat-instruction ref="heel-flap-pattern">
+				<additional-times>17</additional-times>
+			</repeat-instruction>
+		</pattern:instruction-group>
+		<pattern:instruction-group id="heel-turn" message-key="instruction-group.heel-turn"
+			reset-row-count="true">
+			<pattern:section>
+				<row inform-side="true" short="true">
+					<slip>1</slip>
+					<knit>19</knit>
+					<decrease type="ssk"/>
+					<knit>1</knit>
+					<turn inform-unworked-stitches="true"/>
+				</row>
+				<row short="true">
+					<slip>1</slip>
+					<purl>5</purl>
+					<decrease type="p2tog"/>
+					<purl>1</purl>
+					<turn inform-unworked-stitches="true"/>
+				</row>
+			</pattern:section>
+			<pattern:section>
+				<information>
+					<message message-key="heel-turn.explain-gap"/>
+				</information>
+			</pattern:section>
+			<pattern:section>
+				<instruction id="heel-turn-repeat">
+					<row short="true">
+						<slip>1</slip>
+						<repeat until="before-gap" value="1">
+							<knit/>
+						</repeat>
+						<decrease type="ssk"/>
+						<knit>1</knit>
+						<turn inform-unworked-stitches="true"/>
+					</row>
+					<row short="true">
+						<slip>1</slip>
+						<repeat until="before-gap" value="1">
+							<purl/>
+						</repeat>
+						<decrease type="p2tog"/>
+						<purl>1</purl>
+						<turn inform-unworked-stitches="true"/>
+					</row>
+				</instruction>
+				<repeat-instruction ref="heel-turn-repeat">
+					<additional-times>5</additional-times>
+				</repeat-instruction>
+			</pattern:section>
+			<pattern:section>
+				<row short="true">
+					<slip>1</slip>
+					<knit>18</knit>
+					<decrease type="ssk"/>
+				</row>
+				<row>
+					<slip>1</slip>
+					<purl>18</purl>
+					<decrease type="p2tog"/>
+				</row>
+				<information>
+					<number-of-stitches number="20"/>
+				</information>
+				<row>
+					<slip>1</slip>
+					<knit>9</knit>
+					<designate-end-of-row/>
+				</row>
+			</pattern:section>
+		</pattern:instruction-group>
+		<pattern:instruction-group id="work-gusset" message-key="instruction-group.work-gusset"
+			reset-row-count="true">
+			<use-needles>
+				<needle ref="needle1"/>
+				<needle ref="needle2"/>
+			</use-needles>
+			<declare-round-knitting/>
+			<arrange-stitches-on-needles>
+				<needle ref="needle1">28</needle>
+				<needle ref="needle2">28</needle>
+			</arrange-stitches-on-needles>
+			<row type="round">
+				<using-needle ref="needle1">
+					<knit>10</knit>
+					<inline-pick-up-stitches type="knitwise">18</inline-pick-up-stitches>
+					<place-marker/>
+					<inline-instruction id="needle1-instep-pattern">
+						<repeat value="4" until="times">
+							<purl>1</purl>
+							<knit>2</knit>
+							<purl>1</purl>
+						</repeat>
+						<purl>1</purl>
+						<knit>1</knit>
+					</inline-instruction>
+				</using-needle>
+				<using-needle ref="needle2">
+					<inline-instruction id="needle2-instep-pattern">
+						<knit>1</knit>
+						<purl>1</purl>
+						<repeat value="4" until="times">
+							<purl>1</purl>
+							<knit>2</knit>
+							<purl>1</purl>
+						</repeat>
+					</inline-instruction>
+					<place-marker/>
+					<inline-pick-up-stitches type="knitwise">18</inline-pick-up-stitches>
+					<knit>10</knit>
+				</using-needle>
+			</row>
+			<instruction id="gusset-rows">
+				<row type="round">
+					<using-needle ref="needle1">
+						<repeat until="before-marker" value="3">
+							<knit/>
+						</repeat>
+						<decrease type="k2tog"/>
+						<knit>1</knit>
+						<inline-instruction-ref ref="needle1-instep-pattern"/>
+					</using-needle>
+					<using-needle ref="needle2">
+						<inline-instruction-ref ref="needle2-instep-pattern"/>
+						<knit>1</knit>
+						<decrease type="ssk"/>
+						<repeat until="end">
+							<knit/>
+						</repeat>
+					</using-needle>
+				</row>
+				<row type="round">
+					<using-needle ref="needle1">
+						<repeat until="marker">
+							<knit/>
+						</repeat>
+						<inline-instruction-ref ref="needle1-instep-pattern"/>
+					</using-needle>
+					<using-needle ref="needle2">
+						<inline-instruction-ref ref="needle2-instep-pattern"/>
+						<repeat until="end">
+							<knit/>
+						</repeat>
+					</using-needle>
+				</row>
+			</instruction>
+			<repeat-instruction ref="gusset-rows">
+				<!--	<until-stitches-remain-on-needles>
+					<needle ref="needle2">36</needle>
+				</until-stitches-remain-on-needles> -->
+				<until-stitches-remain>72</until-stitches-remain>
+			</repeat-instruction>
+			<row assign-row-number="false" type="round">
+				<using-needle ref="needle1">
+					<repeat until="marker">
+						<knit/>
+					</repeat>
+					<remove-marker/>
+					<designate-end-of-row/>
+				</using-needle>
+			</row>
+			<label-needle ref="needle2" message-key="needle.instep"/>
+			<label-needle ref="needle1" message-key="needle.sole"/>
+			<arrange-stitches-on-needles>
+				<needle ref="needle2">36</needle>
+				<needle ref="needle1">36</needle>
+			</arrange-stitches-on-needles>
+		</pattern:instruction-group>
+		<pattern:instruction-group id="make-foot" message-key="instruction-group.make-foot"
+			reset-row-count="true">
+			<instruction id="foot-rows">
+				<row type="round">
+					<using-needle ref="needle2">
+						<purl>1</purl>
+						<repeat value="8" until="times">
+							<knit>2</knit>
+							<purl>2</purl>
+						</repeat>
+						<knit>2</knit>
+						<purl>1</purl>
+					</using-needle>
+					<using-needle ref="needle1">
+						<repeat until="end">
+							<knit/>
+						</repeat>
+					</using-needle>
+				</row>
+			</instruction>
+			<repeat-instruction ref="foot-rows">
+				<until-desired-length/>
+			</repeat-instruction>
+		</pattern:instruction-group>
+		<pattern:instruction-group id="make-toe" message-key="instruction-group.make-toe"
+			reset-row-count="true">
+			<pattern:section>
+				<instruction id="toe-rows">
+					<row type="round">
+						<using-needle ref="needle2">
+							<knit>1</knit>
+							<decrease type="ssk"/>
+							<repeat until="before-end" value="3">
+								<knit/>
+							</repeat>
+							<decrease type="k2tog"/>
+							<knit>1</knit>
+						</using-needle>
+						<using-needle ref="needle1">
+							<knit>1</knit>
+							<decrease type="ssk"/>
+							<repeat until="before-end" value="3">
+								<knit/>
+							</repeat>
+							<decrease type="k2tog"/>
+							<knit>1</knit>
+						</using-needle>
+					</row>
+					<row type="round">
+						<repeat until="end">
+							<knit/>
+						</repeat>
+					</row>
+				</instruction>
+				<repeat-instruction ref="toe-rows">
+					<until-stitches-remain>20</until-stitches-remain>
+				</repeat-instruction>
+			</pattern:section>
+			<pattern:section>
+				<graft-together>
+					<needle ref="needle1"/>
+					<needle ref="needle2"/>
+				</graft-together>
+			</pattern:section>
+		</pattern:instruction-group>
+	</pattern:directions>
+</pattern:pattern>
