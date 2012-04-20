@@ -8,7 +8,7 @@ public class KnittersSymbolsWStylesheetProvider extends
 		return "ks";
 	}
 	public String getSymbolSetName(String symbolSetId) {
-		return getStyleClassPrefix();
+		return "ks-font";
 	}
 
 }

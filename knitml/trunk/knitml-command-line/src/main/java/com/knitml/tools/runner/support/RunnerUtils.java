@@ -1,6 +1,7 @@
 package com.knitml.tools.runner.support;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -39,6 +40,14 @@ public class RunnerUtils {
 			throw new MissingArgumentException("Missing filename to process, which is required");
 		}
 		return new FileReader(leftoverArgs[0]);
+	}
+	
+	public static File getReaderFile(CommandLine line) throws IOException, MissingArgumentException {
+		String[] leftoverArgs = line.getArgs();
+		if (leftoverArgs.length != 1) {
+			throw new MissingArgumentException("Missing filename to process, which is required");
+		}
+		return new File(leftoverArgs[0]);
 	}
 	
 	public static boolean getCheckSyntax(CommandLine line) {

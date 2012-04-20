@@ -9,7 +9,7 @@ public class TextArtStylesheetProvider extends
 		return "txt";
 	}
 	public String getSymbolSetName(String symbolSetId) {
-		return getStyleClassPrefix();
+		return "txt-font";
 	}
 
 }

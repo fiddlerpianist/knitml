@@ -42,6 +42,7 @@ class PatternFullTransformationTests extends RunnerTests {
 		parameters.reader = new BufferedReader(new InputStreamReader(patternResourceStream))
 		parameters.checkSyntax = true
 		String xml = converter.convertToXml(parameters)
+		parameters.reader.close()
 		
 		// validate
 		parameters = new Parameters()
@@ -53,6 +54,7 @@ class PatternFullTransformationTests extends RunnerTests {
 		Parameters parameters = new Parameters()
 		def resource = new ClassPathResource(patternName + ".xml").inputStream
 		String xml = resource.text
+		resource.close()
 		parameters.reader = new StringReader(xml)
 		parameters.checkSyntax = true
 		renderer.render parameters

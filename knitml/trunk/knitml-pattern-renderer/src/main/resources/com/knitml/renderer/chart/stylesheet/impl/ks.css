@@ -1,43 +1,55 @@
-.ks-chartdiv {
+/* Chart Graph */
+.ks-graph {
+    margin-bottom: 1em;
 }
-
-.ks-chart {
+.ks-graph table {
     border-width: 0px;
-	padding: 0px;
-	border-style: solid;
-	border-color: gray;
-	background-color: white;
+    padding: 0px;
+    border-style: solid;
+    border-color: gray;
+    background-color: white;
 }
-
-.ks-lhcol {
+.ks-graph-lhcol {
     width: 1.25em;
     text-align: right;
 }
-
-.ks-bodycol {
+.ks-graph-bodycol {
     width: 1em;
 }
-
-.ks-rhcol {
+.ks-graph-rhcol {
     width: 1.25em;
     text-align: left;
 }
-
-.ks-cell {
+.ks-graph-cell {
     border-width: 0px;
-	padding: 0px;
-	border-style: solid;
-	border-color: gray;
-	background-color: white;
-	vertical-align: middle;
-    font-family: KSymbolsW;
+    padding: 0px;
+    border-style: solid;
+    border-color: gray;
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-size: larger;
+}
+/* Chart Legend */
+.ks-legend caption {
+    text-align: left;
+}
+.ks-legend-key {
+    border-width: 0px;
+    padding: 0px;
+    border-style: solid;
+    border-color: gray;
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
     font-size: larger;
 }
 
-.ks-legenddiv {
-}
-
-.ks-legendkey {
+.ks-font {
     font-family: KSymbolsW;
-    font-size: larger;
+}
+/* cell decoration */
+.ks-cell-grey {
+    background-color: gray;
+    color: gray;
 }

@@ -8,7 +8,7 @@ import javax.measure.quantity.Length;
 import javax.measure.unit.Unit;
 
 import org.springframework.context.HierarchicalMessageSource;
-import org.springframework.core.io.FileSystemResourceLoader;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 
 import com.knitml.core.model.operations.block.Instruction;
@@ -27,7 +27,7 @@ public class Options {
 
 	// global system preferences
 	private Locale locale = Locale.getDefault();
-	private ResourceLoader patternMessageResourceLoader = new FileSystemResourceLoader();
+	private ResourceLoader patternMessageResourceLoader = new DefaultResourceLoader();
 	private HierarchicalMessageSource programMessageSource = null;
 	
 	// global rendering preferences
