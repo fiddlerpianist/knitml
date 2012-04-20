@@ -34,6 +34,11 @@
 			<artifactId>xmlunit</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -47,35 +52,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<testResources>
-			<testResource>
-				<directory>src/test/resources</directory>
-			</testResource>
-			<!-- Defining these has the potential of breaking the build if the samples 
-				are altered in any way -->
-			<testResource>
-				<directory>../samples/basic-sock</directory>
-				<includes>
-					<include>basic-sock.kel</include>
-					<include>basic-sock.xml</include>
-					<include>basic-sock-messages.properties</include>
-				</includes>
-			</testResource>
-			<testResource>
-				<directory>../samples/sampler-swatch</directory>
-				<includes>
-					<include>sampler-swatch.kel</include>
-					<include>sampler-swatch.xml</include>
-				</includes>
-			</testResource>
-			<testResource>
-				<directory>../samples/nutkin2</directory>
-				<includes>
-					<include>nutkin2.kel</include>
-					<include>nutkin2.xml</include>
-					<include>nutkin2-messages.properties</include>
-				</includes>
-			</testResource>
-		</testResources>
 	</build>
 </project>

@@ -2,6 +2,35 @@ KNITML CHANGELOG
 =====================
 http://www.knitml.com
 
+Changes in version 0.7.1 (2012-??-??)
+-------------------------------------
+General
+* New projects
+  * knitml-gauge-transformer: brought the old Gauge Transformer under the auspices of this project
+  * knitml-distribution: houses the assembly (used to be in the parent project) 
+
+knitml-core
+* Completely re-worked schemas into pattern, operations, common, and library namespaces
+* Added 'chart-info' for instructions to support chart rendering
+* Added 'multi-decrease' to support double decreases
+* Added 'group' to support grouping operations together
+* Added 'cross-stitches' to support cables / twisted stitches
+
+knitml-pattern-renderer
+* Refactored dependency injection to use Google Guice
+* Chart rendering support vastly improved; handles cables with ease, better legends
+* Added StitchMastery font support
+
+knitml-el
+* Deprecated! Please use Xtext-based expression language instead (found in the KnitML Pattern Editor) 
+
+knitml-command-line
+* removed unnecessary dependencies to make package smaller 
+
+Known Incompatibilities with previous release:
+* Namespace changes render previous formats unusable
+
+
 Changes in version 0.5.0 (2009-04-25)
 -------------------------------------
 General

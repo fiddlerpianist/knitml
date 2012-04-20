@@ -36,6 +36,13 @@ public class ValidatePattern {
 	}
 
 	public static void main(String[] args) {
+		main(args, null);
+	}
+
+	public static void main(String[] args, String fromKnitmlCommandName) {
+		String helpString = (fromKnitmlCommandName != null ? ("knitml " + fromKnitmlCommandName)
+				: ValidatePattern.class.getName())
+				+ " [options] filename";
 		// create the parser
 		CommandLineParser parser = new GnuParser();
 		try {
@@ -55,9 +62,12 @@ public class ValidatePattern {
 			// oops, something went wrong
 			System.err.println("Parsing failed.  Reason: " + exp.getMessage());
 			HelpFormatter help = new HelpFormatter();
-			help.printHelp("renderPattern [options] filename", options);
+			help.printHelp(helpString, options);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			System.err.println("Couldn't process the pattern. "
+					+ ex.getMessage());
+			HelpFormatter help = new HelpFormatter();
+			help.printHelp(helpString, options);
 		}
 	}
 

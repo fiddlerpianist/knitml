@@ -1,45 +1,55 @@
-.txt-chartdiv {
+/* Chart Graph */
+.txt-graph {
+    margin-bottom: 1em;
 }
-
-.txt-chart {
+.txt-graph table {
     border-collapse: collapse;
     border-width: 0px;
-	padding: 0px;
-	border-style: solid;
-	border-color: gray;
-	background-color: white;
+    padding: 0px;
+    border-style: solid;
+    border-color: gray;
+    background-color: white;
 }
-
-.txt-lhcol {
+.txt-graph-lhcol {
     width: 1.25em;
     text-align: right;
 }
-
-.txt-bodycol {
+.txt-graph-bodycol {
     width: 1em;
 }
-
-.txt-rhcol {
+.txt-graph-rhcol {
     width: 1.25em;
     text-align: left;
 }
-
-.txt-cell {
+.txt-graph-cell {
     border-width: 1px;
-	padding: 0px;
-	border-style: solid;
-	border-color: gray;
-	background-color: white;
-	text-align: center;
-	vertical-align: middle;
-    font-family: sans-serif;
+    padding: 0px;
+    border-style: solid;
+    border-color: gray;
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
     font-size: larger;
 }
-
-.txt-legenddiv {
+/* Chart Legend */
+.txt-legend caption {
+    text-align: left;
 }
-
-.txt-legendkey {
-    font-family: sans-serif;
+.txt-legend-key {
+    border-width: 1px;
+    padding: 0px;
+    border-style: solid;
+    border-color: gray;
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
     font-size: larger;
+}
+.txt-font {
+    font-family: monospace;
+}
+/* cell decoration */
+.txt-cell-grey {
+    background-color: gray;
+    color: gray;
 }

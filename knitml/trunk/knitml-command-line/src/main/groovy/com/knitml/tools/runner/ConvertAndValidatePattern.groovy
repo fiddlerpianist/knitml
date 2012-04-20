@@ -37,8 +37,11 @@ class ConvertAndValidatePattern {
 		options.addOption(output)
 	}
 	
-	static void main(args) {
-
+	static void main(String[] args) {
+		main(args, null)
+	}
+	
+	static void main(String[] args, String fromKnitmlCommandName) {
 		// create the parser
 		CommandLineParser parser = new GnuParser()
 		// parse the command line arguments

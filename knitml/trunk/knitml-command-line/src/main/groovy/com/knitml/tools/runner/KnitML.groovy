@@ -22,11 +22,13 @@ switch (command.toLowerCase()) {
 	case "validaterender":
 	case "r":
 	case "vr":
-		RenderPattern.main(argsToPass)
+	case "renderPattern":
+		RenderPattern.main(argsToPass, command)
 		break
 	case "validate":
+	case "validatePattern":
 	case "v":
-		ValidatePattern.main(argsToPass)
+		ValidatePattern.main(argsToPass, command)
 		break
 	case "convert":
 	case "c":
@@ -35,7 +37,7 @@ switch (command.toLowerCase()) {
 	case "convertandvalidate":
 	case "convertvalidate":
 	case "cv":
-		ConvertAndValidatePattern.main(argsToPass)
+		ConvertAndValidatePattern.main(argsToPass, command)
 		break
 	case "convertvalidateandrender":
 	case "convertvalidaterender":
@@ -43,7 +45,7 @@ switch (command.toLowerCase()) {
 	case "convertandrender":
 	case "convertrender":
 	case "cr":
-		ConvertAndRenderPattern.main(argsToPass)
+		ConvertAndRenderPattern.main(argsToPass, command)
 		break
 }
 
