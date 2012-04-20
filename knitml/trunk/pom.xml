@@ -274,28 +274,18 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
 			<version>3.1.1.RELEASE</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-asm</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>3.1.1.RELEASE</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>com.springsource.javax.inject</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>1.5.4</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>1.5.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.guava-osgi</groupId>
@@ -311,11 +301,6 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -340,18 +325,33 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jibx</groupId>
-			<artifactId>jibx-bind</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jibx</groupId>
 			<artifactId>jibx-extras</artifactId>
 			<version>1.2.3</version>
+      <exclusions>
+      	<exclusion>
+      		<artifactId>jdom</artifactId>
+      		<groupId>org.jdom</groupId>
+      	</exclusion>
+      	<exclusion>
+      		<artifactId>dom4j</artifactId>
+      		<groupId>dom4j</groupId>
+      	</exclusion>
+      </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.jibx</groupId>
 			<artifactId>jibx-run</artifactId>
 			<version>1.2.3</version>
+      <exclusions>
+      	<!--<exclusion>
+      		<artifactId>xpp3</artifactId>
+      		<groupId>xpp3</groupId>
+      	</exclusion>-->
+      	<exclusion>
+      		<artifactId>joda-time</artifactId>
+      		<groupId>joda-time</groupId>
+      	</exclusion>
+      </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>xmlunit</groupId>
@@ -363,7 +363,6 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.15</version>
-			<scope>test</scope>
 			<exclusions>
 				<exclusion>
 					<artifactId>jmxtools</artifactId>
