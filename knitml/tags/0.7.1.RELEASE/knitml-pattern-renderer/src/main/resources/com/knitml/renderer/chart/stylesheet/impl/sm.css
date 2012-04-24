@@ -1,0 +1,66 @@
+/* Chart Graph */
+.sm-graph {
+    margin-bottom: 1em;
+}
+.sm-graph table {
+    border-collapse: collapse;
+    border-width: 0px;
+    padding: 0px;
+    border-style: solid;
+    border-color: gray;
+    background-color: white;
+}
+.sm-graph-lhcol {
+    width: 1.25em;
+    text-align: right;
+}
+.sm-graph-bodycol {
+    width: 1em;
+}
+.sm-graph-rhcol {
+    width: 1.25em;
+    text-align: left;
+}
+.sm-graph-cell {
+    border-width: 1px;
+    padding: 0px;
+    border-style: solid;
+    border-color: gray;
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-size: larger;
+}
+/* Chart Legend */
+.sm-legend caption {
+    text-align: left;
+}
+.sm-legend-key {
+    border-width: 1px;
+    padding: 0px;
+    border-style: solid;
+    border-color: gray;
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-size: larger;
+}
+/* Dot Font */
+.sm-font-dot {
+    font-family: "StitchMastery Dot";
+}
+.sm-font-dotcable {
+    font-family: "StitchMastery DotCableEH";
+}
+/* Dash Font */
+.sm-font-dash {
+    font-family: "StitchMastery Dash";
+}
+.sm-font-dashcable {
+    font-family: "StitchMastery DashCableEH";
+}
+/* cell decoration */
+.sm-cell-grey {
+    background-color: gray;
+    color: gray;
+}
