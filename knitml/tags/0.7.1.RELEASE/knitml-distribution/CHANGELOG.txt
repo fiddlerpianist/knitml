@@ -1,0 +1,121 @@
+KNITML CHANGELOG
+=====================
+http://www.knitml.com
+
+Changes in version 0.7.1 (2012-??-??)
+-------------------------------------
+General
+* New projects
+  * knitml-gauge-transformer: brought the old Gauge Transformer under the auspices of this project
+  * knitml-distribution: houses the assembly (used to be in the parent project) 
+
+knitml-core
+* Completely re-worked schemas into pattern, operations, common, and library namespaces
+* Added 'chart-info' for instructions to support chart rendering
+* Added 'multi-decrease' to support double decreases
+* Added 'group' to support grouping operations together
+* Added 'cross-stitches' to support cables / twisted stitches
+
+knitml-pattern-renderer
+* Refactored dependency injection to use Google Guice
+* Chart rendering support vastly improved; handles cables with ease, better legends
+* Added StitchMastery font support
+
+knitml-el
+* Deprecated! Please use Xtext-based expression language instead (found in the KnitML Pattern Editor) 
+
+knitml-command-line
+* removed unnecessary dependencies to make package smaller 
+
+Known Incompatibilities with previous release:
+* Namespace changes render previous formats unusable
+
+
+Changes in version 0.5.0 (2009-04-25)
+-------------------------------------
+General
+* New projects from refactoring effort:
+  * knitml-knitting-engine: the knitting simulation component (formerly in knitml-validation)
+  * knitml-el: the Knitting Expression Language (formerly in knitml-tools)
+  * knitml-command-line: command-line utilities (formerly in knitml-tools)
+* Removed knitml-tools project
+
+knitml-core
+* Added 'version' to pattern element (for compatibility tracking)
+* Added 'no-stitch' element to support charting
+* Added 'stitch-holder','slip-to-stitch-holder', and 'from-stitch-holder' elements
+
+knitml-pattern-renderer
+* Complete support for user-supplied preferences
+* Chart rendering with three symbol providers (text art, Knitters Symbols, and Aire River Knitting Font)
+* Option to generate HTML pattern instead of plain text
+* French translation added
+* Refactored internal model (visitors became event handlers)
+* Removed Renderer <-> RenderingContext circular dependency
+* JAR now has OSGi manifest headers 
+
+knitml-el
+* Added more broken word syntax support (such as 'before end' instead of 'beforeEnd')
+* Began building individual test cases for function names (before relied on functional test cases from samples directory)
+
+knitml-command-line
+* validateAndRender now equivalent to render
+* convertValidateAndRender now equivalent to convertAndRender
+
+Known Incompatibilities with previous release:
+* Instruction and inline-instruction elements defined under an instruction-definitions section must have the 'shape' attribute set
+* Pattern element must have 'version' attribute set corresponding to the schema version in use (this release: 0.5)
+* Pattern renderer configuration files (i.e. applicationContext-patternRenderer.xml) are completely incompatible with previous releases
+
+Changes in version 0.4.1 (2008-12-04)
+-------------------------------------
+General
+* Added information element to row element (for annotations)
+
+knitml-tools
+* Fixed Bug 31: validate / validateAndRender command lines failing
+
+knitml-pattern-renderer
+* Full Spanish translation of renderer and patterns
+
+Changes in version 0.4.0 (2008-11-27)
+-------------------------------------
+General
+* Support for increases
+* Support for stitch crosses (i.e. cables)
+* Support for custom inline / block instruction definitions
+* Support for instruction merging
+* Support for applying more than one block instruction at the same time 
+* Some incompatible XML schema changes in this release. E-mail Jonathan for details.
+* More complete support for internationalized patterns, including global plural form handling.
+* Major documentation enhancements, including a complete KnittingEL reference guide.
+* Internal creation of an XML object model (using JiBX); dom4j dependency dropped
+* Uses newer JAXP 1.3 validation API for XML syntax checking
+
+Changes in version 0.3.0 (2008-06-06)
+-------------------------------------
+General
+* Created the User's Guide (see docs/users-guide.html and docs/users-guide.pdf)
+* Reworked instruction element so that it is only necessary to specify when repeating
+* Added section element for paragraph formatting
+* Forced row vs. round designation to reflect current knitting state
+
+knitml-tools
+* Vastly improved support for the Knitting Expression Language (a.k.a. GroovyKnit) 
+
+knitml-validation
+* Fixed Bug 23: Repeating a multi-row instruction for a particular length measurement does not produce expected results
+
+knitml-pattern-renderer
+* Added full pattern rendering (including header information)
+
+Changes in version 0.2.0 (2008-03-23)
+-------------------------------------
+General
+* Added support for multi-color knitting, including schema changes and a new color swatch sample file
+* Added more comprehensive internationalization support
+* Added the ability to bind off
+* Altered Maven configuration to support Groovy compilation
+
+knitml-tools
+* Implemented first pass of a knitting pattern domain-specific language - much shorter and more intuitive than coding XML directly

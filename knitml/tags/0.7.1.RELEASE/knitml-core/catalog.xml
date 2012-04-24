@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE catalog 
+    PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
+    "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+	<system systemId="http://www.knitml.com/schema/library-0.7.xsd"
+		uri="src/main/resources/com/knitml/core/xml/library-0.7.xsd" />
+	<system systemId="http://www.knitml.com/schema/pattern-0.7.xsd"
+		uri="src/main/resources/com/knitml/core/xml/pattern-0.7.xsd" />
+	<system systemId="http://www.knitml.com/schema/operations-0.7.xsd"
+		uri="src/main/resources/com/knitml/core/xml/operations-0.7.xsd" />
+	<system systemId="http://www.knitml.com/schema/common-0.7.xsd"
+		uri="src/main/resources/com/knitml/core/xml/common-0.7.xsd" />
+	<!-- Older schemas -->
+	<system systemId="http://www.knitml.com/schema/pattern-0.5.xsd"
+		uri="src/main/resources/com/knitml/core/xml/pattern-0.5.xsd" />
+	<system systemId="http://www.knitml.com/schema/pattern-header-types-0.5.xsd"
+		uri="src/main/resources/com/knitml/core/xml/pattern-header-types-0.5.xsd" />
+</catalog>

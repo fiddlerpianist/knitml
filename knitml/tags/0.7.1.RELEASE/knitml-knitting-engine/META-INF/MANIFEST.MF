@@ -1,0 +1,28 @@
+Manifest-Version: 1.0
+Bundle-Version: 0.7.1.BUILD
+Bundle-Name: KnitML Knitting Engine
+Bundle-Description: Basic pattern rendering for KnitML files
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.knitml.engine
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-Vendor: KnitML
+Import-Package: com.knitml.core.common,
+ com.knitml.core.converter,
+ com.knitml.core.model.operations;version="0.7.1.BUILD",
+ com.knitml.core.model.operations.block;version="0.7.1.BUILD",
+ com.knitml.core.model.operations.inline;version="0.7.1.BUILD",
+ com.knitml.core.units,
+ com.knitml.core.xml.translator,
+ org.apache.commons.lang,
+ org.slf4j
+Export-Package: com.knitml.engine;version="0.7.1.BUILD";
+  uses:="com.knitml.core.model.directions.inline,
+   com.knitml.core.model.directions,
+   com.knitml.core.common,
+   com.knitml.core.model.directions.block,
+   com.knitml.engine.settings",
+ com.knitml.engine.common;version="0.7.1.BUILD",
+ com.knitml.engine.impl;version="0.7.1.BUILD";uses:="com.knitml.engine",
+ com.knitml.engine.model;version="0.7.1.BUILD";uses:="com.knitml.engine",
+ com.knitml.engine.settings;version="0.7.1.BUILD"
+

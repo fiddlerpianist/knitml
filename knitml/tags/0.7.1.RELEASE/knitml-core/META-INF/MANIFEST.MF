@@ -1,0 +1,41 @@
+Manifest-Version: 1.0
+Bundle-Version: 0.7.1.BUILD
+Bundle-Name: KnitML Core
+Bundle-Description: KnitML Core and model
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.knitml.core
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: com.google.common.collect;version="10.0.0",
+ javax.measure,
+ javax.measure.converter,
+ javax.measure.quantity,
+ javax.measure.unit,
+ org.apache.commons.lang,
+ org.apache.commons.lang.math,
+ org.custommonkey.xmlunit,
+ org.jibx.extras;version="1.2.3",
+ org.jibx.runtime;version="1.2.3",
+ org.jibx.runtime.impl;version="1.2.3",
+ org.slf4j;version="1.6.1",
+ org.springframework.beans;version="3.1",
+ org.springframework.core.io;version="3.1",
+ org.springframework.core.io.support;version="3.1",
+ org.springframework.util;version="3.1"
+Export-Package: com.knitml.core.common;version="0.7.1.BUILD",
+ com.knitml.core.compatibility;version="0.7.1.BUILD",
+ com.knitml.core.converter;version="0.7.1.BUILD",
+ com.knitml.core.model.common;version="0.7.1.BUILD";uses:="javax.measure,com.knitml.core.common",
+ com.knitml.core.model.operations;version="0.7.1.BUILD";uses:="com.knitml.core.model.directions.block",
+ com.knitml.core.model.operations.block;version="0.7.1.BUILD",
+ com.knitml.core.model.operations.expression;version="0.7.1.BUILD",
+ com.knitml.core.model.operations.information;version="0.7.1.BUILD";uses:="com.knitml.core.model.directions",
+ com.knitml.core.model.operations.inline;version="0.7.1.BUILD",
+ com.knitml.core.model.header;version="0.7.1.BUILD",
+ com.knitml.core.model.library;version="0.7.1.BUILD",
+ com.knitml.core.model.pattern;version="0.7.1.BUILD";uses:="javax.measure,com.knitml.core.model.common,com.knitml.core.model.directions",
+ com.knitml.core.units;version="0.7.1.BUILD",
+ com.knitml.core.xml;version="0.7.1.BUILD",
+ com.knitml.core.xml.translator;version="0.7.1.BUILD"
+Require-Bundle: org.junit
+Bundle-Vendor: KnitML
+
