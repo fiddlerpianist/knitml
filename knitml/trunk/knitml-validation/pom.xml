@@ -3,10 +3,10 @@
 	<parent>
 		<groupId>com.knitml</groupId>
 		<artifactId>knitml-parent</artifactId>
-		<version>0.7.1.BUILD-SNAPSHOT</version>
+		<version>0.7.1.RELEASE</version>
 	</parent>
 	<artifactId>knitml-validation</artifactId>
-	<version>0.7.1.BUILD-SNAPSHOT</version>
+	<version>0.7.1.RELEASE</version>
 	<name>KnitML Validation</name>
 	<description>Validation for KnitML files</description>
 	<repositories>

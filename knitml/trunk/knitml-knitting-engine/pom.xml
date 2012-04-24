@@ -3,10 +3,10 @@
 	<parent>
 		<groupId>com.knitml</groupId>
 		<artifactId>knitml-parent</artifactId>
-		<version>0.7.1.BUILD-SNAPSHOT</version>
+		<version>0.7.1.RELEASE</version>
 	</parent>
 	<artifactId>knitml-knitting-engine</artifactId>
-	<version>0.7.1.BUILD-SNAPSHOT</version>
+	<version>0.7.1.RELEASE</version>
 	<name>KnitML Knitting Engine</name>
 	<description>Provides knitting simulation</description>
 	<repositories>
