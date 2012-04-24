@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>knitml-parent</artifactId>
 		<groupId>com.knitml</groupId>
-		<version>0.7.1.RELEASE</version>
+		<version>0.7.2.BUILD-SNAPSHOT</version>
 	</parent>
 	<artifactId>knitml-command-line</artifactId>
 	<name>KnitML Command Line</name>
