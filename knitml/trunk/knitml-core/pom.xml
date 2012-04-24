@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>knitml-parent</artifactId>
 		<groupId>com.knitml</groupId>
-		<version>0.7.1.RELEASE</version>
+		<version>0.7.2.BUILD-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>knitml-core</artifactId>
@@ -92,5 +92,5 @@
 			<artifactId>xmlunit</artifactId>
 		</dependency>
 	</dependencies>
-	<version>0.7.1.RELEASE</version>
+	<version>0.7.2.BUILD-SNAPSHOT</version>
 </project>

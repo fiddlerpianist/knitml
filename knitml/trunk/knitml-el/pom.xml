@@ -3,11 +3,11 @@
 	<parent>
 		<artifactId>knitml-parent</artifactId>
 		<groupId>com.knitml</groupId>
-		<version>0.7.1.RELEASE</version>
+		<version>0.7.2.BUILD-SNAPSHOT</version>
 	</parent>
 	<artifactId>knitml-el</artifactId>
 	<name>KnitML Expression Language</name>
-	<version>0.7.1.RELEASE</version>
+	<version>0.7.2.BUILD-SNAPSHOT</version>
 	<description>The KnitML Expression Language</description>
 	<repositories>
 		<repository>
